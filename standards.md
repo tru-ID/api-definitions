@@ -16,13 +16,13 @@ Versioning of APIs is within the URL and should follow [Semanitic Versioning](ht
 
 Examples
 
-- https://api.domain.com/v1/users
-- https://api.domain.com/v1/projects
+- `https://api.domain.com/v1/users`
+- `https://api.domain.com/v1/projects`
 
 Resources may existing for one version but not another. e.g.
 
-- https://api.domain.com/v2/users // 200
-- https://api.domain.com/v2/projects // 404
+- `https://api.domain.com/v2/users` // 200
+- `https://api.domain.com/v2/projects` // 404
 
 ## Resource Structure
 
@@ -30,7 +30,7 @@ Resources and their relations should be represented using [JSON Hyptertext Appli
 
 Example from the specification:
 
-```json
+```
 GET /orders/523 HTTP/1.1
 Host: example.org
 Accept: application/hal+json
@@ -58,7 +58,7 @@ Parameters and properties whether used within the URL as a query parameter or th
 
 Example in a query:
 
-- https://api.domain.com/v1/projects?project_id=xxx_yyy_zzz
+- `https://api.domain.com/v1/projects?project_id=xxx_yyy_zzz`
 
 Example in a body payload:
 
@@ -111,12 +111,12 @@ Example from the specification:
 
 # TODO
 
-[ ] Move our API supported RSQL syntax and examples into this document. [Good example](https://developer.here.com/olp/documentation/data-client-library/dev_guide/client/rsql.html)
-[ ] Discuss Semantic Versioning support within URLs
-[ ] Look at [Stripe details](https://media-exp1.licdn.com/dms/image/C5622AQHx3XDY-qMIkA/feedshare-shrink_2048_1536/0?e=1593648000&v=beta&t=mfr9NzejKJTXLPuvOAt8v9jfJtB-cjiWn5_2-R-78RM) and decide which, if any, to adopt
-[ ] Pagination
-[ ] Webhooks
-[ ] Decimal precision
-[ ] Deprecation policy
-[ ] HTTP verbs. POST = create, PUT = replace, PATCH = update, DELETE = delete. Also, HTTP response codes.
-[ ] HTTP codes
+- [ ] Move our API supported RSQL syntax and examples into this document. [Good example](https://developer.here.com/olp/documentation/data-client-library/dev_guide/client/rsql.html)
+- [ ] Discuss Semantic Versioning support within URLs
+- [ ] Look at [Stripe details](https://media-exp1.licdn.com/dms/image/C5622AQHx3XDY-qMIkA/feedshare-shrink_2048_1536/0?e=1593648000&v=beta&t=mfr9NzejKJTXLPuvOAt8v9jfJtB-cjiWn5_2-R-78RM) and decide which, if any, to adopt
+- [ ] Pagination
+- [ ] Webhooks
+- [ ] Decimal precision
+- [ ] Deprecation policy
+- [ ] HTTP verbs. POST = create, PUT = replace, PATCH = update, DELETE = delete. Also, HTTP response codes.
+- [ ] HTTP codes
