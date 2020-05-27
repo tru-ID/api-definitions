@@ -102,9 +102,9 @@ HTTP/1.1 401 Unauthorized
 Content-Type: application/problem+json
 
 {
-  "type": "https://example.com/docs/api-errors#unauthorized",
-  "title": "Unauthorized",
-  "detail": "Authorization has been refused for the provided credentials.",
+	"type": "https://example.com/docs/api-errors#unauthorized",
+	"title": "Unauthorized",
+	"detail": "Authorization has been refused for the provided credentials.",
 	"documentation_link": "https://example.com/docs/guides/authentication"
 }
 ```
@@ -126,9 +126,9 @@ HTTP/1.1 404 Not Found
 Content-Type: application/problem+json
 
 {
-  "type": "https://example.com/docs/api-errors#not-found",
-  "title": "Not Found",
-  "detail": "The resource you are looking for was not found",
+	"type": "https://example.com/docs/api-errors#not-found",
+	"title": "Not Found",
+	"detail": "The resource you are looking for was not found",
 	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
@@ -144,9 +144,9 @@ HTTP/1.1 405 Method Not Allowed
 Content-Type: application/problem+json
 
 {
-  "type": "https://example.com/docs/api-errors#method-not-allowed",
-  "title": "Request Method Not Allowed",
-  "detail": "Request method 'OPTIONS' not supported",
+	"type": "https://example.com/docs/api-errors#method-not-allowed",
+	"title": "Request Method Not Allowed",
+	"detail": "Request method 'OPTIONS' not supported",
 	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
@@ -162,9 +162,9 @@ HTTP/1.1 406 Not Acceptable
 Content-Type: application/problem+json
 
 {
-  "type": "https://example.com/docs/api-errors#not-acceptable",
-  "title": "Request 'Accept' Header Not Supported",
-  "detail": "Request 'Accept' header not supported. Must be one of the following: 'application/json', 'application/hal+json'",
+	"type": "https://example.com/docs/api-errors#not-acceptable",
+	"title": "Request 'Accept' Header Not Supported",
+	"detail": "Request 'Accept' header not supported. Must be one of the following: 'application/json', 'application/hal+json'",
 	"instance": "https://example.com/console/http-logs/{log_id}",
 	"api_reference_link": "https://example.com/docs/api_reference#project-accept"
 }
@@ -186,9 +186,9 @@ HTTP/1.1 409 Conflict
 Content-Type: application/problem+json
 
 {
-  "type": "https://example.com/docs/api-errors#conflict",
-  "title": "Conflict: Resource Not Ready",
-  "detail": "The resource cannot be updated until a background process has completed",
+	"type": "https://example.com/docs/api-errors#conflict",
+	"title": "Conflict: Resource Not Ready",
+	"detail": "The resource cannot be updated until a background process has completed",
 	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
@@ -204,9 +204,9 @@ HTTP/1.1 410 Gone
 Content-Type: application/problem+json
 
 {
-  "type": "https://example.com/docs/api-errors#gone",
-  "title": "Conflict: Resource Not Ready",
-  "detail": "The resource at this location no longer exists.",
+	"type": "https://example.com/docs/api-errors#gone",
+	"title": "Conflict: Resource Not Ready",
+	"detail": "The resource at this location no longer exists.",
 	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
@@ -222,9 +222,9 @@ HTTP/1.1 415 Unsupported Media Type
 Content-Type: application/problem+json
 
 {
-  "type": "https://example.com/docs/api-errors#gone",
-  "title": "Unsupported Media Type in 'Content-Type' header",
-  "detail": "Invalid 'Content-Type' header provided. Must be one of the following: 'application/json'",
+	"type": "https://example.com/docs/api-errors#gone",
+	"title": "Unsupported Media Type in 'Content-Type' header",
+	"detail": "Invalid 'Content-Type' header provided. Must be one of the following: 'application/json'",
 	"instance": "https://example.com/console/http-logs/{log_id}",
 	"api_reference_link": "https://example.com/docs/api_reference#project-content-type"
 }
@@ -257,9 +257,9 @@ HTTP/1.1 500 Internal Server Error
 Content-Type: application/problem+json
 
 {
-  "type": "https://example.com/docs/api-errors#internal-server-error",
-  "title": "Internal Server Error",
-  "detail": "Internal Server Error: This should not ever happen.",
+	"type": "https://example.com/docs/api-errors#internal-server-error",
+	"title": "Internal Server Error",
+	"detail": "Internal Server Error: This should not ever happen.",
 	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
@@ -281,12 +281,12 @@ Content-Type: application/hal+json
 {
 	"_links": {
 		"self": { "href": "/orders/523" },
-    "warehouse": { "href": "/warehouse/56" },
-    "invoice": { "href": "/invoices/873" }
-  },
-  "currency": "USD",
-  "status": "shipped",
-  "total": 10.20
+		"warehouse": { "href": "/warehouse/56" },
+		"invoice": { "href": "/invoices/873" }
+	},
+	"currency": "USD",
+	"status": "shipped",
+	"total": 10.20
 }
 ```
 
@@ -350,7 +350,7 @@ Example:
 
 ```json
 {
-  "credit_limit": "0.0000"
+	"credit_limit": "0.0000"
 }
 ```
 
@@ -380,10 +380,10 @@ Cursor implementation can be decided by the engineering team. Results returned m
 - There should be a way to page through collections with filters.
 - Cursors should not expire
 - Paging should use a standard set of hal+json `_links`
-  - `self` (current page, required)
-  - `next` (next page, optional)
-  - `prev` (previous page, optional)
-  - `first` (first page, required)
+	- `self` (current page, required)
+	- `next` (next page, optional)
+	- `prev` (previous page, optional)
+	- `first` (first page, required)
 - Paging `_links` must include filters.
 - The page size parameter must be called `page_size`
 - The cursor parameter must be called `cursor`
@@ -392,24 +392,24 @@ Example:
 
 ```json
 {
-  "page_size": 100,
-  "cursor": "19284743",
-  "_embedded": {
-    "resource_name": {
-      "data":"here"
-    }
-  },
-  "_links": {
-    "self": {
-      "href": "https://example.com/resource?page_size=100&order=asc&cursor=19284743"
-    },
-    "next": {
-      "href": "https://example.com/resource?page_size=100&order=asc&cursor=19291731"
-    },
-    "prev": {
-      "href": "https://example.com/resource?page_size=100&order=asc&cursor=19283018"
-    }
-  }
+	"page_size": 100,
+	"cursor": "19284743",
+	"_embedded": {
+		"resource_name": {
+			"data":"here"
+		}
+	},
+	"_links": {
+		"self": {
+			"href": "https://example.com/resource?page_size=100&order=asc&cursor=19284743"
+		},
+		"next": {
+			"href": "https://example.com/resource?page_size=100&order=asc&cursor=19291731"
+		},
+		"prev": {
+			"href": "https://example.com/resource?page_size=100&order=asc&cursor=19283018"
+		}
+	}
 }
 ```
 
@@ -420,11 +420,11 @@ In certain situations (e.g. reviewing Projects) it may be beneficial to skip ove
 The first page is page `1`.
 
 - Paging should use a standard set of hal+json `_links`
-  - `self` (current page, required)
-  - `next` (next page, optional)
-  - `prev` (previous page, optional)
-  - `first` (first page, required)
-  - `last` (last page, required)
+	- `self` (current page, required)
+	- `next` (next page, optional)
+	- `prev` (previous page, optional)
+	- `first` (first page, required)
+	- `last` (last page, required)
 - Paging `_links` must include filters.
 - The page size parameter must be called `page_size`
 - The page index parameter must be called `page`
@@ -433,29 +433,29 @@ The first page is page `1`.
 
 ```json
 {
-  "page_size": 100,
-  "page": 3,
-  "total_pages": 8,
-  "total_items": 814,
-  "_embedded": {
-    "resource_name": {
-      "data":"here"
-    }
-  },
-  "_links": {
-    "self": {
-      "href": "https://example.com/resource?page_size=100&order=asc&page=3"
-    },
-    "next": {
-      "href": "https://example.com/resource?page_size=100&order=asc&page=4"
-    },
-    "prev": {
-      "href": "https://example.com/resource?page_size=100&order=asc&page=2"
-    },
-    "last": {
-      "href": "https://example.com/resource?page_size=100&order=asc&page=8"
-    }
-  }
+	"page_size": 100,
+	"page": 3,
+	"total_pages": 8,
+	"total_items": 814,
+	"_embedded": {
+		"resource_name": {
+			"data":"here"
+		}
+	},
+	"_links": {
+		"self": {
+			"href": "https://example.com/resource?page_size=100&order=asc&page=3"
+		},
+		"next": {
+			"href": "https://example.com/resource?page_size=100&order=asc&page=4"
+		},
+		"prev": {
+			"href": "https://example.com/resource?page_size=100&order=asc&page=2"
+		},
+		"last": {
+			"href": "https://example.com/resource?page_size=100&order=asc&page=8"
+		}
+	}
 }
 ```
 
@@ -472,10 +472,10 @@ Content-Type: application/problem+json
 Retry-After: 3600
 
 {
-  "type": "https://example.com/docs/api-errors#rate-limited",
-  "title": "Rate Limited",
-  "detail": "API rate limit exceeded. You can try again after 3000 seconds",
-  "instance": "https://example.com/console/http-logs/{log_id}"
+	"type": "https://example.com/docs/api-errors#rate-limited",
+	"title": "Rate Limited",
+	"detail": "API rate limit exceeded. You can try again after 3000 seconds",
+	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
 
@@ -499,11 +499,11 @@ X-RateLimit-Remaining: 4966
 X-RateLimit-Reset: 1372700873
 
 {
-  "_links": {
-      "self": { "href": "/project/{project_id}" }
-  },
-  "project_id": "{project_id}",
-  "name": "My first project",
+	"_links": {
+			"self": { "href": "/project/{project_id}" }
+	},
+	"project_id": "{project_id}",
+	"name": "My first project",
 }
 ```
 
@@ -517,10 +517,10 @@ Content-Type: application/problem+json
 Retry-After: 3600
 
 {
-  "type": "https://example.com/docs/api-errors#rate-limited",
-  "title": "Rate Limited",
-  "detail": "API rate limit exceeded. You can try again after 3000 seconds",
-  "instance": "https://example.com/console/http-logs/{log_id}"
+	"type": "https://example.com/docs/api-errors#rate-limited",
+	"title": "Rate Limited",
+	"detail": "API rate limit exceeded. You can try again after 3000 seconds",
+	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
 
