@@ -2,6 +2,24 @@
 
 This document is an internal resource that is visible to our customers and anyone else that's interested in our API standards. It is here to enable discussion, agreement and alignment on API standards. It will help us build consistent APIs resulting in a fantastic API experience for those building and consuming our APIs.
 
+## Contents
+
+- [OpenAPI](#openapi)
+- [API Style](#api-style)
+- [API Versioning](#api-versioning)
+- [HTTP Verbs](#http-verbs)
+- [HTTP Status Codes](#http-status-codes)
+- [Resource Names](#resource-names)
+- [Resource Structure](#resource-structure)
+- [Parameters and Properties](#parameters-and-properties)
+- [Querying to Search or Filter](#querying-to-search-or-filter)
+- [Pagination](#pagination)
+- [Errors](#errors)
+- [Rate Limits](#rate-limits)
+- [Acknowledgements & References](#acknowledgements-references)
+- [TODO](#todo)
+
+
 ## OpenAPI
 
 We document APIs using OpenAPI v3. [See Open API versions](https://github.com/OAI/OpenAPI-Specification/tree/master/versions) because it's the most widely understood and adoped API specification standard.
@@ -234,20 +252,6 @@ Content-Type: application/problem+json
 
 Indicates a rate limit has been exceeded. See [Rate Limiting](#rate-limiting).
 
-## Resource Names
-
-APIs should adhere to the principles of REST because we are building RESTful APIs.
-
-- Separate things into logical Collections e.g. `projects` and `users`
-- Collections are the collective term for Resources e.g. `projects`
-- Resources are nouns not verbs
-- Collections are plurals
-
-Examples:
-
-- `/projects` - `projects` is the collection name
-- `/projects/{project_id}` - The project identified by `project_id` is the resource
-
 ### 500
 
 An API error occurred and a more specific error code applied.
@@ -263,6 +267,20 @@ Content-Type: application/problem+json
 	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
+
+## Resource Names
+
+APIs should adhere to the principles of REST because we are building RESTful APIs.
+
+- Separate things into logical Collections e.g. `projects` and `users`
+- Collections are the collective term for Resources e.g. `projects`
+- Resources are nouns not verbs
+- Collections are plurals
+
+Examples:
+
+- `/projects` - `projects` is the collection name
+- `/projects/{project_id}` - The project identified by `project_id` is the resource
 
 ## Resource Structure
 
