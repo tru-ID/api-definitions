@@ -77,17 +77,17 @@ Content-Type: application/problem+json
 Retry-After: 3600
 
 {
-  	"type": "https://example.com/docs/api-errors#bad-request",
-  	"title": "Bad Request",
-  	"detail": "The request failed due to: invalid parameters. See 'invalid_parameters' for more information.",
-  	"invalid_parameters": [
+	"type": "https://example.com/docs/api-errors#bad-request",
+	"title": "Bad Request",
+	"detail": "The request failed due to: invalid parameters. See 'invalid_parameters' for more information.",
+	"invalid_parameters": [
 		{
-	  		"name": "name",
-	  		"reason": "exceeded the maximum string length of 256 characters",
+			"name": "name",
+			"reason": "exceeded the maximum string length of 256 characters",
 			"api_reference_link": "https://example.com/docs/api_reference#projects-parameters-name"
 		}
-  	],
-  	"instance": "https://example.com/console/http-logs/{log_id}"
+	],
+	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
 
@@ -102,9 +102,9 @@ HTTP/1.1 401 Unauthorized
 Content-Type: application/problem+json
 
 {
-  	"type": "https://example.com/docs/api-errors#unauthorized",
-  	"title": "Unauthorized",
-  	"detail": "Authorization has been refused for the provided credentials.",
+  "type": "https://example.com/docs/api-errors#unauthorized",
+  "title": "Unauthorized",
+  "detail": "Authorization has been refused for the provided credentials.",
 	"documentation_link": "https://example.com/docs/guides/authentication"
 }
 ```
@@ -126,9 +126,9 @@ HTTP/1.1 404 Not Found
 Content-Type: application/problem+json
 
 {
-  	"type": "https://example.com/docs/api-errors#not-found",
-  	"title": "Not Found",
-  	"detail": "The resource you are looking for was not found",
+  "type": "https://example.com/docs/api-errors#not-found",
+  "title": "Not Found",
+  "detail": "The resource you are looking for was not found",
 	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
@@ -144,9 +144,9 @@ HTTP/1.1 405 Method Not Allowed
 Content-Type: application/problem+json
 
 {
-  	"type": "https://example.com/docs/api-errors#method-not-allowed",
-  	"title": "Request Method Not Allowed",
-  	"detail": "Request method 'OPTIONS' not supported",
+  "type": "https://example.com/docs/api-errors#method-not-allowed",
+  "title": "Request Method Not Allowed",
+  "detail": "Request method 'OPTIONS' not supported",
 	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
@@ -162,9 +162,9 @@ HTTP/1.1 406 Not Acceptable
 Content-Type: application/problem+json
 
 {
-  	"type": "https://example.com/docs/api-errors#not-acceptable",
-  	"title": "Request 'Accept' Header Not Supported",
-  	"detail": "Request 'Accept' header not supported. Must be one of the following: 'application/json', 'application/hal+json'",
+  "type": "https://example.com/docs/api-errors#not-acceptable",
+  "title": "Request 'Accept' Header Not Supported",
+  "detail": "Request 'Accept' header not supported. Must be one of the following: 'application/json', 'application/hal+json'",
 	"instance": "https://example.com/console/http-logs/{log_id}",
 	"api_reference_link": "https://example.com/docs/api_reference#project-accept"
 }
@@ -186,9 +186,9 @@ HTTP/1.1 409 Conflict
 Content-Type: application/problem+json
 
 {
-  	"type": "https://example.com/docs/api-errors#conflict",
-  	"title": "Conflict: Resource Not Ready",
-  	"detail": "The resource cannot be updated until a background process has completed",
+  "type": "https://example.com/docs/api-errors#conflict",
+  "title": "Conflict: Resource Not Ready",
+  "detail": "The resource cannot be updated until a background process has completed",
 	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
@@ -204,9 +204,9 @@ HTTP/1.1 410 Gone
 Content-Type: application/problem+json
 
 {
-  	"type": "https://example.com/docs/api-errors#gone",
-  	"title": "Conflict: Resource Not Ready",
-  	"detail": "The resource at this location no longer exists.",
+  "type": "https://example.com/docs/api-errors#gone",
+  "title": "Conflict: Resource Not Ready",
+  "detail": "The resource at this location no longer exists.",
 	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
@@ -222,9 +222,9 @@ HTTP/1.1 415 Unsupported Media Type
 Content-Type: application/problem+json
 
 {
-  	"type": "https://example.com/docs/api-errors#gone",
-  	"title": "Unsupported Media Type in 'Content-Type' header",
-  	"detail": "Invalid 'Content-Type' header provided. Must be one of the following: 'application/json'",
+  "type": "https://example.com/docs/api-errors#gone",
+  "title": "Unsupported Media Type in 'Content-Type' header",
+  "detail": "Invalid 'Content-Type' header provided. Must be one of the following: 'application/json'",
 	"instance": "https://example.com/console/http-logs/{log_id}",
 	"api_reference_link": "https://example.com/docs/api_reference#project-content-type"
 }
@@ -257,9 +257,9 @@ HTTP/1.1 500 Internal Server Error
 Content-Type: application/problem+json
 
 {
-  	"type": "https://example.com/docs/api-errors#internal-server-error",
-  	"title": "Internal Server Error",
-  	"detail": "Internal Server Error: This should not ever happen.",
+  "type": "https://example.com/docs/api-errors#internal-server-error",
+  "title": "Internal Server Error",
+  "detail": "Internal Server Error: This should not ever happen.",
 	"instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
@@ -279,14 +279,14 @@ HTTP/1.1 200 OK
 Content-Type: application/hal+json
 
 {
-    "_links": {
-        "self": { "href": "/orders/523" },
-        "warehouse": { "href": "/warehouse/56" },
-        "invoice": { "href": "/invoices/873" }
-    },
-    "currency": "USD",
-    "status": "shipped",
-    "total": 10.20
+	"_links": {
+		"self": { "href": "/orders/523" },
+    "warehouse": { "href": "/warehouse/56" },
+    "invoice": { "href": "/invoices/873" }
+  },
+  "currency": "USD",
+  "status": "shipped",
+  "total": 10.20
 }
 ```
 
@@ -499,11 +499,11 @@ X-RateLimit-Remaining: 4966
 X-RateLimit-Reset: 1372700873
 
 {
-    "_links": {
-        "self": { "href": "/project/{project_id}" }
-    },
-    "project_id": "{project_id}",
-    "name": "My first project",
+  "_links": {
+      "self": { "href": "/project/{project_id}" }
+  },
+  "project_id": "{project_id}",
+  "name": "My first project",
 }
 ```
 
