@@ -1,6 +1,6 @@
 # API Standards
 
-This document outlines the standards we agree to adhere to when building APIs.
+This document is an internal resource that is visible to our customers and anyone else that's interested in our API standards. It is here to enable discussion, agreement and alignment on API standards. It will help us build consistent APIs resulting in a fantastic API experience for those building and consuming our APIs.
 
 ## OpenAPI
 
@@ -16,13 +16,13 @@ Versioning of APIs is within the URL because it's the mostly commonly used appro
 
 Examples
 
-- `https://api.domain.com/v1/users`
-- `https://api.domain.com/v1/projects`
+- `https://api.example.com/v1/users`
+- `https://api.example.com/v1/projects`
 
 Resources may existing for one version but not another. e.g.
 
-- `https://api.domain.com/v2/users` // 200
-- `https://api.domain.com/v2/projects` // 404
+- `https://api.example.com/v2/users` // 200
+- `https://api.example.com/v2/projects` // 404
 
 ## HTTP Verbs
 
@@ -37,23 +37,202 @@ Use HTTP methods appropriately for the operation you are performing. CRUD (Creat
 Examples
 
 - `GET /projects` - lists all the resources of the collection `projects`
-- `GET /projects/<project_id>` - lists the details of the single project resource from the `projects` collection
+- `GET /projects/{project_id}` - lists the details of the single project resource from the `projects` collection
 - `POST /projects -d '{"name": "My first project", "capabilities": ["x", "y"]}'` - create a new project
-- `PUT /projects/<project_id> -d '{"name": "Only X", "capabilities": ["x"]}'` - Replaces all the resource details. In this example the `name` is changed and only the `x` capability is now supported by the project
-- `PATCH /projects/<project_id> -d '{"name": "A more descriptive name"}'` - Update only the project name
-- `DELETE /projects/<project_id>` - Remove the project identified by `<project_id>` from the collection
+- `PUT /projects/{project_id} -d '{"name": "Only X", "capabilities": ["x"]}'` - Replaces all the resource details. In this example the `name` is changed and only the `x` capability is now supported by the project
+- `PATCH /projects/{project_id} -d '{"name": "A more descriptive name"}'` - Update only the project name
+- `DELETE /projects/{project_id}` - Remove the project identified by `{project_id}` from the collection
 
 ## HTTP Status Codes
 
 ### 200
 
+The most commonly used HTTP status code in response to a successful API request. Exceptions are:
+
+- [201](#anchor-201) for successful `POST` requests
+- [202](#anchor-202) for successful `POST` requests where the resource hasn't been fully created
+- [204](#anchor-202) for successful `DELETE` request
+
 ### 201
+
+Indicates a resource has been created following a successful `POST` request.
 
 ### 202
 
+Indicates a `POST` request has been accepted successfully but the underlying resources has not yet been fully created.
+
 ### 204
 
+Indicates a successful `DELETE` request and the resource has been deleted.
+
 ### 400
+
+Indicates a generic problem with the API request where there isn't a more suitable and specific error code available.
+
+Example:
+
+```
+HTTP/1.1 400 Bad Request
+Content-Type: application/problem+json
+Retry-After: 3600
+
+{
+  	"type": "https://example.com/docs/api-errors#bad-request",
+  	"title": "Bad Request",
+  	"detail": "The request failed due to: invalid parameters. See 'invalid_parameters' for more information.",
+  	"invalid_parameters": [
+		{
+	  		"name": "name",
+	  		"reason": "exceeded the maximum string length of 256 characters",
+			"api_reference_link": "https://example.com/docs/api_reference#projects-parameters-name"
+		}
+  	],
+  	"instance": "https://example.com/console/http-logs/{log_id}"
+}
+```
+
+### 401
+
+The API request has failed to authenticate.
+
+Example:
+
+```
+HTTP/1.1 401 Unauthorized
+Content-Type: application/problem+json
+
+{
+  	"type": "https://example.com/docs/api-errors#unauthorized",
+  	"title": "Unauthorized",
+  	"detail": "Authorization has been refused for the provided credentials.",
+	"documentation_link": "https://example.com/docs/guides/authentication"
+}
+```
+
+### 403
+
+The request has successfully authenticated but the API will not authorize it because the credentials do not give sufficient permissions to access the resource.
+
+There are very limited situations where 403 should be used because an API should not expose the existence of a resource to an unauthorized user. In most instances the API should return a [404](#anchor-404).
+
+### 404
+
+The resource could not be found, or the authenticating user does not have access to the resource.
+
+Example:
+
+```
+HTTP/1.1 404 Not Found
+Content-Type: application/problem+json
+
+{
+  	"type": "https://example.com/docs/api-errors#not-found",
+  	"title": "Not Found",
+  	"detail": "The resource you are looking for was not found",
+	"instance": "https://example.com/console/http-logs/{log_id}"
+}
+```
+
+### 405
+
+The request HTTP verb is not allowed on the resource.
+
+Example:
+
+```
+HTTP/1.1 405 Method Not Allowed
+Content-Type: application/problem+json
+
+{
+  	"type": "https://example.com/docs/api-errors#method-not-allowed",
+  	"title": "Request Method Not Allowed",
+  	"detail": "Request method 'OPTIONS' not supported",
+	"instance": "https://example.com/console/http-logs/{log_id}"
+}
+```
+
+### 406
+
+The `Accept` header is not supported as a response from the resource.
+
+Example:
+
+```
+HTTP/1.1 406 Not Acceptable
+Content-Type: application/problem+json
+
+{
+  	"type": "https://example.com/docs/api-errors#not-acceptable",
+  	"title": "Request 'Accept' Header Not Supported",
+  	"detail": "Request 'Accept' header not supported. Must be one of the following: 'application/json', 'application/hal+json'",
+	"instance": "https://example.com/console/http-logs/{log_id}",
+	"api_reference_link": "https://example.com/docs/api_reference#project-accept"
+}
+```
+
+### 409
+
+The request could not be completed due to a conflict with the current state of the resource. Examples where this may be applicable:
+
+- The resource has been created with a `202` response and an asynchronous process has not yet completed.
+- A resource is being updated by another background task and updates are presently locked.
+
+In both of these cases further modifications to the resource are not allowed until that process has completed.
+
+Example:
+
+```
+HTTP/1.1 409 Conflict
+Content-Type: application/problem+json
+
+{
+  	"type": "https://example.com/docs/api-errors#conflict",
+  	"title": "Conflict: Resource Not Ready",
+  	"detail": "The resource cannot be updated until a background process has completed",
+	"instance": "https://example.com/console/http-logs/{log_id}"
+}
+```
+
+### 410
+
+The requested resource is no longer available. This condition is expected to be considered permanent. Used when the URL is formatted correctly, but the resource is no long available e.g. if the resource has been deleted.
+
+Example:
+
+```
+HTTP/1.1 410 Gone
+Content-Type: application/problem+json
+
+{
+  	"type": "https://example.com/docs/api-errors#gone",
+  	"title": "Conflict: Resource Not Ready",
+  	"detail": "The resource at this location no longer exists.",
+	"instance": "https://example.com/console/http-logs/{log_id}"
+}
+```
+
+### 415
+
+The supplied request `Content-Type` cannot be handled by the resource.
+
+Example:
+
+```
+HTTP/1.1 415 Unsupported Media Type
+Content-Type: application/problem+json
+
+{
+  	"type": "https://example.com/docs/api-errors#gone",
+  	"title": "Unsupported Media Type in 'Content-Type' header",
+  	"detail": "Invalid 'Content-Type' header provided. Must be one of the following: 'application/json'",
+	"instance": "https://example.com/console/http-logs/{log_id}",
+	"api_reference_link": "https://example.com/docs/api_reference#project-content-type"
+}
+```
+
+### 429
+
+Indicates a rate limit has been exceeded. See [Rate Limiting](#rate-limiting).
 
 ## Resource Names
 
@@ -67,11 +246,27 @@ APIs should adhere to the principles of REST because we are building RESTful API
 Examples:
 
 - `/projects` - `projects` is the collection name
-- `/projects/<project_id>` - The project idenfied by `project_id` is the resource
+- `/projects/{project_id}` - The project identified by `project_id` is the resource
+
+### 500
+
+An API error occurred and a more specific error code applied.
+
+```
+HTTP/1.1 500 Internal Server Error
+Content-Type: application/problem+json
+
+{
+  	"type": "https://example.com/docs/api-errors#internal-server-error",
+  	"title": "Internal Server Error",
+  	"detail": "Internal Server Error: This should not ever happen.",
+	"instance": "https://example.com/console/http-logs/{log_id}"
+}
+```
 
 ## Resource Structure
 
-Resources and their relations should be represented using [JSON Hyptertext Application Language](https://tools.ietf.org/html/draft-kelly-json-hal-08) because it is a simple and well understood implementation of hypermedia.
+Resources and their relations should be represented using [JSON Hypertext Application Language](https://tools.ietf.org/html/draft-kelly-json-hal-08) because it is a simple and well understood implementation of hypermedia.
 
 Example from the specification:
 
@@ -103,27 +298,45 @@ Parameters and properties whether used within the URL as a query parameter or th
 
 Example in a query:
 
-- `https://api.domain.com/v1/projects?project_id=xxx_yyy_zzz`
+- `https://api.example.com/v1/projects?example_attribute=hello`
 
-Example in a body payload:
+Example in a body response payload:
 
 ```json
 {
-    "_links": {
-        "self": { "href": "/project/xxx_yyy_zzz" }
-    },
-    "project_id": "xxx_yyy_zzz",
-    "name": "My first project",
+	"page_size": 100,
+	"page": 1,
+	"total_pages": 1,
+	"total_items": 1,
+	"_embedded": {
+		"projects": {
+			"data": [
+				{
+					"_links": {
+						"self": { "href": "/project/{project_id}" }
+					},
+					"project_id": "{project_id}",
+					"name": "My first project",
+					"example_attribute": "hello"
+				}
+			]
+		}
+	},
+	"_links": {
+		"self": "https://api.example.com/v1/projects?example_attribute=hello",
+		"next": null,
+		"prev": null
+	}
 }
 ```
 
 ### Identifier (ID) Property Names
 
-Identifier property names should be fully qualified to remove any ambiguity regarding what resource the identifier is associated with. Do not use `id`. Instead use `<resource_name>_id` e.g. `project_id`.
+Identifier property names should be fully qualified to remove any ambiguity regarding what resource the identifier is associated with. Do not use `id`. Instead use `{resource_name}_id` e.g. `project_id`.
 
 ### Date Identifiers
 
-Dates should be in the format `<verb>ed_at` e.g. `created_at` and `updated_at`. This format makes it very clear what happened to the resource via the `verb` and the `_at` consistently identifies a date.
+Dates should be in the format `{verb}ed_at` e.g. `created_at` and `updated_at`. This format makes it very clear what happened to the resource via the `verb` and the `_at` consistently identifies a date.
 
 ### Date Format
 
@@ -153,7 +366,7 @@ Searches should be performed by using RSQL (REST Structured Query Language) with
 APIs should use one of the following pagination schemes:
 
 * Cursor based for ever-expanding data sets, or where it's infeasible to count the total number of records e.g. phone verification checks for a Project
-* Page based for small, managed APIs where the customer is in control of what is in the data set e.g. Number pools
+* Page based for small, managed APIs where the customer is in control of what is in the data set e.g. the Projects collection
 
 To the customer, having two different pagination methods is OK, as in practice they should request the first page and then follow the `_links.next` URL to get the next page.
 
@@ -176,7 +389,6 @@ Cursor implementation can be decided by the engineering team. Results returned m
 - The cursor parameter must be called `cursor`
 
 Example:
-
 
 ```json
 {
@@ -250,24 +462,68 @@ The first page is page `1`.
 
 ## Errors
 
-API errors should be represented using the structured outlined in [RFC7807](https://tools.ietf.org/html/rfc7807) (Problem Details for HTTP APIs) because it's a well understood and defined REST API error format.
+API errors should be represented using the structured outlined in [RFC7807](https://tools.ietf.org/html/rfc7807) (Problem Details for HTTP APIs) because it's a reasonably well understood and defined REST API error format. It also enables additional information to be provided in the problem payload that enables the API consumer to solve the problem.
 
-Example from the specification:
+Example:
 
-```json
+```
+HTTP/1.1 429 Forbidden
+Content-Type: application/problem+json
+Retry-After: 3600
+
 {
-   "type": "https://example.net/validation-error",
-   "title": "Your request parameters didn't validate.",
-   "invalid-params": [ {
-                         "name": "age",
-                         "reason": "must be a positive integer"
-                       },
-                       {
-                         "name": "color",
-                         "reason": "must be 'green', 'red' or 'blue'"}
-                     ]
+  "type": "https://example.com/docs/api-errors#rate-limited",
+  "title": "Rate Limited",
+  "detail": "API rate limit exceeded. You can try again after 3000 seconds",
+  "instance": "https://example.com/console/http-logs/{log_id}"
 }
 ```
+
+## Rate Limits
+
+Rate limiting policies should be defined outside of API standards and may be defined on a per resource, group of resources, account or by some other defined group. The following explains how rate limiting should be exposed within APIs.
+
+Where rate limits are required a resource should include the following within the HTTP response headers:
+
+- X-RateLimit-Limit: The maximum number of requests available in the current time frame.
+- X-RateLimit-Remaining: The number of remaining requests in the current time frame.
+- X-RateLimit-Reset: A [UNIX timestamp](https://en.wikipedia.org/wiki/Unix_time) of the expected time when the rate limit will reset.
+
+Example:
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+X-RateLimit-Limit: 5000
+X-RateLimit-Remaining: 4966
+X-RateLimit-Reset: 1372700873
+
+{
+    "_links": {
+        "self": { "href": "/project/{project_id}" }
+    },
+    "project_id": "{project_id}",
+    "name": "My first project",
+}
+```
+
+If a rate limit is exceed a [429](#anchor-429) HTTP status code should be returned. Within the response there should be an a `Retry-After` HTTP header with a value indicating the number of seconds after which API interactions can be retried.
+
+Example:
+
+```
+HTTP/1.1 429 Forbidden
+Content-Type: application/problem+json
+Retry-After: 3600
+
+{
+  "type": "https://example.com/docs/api-errors#rate-limited",
+  "title": "Rate Limited",
+  "detail": "API rate limit exceeded. You can try again after 3000 seconds",
+  "instance": "https://example.com/console/http-logs/{log_id}"
+}
+```
+
 
 ## Acknowledgements & References
 
@@ -278,9 +534,10 @@ Example from the specification:
 - [ ] HTTP status codes: more detail and examples
 - [ ] Versioning: Discuss Semantic Versioning support within URLs. Is adding information to response payload a breaking change and thus requires a new MAJOR release? Adding support for a new parameter to a request body? What about adding support for another query parameter?
 - [ ] Parameters and Properties: Decimal precision - discuss and agree
-- [ ] Pagination: discuss and agree on cursor and page-based pagination
+- [ ] Pagination: discuss and agree on cursor and page-based pagination. Should the pagination type be within the response payload? Should `next` and `prev` links always be present even if the value are `null` i.e. there isn't a previous or next? Once decided re-write the content taken from the Nexmo API standards.
 - [ ] References: should URL references (e.g. self") provide fully qualified URLs or partial URLs from a base e.g. `"https://example.com/v1/resource?page_size=100&order=asc&page=4"` vs `"/resource?page_size=100&order=asc&page=4"`
 - [ ] Errors: Provide more information on the benefits of HTTP Problem Detail via examples
+- [ ] Resources: discuss singletons i.e. resources that live off of another resource and are not part of a collection. Should these exist? Or should they only be accessed as a property of another resource that is part of a collection?
 - [ ] Webhooks: Required right now?
 - [ ] Look at [Stripe details](https://media-exp1.licdn.com/dms/image/C5622AQHx3XDY-qMIkA/feedshare-shrink_2048_1536/0?e=1593648000&v=beta&t=mfr9NzejKJTXLPuvOAt8v9jfJtB-cjiWn5_2-R-78RM) and decide which, if any, to adopt
 - [ ] Deprecation policy
