@@ -550,6 +550,7 @@ Retry-After: 3600
 # TODO
 
 - [ ] Versioning: Discuss Semantic Versioning support within URLs. Is adding information to response payload a breaking change and thus requires a new MAJOR release? Adding support for a new parameter to a request body? What about adding support for another query parameter?
+- [ ] Product, Resources & Versioning: Where is the product represented in the URL? How does this fit into versioning? Is the product name just a top level path/directory such as `http://api.example.com/v1/{product_name}` and then the resources a user interacts with is only sub-resources such as `http://api.example.com/v1/{product_name}/resource`? If that's the case should the versioning be at the sub-resource level e.g. `http://api.example.com/{product_name}/v1/resource`? Or should the product be at a the domain level e.g. `http://{product_name}.api.example.com/v1/resource`? Finally, should the customer ID be within the domain?
 - [ ] Parameters and Properties: Decimal precision - discuss and agree
 - [ ] Pagination: discuss and agree on cursor and page-based pagination. Should the pagination type be within the response payload? Should `next` and `prev` links always be present even if the value are `null` i.e. there isn't a previous or next? Once decided re-write the content taken from the Nexmo API standards.
 - [ ] References: should URL references (e.g. self") provide fully qualified URLs or partial URLs from a base e.g. `"https://example.com/v1/resource?page_size=100&order=asc&page=4"` vs `"/resource?page_size=100&order=asc&page=4"`
