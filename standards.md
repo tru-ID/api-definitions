@@ -549,15 +549,15 @@ Retry-After: 3600
 
 # TODO
 
-- [ ] HTTP status codes: more detail and examples
 - [ ] Versioning: Discuss Semantic Versioning support within URLs. Is adding information to response payload a breaking change and thus requires a new MAJOR release? Adding support for a new parameter to a request body? What about adding support for another query parameter?
 - [ ] Parameters and Properties: Decimal precision - discuss and agree
 - [ ] Pagination: discuss and agree on cursor and page-based pagination. Should the pagination type be within the response payload? Should `next` and `prev` links always be present even if the value are `null` i.e. there isn't a previous or next? Once decided re-write the content taken from the Nexmo API standards.
 - [ ] References: should URL references (e.g. self") provide fully qualified URLs or partial URLs from a base e.g. `"https://example.com/v1/resource?page_size=100&order=asc&page=4"` vs `"/resource?page_size=100&order=asc&page=4"`
-- [ ] Errors: Provide more information on the benefits of HTTP Problem Detail via examples
 - [ ] Resources: discuss singletons i.e. resources that live off of another resource and are not part of a collection. Should these exist? Or should they only be accessed as a property of another resource that is part of a collection?
 - [ ] Webhooks: Required right now?
 - [ ] Look at [Stripe details](https://media-exp1.licdn.com/dms/image/C5622AQHx3XDY-qMIkA/feedshare-shrink_2048_1536/0?e=1593648000&v=beta&t=mfr9NzejKJTXLPuvOAt8v9jfJtB-cjiWn5_2-R-78RM) and decide which, if any, to adopt
 - [ ] Deprecation policy
 - [ ] Move our API supported RSQL syntax and examples into this document. [Good example](https://developer.here.com/olp/documentation/data-client-library/dev_guide/client/rsql.html)
 - [ ] Ensure each decision captures *why* the standard was chosen
+- [x] Errors: Provide more information on the benefits of HTTP Problem Detail via examples
+- [x] HTTP status codes: more detail and examples
