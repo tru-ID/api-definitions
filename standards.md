@@ -30,7 +30,9 @@ Our APIs are [RESTful](https://en.wikipedia.org/wiki/Representational_state_tran
 
 ## API Versioning
 
-Versioning of APIs is within the URL because it's the mostly commonly used approach today and provides a clear visual representation of the version within documenation. APIs should follow [Semanitic Versioning](https://semver.org/).
+Versioning of APIs is within the URL because it's the mostly commonly used approach today and provides a clear visual representation of the version within documentation. The URL will contain only the MAJOR version (from MAJOR.MINOR.PATCH in [Semanitic Versioning](https://semver.org/)).
+
+Note: Request and response API parameters may be added to a MAJOR version as these are not classed as breaking changes.
 
 Examples
 
@@ -41,6 +43,28 @@ Resources may existing for one version but not another. e.g.
 
 - `https://api.example.com/v2/users` // 200
 - `https://api.example.com/v2/projects` // 404
+
+The full API version of `MAJOR.MINOR.PATCH` will be included in a `X-4UTH-API-VERSION` HTTP response header.
+
+Example:
+
+```
+GET /v1/projects/523 HTTP/1.1
+Host: api.example.org
+Accept: application/hal+json
+
+HTTP/1.1 200 OK
+Content-Type: application/hal+json
+X-4UTH-API-VERSION: 1.2.1
+
+{
+	"_links": {
+		"self": { "href": "/projects/523" },
+	},
+	"project_id": 523
+	"name": "A Project",
+}
+```
 
 ## HTTP Verbs
 
@@ -362,15 +386,7 @@ Dates should follow [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) because i
 
 ### Decimal Precision
 
-All values returned by the API should have the same decimal precision.
-
-Example:
-
-```json
-{
-	"credit_limit": "0.0000"
-}
-```
+All decimal values within the API will be returned to 4 decimal places with the exception of currency values where the number of decimal places will be defined by [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
 
 ## Querying to Search or Filter
 
@@ -383,53 +399,12 @@ Searches should be performed by using RSQL (REST Structured Query Language) with
 
 APIs should use one of the following pagination schemes:
 
-* Cursor based for ever-expanding data sets, or where it's infeasible to count the total number of records e.g. phone verification checks for a Project
 * Page based for small, managed APIs where the customer is in control of what is in the data set e.g. the Projects collection
+* Cursor based for ever-expanding data sets, or where it's infeasible to count the total number of records e.g. phone verification checks for a Project
 
 To the customer, having two different pagination methods is OK, as in practice they should request the first page and then follow the `_links.next` URL to get the next page.
 
-Cursor implementation can be decided by the engineering team. Results returned must be consistently ordered, and the customer can decide if the data set is returned in ascending or descending order.
-
-### Cursor based
-
-> Cursors, if you’re not familiar, are like pointers. Pointers point at things, they reference a specific iota, a place in the list where your last request left off. A bookmark with breadcrumbs built in. (via [Slack](https://api.slack.com/docs/pagination#cursors))
-
-- There should be a way to page through collections without additional filters.
-- There should be a way to page through collections with filters.
-- Cursors should not expire
-- Paging should use a standard set of hal+json `_links`
-	- `self` (current page, required)
-	- `next` (next page, optional)
-	- `prev` (previous page, optional)
-	- `first` (first page, required)
-- Paging `_links` must include filters.
-- The page size parameter must be called `page_size`
-- The cursor parameter must be called `cursor`
-
-Example:
-
-```json
-{
-	"page_size": 100,
-	"cursor": "19284743",
-	"_embedded": {
-		"resource_name": {
-			"data":"here"
-		}
-	},
-	"_links": {
-		"self": {
-			"href": "https://example.com/resource?page_size=100&order=asc&cursor=19284743"
-		},
-		"next": {
-			"href": "https://example.com/resource?page_size=100&order=asc&cursor=19291731"
-		},
-		"prev": {
-			"href": "https://example.com/resource?page_size=100&order=asc&cursor=19283018"
-		}
-	}
-}
-```
+Page based pagination will be the default and cursor pagination can be decided by on a case-by-case basis. Results returned must be consistently ordered, and the customer can decide if the data set is returned in ascending or descending order.
 
 ### Page Based
 
@@ -477,6 +452,46 @@ The first page is page `1`.
 }
 ```
 
+### Cursor based
+
+> Cursors, if you’re not familiar, are like pointers. Pointers point at things, they reference a specific iota, a place in the list where your last request left off. A bookmark with breadcrumbs built in. (via [Slack](https://api.slack.com/docs/pagination#cursors))
+
+- There should be a way to page through collections without additional filters.
+- There should be a way to page through collections with filters.
+- Cursors should not expire
+- Paging should use a standard set of hal+json `_links`
+	- `self` (current page, required)
+	- `next` (next page, optional)
+	- `prev` (previous page, optional)
+	- `first` (first page, required)
+- Paging `_links` must include filters.
+- The page size parameter must be called `page_size`
+- The cursor parameter must be called `cursor`
+
+Example:
+
+```json
+{
+	"page_size": 100,
+	"cursor": "19284743",
+	"_embedded": {
+		"resource_name": {
+			"data":"here"
+		}
+	},
+	"_links": {
+		"self": {
+			"href": "https://example.com/resource?page_size=100&order=asc&cursor=19284743"
+		},
+		"next": {
+			"href": "https://example.com/resource?page_size=100&order=asc&cursor=19291731"
+		},
+		"prev": {
+			"href": "https://example.com/resource?page_size=100&order=asc&cursor=19283018"
+		}
+	}
+}
+```
 
 ## Errors
 
@@ -549,23 +564,32 @@ Retry-After: 3600
 
 # TODO
 
+## Now
+
 Discuss:
 
-- [ ] Versioning: Discuss Semantic Versioning support within URLs. Is adding information to response payload a breaking change and thus requires a new MAJOR release? Adding support for a new parameter to a request body? What about adding support for another query parameter?
 - [ ] Product, Resources & Versioning: Where is the product represented in the URL? How does this fit into versioning? Is the product name just a top level path/directory such as `http://api.example.com/v1/{product_name}` and then the resources a user interacts with is only sub-resources such as `http://api.example.com/v1/{product_name}/resource`? If that's the case should the versioning be at the sub-resource level e.g. `http://api.example.com/{product_name}/v1/resource`? Or should the product be at a the domain level e.g. `http://{product_name}.api.example.com/v1/resource`? Finally, should the customer ID be within the domain?
-- [ ] Parameters and Properties: Decimal precision - discuss and agree. This could be documented on a per property basis. But maybe it's better to be consistent across all decimal fields?
-- [ ] Pagination: discuss and agree on cursor and page-based pagination. Should the pagination type be within the response payload? Should `next` and `prev` links always be present even if the value are `null` i.e. there isn't a previous or next? Once decided re-write the content taken from the Nexmo API standards.
-- [ ] References: should URL references (e.g. self") provide fully qualified URLs or partial URLs from a base e.g. `"https://example.com/v1/resource?page_size=100&order=asc&page=4"` vs `"/resource?page_size=100&order=asc&page=4"`
-- [ ] Resources: discuss singletons i.e. resources that live off of another resource and are not part of a collection. Should these exist? Or should they only be accessed as a property of another resource that is part of a collection?
+- [x] Parameters and Properties: Decimal precision - discuss and agree. This could be documented on a per property basis. But maybe it's better to be consistent across all decimal fields?
+- [x] Versioning: Discuss Semantic Versioning support within URLs. Is adding information to response payload a breaking change and thus requires a new MAJOR release? Adding support for a new parameter to a request body? What about adding support for another query parameter?
+- [x] Pagination: discuss and agree on cursor and page-based pagination. Should the pagination type be within the response payload? Should `next` and `prev` links always be present even if the value are `null` i.e. there isn't a previous or next? Once decided re-write the content taken from the Nexmo API standards.
 - [x] Errors: Provide more information on the benefits of HTTP Problem Detail via examples
 - [x] HTTP status codes: more detail and examples
 
 Tasks:
 
 - [ ] Authentication: A section should be added detailing how authentication works.
-- [ ] Webhooks: Required for MVP A & B
-- [ ] Look at [Stripe details](https://media-exp1.licdn.com/dms/image/C5622AQHx3XDY-qMIkA/feedshare-shrink_2048_1536/0?e=1593648000&v=beta&t=mfr9NzejKJTXLPuvOAt8v9jfJtB-cjiWn5_2-R-78RM) and decide which, if any, to adopt
-- [ ] Deprecation policy
-- [ ] Move our API supported RSQL syntax and examples into this document. [Good example](https://developer.here.com/olp/documentation/data-client-library/dev_guide/client/rsql.html)
 - [ ] Ensure each decision captures *why* the standard was chosen
 
+## Next
+
+Discuss:
+
+- [ ] References: should URL references (e.g. self") provide fully qualified URLs or partial URLs from a base e.g. `"https://example.com/v1/resource?page_size=100&order=asc&page=4"` vs `"/resource?page_size=100&order=asc&page=4"`
+- [ ] Resources: discuss singletons i.e. resources that live off of another resource and are not part of a collection. Should these exist? Or should they only be accessed as a property of another resource that is part of a collection?
+
+Tasks:
+
+- [ ] Look at [Stripe details](https://media-exp1.licdn.com/dms/image/C5622AQHx3XDY-qMIkA/feedshare-shrink_2048_1536/0?e=1593648000&v=beta&t=mfr9NzejKJTXLPuvOAt8v9jfJtB-cjiWn5_2-R-78RM) and decide which, if any, to adopt
+- [ ] Webhooks: Required for MVP A & B
+- [ ] Deprecation policy
+- [ ] Move our API supported RSQL syntax and examples into this document. [Good example](https://developer.here.com/olp/documentation/data-client-library/dev_guide/client/rsql.html)
