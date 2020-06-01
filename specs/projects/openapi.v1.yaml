@@ -28,7 +28,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Retrieve a collection of Projects
+      summary: Retrieve Project
       operationId: get-project
       tags:
         - project
@@ -87,7 +87,7 @@ paths:
           description: ''
           name: content-type
     get:
-      summary: Get Projects
+      summary: Retrieve a collection of projects
       operationId: get-projects
       tags:
         - project
