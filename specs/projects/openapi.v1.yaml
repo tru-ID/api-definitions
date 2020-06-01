@@ -1,0 +1,167 @@
+openapi: 3.0.0
+info:
+  title: Projects
+  version: '0.1'
+  contact:
+    name: 4uth API Team
+    email: apis@4uth.net
+  description: Create and manage Projects within your 4uth console
+servers:
+  - url: 'http://eu.api.4uth.net/console/v1'
+    description: For accounts with data residency in the EU
+  - url: 'http://us.api.4uth.net/console/v1'
+    description: For accounts with data residency in the US
+  - url: 'http://localhost:3000/console/v1'
+    description: For local development
+tags:
+  - name: project
+    description: Relating to a project.
+  - name: console
+    description: 4uth Console resource management
+paths:
+  '/projects/{project_id}':
+    parameters:
+      - name: project_id
+        description: The ID of the Project
+        schema:
+          type: string
+        in: path
+        required: true
+    get:
+      summary: Retrieve a collection of Projects
+      operationId: get-project
+      tags:
+        - project
+        - console
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/project-full.v1.yaml
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/problem-details-base.v1.yaml
+      description: Get a Project identified by `project_id`.
+    delete:
+      summary: ''
+      operationId: delete-projects
+      responses:
+        '204':
+          description: No Content
+          headers: {}
+      description: Delete the Project from the projects collection identified by `project_id`
+      parameters: []
+      tags:
+        - project
+        - console
+  /projects:
+    post:
+      summary: Create a Project
+      operationId: create-project
+      tags:
+        - project
+        - console
+      responses:
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/project-full.v1.yaml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/project-partial.v1.yaml
+        description: A JSON payload for the Project that is to be created.
+      description: Create a Project
+      parameters:
+        - schema:
+            type: string
+          in: header
+          description: ''
+          name: content-type
+    get:
+      summary: Get Projects
+      operationId: get-projects
+      tags:
+        - project
+        - console
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                type: object
+                properties:
+                  page_size:
+                    type: integer
+                    example: 10
+                  page:
+                    type: integer
+                    example: 1
+                  total_page:
+                    type: integer
+                    example: 10
+                  total_items:
+                    type: integer
+                  _embedded:
+                    type: object
+                    required:
+                      - projects
+                    properties:
+                      projects:
+                        type: array
+                        items:
+                          $ref: ./models/project-full.v1.yaml
+                  _links:
+                    type: object
+                    required:
+                      - self
+                    properties:
+                      self:
+                        $ref: ../common/models/link-partial.v1.yaml
+                      next:
+                        $ref: ../common/models/link-partial.v1.yaml
+                      prev:
+                        $ref: ../common/models/link-partial.v1.yaml
+                      last:
+                        $ref: ../common/models/link-partial.v1.yaml
+                required:
+                  - page_size
+                  - page
+                  - total_page
+                  - total_items
+                  - _embedded
+                  - _links
+      description: Get a full list of Projects or filter by query parameter.
+      parameters:
+        - schema:
+            type: string
+            example: hello
+          in: query
+          name: name
+          description: The name of the project
+        - schema:
+            type: integer
+            example: 1
+            default: 1
+            minimum: 1
+          in: query
+          name: page
+          description: A page number for the query. Pages being at one (1) and are not a zero-based index.
+        - schema:
+            type: integer
+            example: 10
+            default: 10
+            minimum: 1
+            maximum: 100
+          in: query
+          name: page_size
+          description: The number of items to be returned for the requested `page`.

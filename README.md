@@ -4,4 +4,4 @@
 
 ## TODO
 
-- [ ] Definitions to go in `/specs`
+- [x] Definitions to go in `/specs`
