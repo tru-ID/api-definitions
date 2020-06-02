@@ -3,6 +3,8 @@ type: object
 properties:
   name:
     type: string
+    example: My first project
+    description: A descriptive name of the Project
   authentication:
     type: array
     items:
