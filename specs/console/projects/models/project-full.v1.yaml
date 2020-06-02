@@ -4,7 +4,7 @@ allOf:
     properties:
       _links:
         allOf:
-          - $ref: ../../common/models/link-partial.v1.yaml
+          - $ref: ../../../common/models/link-partial.v1.yaml
       project_id:
         type: string
         example: c69bc0e6-a429-11ea-bb37-0242ac130002

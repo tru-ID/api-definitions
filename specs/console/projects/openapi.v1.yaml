@@ -138,13 +138,13 @@ paths:
                       - self
                     properties:
                       self:
-                        $ref: ../common/models/link-partial.v1.yaml
+                        $ref: ../../common/models/link-partial.v1.yaml
                       next:
-                        $ref: ../common/models/link-partial.v1.yaml
+                        $ref: ../../common/models/link-partial.v1.yaml
                       prev:
-                        $ref: ../common/models/link-partial.v1.yaml
+                        $ref: ../../common/models/link-partial.v1.yaml
                       last:
-                        $ref: ../common/models/link-partial.v1.yaml
+                        $ref: ../../common/models/link-partial.v1.yaml
                 required:
                   - page_size
                   - page
