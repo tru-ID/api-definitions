@@ -8,6 +8,7 @@ The [`specs`](specs/) directory contains the API specifications. The directory s
 
 * `{api_grouping}` is either logical grouping of resources (e.g. `console`) or a product
 * `{resource}` is the specific API resource (e.g. `projects`)
+* The `common` directory is for schema shared across resources
 
 API Standards are within [standards.md](standards.md).
 
