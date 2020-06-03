@@ -4,13 +4,20 @@ Our API definitions and standards follow the OpenAPI v3.0 standard.
 
 ## Contents
 
+### API Definitions
+
 The [`specs`](specs/) directory contains the API specifications. The directory structure is in the form `{api_grouping}/{resource}` where:
 
 * `{api_grouping}` is either logical grouping of resources (e.g. `console`) or a product
 * `{resource}` is the specific API resource (e.g. `projects`)
-* The `common` directory is for schema shared across resources
+
+The `specs/common/` directory contains models that are commonly used within the API.
+
+### API Standards
 
 API Standards are within [standards.md](standards.md).
+
+### Code of Conduct
 
 Please also read our [Code of Conduct](code_of_conduct.md)
 
@@ -29,7 +36,3 @@ It provides a visual form-based editor, text editor, git integration, a mock ser
 ### Spectral
 
 [Spectral](https://github.com/stoplightio/spectral) by Stoplight for standalone OpenAPI linting. This can (and will) be very useful for CI processes.
-
-## TODO
-
-- [x] Definitions to go in `/specs`
