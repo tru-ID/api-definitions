@@ -351,18 +351,16 @@ Example in a body response payload:
 	"total_pages": 1,
 	"total_items": 1,
 	"_embedded": {
-		"projects": {
-			"data": [
-				{
-					"_links": {
-						"self": { "href": "/project/{project_id}" }
-					},
-					"project_id": "{project_id}",
-					"name": "My first project",
-					"example_attribute": "hello"
+		"projects": [{
+			"_links": {
+				"self": {
+					"href": "/project/{project_id}"
 				}
-			]
-		}
+			},
+			"project_id": "{project_id}",
+			"name": "My first project",
+			"example_attribute": "hello"
+		}]
 	},
 	"_links": {
 		"self": "https://api.example.com/v1/projects?example_attribute=hello",
@@ -579,8 +577,6 @@ Tasks:
 
 - [ ] Authentication: A section should be added detailing how authentication works.
 - [ ] Ensure each decision captures *why* the standard was chosen
-- [ ] Add a section on composite naming format e.g. `billing_account`
-- [ ] How should references/relationships be exposed? Should the ID of reference/relationship be within the resource as a property or should it only be within `_links` e.g. one-to-many of price_card = {price_card_id: Number, price_card_amounts: Array} where price_card_amounts -> [price_card_amount, price_card_amount] where price_card_amount = {price_card_amount_id: Number, currency: String, amount: Decimal, price_card_id: Number}
 
 ## Next
 
