@@ -1,0 +1,23 @@
+title: PageBasedPagination
+type: object
+properties:
+  page_size:
+    description: The number of records per page
+    type: integer
+    example: 10
+  page_number:
+    description: The currage page number
+    type: integer
+    example: 1
+  total_pages:
+    description: The total number of pages
+    type: integer
+    example: 10
+  total_items:
+    description: The total number of records
+    type: integer
+required:
+  - page_size
+  - page_number
+  - total_pages
+  - total_items

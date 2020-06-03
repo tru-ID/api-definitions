@@ -1,4 +1,4 @@
-title: problem-details-base
+title: ProblemDetailsBase
 type: object
 properties:
   type:

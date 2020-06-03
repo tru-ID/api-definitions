@@ -1,22 +1,12 @@
-title: project-partial.v1
+title: ProjectPartial
 type: object
 properties:
   name:
     type: string
     example: My first project
     description: A descriptive name of the Project
-  authentication:
-    type: array
-    items:
-      anyOf: []
-  capabilities:
-    type: array
-    items:
-      anyOf: []
 required:
   - name
-  - authentication
-  - capabilities
 description: The minimal structural representation to create a Project
 x-tags:
   - project

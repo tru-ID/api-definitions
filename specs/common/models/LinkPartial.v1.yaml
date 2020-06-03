@@ -1,0 +1,8 @@
+title: LinkPartial
+type: object
+properties:
+  href:
+    type: string
+    example: 'http://example.com'
+required:
+  - href

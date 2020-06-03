@@ -1,6 +1,0 @@
-title: link-partial.v1
-type: object
-properties:
-  href:
-    type: string
-    example: http://example.com
