@@ -2,7 +2,7 @@ const $RefParser = require("@apidevtools/json-schema-ref-parser");
 const fs = require('fs');
 const child_process = require('child_process')
 
-const openApiSpecLocation = __dirname + '/../specs/console/projects/openapi.v1.yaml'
+const openApiSpecLocation = __dirname + '/../console/projects/openapi.v1.yaml'
 const buildTargetDirectory = `${__dirname}/out`
 const generatedJsonOpenApiSpecLocation = `${buildTargetDirectory}/dereferenced-openapi.json`
 const fromJsonGeneratedJava = buildTargetDirectory + '/from-json'

@@ -21,7 +21,7 @@ brew install openapi-generator # Assuming you're on Mac or Linux
 
 ```sh
 # Build
-npm run-script build
+npm run-script specs:build
 ```
 
 ### View the Generated Code
@@ -31,4 +31,4 @@ npm run-script build
     1. Via original YAML files in `build/from-yaml`
     2. Via generated JSON files in `build/from-json`
 
-The type types of Spring Java classes are generated because the code generated from the dereferenced OpenAPI specification is simplified.
+The different types of Spring Java classes are generated to allow us to evaluate if either is better than the other and if either could be used.

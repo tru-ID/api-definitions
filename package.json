@@ -5,8 +5,8 @@
   "main": "build.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node ./build/build.js",
-    "build:clean": "node ./build/build.js clean"
+    "specs:build": "node ./specs/build/build.js",
+    "specs:build:clean": "node ./specs/build/build.js clean"
   },
   "repository": {
     "type": "git",
