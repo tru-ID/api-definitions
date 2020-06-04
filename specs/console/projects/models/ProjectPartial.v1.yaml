@@ -1,4 +1,5 @@
 title: ProjectPartial
+description: The minimal structural representation to create a Project
 type: object
 properties:
   name:
@@ -7,7 +8,6 @@ properties:
     description: A descriptive name of the Project
 required:
   - name
-description: The minimal structural representation to create a Project
 x-tags:
   - project
   - console

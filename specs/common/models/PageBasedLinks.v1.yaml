@@ -1,0 +1,52 @@
+title: PageBasedLinks
+type: object
+description: Links to enable pagination over collections.
+components:
+  schemas:
+    FirstHref:
+      description: URL to the first page of records
+      properties:
+        href:
+          type: string
+      type: object
+    LastHref:
+      description: URL to the last page of records
+      properties:
+        href:
+          type: string
+      type: object
+    NextHref:
+      description: URL to the next page of records
+      properties:
+        href:
+          type: string
+        type: object
+    PrevHref:
+      description: URL to the previous page of records
+      properties:
+        href:
+          type: string
+        type: object
+    SelfHref:
+      description: URL to the current page of records
+      properties:
+        href:
+          type: string
+      type: object
+properties:
+  first:
+    $ref: '#/components/schemas/FirstHref'
+  last:
+    $ref: '#/components/schemas/LastHref'
+  next:
+    $ref: '#/components/schemas/NextHref'
+  prev:
+    $ref: '#/components/schemas/PrevHref'
+  self:
+    $ref: '#/components/schemas/SelfHref'
+required:
+  - first
+  - last
+  - next
+  - prev
+  - self
