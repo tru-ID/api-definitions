@@ -6,7 +6,7 @@ properties:
     type: integer
     example: 10
   page_number:
-    description: The currage page number
+    description: The current page number
     type: integer
     example: 1
   total_pages:
