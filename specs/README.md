@@ -6,6 +6,8 @@ For information on how to create OpenAPI specifications see the [Guide to Creati
 
 ## Code Generation from OpenAPI Specifications
 
+Spring Java code is generated using the [OpenAPI Generator](https://openapi-generator.tech/) and the [Spring Generator](https://openapi-generator.tech/docs/generators/spring/).
+
 ### Install the build dependencies:
 
 ```sh
@@ -28,7 +30,7 @@ npm run-script specs:build
 
 1. A dereferenced OpenAPI specification will be in `build/out/`
 2. Generated Spring Java classes:
-    1. Via original YAML files in `build/from-yaml`
-    2. Via generated JSON files in `build/from-json`
+    1. Via original YAML files in `build/out/from-yaml`
+    2. Via generated JSON files in `build/out/from-json`
 
 The different types of Spring Java classes are generated to allow us to evaluate if either is better than the other and if either could be used.
