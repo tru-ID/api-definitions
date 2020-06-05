@@ -4,8 +4,8 @@
   "description": "Our API definitions and standards follow the OpenAPI v3.0 standard.",
   "main": "build.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "specs:lint": "spectral lint -F hint ./specs/console/projects/openapi.yaml",
+    "test": "spectral lint -F warn ./specs/console/projects/openapi.v1.yaml",
+    "specs:lint": "spectral lint -F hint ./specs/console/projects/openapi.v1.yaml",
     "specs:build": "node ./specs/build/build.js",
     "specs:build:clean": "node ./specs/build/build.js clean"
   },
