@@ -16,8 +16,6 @@ servers:
 tags:
   - name: project
     description: Relating to a project.
-  - name: console
-    description: 4uth Console resource management
 paths:
   '/projects/{project_id}':
     parameters:
@@ -32,7 +30,6 @@ paths:
       operationId: get-project
       tags:
         - project
-        - console
       responses:
         '200':
           description: OK
@@ -72,7 +69,6 @@ paths:
       parameters: []
       tags:
         - project
-        - console
   /projects:
     post:
       summary: Create a Project
@@ -80,7 +76,6 @@ paths:
       operationId: create-project
       tags:
         - project
-        - console
       responses:
         '201':
           description: Created
@@ -124,7 +119,6 @@ paths:
       description: Get a full list of Projects or filter by query parameter.
       tags:
         - project
-        - console
       parameters:
         - name: name
           schema:

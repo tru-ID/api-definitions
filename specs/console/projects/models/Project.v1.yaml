@@ -3,7 +3,6 @@ description: A Project
 type: object
 x-tags:
   - project
-  - console
 properties:
   project_id:
     $ref: '../../../common/models/DataTypes.v1.yaml#/components/schemas/UUID'

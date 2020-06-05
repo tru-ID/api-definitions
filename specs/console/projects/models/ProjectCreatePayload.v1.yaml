@@ -10,4 +10,3 @@ required:
 description: The minimal structural representation to create a Project
 x-tags:
   - project
-  - console
