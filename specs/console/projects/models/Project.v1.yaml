@@ -1,0 +1,42 @@
+title: Project
+description: A Project
+type: object
+x-tags:
+  - project
+  - console
+properties:
+  project_id:
+    $ref: '../../../common/models/DataTypes.v1.yaml#/components/schemas/UUID'
+  name:
+    type: string
+    example: My first project
+    description: The name of the project
+  _links:
+    type: object
+    properties:
+      self:
+        $ref: ../../../common/models/Link.v1.yaml
+  created_at:
+    type: string
+    format: Datetime ISO 8601
+    example: '2020-06-01T16:43:30+00:00'
+    description: The datetime the project was created
+  updated_at:
+    type: string
+    format: Datetime ISO 8601
+    example: '2020-06-01T16:43:30+00:00'
+    description: The datetime the project was last updated
+  credentials:
+    type: array
+    items:
+      anyOf: []
+  capabilities:
+    type: array
+    items:
+      anyOf: []
+required:
+  - project_id
+  - name
+  - _links
+  - created_at
+  - updated_at

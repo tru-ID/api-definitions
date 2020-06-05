@@ -1,0 +1,856 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Api Documentation",
+        "version": "1.0",
+        "title": "Api Documentation",
+        "termsOfService": "urn:tos",
+        "contact": {},
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "host": "localhost:8079",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Account Entity",
+            "description": "Simple Jpa Repository"
+        },
+        {
+            "name": "Balance Entity",
+            "description": "Simple Jpa Repository"
+        },
+        {
+            "name": "CostCard Entity",
+            "description": "Simple Jpa Repository"
+        },
+        {
+            "name": "Network Entity",
+            "description": "Simple Jpa Repository"
+        },
+        {
+            "name": "PriceCard Entity",
+            "description": "Price Card"
+        },
+        {
+            "name": "PriceCardAmount Entity",
+            "description": "Price Card Amount"
+        },
+        {
+            "name": "Product Entity",
+            "description": "Simple Jpa Repository"
+        },
+        {
+            "name": "Project Entity",
+            "description": "Simple Jpa Repository"
+        },
+        {
+            "name": "Region Entity",
+            "description": "Simple Jpa Repository"
+        },
+        {
+            "name": "Route Entity",
+            "description": "Simple Jpa Repository"
+        },
+        {
+            "name": "Supplier Entity",
+            "description": "Simple Jpa Repository"
+        },
+        {
+            "name": "account-controller",
+            "description": "Account Controller"
+        },
+        {
+            "name": "balance-controller",
+            "description": "Balance Controller"
+        },
+        {
+            "name": "basic-error-controller",
+            "description": "Basic Error Controller"
+        },
+        {
+            "name": "customer-context-builder-controller",
+            "description": "Customer Context Builder Controller"
+        },
+        {
+            "name": "infra-context-builder-controller",
+            "description": "Infra Context Builder Controller"
+        },
+        {
+            "name": "price-card-controller",
+            "description": "Price Card Controller"
+        },
+        {
+            "name": "profile-controller",
+            "description": "Profile Controller"
+        },
+        {
+            "name": "project-controller",
+            "description": "Project Controller"
+        },
+        {
+            "name": "route-controller",
+            "description": "Route Controller"
+        }
+    ],
+    "paths": {
+        "/error": {
+            "get": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "errorHtml",
+                "operationId": "errorHtmlUsingGET",
+                "produces": [
+                    "text/html"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ModelAndView"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "head": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "errorHtml",
+                "operationId": "errorHtmlUsingHEAD",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/html"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ModelAndView"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "errorHtml",
+                "operationId": "errorHtmlUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/html"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ModelAndView"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "errorHtml",
+                "operationId": "errorHtmlUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/html"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ModelAndView"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "errorHtml",
+                "operationId": "errorHtmlUsingDELETE",
+                "produces": [
+                    "text/html"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ModelAndView"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            },
+            "options": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "errorHtml",
+                "operationId": "errorHtmlUsingOPTIONS",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/html"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ModelAndView"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            },
+            "patch": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "errorHtml",
+                "operationId": "errorHtmlUsingPATCH",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/html"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ModelAndView"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/products": {
+            "get": {
+                "tags": [
+                    "Product Entity"
+                ],
+                "summary": "findAllProduct",
+                "operationId": "findAllProductUsingGET",
+                "produces": [
+                    "application/json",
+                    "application/hal+json",
+                    "text/uri-list",
+                    "application/x-spring-data-compact+json"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "size",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "sort",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CollectionModel«Product»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "Product Entity"
+                ],
+                "summary": "saveProduct",
+                "operationId": "saveProductUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Product»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/products/{id}": {
+            "get": {
+                "tags": [
+                    "Product Entity"
+                ],
+                "summary": "findByIdProduct",
+                "operationId": "findByIdProductUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Product»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "Product Entity"
+                ],
+                "summary": "saveProduct",
+                "operationId": "saveProductUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Product»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "Product Entity"
+                ],
+                "summary": "deleteProduct",
+                "operationId": "deleteProductUsingDELETE",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            },
+            "patch": {
+                "tags": [
+                    "Product Entity"
+                ],
+                "summary": "saveProduct",
+                "operationId": "saveProductUsingPATCH",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Product»"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "definitions": {
+        "CollectionModel«Product»": {
+            "type": "object",
+            "required": [
+                "_embedded",
+                "_links"
+            ],
+            "properties": {
+                "_embedded": {
+                    "$ref": "#/definitions/EmbeddedCollection«Product»"
+                },
+                "_links": {
+                    "type": "object",
+                    "description": "Link collection",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Link"
+                    }
+                }
+            },
+            "title": "CollectionModel«Product»",
+            "xml": {
+                "name": "entities",
+                "attribute": false,
+                "wrapped": false
+            },
+            "description": "Resources of Product"
+        },
+        "EmbeddedCollection«Product»": {
+            "type": "object",
+            "required": [
+                "products"
+            ],
+            "properties": {
+                "products": {
+                    "type": "array",
+                    "description": "Resource collection",
+                    "items": {
+                        "$ref": "#/definitions/Product"
+                    }
+                }
+            },
+            "title": "EmbeddedCollection«Product»",
+            "xml": {
+                "name": "content",
+                "wrapped": true
+            },
+            "description": "Embedded collection of Product"
+        },
+        "EntityModel«Product»": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "links": {
+                    "$ref": "#/definitions/Links"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "title": "EntityModel«Product»"
+        },
+        "Link": {
+            "type": "object",
+            "properties": {
+                "deprecation": {
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "hreflang": {
+                    "type": "string"
+                },
+                "media": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "profile": {
+                    "type": "string"
+                },
+                "rel": {
+                    "$ref": "#/definitions/LinkRelation"
+                },
+                "template": {
+                    "$ref": "#/definitions/UriTemplate"
+                },
+                "templated": {
+                    "type": "boolean"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "title": "Link"
+        },
+        "LinkRelation": {
+            "type": "object",
+            "title": "LinkRelation"
+        },
+        "Links": {
+            "type": "object",
+            "properties": {
+                "empty": {
+                    "type": "boolean"
+                }
+            },
+            "title": "Links"
+        },
+        "ModelAndView": {
+            "type": "object",
+            "properties": {
+                "empty": {
+                    "type": "boolean"
+                },
+                "model": {
+                    "type": "object"
+                },
+                "modelMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object"
+                    }
+                },
+                "reference": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "CONTINUE",
+                        "SWITCHING_PROTOCOLS",
+                        "PROCESSING",
+                        "CHECKPOINT",
+                        "OK",
+                        "CREATED",
+                        "ACCEPTED",
+                        "NON_AUTHORITATIVE_INFORMATION",
+                        "NO_CONTENT",
+                        "RESET_CONTENT",
+                        "PARTIAL_CONTENT",
+                        "MULTI_STATUS",
+                        "ALREADY_REPORTED",
+                        "IM_USED",
+                        "MULTIPLE_CHOICES",
+                        "MOVED_PERMANENTLY",
+                        "FOUND",
+                        "MOVED_TEMPORARILY",
+                        "SEE_OTHER",
+                        "NOT_MODIFIED",
+                        "USE_PROXY",
+                        "TEMPORARY_REDIRECT",
+                        "PERMANENT_REDIRECT",
+                        "BAD_REQUEST",
+                        "UNAUTHORIZED",
+                        "PAYMENT_REQUIRED",
+                        "FORBIDDEN",
+                        "NOT_FOUND",
+                        "METHOD_NOT_ALLOWED",
+                        "NOT_ACCEPTABLE",
+                        "PROXY_AUTHENTICATION_REQUIRED",
+                        "REQUEST_TIMEOUT",
+                        "CONFLICT",
+                        "GONE",
+                        "LENGTH_REQUIRED",
+                        "PRECONDITION_FAILED",
+                        "PAYLOAD_TOO_LARGE",
+                        "REQUEST_ENTITY_TOO_LARGE",
+                        "URI_TOO_LONG",
+                        "REQUEST_URI_TOO_LONG",
+                        "UNSUPPORTED_MEDIA_TYPE",
+                        "REQUESTED_RANGE_NOT_SATISFIABLE",
+                        "EXPECTATION_FAILED",
+                        "I_AM_A_TEAPOT",
+                        "INSUFFICIENT_SPACE_ON_RESOURCE",
+                        "METHOD_FAILURE",
+                        "DESTINATION_LOCKED",
+                        "UNPROCESSABLE_ENTITY",
+                        "LOCKED",
+                        "FAILED_DEPENDENCY",
+                        "TOO_EARLY",
+                        "UPGRADE_REQUIRED",
+                        "PRECONDITION_REQUIRED",
+                        "TOO_MANY_REQUESTS",
+                        "REQUEST_HEADER_FIELDS_TOO_LARGE",
+                        "UNAVAILABLE_FOR_LEGAL_REASONS",
+                        "INTERNAL_SERVER_ERROR",
+                        "NOT_IMPLEMENTED",
+                        "BAD_GATEWAY",
+                        "SERVICE_UNAVAILABLE",
+                        "GATEWAY_TIMEOUT",
+                        "HTTP_VERSION_NOT_SUPPORTED",
+                        "VARIANT_ALSO_NEGOTIATES",
+                        "INSUFFICIENT_STORAGE",
+                        "LOOP_DETECTED",
+                        "BANDWIDTH_LIMIT_EXCEEDED",
+                        "NOT_EXTENDED",
+                        "NETWORK_AUTHENTICATION_REQUIRED"
+                    ]
+                },
+                "view": {
+                    "$ref": "#/definitions/View"
+                },
+                "viewName": {
+                    "type": "string"
+                }
+            },
+            "title": "ModelAndView"
+        },
+        "Product": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "title": "Product"
+        },
+        "UriTemplate": {
+            "type": "object",
+            "properties": {
+                "variableNames": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "variables": {
+                    "type": "array",
+                    "items": {
+                    }
+                }
+            },
+            "title": "UriTemplate"
+        },
+        "View": {
+            "type": "object",
+            "properties": {
+                "contentType": {
+                    "type": "string"
+                }
+            },
+            "title": "View"
+        }
+    }
+}

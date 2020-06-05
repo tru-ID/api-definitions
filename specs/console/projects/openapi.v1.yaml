@@ -39,7 +39,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/ProjectFull.v1.yaml
+                $ref: ./models/Project.v1.yaml
         '404':
           description: Not Found
           content:
@@ -73,7 +73,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/ProjectFull.v1.yaml
+                $ref: ./models/Project.v1.yaml
               examples:
                 basic:
                   value:
@@ -90,7 +90,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./models/ProjectPartial.v1.yaml
+              $ref: ./models/ProjectCreatePayload.v1.yaml
             examples:
               basic:
                 value:
@@ -110,22 +110,8 @@ paths:
           content:
             application/hal+json:
               schema:
-                allOf:
-                  - $ref: ../../common/models/PageBasedPagination.v1.yaml
-                  - type: object
-                    properties:
-                      _embedded:
-                        type: array
-                        items:
-                          $ref: ./models/ProjectFull.v1.yaml
-                      _links:
-                        $ref: ../../common/models/PaginationLinks.v1.yaml
-                required:
-                  - page_size
-                  - total_pages
-                  - total_items
-                  - _embedded
-                  - _links
+                $ref: ./models/ProjectCollection.v1.yaml
+
               examples:
                 basic:
                   value:

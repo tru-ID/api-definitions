@@ -1,4 +1,4 @@
-title: LinkPartial
+title: Link
 type: object
 properties:
   href:
