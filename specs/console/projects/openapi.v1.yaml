@@ -40,6 +40,13 @@ paths:
             application/hal+json:
               schema:
                 $ref: ./models/Project.v1.yaml
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin-All'
         '404':
           description: Not Found
           content:
@@ -47,14 +54,21 @@ paths:
               schema:
                 $ref: ../../common/models/ProblemDetailsBase.v1.yaml
       description: Get a Project identified by `project_id`.
+      parameters: []
     delete:
       summary: ''
+      description: Delete the Project from the projects collection identified by `project_id`
       operationId: delete-projects
       responses:
         '204':
           description: No Content
-          headers: {}
-      description: Delete the Project from the projects collection identified by `project_id`
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin-All'      
       parameters: []
       tags:
         - project
@@ -70,6 +84,13 @@ paths:
       responses:
         '201':
           description: Created
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin-All'
           content:
             application/hal+json:
               schema:
@@ -104,14 +125,31 @@ paths:
       tags:
         - project
         - console
+      parameters:
+        - name: name
+          schema:
+            type: string
+            example: hello
+          in: query
+          description: The name of the project
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageNumber'
+        #- $ref: '#/components/parameters/sortBy' `name` is the only input parameter so has to be sorted by name for now
+        - $ref: '#/components/parameters/sortOrder'
       responses:
         '200':
           description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin-All'
           content:
             application/hal+json:
               schema:
                 $ref: ./models/ProjectCollection.v1.yaml
-
               examples:
                 basic:
                   value:
@@ -150,27 +188,68 @@ paths:
                         href: null
                       self:
                         href: /projects?page_size=10
-      parameters:
-        - schema:
-            type: string
-            example: hello
-          in: query
-          name: name
-          description: The name of the project
-        - schema:
-            type: integer
-            example: 1
-            default: 1
-            minimum: 1
-          in: query
-          name: page
-          description: A page number for the query. Pages being at one (1) and are not a zero-based index.
-        - schema:
-            type: integer
-            example: 10
-            default: 10
-            minimum: 1
-            maximum: 100
-          in: query
-          name: page_size
-          description: The number of items to be returned for the requested `page`.
+
+components:
+
+  # Reusable parameters
+  parameters:
+    # Collections
+    sortBy:
+      name: sortby
+      description: Identifies the field that the results will be sorted by
+      in: query
+      schema:
+        type: string
+    sortOrder:
+      name: sortorder
+      description: Identifies how the results will be sorted based on the `sortby` field.
+      in: query
+      schema:
+        type: string
+        enum:
+          - 'asc'
+          - 'dsc'
+        default: 'asc'
+    pageNumber:
+      name: page_number
+      description: The page number being requested
+      in: query
+      schema:
+        type: integer
+        example: 10
+        default: 1
+        minimum: 1
+    pageSize:
+      name: page_size
+      description: The number of items to be returned for the page being requested
+      in: query
+      schema:
+        type: integer
+        example: 10
+        default: 10
+        minimum: 1
+        maximum: 100
+          
+  # Reusable Headers        
+  headers:
+    X-RateLimit-Limit:
+      description: Request limit per hour
+      schema:
+        type: integer
+      example: 100
+      required: true
+    X-RateLimit-Remaining:
+      description: Remaining requests for the hour
+      schema:
+        type: integer
+      example: 94
+      required: true
+    Access-Control-Allow-Origin-All:
+      description: Allow CORS
+      schema:
+        type: string
+        enum:
+          - "*"
+      required: true
+    
+        
