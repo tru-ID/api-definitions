@@ -5,6 +5,7 @@
   "main": "build.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "specs:lint": "spectral lint -F hint ./specs/console/projects/openapi.yaml",
     "specs:build": "node ./specs/build/build.js",
     "specs:build:clean": "node ./specs/build/build.js clean"
   },
@@ -19,6 +20,7 @@
   },
   "homepage": "https://gitlab.com/4auth/api_definitions#readme",
   "devDependencies": {
-    "@apidevtools/json-schema-ref-parser": "^9.0.1"
+    "@apidevtools/json-schema-ref-parser": "^9.0.1",
+    "@stoplight/spectral": "^5.4.0"
   }
 }
