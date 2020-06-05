@@ -1,0 +1,20 @@
+image: node:latest
+
+stages:
+  - test
+
+cache:
+  paths:
+    - node_modules/
+
+install_dependencies:
+  stage: test
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+
+test_api_specs:
+  stage: test
+  script: npm test
