@@ -10,6 +10,13 @@ properties:
     type: string
     example: My first project
     description: The name of the project
+  mode:
+    description: The project mode
+    type: string
+    enum:
+      - live
+      - sandbox
+      - disabled
   _links:
     type: object
     properties:
