@@ -1,0 +1,12 @@
+title: ProjectCapabilities
+type: object
+description: Capabilities for a project and associated configuration
+components:
+  schemas:
+    phoneCheck:
+      description: The ability to verify a phone
+      type: object
+      properties:
+        enabled:
+          description: Whether the phone check capability has been enabled on the project
+          type: boolean

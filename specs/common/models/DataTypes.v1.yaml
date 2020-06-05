@@ -4,6 +4,12 @@ description: Definitions of commonly used data types
 components:
   schemas:
     UUID:
+      description: a Universally Unique IDentifier
       type: string
       format: uuid
       pattern: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+    ISODateTime:
+      description: A DateTime conforming to ISO 8601 specifications
+      type: string
+      format: Datetime ISO 8601
+      example: '2020-06-01T16:43:30+00:00'

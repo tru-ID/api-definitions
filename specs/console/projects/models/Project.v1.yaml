@@ -17,26 +17,24 @@ properties:
       self:
         $ref: ../../../common/models/Link.v1.yaml
   created_at:
-    type: string
-    format: Datetime ISO 8601
-    example: '2020-06-01T16:43:30+00:00'
-    description: The datetime the project was created
+    $ref: '../../../common/models/DataTypes.v1.yaml#/components/schemas/ISODateTime'
   updated_at:
-    type: string
-    format: Datetime ISO 8601
-    example: '2020-06-01T16:43:30+00:00'
-    description: The datetime the project was last updated
-  credentials:
-    type: array
-    items:
-      anyOf: []
+    $ref: '../../../common/models/DataTypes.v1.yaml#/components/schemas/ISODateTime'
   capabilities:
     type: array
     items:
-      anyOf: []
+      anyOf:
+        - $ref: './ProjectCapabilities.v1.yaml#/components/schemas/phoneCheck'
+  credentials:
+    type: array
+    items:
+      anyOf:
+        - $ref: '../../../common/models/CredentialTypes.v1.yaml#/components/schemas/client'
 required:
   - project_id
   - name
   - _links
   - created_at
   - updated_at
+  - capabilities
+  - credentials
