@@ -10,6 +10,17 @@ properties:
     type: string
     example: My first project
     description: The name of the project
+  mode:
+    type: string
+    enum:
+      - live
+      - sandbox
+      - disabled
+    description: >
+      A project and have the following modes:
+      - `live`: relevant API interactions will incur a fee and our platform may interact with third party systems
+      - `sandbox`: no charges will be incurred and no interactions will be made with third party systems
+      - `disabled`: the project is in a state that it cannot be interacted with other than to enable it
   _links:
     type: object
     properties:
