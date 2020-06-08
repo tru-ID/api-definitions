@@ -22,7 +22,7 @@ paths:
       - name: project_id
         description: The ID of the Project
         schema:
-          type: string
+          $ref: '../../common/models/DataTypes.v1.yaml#/components/schemas/UUID'
         in: path
         required: true
     get:
@@ -69,7 +69,7 @@ paths:
       parameters: []
       tags:
         - project
-  /projects:
+  '/projects':
     post:
       summary: Create a Project
       description: Create a Project
@@ -178,7 +178,7 @@ paths:
                         href: '/projects/page=1&page_size=10'
                       next:
                         href: null
-                      previous:
+                      prev:
                         href: null
                       self:
                         href: /projects?page_size=10

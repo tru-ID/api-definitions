@@ -6,6 +6,7 @@ x-tags:
 properties:
   project_id:
     $ref: '../../../common/models/DataTypes.v1.yaml#/components/schemas/UUID'
+    example: c69bc0e6-a429-11ea-bb37-0242ac130002
   name:
     type: string
     example: My first project
