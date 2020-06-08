@@ -7,6 +7,16 @@ components:
       description: The ability to verify a phone
       type: object
       properties:
+        # Should Project Capabilites directly name the types as properties rather than being an Array?
+        type:
+          description: The type of Project capability
+          default: phone_check
         enabled:
           description: Whether the phone check capability has been enabled on the project
           type: boolean
+      required:
+        - type
+        - enabled
+      example:
+        type: phone_check
+        enabled: true
