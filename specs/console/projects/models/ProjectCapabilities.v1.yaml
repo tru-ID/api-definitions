@@ -11,9 +11,6 @@ components:
         type:
           description: The type of Project capability
           default: phone_check
-        enabled:
-          description: Whether the phone check capability has been enabled on the project
-          type: boolean
         mode:
           description: Whether the phone check capability has been enabled on the project
           type: string
