@@ -40,10 +40,10 @@ npm specs:lint -- {path_to_open_api_spec}
 For example:
 
 ```sh
-$ npm run specs:lint -- -F hint ./specs/console/projects/openapi.v1.yaml                                                                
+$ npm run specs:lint -- -F hint ./specs/console/console.v1.yaml                                                                
 
 > api_definitions@0.1.0 specs:lint /Users/leggetter/4auth/git/api_definitions
-> spectral lint "-F" "hint" "./specs/console/projects/openapi.v1.yaml"
+> spectral lint "-F" "hint" "./specs/console/console.v1.yaml"
 
 OpenAPI 3.x detected
 No results with a severity of 'hint' or higher found!
@@ -62,10 +62,10 @@ For more parameter options see [the Spectral CLI docs](https://github.com/stopli
 For example:
 
 ```sh
-prism $ npm run-script specs:mock -- ./specs/console/projects/openapi.v1.yaml
+$ npm run specs:mock -- ./specs/console/console.v1.yaml
 
 > api_definitions@0.1.0 specs:mock /Users/leggetter/4auth/git/api_definitions
-> prism mock "./specs/console/projects/openapi.v1.yaml"
+> prism mock "./specs/console/console.v1.yaml"
 
 [5:10:27 PM] › [CLI] …  awaiting  Starting Prism…
 [5:10:27 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/projects/8bf7a495-e3f1-6d3a-a3a2-e4d27e26cff0
@@ -86,10 +86,10 @@ npm run specs:proxy -- {path_to_openapi_spec} {api_server_URL_inc_port} -p {prox
 For example:
 
 ```sh
-$ npm run specs:proxy --  ./specs/console/projects/openapi.v1.yaml http://localhost:4010 -p 4020
+$ npm run specs:proxy --  ./specs/console/console.v1.yaml http://localhost:4010 -p 4020
 
 > api_definitions@0.1.0 specs:proxy /Users/leggetter/4auth/git/api_definitions
-> prism proxy "./specs/console/projects/openapi.v1.yaml" "http://localhost:4010" "-p" "4020"
+> prism proxy "./specs/console/console.v1.yaml" "http://localhost:4010" "-p" "4020"
 
 [4:44:40 PM] › [CLI] …  awaiting  Starting Prism…
 [4:44:40 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4020/projects/739282b0-2e9b-67fc-e33c-c6a40c6beea9
@@ -105,33 +105,53 @@ For more parameter options see [the Prism CLI docs](https://github.com/stoplight
 
 ### Directory Structure
 
-All specifications are within the `specs` directory. Our API endpoints include a logical grouping and the directory structure follows that grouping. This is mainly done via Product (e.g. `/phone_check/v1/check`) but in some cases it may be done by logical grouping (e.g. all APIs that are related to our API console: `/console/v1/projects`).
+```sh
+specs
+├── common
+│   ├── CredentialTypes.v1.yaml
+│   ├── DataTypes.v1.yaml
+│   ├── Link.v1.yaml
+│   ├── PageBasedPagination.v1.yaml
+│   ├── PaginationLinks.v1.yaml
+│   └── ProblemDetailsBase.v1.yaml
+└── console
+    ├── ProjectResourceModels.v1.yaml
+    └── console.v1.yaml
+```
+
+All specifications are within the `specs` directory. Our API endpoints include a logical or product grouping (e.g. `console` or `phone_check`) and the directory structure also uses that grouping name. The directory path **does not** include the version or the specific resource. All resources for a logical or product grouping will be within a directory named after that grouping.
 
 ### File Naming & Location
 
-TODO:
+> Note: We're still working through what our conventions are going to be here so please provide feedback if you have any suggested improvements.
 
-- Model names
-- API grouping or per resource for endpoints?
+#### Endpoint Definitions
+
+API specification files consisting of paths should be created at a Product Group level (e.g. `console`, `phone_check`) and named after the product group (e.g. `console.v1.yaml` and `phone_check.v1.yaml`). The paths to this file should be `specs/console/console.v1.yaml`.
+
+Parameters that are shared across paths should be kept within the API specification file but moved into the `components` section for reuse.
+
+#### Model Definitions
+
+Models should be within a file named in the format `{resource_name}ResourceModels.v1.yaml` e.g. `ProjectResourceModels.v1.yaml`. and reside in the same directory as the API endpoints definition e.g. `console.v1.yaml` and `ProjectResourceModels.v1.yaml` will be within the `specs/console` directory.
+
+All model definitions for a given resource should be within a single model file.
+
+Models that are relevant for two or more APIs should be within the `common` directory.
 
 ### File Versioning
 
-A new file should be created for a major version of an API or Model.
-
-TODO:
-
-- Model name convensions
-- endpoint conventions openapi vs group_name?
+A new file should be created for a major version of an API or Model and the version should be indicated within the file name in the format `{product_group}.{version}.yaml` e.g. `ProjectResourceModels.v1.yaml`
 
 ### Using Model Inheritance & Composition
 
 When there are a common properties that will exist upon numerous models you can use either inheritance or composition - both work in the same way through defining the common properties on a separate model and including it within your new model utilising the `allOf` keyword.
 
+> Note: Consider using `allOf` sparingly as it does create fragmentation of model definitions across multiple definitions which can make it hard for the non-machine reader (the human being) to follow a specification. Please balance reuse with readability.
+
 Use cases for this are:
 
 #### Creating a Resource
-
-**TODO: Review this - what is our standard here? Do we want to avoid `allOf`?**
 
 The number of properties on a payload required to create a resource is more often than not less than the number of properties on the created resource. For example, a Project may only require a `name` property to be created:
 
