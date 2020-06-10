@@ -347,7 +347,7 @@ Example in a body response payload:
 ```json
 {
 	"page_size": 100,
-	"page": 1,
+	"page_number": 1,
 	"total_pages": 1,
 	"total_items": 1,
 	"_embedded": {
@@ -418,14 +418,14 @@ The first page is page `1`.
 	- `last` (last page, required)
 - Paging `_links` must include filters.
 - The page size parameter must be called `page_size`
-- The page index parameter must be called `page`
+- The current page parameter must be called `page_number`
 - The page count parameter must be called `total_pages`
 - The results parameter must be called `total_items`
 
 ```json
 {
 	"page_size": 100,
-	"page": 3,
+	"page_number": 3,
 	"total_pages": 8,
 	"total_items": 814,
 	"_embedded": {
