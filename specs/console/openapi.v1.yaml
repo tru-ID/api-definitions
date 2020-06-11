@@ -11,7 +11,7 @@ servers:
     description: For accounts with data residency in the EU
   - url: 'http://us.api.4uth.net/console/v0.1'
     description: For accounts with data residency in the US
-  - url: 'http://localhost:3000/console/v0.1'
+  - url: 'http://localhost:4010/console/v0.1'
     description: For local development
 tags:
   - name: project
