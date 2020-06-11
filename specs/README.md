@@ -40,10 +40,10 @@ npm specs:lint -- {path_to_open_api_spec}
 For example:
 
 ```sh
-$ npm run specs:lint -- -F hint ./specs/console/console.v1.yaml                                                                
+$ npm run specs:lint -- -F hint ./specs/console/openapi.v1.yaml                                                                
 
 > api_definitions@0.1.0 specs:lint /Users/leggetter/4auth/git/api_definitions
-> spectral lint "-F" "hint" "./specs/console/console.v1.yaml"
+> spectral lint "-F" "hint" "./specs/console/openapi.v1.yaml"
 
 OpenAPI 3.x detected
 No results with a severity of 'hint' or higher found!
@@ -62,10 +62,10 @@ For more parameter options see [the Spectral CLI docs](https://github.com/stopli
 For example:
 
 ```sh
-$ npm run specs:mock -- ./specs/console/console.v1.yaml
+$ npm run specs:mock -- ./specs/console/openapi.v1.yaml
 
 > api_definitions@0.1.0 specs:mock /Users/leggetter/4auth/git/api_definitions
-> prism mock "./specs/console/console.v1.yaml"
+> prism mock "./specs/console/openapi.v1.yaml"
 
 [5:10:27 PM] › [CLI] …  awaiting  Starting Prism…
 [5:10:27 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/projects/8bf7a495-e3f1-6d3a-a3a2-e4d27e26cff0
@@ -86,10 +86,10 @@ npm run specs:proxy -- {path_to_openapi_spec} {api_server_URL_inc_port} -p {prox
 For example:
 
 ```sh
-$ npm run specs:proxy --  ./specs/console/console.v1.yaml http://localhost:4010 -p 4020
+$ npm run specs:proxy --  ./specs/console/openapi.v1.yaml http://localhost:4010 -p 4020
 
 > api_definitions@0.1.0 specs:proxy /Users/leggetter/4auth/git/api_definitions
-> prism proxy "./specs/console/console.v1.yaml" "http://localhost:4010" "-p" "4020"
+> prism proxy "./specs/console/openapi.v1.yaml" "http://localhost:4010" "-p" "4020"
 
 [4:44:40 PM] › [CLI] …  awaiting  Starting Prism…
 [4:44:40 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4020/projects/739282b0-2e9b-67fc-e33c-c6a40c6beea9
@@ -116,10 +116,15 @@ specs
 │   └── ProblemDetailsBase.v1.yaml
 └── console
     ├── ProjectResourceModels.v1.yaml
-    └── console.v1.yaml
+    └── openapi.v1.yaml
 ```
 
-All specifications are within the `specs` directory. Our API endpoints include a logical or product grouping (e.g. `console` or `phone_check`) and the directory structure also uses that grouping name. The directory path **does not** include the version or the specific resource. All resources for a logical or product grouping will be within a directory named after that grouping.
+All specifications are within the `specs` directory. Our API endpoints include a logical or product grouping (e.g. `console` or `phone_check`) and the directory structure should uses that grouping name. The directory path **does not** include the version or the specific resource.
+
+Examples:
+
+- `specs/console/`
+- `specs/phone_check`
 
 ### File Naming & Location
 
@@ -127,13 +132,18 @@ All specifications are within the `specs` directory. Our API endpoints include a
 
 #### Endpoint Definitions
 
-API specification files consisting of paths should be created at a Product Group level (e.g. `console`, `phone_check`) and named after the product group (e.g. `console.v1.yaml` and `phone_check.v1.yaml`). The paths to this file should be `specs/console/console.v1.yaml`.
+All endpoint specifictions should be in a file named `openapi.{version}.yaml`. The `version` should be the main version. For a brand new endpoint this should be `v1`. Minor versions will not be represented in the file name.
+
+Example:
+
+- `specs/console/openapi.v1.yaml`
+- `specs/phone_checkopenapi.v1.yaml`
 
 Parameters that are shared across paths should be kept within the API specification file but moved into the `components` section for reuse.
 
 #### Model Definitions
 
-Models should be within a file named in the format `{resource_name}ResourceModels.v1.yaml` e.g. `ProjectResourceModels.v1.yaml`. and reside in the same directory as the API endpoints definition e.g. `console.v1.yaml` and `ProjectResourceModels.v1.yaml` will be within the `specs/console` directory.
+Models should be within a file named in the format `{resource_name}ResourceModels.v1.yaml` e.g. `ProjectResourceModels.v1.yaml`. and reside in the same directory as the API endpoints definition e.g. `openapi.v1.yaml` and `ProjectResourceModels.v1.yaml` will be within the `specs/console` directory.
 
 All model definitions for a given resource should be within a single model file.
 
