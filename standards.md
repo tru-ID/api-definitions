@@ -7,10 +7,11 @@ This document is an internal resource that is visible to our customers and anyon
 - [OpenAPI](#openapi)
 - [API Style](#api-style)
 - [API Versioning](#api-versioning)
+- [URL Structure](#url-structure)
 - [HTTP Verbs](#http-verbs)
 - [HTTP Status Codes](#http-status-codes)
 - [Resource Names](#resource-names)
-- [Resource Structure](#resource-structure)
+- [Resource Payload Structure](#resource-payload-structure)
 - [Parameters and Properties](#parameters-and-properties)
 - [Querying to Search or Filter](#querying-to-search-or-filter)
 - [Pagination](#pagination)
@@ -22,7 +23,7 @@ This document is an internal resource that is visible to our customers and anyon
 
 ## OpenAPI
 
-We document APIs using OpenAPI v3. [See Open API versions](https://github.com/OAI/OpenAPI-Specification/tree/master/versions) because it's the most widely understood and adoped API specification standard.
+APIs are documented using OpenAPI v3. [See Open API versions](https://github.com/OAI/OpenAPI-Specification/tree/master/versions) because it's the most widely understood and adoped API specification standard.
 
 ## API Style
 
@@ -65,6 +66,30 @@ X-4UTH-API-VERSION: 1.2.1
 	"name": "A Project",
 }
 ```
+
+## URL Structure
+
+The URL structure that our APIs follow is:
+
+`https://{data_residency}.api.4auth.io/{product_grouping}/{version}/{resource}`
+
+The key pieces of information are outlined below along with where they are represented within an API request:
+
+| Information				| Where in API request 	| Identifier						|
+|---------------------------|-----------------------|-----------------------------------|
+| Data Residency 			| URL subdomain 		| `{data_residency}` 				|
+| Account ID 				| Request auth token	| N/A								|
+| Project					| Request auth token	| N/A								|
+| Product/logical Grouping	| Request path			| `{product_grouping}`				|
+| Versioning				| Request path			| `{version}`						|
+| Resource					| Request path			| `{resource}`						|
+| Credentials/Auth Token	| Request Header		| `Authorization: Bearer {token}`	|
+
+Examples:
+
+- `https://eu.api.4auth.io/phone_check/v1/checks`
+- `https://us.api.4auth.io/console/v1/projects`
+- `https://eu.api.4auth.io/console/v1/users`
 
 ## HTTP Verbs
 
@@ -294,7 +319,7 @@ Content-Type: application/problem+json
 
 ## Resource Names
 
-APIs should adhere to the principles of REST because we are building RESTful APIs.
+APIs should adhere to the principles of REST because our APIs are RESTful.
 
 - Separate things into logical Collections e.g. `projects` and `users`
 - Collections are the collective term for Resources e.g. `projects`
@@ -306,7 +331,7 @@ Examples:
 - `/projects` - `projects` is the collection name
 - `/projects/{project_id}` - The project identified by `project_id` is the resource
 
-## Resource Structure
+## Resource Payload Structure
 
 Resources and their relations should be represented using [JSON Hypertext Application Language](https://tools.ietf.org/html/draft-kelly-json-hal-08) because it is a simple and well understood implementation of hypermedia.
 
