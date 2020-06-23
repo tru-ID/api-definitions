@@ -34,7 +34,7 @@ Our APIs are [RESTful](https://en.wikipedia.org/wiki/Representational_state_tran
 
 ### API Requests
 
-API requests to product resources should be authenticated using an [OAuth2 Access Tokens](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
+API requests to product resources should be authenticated using an [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
 
 Example:
 
