@@ -1,4 +1,12 @@
 extends: spectral:oas
 rules:
-  # change this rule's severity to info
-  operation-description: hint
+
+  parameter-snake-case-name:
+    description: parameter name should be snake_case.
+    type: style
+    severity: error
+    given: $..parameters..name
+    then:
+      function: casing
+      functionOptions:
+        type: snake    
