@@ -1,0 +1,22 @@
+title: HTTPProblemDetailTypes
+type: object
+description: Definitions of commonly used HTTP API Problem Details. See https://tools.ietf.org/html/rfc7807
+
+components:
+  schemas:
+    # HTTP Problem Base
+    ProblemDetailsBase:
+      description: Base for HTTP API Problem Details
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string
+
+    NotFound:
+      description: 404 Not Found
+      allOf:
+        - $ref: '#/components/schemas/ProblemDetailsBase'

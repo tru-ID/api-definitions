@@ -50,7 +50,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ../common/ProblemDetailsBase.v1.yaml
+                $ref: '../common/HTTPProblemDetailTypes.v1.yaml#/components/schemas/NotFound'
       
       parameters: []
 
