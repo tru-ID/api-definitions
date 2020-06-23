@@ -4,8 +4,8 @@ description: Definitions of models related to Project resources
 components:
   schemas:
     # A project definition
-    Project:
-      description: A Project
+    ProjectPartial:
+      description: A Project. The `credentails` within the project will not contain a `client_secret`.
       type: object
       x-tags:
         - project
@@ -37,45 +37,59 @@ components:
           $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODateTime'
         updated_at:
           $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODateTime'
-        capabilities:
-          type: array
-          items:
-            anyOf:
-              - $ref: '#/components/schemas/PhoneCheck'
+        # Not in this version
+        # capabilities:
+        #   type: array
+        #   items:
+        #     anyOf:
+        #       - $ref: '#/components/schemas/PhoneCheck'
         credentials:
           type: array
           items:
             anyOf:
-              - $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/client'
+              - $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientPartial'
       required:
         - project_id
         - name
         - _links
         - created_at
         - updated_at
-        - capabilities
+        # - capabilities
         - credentials
 
-    PhoneCheck:
-      description: The ability to verify a phone
-      type: object
-      properties:
-        # Should Project Capabilites directly name the types as properties rather than being an Array?
-        type:
-          description: The type of Project capability
-          default: phone_check
-        mode:
-          description: Whether the phone check capability has been enabled on the project
-          type: string
-          enum:
-            - enabled
-            - disabled
-      required:
-        - type
-        - enabled
-      example:
-        type: phone_check
-        enabled: true
+    ProjectFull:
+      description: A Project representation as used when a new Project is created.
+      allOf:
+        - $ref: '#/components/schemas/ProjectPartial'
+        - type: object
+          properties:
+            credentials:
+              type: array
+              items:
+                anyOf:
+                  - $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientFull'
+
+
+    # PhoneCheck:
+    #   description: The ability to verify a phone
+    #   type: object
+    #   properties:
+    #     # Should Project Capabilites directly name the types as properties rather than being an Array?
+    #     type:
+    #       description: The type of Project capability
+    #       default: phone_check
+    #     mode:
+    #       description: Whether the phone check capability has been enabled on the project
+    #       type: string
+    #       enum:
+    #         - enabled
+    #         - disabled
+    #   required:
+    #     - type
+    #     - enabled
+    #   example:
+    #     type: phone_check
+    #     enabled: true
 
     CreateProjectPayload:
       type: object
@@ -104,4 +118,4 @@ components:
                 projects:
                   type: array
                   items:
-                    $ref: ./ProjectResourceModels.v1.yaml#/components/schemas/Project
+                    $ref: ./ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
