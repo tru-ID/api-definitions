@@ -1,6 +1,7 @@
 extends: spectral:oas
 rules:
 
+  # See https://stoplight.io/p/docs/gh/stoplightio/spectral/docs/guides/4-custom-rulesets.md?srn=gh/stoplightio/spectral/docs/guides/4-custom-rulesets.md 
   parameter-snake-case-name:
     description: parameter name should be snake_case.
     type: style
