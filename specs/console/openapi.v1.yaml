@@ -1,11 +1,11 @@
 openapi: 3.0.0
 info:
-  title: Projects
+  title: Console related resources
   version: '0.1'
   contact:
     name: 4uth API Team
     email: apis@4uth.net
-  description: Create and manage Projects within your 4uth console
+  description: Create and manage Projects and retrieve Workspace information related to your 4uth console
 servers:
   - url: 'http://eu.api.4uth.net/console/v0.1'
     description: For accounts with data residency in the EU
@@ -14,9 +14,17 @@ servers:
   - url: 'http://localhost:4010/console/v0.1'
     description: For local development
 tags:
+  - name: console
+    description: Relating to a console.
   - name: project
     description: Relating to a project.
+  - name: workspace
+    description: Relating to a workspace.
+
 paths:
+  ##############
+  # Projects
+  ##############
   '/projects/{project_id}':
     parameters:
       - name: project_id
@@ -166,9 +174,6 @@ paths:
                           name: My first project
                           created_at: '2020-06-01T16:43:30+00:00'
                           updated_at: '2020-06-01T16:43:30+00:00'
-                          credentials:
-                            - 
-                          capabilities: []
                         - _links:
                             self:
                               href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
@@ -176,8 +181,6 @@ paths:
                           name: My second project
                           created_at: '2020-06-01T16:43:30+00:00'
                           updated_at: '2020-06-01T16:43:30+00:00'
-                          credentials: []
-                          capabilities: []
                     _links:
                       first:
                         href: '/projects/page=1&page_size=10'
@@ -189,6 +192,74 @@ paths:
                         href: null
                       self:
                         href: /projects?page_size=10
+  ##############
+  # Workspaces
+  ##############
+  '/workspaces/default':
+    get:
+      summary: Get the default workspace for the current user
+      description: Gets the default workspace for the current user as identified by the owner of the access token used with the resource
+      operationId: get-workspaces-default
+      tags:
+        - workspace
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                type: object
+                properties:
+                  data_residency:
+                    type: string
+                    enum:
+                      - EU
+                    description: >
+                      Where the data related to the workspace is be stored.
+                      - `EU`: Europe
+                  created_at:
+                    $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+                  _embedded:
+                    description: Resources related to the Workspace
+                    type: object
+                    properties:
+                      balance:
+                        description: The balance associated with the workspace
+                        type: object
+                        properties:
+                          currency:
+                            description: The currency for the workspace
+                            type: string
+                            enum:
+                              - 'API' # API credits
+                          amount_available:
+                            description: The amount in `currency` that is available for the workspace. This does not include any value indicated in `credit_limit`.
+                            type: integer
+                          amount_reserved:
+                            description: The amount in `currency` that has been reserved due to pending operations
+                            type: integer
+                          credit_limit:
+                            description: The amount in `currency` over the `available_amount` plus `reserved_amount` that is provided as credit
+                            type: integer
+                      owner:
+                        description: The owner of the workspace
+                        type: object
+                        properties:
+                          full_name:
+                            description: The full name of the owner of the Workspace
+                            type: string
+                          email:
+                            description: The email address of the owner of the Workspace
+                            type: string
+                            format: email
+
 
 components:
 
