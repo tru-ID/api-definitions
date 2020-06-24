@@ -11,12 +11,14 @@ components:
         type: integer
       example: 100
       required: true
+
     X-RateLimit-Remaining:
       description: Remaining requests for the hour
       schema:
         type: integer
       example: 94
       required: true
+
     Access-Control-Allow-Origin-All:
       description: Allow CORS
       schema:
@@ -24,6 +26,7 @@ components:
         enum:
           - "*"
       required: true
+
     Location:
       description: Used in a 301 or 301 redirect
       schema:
