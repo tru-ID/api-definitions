@@ -48,11 +48,11 @@ paths:
                 $ref: ./ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
           headers:
             X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
             X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
             Access-Control-Allow-Origin:
-              $ref: '#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: '../common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
         '404':
           description: Not Found
           content:
@@ -93,11 +93,11 @@ paths:
           description: Created
           headers:
             X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
             X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
             Access-Control-Allow-Origin:
-              $ref: '#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: '../common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
           content:
             application/hal+json:
               schema:
@@ -113,7 +113,7 @@ paths:
                       self: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
                     credentials:
                       - client_id: 6779ef20e75817b79602
-                      - client_secret: GBAyfVL7YWtP6gudLIjbRZV_N0dW4f3xETiIxqtokEAZ6FAsBtgyIq0MpU1uQ7J08xOTO2zwP0OuO3pMVAUTid
+                      - client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
                       - created_at: '2020-06-01T16:43:30+00:00'
       requestBody:
         description: A JSON payload for the Project that is to be created.
@@ -149,11 +149,11 @@ paths:
           description: OK
           headers:
             X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
             X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
             Access-Control-Allow-Origin:
-              $ref: '#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: '../common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
           content:
             application/hal+json:
               schema:
@@ -207,11 +207,11 @@ paths:
           description: OK
           headers:
             X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
             X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
             Access-Control-Allow-Origin:
-              $ref: '#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: '../common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
           content:
             application/hal+json:
               schema:
@@ -301,27 +301,6 @@ components:
         default: 10
         minimum: 1
         maximum: 100
-          
-  # Reusable Headers        
-  headers:
-    X-RateLimit-Limit:
-      description: Request limit per hour
-      schema:
-        type: integer
-      example: 100
-      required: true
-    X-RateLimit-Remaining:
-      description: Remaining requests for the hour
-      schema:
-        type: integer
-      example: 94
-      required: true
-    Access-Control-Allow-Origin-All:
-      description: Allow CORS
-      schema:
-        type: string
-        enum:
-          - "*"
-      required: true
+
     
         
