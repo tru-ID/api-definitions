@@ -84,7 +84,11 @@ paths:
       tags:
         - oauth2
       requestBody:
-        description: blah
+        description: > 
+          The request body will differ depending on whether the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) or [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
+          flow is being followed.
+
+          The most common usage is Client Credentails Grant where `grant_type` should be `client_credentials`.
         content:
           'application/x-www-form-urlencoded':
             schema:
@@ -172,6 +176,19 @@ paths:
                         example: 3600
                       scope:
                         description: The scope of the access request i.e. what resources the Access Token provides access to.
+                        type:
+                          string
+                        enum:
+                          - phone_check
+                          - projects
+                    example:
+                      basic:
+                        {
+                          "access_token": "2YotnFZFEjr1zCsicMWpAA",
+                          "token_type": "bearer",
+                          "expires_in": 3600,
+                          "scope": "phone_check"
+                        }
 
                   # Authorization Code Grant
                   - type: object
@@ -191,6 +208,14 @@ paths:
                         description: A token that can be used to request a new
                         type: string
                         example: tGzv3JOkF0XG5Qx2TlKWIA
+                    example:
+                      basic:
+                        {
+                          "access_token":"{token}",
+                          "token_type":"{token_type}",
+                          "expires_in":3600,
+                          "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA"
+                        }
 
 
   '/revoke':
@@ -203,7 +228,6 @@ paths:
       tags:
         - oauth2
       requestBody:
-        description: blah
         content:
           'application/x-www-form-urlencoded':
             schema:
