@@ -1,0 +1,257 @@
+openapi: 3.0.0
+info:
+  title: 4uth OAuth2 Provider
+  version: '1.0'
+  contact:
+    name: 4uth API Team
+    email: apis@4uth.net
+  description: OAuth2 endpoints. Mainly for Access Token generation and management but also supports some OAuth2 flows for priviledged clients such as the 4uth Console.
+servers:
+  - url: 'http://eu.api.4uth.net/oauth2/v1'
+    description: For accounts with data residency in the EU
+  - url: 'http://us.api.4uth.net/oauth2/v1'
+    description: For accounts with data residency in the US
+  - url: 'http://localhost:4010/oauth2/v1'
+    description: For local development
+tags:
+  - name: oauth2
+    description: Relating to the OAuth2 Provider.
+
+paths:
+  '/authorize':
+    get:
+      summary: Obtain an authorization grant (Restricted Usage)
+      description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for 4uth owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1 
+      operationId: oauth2-authorize
+      tags:
+        - oauth2
+      parameters:
+        - name: response_type
+          description: Used as part of an Authorization Code Grant. Expected to have a value of `code`. See https://tools.ietf.org/html/rfc6749#section-4.1
+          in: query
+          schema:
+            type: string
+            example: code          
+        - name: client_id
+          description: The client identifier. Only issued for use with `/authorize` to internal 4uth applications.
+          in: query
+          schema:
+            type: string
+            example: 63f16604-2b4f-4e45-b32f-59290507fe93
+        - name: state
+          description: >
+            An opaque value used by the client to maintain state between the request and callback. The authorization server includes this value when redirecting the user-agent back to the client.
+            See: https://tools.ietf.org/html/rfc6749#section-4.1.1"
+          in: query
+          schema:
+            type: string
+        - name: scope
+          description: The scope of the access request. See https://tools.ietf.org/html/rfc6749#section-4.1
+          in: query
+          schema:
+            type: string
+            enum:
+              - offline_access
+        - name: redirect_url
+          description: After completing the interaction with the resource owner, the authorization server directs the resource owner's user-agent back the location identified by `redirect_url`.
+          in: query
+          schema:
+            type: string
+            format: uri
+      responses:
+        '302':
+          description: Redirects to the `redirect_url`.
+          headers:
+            Location:
+              $ref: '../common/Headers.v1.yaml#/components/headers/Location'
+            X-RateLimit-Limit:
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+
+  '/token':
+    post:
+      summary: Create an Access Token
+      description: >
+        Creates an Access Token. Access Tokens are credentails used to authenticate API interactions.
+        With the 4uth platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
+      operationId: oauth2-token
+      tags:
+        - oauth2
+      requestBody:
+        description: blah
+        content:
+          'application/x-www-form-urlencoded':
+            schema:
+              oneOf:
+                # Client Credentials Grant used by all non-OAuth2 provider API endpoints
+                - type: object
+                  description: > 
+                    Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                    This method of authentication is used by all non-OAuth2 provider API endpoints.
+                  properties:
+                    grant_type:
+                      description: >
+                        The type of grant; in this case a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                        Value must be set to `client_credentials`.
+                      type: string
+                      enum:
+                        - client_credentials
+                      example: client_credentials
+                    scope:
+                      description: >
+                        The scope of the access request i.e. what resources the Access Token provides access to.
+                        - `projects`: `/console/{version}/projects` resources
+                        - `phone_check`: `/phone_check` resources
+                      type: string
+                      enum:
+                        - projects
+                        - phone_check
+
+                # Authorization Code Grant used with 4uth applications such as the Console
+                - type: object
+                  description: > 
+                    **Used by internal 4uth applications only**.
+                    The Access Token Request as part of a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1).
+                    Retrieves an Access Token from a `code`. 
+                  properties:
+                    client_id:
+                      description: The client identifier for the 4uth application.
+                      type: string  
+                    grant_type:
+                      description: >
+                        The type of grant; in this case an [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1).
+                        Value must be set to `authorization_code`.
+                      type: string
+                      enum:
+                        - authorization_code
+                    code:
+                      description: The code that the client recieved during the interction with the `/authorize` endpoint
+                      type: string
+                    redirect_uri:
+                      description: The redirect URL the client used during the interaction with the `/authorize` endpoint 
+                      type: string
+                      format: uri
+                  required:
+                    - client_id
+                    - grant_type
+                    - code
+                    - redirect_uri
+      responses:
+        '200':
+          description: The Access Token was successfully created.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  # Client Credentails Grant
+                  - type: object
+                    description: >
+                      The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                    properties:
+                      access_token:
+                        description: The Access Token to be used when authenticating with API endpoints
+                        type: string
+                        example: 2YotnFZFEjr1zCsicMWpAA
+                      token_type:
+                        description: >
+                          The type of token in `access_token`. The token type returned will always be `bearer`.
+                          For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
+                        type: string
+                        enum:
+                          - bearer
+                        example: bearer
+                      expires_in:
+                        description: The time in seconds when the token will expire.
+                        type: integer
+                        example: 3600
+                      scope:
+                        description: The scope of the access request i.e. what resources the Access Token provides access to.
+
+                  # Authorization Code Grant
+                  - type: object
+                    description: >
+                      **Used by internal 4uth applications only**.
+                      The response to a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
+                    properties:
+                      access_token:
+                        description: The Access Token to be used when authenticating with API endpoints
+                        type: string
+                        example: 2YotnFZFEjr1zCsicMWpAA
+                      expires_in:
+                        description: The time in seconds when the token will expire.
+                        type: integer
+                        example: 3600
+                      refresh_token:
+                        description: A token that can be used to request a new
+                        type: string
+                        example: tGzv3JOkF0XG5Qx2TlKWIA
+
+
+  '/revoke':
+    post:
+      summary: Revoke an token
+      description: Revoke a token from the OAuth2 provider.
+      operationId: oauth2-revoke
+      tags:
+        - oauth2
+      requestBody:
+        description: blah
+        content:
+          'application/x-www-form-urlencoded':
+            schema:
+              type: object
+              description: >
+                The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+              properties:
+                token:
+                  description: The token to be revoked
+                  type: string
+                  example: 2YotnFZFEjr1zCsicMWpAA
+                token_type_hint:
+                  description: A hint to help the OAuth2 provider identify the type of token
+                  type: string
+                  enum:
+                    - access_token
+                    - refresh_token
+                  example: access_token                  
+      responses:
+        '200':
+          description: Response whether the Access Token was valid or invalid.
+
+  '/sessions/logout':
+    get:
+      summary: Logout of the current user session (Restricted Usage)
+      description: Log the current user out of an authenticated session with the OAuth2 provider. Only supported for 4uth owned applications.
+      operationId: oauth2-sessions-logout
+      tags:
+        - oauth2
+      parameters:
+        - name: id_token_hint
+          description: The OAuth2 id token received when the client logged in
+          schema:
+            type: string
+            example: token
+          in: query
+        - name: state
+          description: state that is played back to the client, when successfully redirected to the `post_logout_redirect_uri`
+          schema:
+            type: string
+            example: token
+          in: query
+        - name: post_logout_redirect_uri
+          description: Where the browser client will be redirected to after a successful logout
+          schema:
+            type: string
+            example: https://example.com/logged_out
+          in: query
+      responses:
+        '302':
+          description: Redirects to the `post_logout_redirect_uri`
+          headers:
+            Location:
+              $ref: '../common/Headers.v1.yaml#/components/headers/Location'
+            X-RateLimit-Limit:
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'

@@ -4,7 +4,8 @@
   "description": "Our API definitions and standards follow the OpenAPI v3.0 standard.",
   "main": "build.js",
   "scripts": {
-    "test": "spectral lint -F warn ./specs/console/openapi.v1.yaml",
+    "test": "spectral lint -F warn ./specs/console/openapi.v1.yaml && spectral lint -F warn ./specs/oauth2/openapi.v1.yaml",
+    "test:json-out": "spectral lint --format json -F warn ./specs/console/openapi.v1.yaml && spectral lint --format json -F warn ./specs/oauth2/openapi.v1.yaml",
     "specs:lint": "spectral lint",
     "specs:generate": "node ./specs/build/generate.js",
     "specs:generate:clean": "node ./specs/build/generate.js clean",
