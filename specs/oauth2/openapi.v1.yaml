@@ -181,6 +181,7 @@ paths:
                         enum:
                           - phone_check
                           - projects
+                          - balance
                     example:
                       basic:
                         {
@@ -200,6 +201,17 @@ paths:
                         description: The Access Token to be used when authenticating with API endpoints
                         type: string
                         example: 2YotnFZFEjr1zCsicMWpAA
+                      token_type:
+                        description: >
+                          The type of token in `access_token`. The token type returned will always be `bearer`.
+                          For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
+                        type: string
+                        enum:
+                          - bearer
+                      id_token:
+                        description: Contains the information about the user's Authentication
+                        type: string
+                        example: eyJhbGciOiJSUzINiImtpZCI6InB1Ympx
                       expires_in:
                         description: The time in seconds when the token will expire.
                         type: integer
@@ -208,13 +220,24 @@ paths:
                         description: A token that can be used to request a new
                         type: string
                         example: tGzv3JOkF0XG5Qx2TlKWIA
+                      scope:
+                        description: The scope of the access request i.e. what resources the Access Token provides access to.
+                        type:
+                          string
+                        enum:
+                          - phone_check
+                          - projects
+                          - offline_access
+                          - balance
                     example:
                       basic:
                         {
-                          "access_token":"{token}",
-                          "token_type":"{token_type}",
+                          "access_token":"2YotnFZFEjr1zCsicMWpAA",
+                          "id_token":"eyJhbGciOiJSUzINiImtpZCI6InB1Ympx",
                           "expires_in":3600,
-                          "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA"
+                          "token_type": "bearer",
+                          "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
+                          "scope": "projects"
                         }
 
 
@@ -253,7 +276,9 @@ paths:
   '/sessions/logout':
     get:
       summary: Logout of the current user session (Restricted Usage)
-      description: Log the current user out of an authenticated session with the OAuth2 provider. Only supported for 4uth owned applications.
+      description: >
+        **Used by internal 4uth applications only**.
+        Log the current user out of an authenticated session with the OAuth2 provider.
       operationId: oauth2-sessions-logout
       security:
         - BasicAuth: []
