@@ -76,7 +76,7 @@ Resources may existing for one version but not another. e.g.
 - `https://api.example.com/v2/users` // 200
 - `https://api.example.com/v2/projects` // 404
 
-The full API version of `MAJOR.MINOR.PATCH` will be included in a `X-4UTH-API-VERSION` HTTP response header.
+The full API version of `MAJOR.MINOR.PATCH` will be included in a `X-4AUTH-API-VERSION` HTTP response header.
 
 Example:
 
@@ -87,7 +87,7 @@ Accept: application/hal+json
 
 HTTP/1.1 200 OK
 Content-Type: application/hal+json
-X-4UTH-API-VERSION: 1.2.1
+X-4AUTH-API-VERSION: 1.2.1
 
 {
 	"_links": {

@@ -3,13 +3,13 @@ info:
   title: Console related resources
   version: '0.1'
   contact:
-    name: 4uth API Team
-    email: apis@4uth.net
-  description: Create and manage Projects and retrieve Workspace information related to your 4uth console
+    name: 4Auth API Team
+    email: apis@4auth.io
+  description: Create and manage Projects and retrieve Workspace information related to your 4Auth console
 servers:
-  - url: 'http://eu.api.4uth.net/console/v0.1'
+  - url: 'http://eu.api.4auth.io/console/v0.1'
     description: For accounts with data residency in the EU
-  - url: 'http://us.api.4uth.net/console/v0.1'
+  - url: 'http://us.api.4auth.io/console/v0.1'
     description: For accounts with data residency in the US
   - url: 'http://localhost:4010/console/v0.1'
     description: For local development

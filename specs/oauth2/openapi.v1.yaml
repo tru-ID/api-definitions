@@ -1,15 +1,15 @@
 openapi: 3.0.0
 info:
-  title: 4uth OAuth2 Provider
+  title: 4Auth OAuth2 Provider
   version: '1.0'
   contact:
-    name: 4uth API Team
-    email: apis@4uth.net
-  description: OAuth2 endpoints. Mainly for Access Token generation and management but also supports some OAuth2 flows for priviledged clients such as the 4uth Console.
+    name: 4Auth API Team
+    email: apis@4auth.io
+  description: OAuth2 endpoints. Mainly for Access Token generation and management but also supports some OAuth2 flows for priviledged clients such as the 4Auth Console.
 servers:
-  - url: 'http://eu.api.4uth.net/oauth2/v1'
+  - url: 'http://eu.api.4auth.io/oauth2/v1'
     description: For accounts with data residency in the EU
-  - url: 'http://us.api.4uth.net/oauth2/v1'
+  - url: 'http://us.api.4auth.net/oauth2/v1'
     description: For accounts with data residency in the US
   - url: 'http://localhost:4010/oauth2/v1'
     description: For local development
@@ -21,7 +21,7 @@ paths:
   '/authorize':
     get:
       summary: Obtain an authorization grant (Restricted Usage)
-      description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for 4uth owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1 
+      description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for 4Auth owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1 
       operationId: oauth2-authorize
       tags:
         - oauth2
@@ -33,7 +33,7 @@ paths:
             type: string
             example: code          
         - name: client_id
-          description: The client identifier. Only issued for use with `/authorize` to internal 4uth applications.
+          description: The client identifier. Only issued for use with `/authorize` to internal 4Auth applications.
           in: query
           schema:
             type: string
@@ -74,12 +74,12 @@ paths:
       summary: Create an Access Token
       description: >
         Creates an Access Token. Access Tokens are credentails used to authenticate API interactions.
-        With the 4uth platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
+        With the 4Auth platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
 
         The authentication that should be use depends on the grant type being requested.
 
         - [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4): Bearer Authentication
-        - [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1): Basic Authentication **Only used for internal 4uth applications**
+        - [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1): Basic Authentication **Only used for internal 4Auth applications**
       operationId: oauth2-token
       tags:
         - oauth2
@@ -117,15 +117,15 @@ paths:
                         - projects
                         - phone_check
 
-                # Authorization Code Grant used with 4uth applications such as the Console
+                # Authorization Code Grant used with 4Auth applications such as the Console
                 - type: object
                   description: > 
-                    **Used by internal 4uth applications only**.
+                    **Used by internal 4Auth applications only**.
                     The Access Token Request as part of a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1).
                     Retrieves an Access Token from a `code`. 
                   properties:
                     client_id:
-                      description: The client identifier for the 4uth application.
+                      description: The client identifier for the 4Auth application.
                       type: string  
                     grant_type:
                       description: >
@@ -194,7 +194,7 @@ paths:
                   # Authorization Code Grant
                   - type: object
                     description: >
-                      **Used by internal 4uth applications only**.
+                      **Used by internal 4Auth applications only**.
                       The response to a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
                     properties:
                       access_token:
@@ -277,7 +277,7 @@ paths:
     get:
       summary: Logout of the current user session (Restricted Usage)
       description: >
-        **Used by internal 4uth applications only**.
+        **Used by internal 4Auth applications only**.
         Log the current user out of an authenticated session with the OAuth2 provider.
       operationId: oauth2-sessions-logout
       security:
@@ -326,7 +326,7 @@ components:
 
     BearerAuth:
       description: >
-        The 4uth APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
+        The 4Auth APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
         e.g. `Authorization: Bearer {access_token}`
       type: http
       scheme: bearer
