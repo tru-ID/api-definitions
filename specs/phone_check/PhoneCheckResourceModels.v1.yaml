@@ -65,7 +65,7 @@ components:
           example:
             _links:
               self:
-                href: https://us.api.4auth.io/phone_checks/v0.1/{check_id}
+                href: https://us.api.4auth.io/phone_checks/v0.1/checkes/{check_id}
       required:
         - check_id
         - check_url
@@ -85,7 +85,7 @@ components:
         ttl: 60
         _links:
           self:
-            href: https://us.api.4auth.io/phone_checks/v0.1/c69bc0e6-a429-11ea-bb37-0242ac130002
+            href: https://us.api.4auth.io/phone_checks/v0.1/checks/c69bc0e6-a429-11ea-bb37-0242ac130002
 
     PhoneCheckCollection:
       description: A collection of Phone Check items
