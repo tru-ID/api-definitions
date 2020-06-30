@@ -1,0 +1,17 @@
+title: PhoneCheckResourceModels
+type: object
+description: Definitions of models related to Phone Check resources
+components:
+  schemas:
+    
+    PhoneCheckStatus:
+      description: The status of a Phone Check
+      type: string
+      enum:
+        - NEW
+        - PENDING
+        - SUCCESS
+        - FAILED
+        - EXPIRED
+        - ERROR
+      example: NEW

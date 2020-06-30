@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  title: Phone Check
+  version: '1.0'
+  contact:
+    name: 4Auth API Team
+    email: apis@4auth.io
+  description: Phone Check endpoints
+servers:
+  - url: 'http://eu.api.4auth.io/phone_check/v0.1'
+    description: For accounts with data residency in the EU
+  - url: 'http://us.api.4auth.net/phone_check/v0.1'
+    description: For accounts with data residency in the US
+  - url: 'http://localhost:4010/phone_check/v0.1'
+    description: For local development
+tags:
+  - name: phone_check
+    description: Relating to Phone Check
+
+paths:
+  '/checks':
+    post:
+      summary: Create a Phone Check workflow
+      description: >
+        Starts the Phone Check workflow.
+      operationId: create-phone-check
+      tags:
+        - phone_check
+      requestBody:
+        description: JSON payload to create a Phone Check
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  description: The phone number to be checked
+                  type: string
+                  example: '447700900000'
+                  format: E.164
+                reference_id:
+                  description: A field that you can use to track the check request against your own internal reference.
+                  type: string
+                  example: my_internal_reference
+                redirect_url:
+                  description: A URL that the client will be redirected to after navigating to the `check_url`
+                  type: string
+                  format: uri
+              required:
+                - phone_number
+              example:
+                phone_number: '447700900000'
+                reference_id: 'my_internal_reference'
+                redirect_url: 'https://example.com/phone_check_url_complete'
+      responses:
+        '201':
+          description: Phone Check created
+          headers:
+            X-RateLimit-Limit:
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '../common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: '../common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                description: A Phone Check resource
+                type: object
+                properties:
+                  check_id:
+                    description: The unique ID of the Phone Check resource
+                    type: string
+                  reference_id:
+                    description: A field that you can use to track the check request against your own internal reference.
+                    type: string
+                    example: my_internal_reference
+                  check_url:
+                    description: A URL that the mobile client must navigate as part of the Phone Check verification flow.
+                    type: string
+                    format: uri
+                  status:
+                    description: The current status of the Phone Check
+                    type: string
+                    enum:
+                      - NEW
+                    example: NEW
+                  charge_amount:
+                    description: The amount that was charge for this Phone Check
+                    type: number
+                  charge_currency:
+                    description: The currency the `charge_amount` was made in.
+                    allOf:
+                      - $ref: ../common/DataTypes.v1.yaml#/components/schemas/Currency
+                  snapshot_balance:
+                    description: >
+                      The workspace balance in `charge_currency` taking into account the `charge_amount`.
+                      This property is not persisted and is only returned when the Phone Check is initially created.
+                  created_at:
+                    description: When the Phone Check was created
+                    allOf:
+                      - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+                  updated_at:
+                    description: When the Phone Check was last updated
+                    allOf:
+                      - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+                  ttl:
+                    description: >
+                      (Time to live) The number of seconds after which the Phone Check will expire and the `status` will change to `EXPIRED`.
+                    type: integer
+                    default: 60
+                    example: 60
+                  _links:
+                    description: Links related to the current resource
+                    type: object
+                    properties:
+                      self:
+                        description: The link to the current resource
+                        allOf:
+                          - $ref: ../common/Link.v1.yaml
+                    example:
+                      _links:
+                        self:
+                          href: https://us.api.4auth.io/phone_checks/v0.1/{check_id}
+                required:
+                  - check_id
+                  - check_url
+                  - status
+                  - charge_amount
+                  - charge_currency
+                  - created_at
+                  - ttl
+                  - _links
+                example:
+                  check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
+                  check_url: https://example.com/check_url
+                  status: NEW
+                  charge_amount: 1
+                  charge_currency: API
+                  created_at: 2020-06-01T16:43:30+00:00
+                  ttl: 60
+                  _links:
+                    self:
+                      href: https://us.api.4auth.io/phone_checks/v0.1/c69bc0e6-a429-11ea-bb37-0242ac130002
+
