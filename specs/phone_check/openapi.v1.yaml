@@ -142,4 +142,17 @@ paths:
                   _links:
                     self:
                       href: https://us.api.4auth.io/phone_checks/v0.1/c69bc0e6-a429-11ea-bb37-0242ac130002
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: '../common/HTTPProblemDetailTypes.v1.yaml#/components/responses/InvalidPhoneNumberFormat'
+                  - type: object
+                    allOf:
+                      - $ref: '../common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase'
+                      - type: object
+                        description: The country for the supplied `phone_number` is not supported
+
 

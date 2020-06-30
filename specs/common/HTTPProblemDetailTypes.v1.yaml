@@ -3,7 +3,7 @@ type: object
 description: Definitions of commonly used HTTP API Problem Details. See https://tools.ietf.org/html/rfc7807
 
 components:
-  schemas:
+  responses:
     # HTTP Problem Base
     ProblemDetailsBase:
       description: Base for HTTP API Problem Details
@@ -20,6 +20,15 @@ components:
           type: string
 
     NotFound:
-      description: 404 Not Found
+      description: Generic 404 Not Found
       allOf:
-        - $ref: '#/components/schemas/ProblemDetailsBase'
+        - $ref: '#/components/responses/ProblemDetailsBase'
+
+    InvalidPhoneNumberFormat:
+      description: >
+        The provided phone number did not adhere to the E.164 phone number format.
+        To be used with HTTP Status Code 400.
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://4auth.io/docs/reference/api/errors#invalid_phone_number_format

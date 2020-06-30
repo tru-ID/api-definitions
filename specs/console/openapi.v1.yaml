@@ -7,9 +7,9 @@ info:
     email: apis@4auth.io
   description: Create and manage Projects and retrieve Workspace information related to your 4Auth console
 servers:
-  - url: 'http://eu.api.4auth.io/console/v0.1'
+  - url: 'https://eu.api.4auth.io/console/v0.1'
     description: For accounts with data residency in the EU
-  - url: 'http://us.api.4auth.io/console/v0.1'
+  - url: 'https://us.api.4auth.io/console/v0.1'
     description: For accounts with data residency in the US
   - url: 'http://localhost:4010/console/v0.1'
     description: For local development
@@ -58,7 +58,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: '../common/HTTPProblemDetailTypes.v1.yaml#/components/schemas/NotFound'
+                $ref: '../common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
       
       parameters: []
 
