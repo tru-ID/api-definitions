@@ -115,7 +115,7 @@ components:
     ProjectCollection:
       description: A collection of Project items
       allOf:
-        - $ref: ../common/PageBasedPagination.v1.yaml
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
         - type: object
           properties:
             _links:
@@ -129,4 +129,4 @@ components:
                   description: The Projects within the collection
                   type: array
                   items:
-                    $ref: ./ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
+                    $ref: '#/components/schemas/ProjectPartial'

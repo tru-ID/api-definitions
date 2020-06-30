@@ -59,8 +59,6 @@ paths:
             application/problem+json:
               schema:
                 $ref: '../common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
-      
-      parameters: []
 
     # Delete not supported in current version
     # delete:
@@ -128,7 +126,7 @@ paths:
                   name: My test project
 
     get:
-      summary: Retrieve a collection of projects
+      summary: Retrieve a collection of Projects
       operationId: get-projects
       description: Get a full list of Projects or filter by query parameter.
       tags:
@@ -140,11 +138,11 @@ paths:
             type: string
             example: hello
           in: query
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
+        - $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
+        - $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
         # Sorting not supported in the current version
-        #- $ref: '#/components/parameters/sortBy' `name` is the only input parameter so has to be sorted by name for now
-        # - $ref: '#/components/parameters/sortOrder'
+        #- $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/sortBy' `name` is the only input parameter so has to be sorted by name for now
+        # - $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/sortOrder'
       responses:
         '200':
           description: OK
@@ -258,49 +256,4 @@ paths:
                           email:
                             description: The email address of the owner of the Workspace
                             type: string
-                            format: email
-
-
-components:
-
-  # Reusable parameters
-  parameters:
-    # Collections
-    sortBy:
-      name: sortby
-      description: Identifies the field that the results will be sorted by
-      in: query
-      schema:
-        type: string
-    sortOrder:
-      name: sortorder
-      description: Identifies how the results will be sorted based on the `sortby` field.
-      in: query
-      schema:
-        type: string
-        enum:
-          - 'asc'
-          - 'desc'
-        default: 'asc'
-    pageNumber:
-      name: page_number
-      description: The page number being requested
-      in: query
-      schema:
-        type: integer
-        example: 10
-        default: 1
-        minimum: 1
-    pageSize:
-      name: page_size
-      description: The number of items to be returned for the page being requested
-      in: query
-      schema:
-        type: integer
-        example: 10
-        default: 10
-        minimum: 1
-        maximum: 100
-
-    
-        
+                            format: email      
