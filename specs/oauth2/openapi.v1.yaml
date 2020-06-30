@@ -7,9 +7,9 @@ info:
     email: apis@4auth.io
   description: OAuth2 endpoints. Mainly for Access Token generation and management but also supports some OAuth2 flows for priviledged clients such as the 4Auth Console.
 servers:
-  - url: 'http://eu.api.4auth.io/oauth2/v1'
+  - url: 'https://eu.api.4auth.io/oauth2/v1'
     description: For accounts with data residency in the EU
-  - url: 'http://us.api.4auth.net/oauth2/v1'
+  - url: 'https://us.api.4auth.net/oauth2/v1'
     description: For accounts with data residency in the US
   - url: 'http://localhost:4010/oauth2/v1'
     description: For local development
