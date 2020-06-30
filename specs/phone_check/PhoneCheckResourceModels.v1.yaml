@@ -10,7 +10,7 @@ components:
       enum:
         - NEW
         - PENDING
-        - SUCCESS
+        - SUCCEEDED
         - FAILED
         - EXPIRED
         - ERROR
