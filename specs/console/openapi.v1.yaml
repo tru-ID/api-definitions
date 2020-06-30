@@ -237,9 +237,8 @@ paths:
                         properties:
                           currency:
                             description: The currency for the workspace
-                            type: string
-                            enum:
-                              - 'API' # API credits
+                            allOf:
+                              - $ref: ../common/DataTypes.v1.yaml#/components/schemas/Currency
                           amount_available:
                             description: The amount in `currency` that is available for the workspace. This does not include any value indicated in `credit_limit`.
                             type: integer
