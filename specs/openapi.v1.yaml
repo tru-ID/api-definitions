@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: 4Auth APIs
-  version: '1.0'
+  version: 'v0.1'
   contact:
     name: 4Auth API Team
     email: apis@4auth.io
