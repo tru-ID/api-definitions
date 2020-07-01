@@ -106,6 +106,7 @@ paths:
       parameters:
         - $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
         - $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
+        - $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/search'
       responses:
         '200':
           description: OK

@@ -31,22 +31,12 @@ components:
 
   parameters:
     # Collections
-    sortBy:
-      name: sortby
-      description: Identifies the field that the results will be sorted by
+    search:
+      name: search
+      description: An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples] (https://github.com/jirutka/rsql-parser#examples).
       in: query
       schema:
         type: string
-    sortOrder:
-      name: sortorder
-      description: Identifies how the results will be sorted based on the `sortby` field.
-      in: query
-      schema:
-        type: string
-        enum:
-          - 'asc'
-          - 'desc'
-        default: 'asc'
     pageNumber:
       name: page_number
       description: The page number being requested

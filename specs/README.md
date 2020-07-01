@@ -71,7 +71,7 @@ $ npm run specs:mock -- ./specs/console/openapi.v1.yaml
 [5:10:27 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/projects/8bf7a495-e3f1-6d3a-a3a2-e4d27e26cff0
 [5:10:27 PM] › [CLI] ℹ  info      DELETE     http://127.0.0.1:4010/projects/06e46cff-9e8e-fd34-cce5-70af237c7a09
 [5:10:27 PM] › [CLI] ℹ  info      POST       http://127.0.0.1:4010/projects
-[5:10:27 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/projects?name=quo&page_size=9&page_number=132&sortorder=dsc
+[5:10:27 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/projects?name=quo&page_size=9&page_number=132
 [5:10:27 PM] › [CLI] ▶  start     Prism is listening on http://127.0.0.1:4010
 ```
 
@@ -95,7 +95,7 @@ $ npm run specs:proxy --  ./specs/console/openapi.v1.yaml http://localhost:4010 
 [4:44:40 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4020/projects/739282b0-2e9b-67fc-e33c-c6a40c6beea9
 [4:44:40 PM] › [CLI] ℹ  info      DELETE     http://127.0.0.1:4020/projects/16c02c10-07a1-609e-d671-8f399557e155
 [4:44:40 PM] › [CLI] ℹ  info      POST       http://127.0.0.1:4020/projects
-[4:44:40 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4020/projects?name=aliquid&page_size=17&page_number=920&sortorder=asc
+[4:44:40 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4020/projects?name=aliquid&page_size=17&page_number=920
 [4:44:40 PM] › [CLI] ▶  start     Prism is listening on http://127.0.0.1:4020
 ```
 

@@ -140,9 +140,7 @@ paths:
           in: query
         - $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
         - $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
-        # Sorting not supported in the current version
-        #- $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/sortBy' `name` is the only input parameter so has to be sorted by name for now
-        # - $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/sortOrder'
+        - $ref: '../common/PageBasedPagination.v1.yaml#/components/parameters/search'
       responses:
         '200':
           description: OK
