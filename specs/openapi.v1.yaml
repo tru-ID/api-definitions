@@ -34,12 +34,16 @@ servers:
 
 tags:
   - name: oauth2
+    x-displayName: OAuth2
     description: Relating to the OAuth2 Provider
   - name: phone_check
+    x-displayName: Phone Check
     description: Relating to Phone Check
   - name: projects
+    x-displayName: Projects
     description: Relating to a project.
   - name: workspaces
+    x-displayName: Workspaces
     description: Relating to a workspace.
   - name: hide
     description: Tags that should not be rendered
