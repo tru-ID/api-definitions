@@ -13,7 +13,7 @@ info:
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc convallis felis sed nibh euismod cursus. Proin mattis nec nunc eu lobortis. Morbi dolor arcu, posuere vitae fringilla a, commodo eu magna. Vestibulum dignissim tincidunt leo, in sodales leo sodales ut. Phasellus pharetra hendrerit condimentum. Donec vehicula mauris eget rutrum dignissim. Aliquam sodales molestie enim, sit amet consectetur mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
 
 servers:
-  - url: 'https://{data_residencey}.api.4auth.io/{product_group}/{version}'
+  - url: 'https://{data_residency}.api.4auth.io/{product_group}/{version}'
     description: For accounts with data residency in the EU
     variables:
       data_residency:
@@ -65,7 +65,7 @@ paths:
   '/authorize':
 
     servers:
-      - url: 'https://{data_residencey}.api.4auth.io/oauth2/v1'
+      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
         description: OAuth2 endpoint and version
 
     get:
@@ -115,7 +115,7 @@ paths:
   '/token':
 
     servers:
-      - url: 'https://{data_residencey}.api.4auth.io/oauth2/v1'
+      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
         description: OAuth2 endpoint and version
 
     post:
@@ -276,7 +276,7 @@ paths:
   '/revoke':
 
     servers:
-      - url: 'https://{data_residencey}.api.4auth.io/oauth2/v1'
+      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
         description: OAuth2 endpoint and version
 
     post:
@@ -355,7 +355,7 @@ paths:
   /checks:
 
     servers:
-      - url: 'https://{data_residencey}.api.4auth.io/phone_check/v0.1'
+      - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
         description: Phone Checks endpoint and version
 
     post:
@@ -467,7 +467,7 @@ paths:
 
   '/checks/{check_id}':
     servers:
-      - url: 'https://{data_residencey}.api.4auth.io/phone_check/v0.1'
+      - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
         description: Phone Checks endpoint and version
 
 
@@ -513,7 +513,7 @@ paths:
   '/projects/{project_id}':
 
     servers:
-      - url: 'https://{data_residencey}.api.4auth.io/console/v0.1'
+      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
         description: Console endpoint and version
 
     parameters:
@@ -574,7 +574,7 @@ paths:
   '/projects':
 
     servers:
-      - url: 'https://{data_residencey}.api.4auth.io/console/v0.1'
+      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
         description: Console endpoint and version
 
     post:
@@ -696,7 +696,7 @@ paths:
   '/workspaces/default':
 
     servers:
-      - url: 'https://{data_residencey}.api.4auth.io/console/v0.1'
+      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
         description: Console endpoint and version
 
     get:
