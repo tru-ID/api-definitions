@@ -100,7 +100,7 @@ components:
               description: Resources related to the resource request
               type: object
               properties:
-                projects:
+                checks:
                   description: The Phone Checks within the collection
                   type: array
                   items:
