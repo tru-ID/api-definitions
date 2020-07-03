@@ -747,13 +747,10 @@ paths:
                             allOf:
                               - $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/Currency
                           amount_available:
-                            description: The amount in `currency` that is available for the workspace. This does not include any value indicated in `credit_limit`.
+                            description: The amount in `currency` that is available for the workspace.
                             type: integer
                           amount_reserved:
                             description: The amount in `currency` that has been reserved due to pending operations
-                            type: integer
-                          credit_limit:
-                            description: The amount in `currency` over the `available_amount` plus `reserved_amount` that is provided as credit
                             type: integer
                       owner:
                         description: The owner of the workspace
