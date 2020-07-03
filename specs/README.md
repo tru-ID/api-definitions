@@ -107,24 +107,23 @@ For more parameter options see [the Prism CLI docs](https://github.com/stoplight
 
 ```sh
 specs
-├── common
-│   ├── CredentialTypes.v1.yaml
-│   ├── DataTypes.v1.yaml
-│   ├── Link.v1.yaml
-│   ├── PageBasedPagination.v1.yaml
-│   ├── PaginationLinks.v1.yaml
-│   └── ProblemDetailsBase.v1.yaml
-└── console
-    ├── ProjectResourceModels.v1.yaml
-    └── openapi.v1.yaml
+├── models
+│   ├── common
+│   │   ├── CredentialTypes.v1.yaml
+│   │   ├── DataTypes.v1.yaml
+│   │   ├── HTTPProblemDetailTypes.v1.yaml
+│   │   ├── Headers.v1.yaml
+│   │   ├── Link.v1.yaml
+│   │   ├── PageBasedPagination.v1.yaml
+│   │   └── PaginationLinks.v1.yaml
+│   ├── console
+│   │   └── ProjectResourceModels.v1.yaml
+│   └── phone_check
+│       └── PhoneCheckResourceModels.v1.yaml
+└── openapi.v1.yaml
 ```
 
-All specifications are within the `specs` directory. Our API endpoints include a logical or product grouping (e.g. `console` or `phone_check`) and the directory structure should uses that grouping name. The directory path **does not** include the version or the specific resource.
-
-Examples:
-
-- `specs/console/`
-- `specs/phone_check`
+All files related to the API specifications are within the `specs` directory. 
 
 ### File Naming & Location
 
@@ -132,26 +131,21 @@ Examples:
 
 #### Endpoint Definitions
 
-All endpoint specifictions should be in a file named `openapi.{version}.yaml`. The `version` should be the main version. For a brand new endpoint this should be `v1`. Minor versions will not be represented in the file name.
+All paths should be in a top-level file named `openapi.{version}.yaml`. `paths` within the `openapi.{version}.yaml` file may have different versions depending on the `{product_group}`.
 
-Example:
-
-- `specs/console/openapi.v1.yaml`
-- `specs/phone_checkopenapi.v1.yaml`
-
-Parameters that are shared across paths should be kept within the API specification file but moved into the `components` section for reuse.
+Parameters that are shared across paths should be kept within the API specification file but moved into the `components` section or within `models/common` for reuse.
 
 #### Model Definitions
 
-Models should be within a file named in the format `{resource_name}ResourceModels.v1.yaml` e.g. `ProjectResourceModels.v1.yaml`. and reside in the same directory as the API endpoints definition e.g. `openapi.v1.yaml` and `ProjectResourceModels.v1.yaml` will be within the `specs/console` directory.
+Models should be within a file named in the format `{resource_name}ResourceModels.v1.yaml` e.g. `ProjectResourceModels.v1.yaml`. and reside in a directory `models/{product_group}` e.g. `ProjectResourceModels.v1.yaml` will be within the `models/console` directory.
 
 All model definitions for a given resource should be within a single model file.
 
-Models that are relevant for two or more APIs should be within the `common` directory.
+Models that are relevant for two or more APIs should be within the `models/common` directory.
 
 ### File Versioning
 
-A new file should be created for a major version of an API or Model and the version should be indicated within the file name in the format `{product_group}.{version}.yaml` e.g. `ProjectResourceModels.v1.yaml`
+A new file should be created for a major version of an API or Model and the version should be indicated within the file name in the format `{resource_name}ResourceModels.{version}.yaml` e.g. `ProjectResourceModels.v1.yaml`
 
 ### Using Model Inheritance & Composition
 

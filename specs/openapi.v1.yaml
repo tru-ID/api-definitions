@@ -1,0 +1,820 @@
+openapi: 3.0.0
+info:
+  title: 4Auth APIs
+  version: 'v0.1'
+  contact:
+    name: 4Auth API Team
+    email: apis@4auth.io
+  description: |
+    The 4Auth API
+
+    # Introduction
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc convallis felis sed nibh euismod cursus. Proin mattis nec nunc eu lobortis. Morbi dolor arcu, posuere vitae fringilla a, commodo eu magna. Vestibulum dignissim tincidunt leo, in sodales leo sodales ut. Phasellus pharetra hendrerit condimentum. Donec vehicula mauris eget rutrum dignissim. Aliquam sodales molestie enim, sit amet consectetur mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
+
+servers:
+  - url: 'https://{data_residency}.api.4auth.io/{product_group}/{version}'
+    description: For accounts with data residency in the EU
+    variables:
+      data_residency:
+        default: eu
+        enum:
+          - eu
+      product_group:
+        default: phone_check
+        enum:
+          - phone_check
+          - oauth2
+          - console
+      version:
+        default: v0.1
+        enum:
+          - v0.1
+          - v1.0
+
+tags:
+  - name: oauth2
+    x-displayName: OAuth2
+    description: Relating to the OAuth2 Provider
+  - name: phone_check
+    x-displayName: Phone Check
+    description: Relating to Phone Check
+  - name: projects
+    x-displayName: Projects
+    description: Relating to a project.
+  - name: workspaces
+    x-displayName: Workspaces
+    description: Relating to a workspace.
+  - name: hide
+    description: Tags that should not be rendered
+
+x-tagGroups:
+  - name: OAuth2
+    tags:
+      - oauth2
+  - name: Phone Check
+    tags:
+      - phone_check
+  - name: Console
+    tags:
+      - projects
+      - workspaces    
+
+paths:
+
+  '/authorize':
+
+    servers:
+      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
+        description: OAuth2 endpoint and version
+
+    get:
+      summary: Obtain an authorization grant (Restricted Usage)
+      description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for 4Auth owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1 
+      operationId: oauth2-authorize
+      tags:
+        - hide
+      parameters:
+        - name: response_type
+          description: Used as part of an Authorization Code Grant. Expected to have a value of `code`. See https://tools.ietf.org/html/rfc6749#section-4.1
+          in: query
+          schema:
+            type: string
+            example: code          
+        - name: client_id
+          description: The client identifier. Only issued for use with `/authorize` to internal 4Auth applications.
+          in: query
+          schema:
+            type: string
+            example: 63f16604-2b4f-4e45-b32f-59290507fe93
+        - name: state
+          description: |
+            An opaque value used by the client to maintain state between the request and callback. The authorization server includes this value when redirecting the user-agent back to the client.
+            See: https://tools.ietf.org/html/rfc6749#section-4.1.1"
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/scope'
+        - name: redirect_url
+          description: After completing the interaction with the resource owner, the authorization server directs the resource owner's user-agent back the location identified by `redirect_url`.
+          in: query
+          schema:
+            type: string
+            format: uri
+      responses:
+        '302':
+          description: Redirects to the `redirect_url`.
+          headers:
+            Location:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Location'
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+
+  '/token':
+
+    servers:
+      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
+        description: OAuth2 endpoint and version
+
+    post:
+      summary: Create an Access Token
+      description: |
+        Creates an Access Token. Access Tokens are credentails used to authenticate API interactions.
+        With the 4Auth platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
+
+      operationId: oauth2-token
+      security:
+        - BasicAuth: []
+      tags:
+        - oauth2
+      requestBody:
+        description: | 
+          The request body will differ depending on whether the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) or [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
+          flow is being followed.
+
+          The most common usage is Client Credentails Grant where `grant_type` should be `client_credentials`.
+        content:
+          'application/x-www-form-urlencoded':
+            schema:
+              oneOf:
+                # Client Credentials Grant used by all non-OAuth2 provider API endpoints
+                - type: object
+                  description: | 
+                    Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                    This method of authentication is used by all non-OAuth2 provider API endpoints.
+                  properties:
+                    grant_type:
+                      description: |
+                        The type of grant; in this case a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                        Value must be set to `client_credentials`.
+                      type: string
+                      enum:
+                        - client_credentials
+                      example: client_credentials
+                    scope:
+                        $ref: '#/components/schemas/OAuth2Scope'
+
+                # Authorization Code Grant used with 4Auth applications such as the Console
+                - type: object
+                  description: |
+                    **Used by internal 4Auth applications only**.
+                    The Access Token Request as part of a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1).
+                    Retrieves an Access Token from a `code`. 
+                  properties:
+                    client_id:
+                      description: The client identifier for the 4Auth application.
+                      type: string  
+                    grant_type:
+                      description: |
+                        The type of grant; in this case an [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1).
+                        Value must be set to `authorization_code`.
+                      type: string
+                      enum:
+                        - authorization_code
+                    code:
+                      description: The code that the client recieved during the interction with the `/authorize` endpoint
+                      type: string
+                    redirect_uri:
+                      description: The redirect URL the client used during the interaction with the `/authorize` endpoint 
+                      type: string
+                      format: uri
+                  required:
+                    - client_id
+                    - grant_type
+                    - code
+                    - redirect_uri
+      responses:
+        '200':
+          description: The Access Token was successfully created.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  # Client Credentails Grant
+                  - type: object
+                    description: |
+                      The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                    properties:
+                      access_token:
+                        description: The Access Token to be used when authenticating with API endpoints
+                        type: string
+                        example: 2YotnFZFEjr1zCsicMWpAA
+                      token_type:
+                        description: |
+                          The type of token in `access_token`. The token type returned will always be `bearer`.
+                          For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
+                        type: string
+                        enum:
+                          - bearer
+                        example: bearer
+                      expires_in:
+                        description: The time in seconds when the token will expire.
+                        type: integer
+                        example: 3600
+                      scope:
+                        description: The scope of the access request i.e. what resources the Access Token provides access to.
+                        type:
+                          string
+                        enum:
+                          - projects
+                          - workspaces
+                          - phone_check
+                          - offline_access
+                    example:
+                      basic:
+                        {
+                          "access_token": "2YotnFZFEjr1zCsicMWpAA",
+                          "token_type": "bearer",
+                          "expires_in": 3600,
+                          "scope": "phone_check"
+                        }
+
+                  # Authorization Code Grant
+                  - type: object
+                    description: |
+                      **Used by internal 4Auth applications only**.
+                      The response to a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
+                    properties:
+                      access_token:
+                        description: The Access Token to be used when authenticating with API endpoints
+                        type: string
+                        example: 2YotnFZFEjr1zCsicMWpAA
+                      token_type:
+                        description: |
+                          The type of token in `access_token`. The token type returned will always be `bearer`.
+                          For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
+                        type: string
+                        enum:
+                          - bearer
+                      id_token:
+                        description: Contains the information about the user's Authentication
+                        type: string
+                        example: eyJhbGciOiJSUzINiImtpZCI6InB1Ympx
+                      expires_in:
+                        description: The time in seconds when the token will expire.
+                        type: integer
+                        example: 3600
+                      refresh_token:
+                        description: A token that can be used to request a new
+                        type: string
+                        example: tGzv3JOkF0XG5Qx2TlKWIA
+                      scope:
+                        $ref: '#/components/schemas/OAuth2Scope'
+                    example:
+                      basic:
+                        {
+                          "access_token":"2YotnFZFEjr1zCsicMWpAA",
+                          "id_token":"eyJhbGciOiJSUzINiImtpZCI6InB1Ympx",
+                          "expires_in":3600,
+                          "token_type": "bearer",
+                          "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
+                          "scope": "projects"
+                        }
+
+  '/revoke':
+
+    servers:
+      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
+        description: OAuth2 endpoint and version
+
+    post:
+      summary: Revoke an token
+      description: Revoke a token from the OAuth2 provider.
+      operationId: oauth2-revoke
+      security:
+        - BasicAuth: []
+      tags:
+        - oauth2
+      requestBody:
+        content:
+          'application/x-www-form-urlencoded':
+            schema:
+              type: object
+              description: |
+                The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+              properties:
+                token:
+                  description: The token to be revoked
+                  type: string
+                  example: 2YotnFZFEjr1zCsicMWpAA
+                token_type_hint:
+                  description: A hint to help the OAuth2 provider identify the type of token
+                  type: string
+                  enum:
+                    - access_token
+                    - refresh_token
+                  example: access_token                  
+      responses:
+        '200':
+          description: Response whether the Access Token was valid or invalid.
+
+  '/sessions/logout':
+    get:
+      summary: Logout of the current user session (Restricted Usage)
+      description: |
+        **Used by internal 4Auth applications only**.
+        Log the current user out of an authenticated session with the OAuth2 provider.
+      operationId: oauth2-sessions-logout
+      security:
+        - BasicAuth: []
+      tags:
+        - hide
+      parameters:
+        - name: id_token_hint
+          description: The OAuth2 id token received when the client logged in
+          schema:
+            type: string
+            example: token
+          in: query
+        - name: state
+          description: state that is played back to the client, when successfully redirected to the `post_logout_redirect_uri`
+          schema:
+            type: string
+            example: token
+          in: query
+        - name: post_logout_redirect_uri
+          description: Where the browser client will be redirected to after a successful logout
+          schema:
+            type: string
+            example: https://example.com/logged_out
+          in: query
+      responses:
+        '302':
+          description: Redirects to the `post_logout_redirect_uri`
+          headers:
+            Location:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Location'
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+
+
+  /checks:
+
+    servers:
+      - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
+        description: Phone Checks endpoint and version
+
+    post:
+      summary: Create a Phone Check workflow
+      description: |
+        Starts the Phone Check workflow.
+      operationId: create-phone-check
+      security:
+        - BearerAuth: []
+      tags:
+        - phone_check
+      requestBody:
+        description: JSON payload to create a Phone Check
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone_number:
+                  description: The phone number to be checked
+                  type: string
+                  example: '447700900000'
+                  format: E.164
+                reference_id:
+                  description: A field that you can use to track the check request against your own internal reference.
+                  type: string
+                  example: my_internal_reference
+                redirect_url:
+                  description: A URL that the client will be redirected to after navigating to the `check_url`
+                  type: string
+                  format: uri
+              required:
+                - phone_number
+              example:
+                phone_number: '447700900000'
+                reference_id: 'my_internal_reference'
+                redirect_url: 'https://example.com/phone_check_url_complete'
+      responses:
+        '201':
+          description: Phone Check created
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
+                  - type: object
+                    properties:
+                      # Override since creating a Phone Check only supports NEW
+                      status:
+                        description: The current status of the Phone Check
+                        type: string
+                        enum:
+                          - NEW
+                        example: NEW
+
+                      # Only valid on Phone Check creation
+                      snapshot_balance:
+                        description: |
+                          The workspace balance in `charge_currency` taking into account the `charge_amount`.
+                          This property is not persisted and is only returned when the Phone Check is initially created.
+                        type: number
+                        example: 100
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/InvalidPhoneNumberFormat'
+                  - type: object
+                    allOf:
+                      - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase'
+                      - type: object
+                        description: The country for the supplied `phone_number` is not supported
+
+    get:
+      summary: Retrieve a collection of Phone Checks
+      operationId: get-phone-checks
+      description: Get a full list of Phone Checks or filter by query parameter.
+      security:
+        - BearerAuth: []
+      tags:
+        - phone_check
+      parameters:
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCollection
+
+  '/checks/{check_id}':
+    servers:
+      - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
+        description: Phone Checks endpoint and version
+
+
+    parameters:
+      - name: check_id
+        description: The ID of the Phone Check
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+    get:
+      summary: Retrieve Phone Check
+      description: Get a Phone Check identified by `check_id`.
+      operationId: get-phone-check
+      security:
+        - BearerAuth: []
+      tags:
+        - phone_check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+  
+  ##############
+  # Projects
+  ##############
+  
+  '/projects':
+
+    servers:
+      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
+        description: Console endpoint and version
+
+    post:
+      summary: Create a Project
+      description: Create a Project
+      operationId: create-project
+      security:
+        - BearerAuth: []
+      tags:
+        - projects
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectFull
+              examples:
+                basic:
+                  value:
+                    project_id: c69bc0e6-a429-11ea-bb37-0242ac130003
+                    name: My test project
+                    created_at: '2020-06-01T16:43:30+00:00'
+                    updated_at: '2020-06-01T16:43:30+00:00'
+                    _links:
+                      self:
+                        href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
+                    credentials:
+                      - client_id: 6779ef20e75817b79602
+                      - client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
+                      - created_at: '2020-06-01T16:43:30+00:00'
+      requestBody:
+        description: A JSON payload for the Project that is to be created.
+        content:
+          application/json:
+            schema:
+              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/CreateProjectPayload
+            examples:
+              basic:
+                value:
+                  name: My test project
+
+    get:
+      summary: Retrieve a collection of Projects
+      operationId: get-projects
+      description: Get a full list of Projects or filter by query parameter.
+      security:
+        - BearerAuth: []
+      tags:
+        - projects
+      parameters:
+        - name: name
+          description: The name of the project
+          schema:
+            type: string
+            example: hello
+          in: query
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectCollection
+              examples:
+                basic:
+                  value:
+                    page_size: 10
+                    page_number: 1
+                    total_pages: 1
+                    total_items: 2
+                    _embedded:
+                      projects:
+                        - _links:
+                            self:
+                              href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130002
+                          project_id: c69bc0e6-a429-11ea-bb37-0242ac130002
+                          name: My first project
+                          created_at: '2020-06-01T16:43:30+00:00'
+                          updated_at: '2020-06-01T16:43:30+00:00'
+                        - _links:
+                            self:
+                              href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
+                          project_id: c69bc0e6-a429-11ea-bb37-0242ac130003
+                          name: My second project
+                          created_at: '2020-06-01T16:43:30+00:00'
+                          updated_at: '2020-06-01T16:43:30+00:00'
+                    _links:
+                      first:
+                        href: '/projects/page=1&page_size=10'
+                      last:
+                        href: '/projects/page=1&page_size=10'
+                      next:
+                        href: null
+                      prev:
+                        href: null
+                      self:
+                        href: /projects?page_size=10
+
+
+  '/projects/{project_id}':
+
+    servers:
+      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
+        description: Console endpoint and version
+
+    parameters:
+      - name: project_id
+        description: The ID of the Project
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+    get:
+      summary: Retrieve Project
+      description: Get a Project identified by `project_id`.
+      operationId: get-project
+      security:
+        - BearerAuth: []
+      tags:
+        - projects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+    # Delete not supported in current version
+    # delete:
+    #   summary: 'Delete a Project'
+    #   description: Delete the Project from the projects collection identified by `project_id`
+    #   operationId: delete-projects
+    #   responses:
+    #     '204':
+    #       description: No Content
+    #       headers:
+    #         X-RateLimit-Limit:
+    #           $ref: '#/components/headers/X-RateLimit-Limit'
+    #         X-RateLimit-Remaining:
+    #           $ref: '#/components/headers/X-RateLimit-Remaining'
+    #         Access-Control-Allow-Origin:
+    #           $ref: '#/components/headers/Access-Control-Allow-Origin-All'      
+    #   parameters: []
+    #   tags:
+    #     - project
+
+  ##############
+  # Workspaces
+  ##############
+  '/workspaces/default':
+
+    servers:
+      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
+        description: Console endpoint and version
+
+    get:
+      summary: Get the default workspace for the current user
+      description: Gets the default workspace for the current user as identified by the owner of the access token used with the resource
+      operationId: get-workspaces-default
+      security:
+        - BearerAuth: []
+      tags:
+        - workspaces
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                type: object
+                properties:
+                  data_residency:
+                    type: string
+                    enum:
+                      - EU
+                    description: |
+                      Where the data related to the workspace is be stored.
+                      - `EU`: Europe
+                  created_at:
+                    $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+                  _embedded:
+                    description: Resources related to the Workspace
+                    type: object
+                    properties:
+                      balance:
+                        description: The balance associated with the workspace
+                        type: object
+                        properties:
+                          currency:
+                            description: The currency for the workspace
+                            allOf:
+                              - $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/Currency
+                          amount_available:
+                            description: The amount in `currency` that is available for the workspace. This does not include any value indicated in `credit_limit`.
+                            type: integer
+                          amount_reserved:
+                            description: The amount in `currency` that has been reserved due to pending operations
+                            type: integer
+                          credit_limit:
+                            description: The amount in `currency` over the `available_amount` plus `reserved_amount` that is provided as credit
+                            type: integer
+                      owner:
+                        description: The owner of the workspace
+                        type: object
+                        properties:
+                          full_name:
+                            description: The full name of the owner of the Workspace
+                            type: string
+                          email:
+                            description: The email address of the owner of the Workspace
+                            type: string
+                            format: email 
+
+components:
+  securitySchemes:
+
+    BasicAuth:
+      description: |
+        Basic Authentication Header. In the request the `Authentication` HTTP header value should be composed of `Basic` plus a Base64 value generated by concatenating a `client_id`, a colon (":") and a `client_secret`.
+        e.g. `Authorization: Basic Base64Encode(concat({client_id}, ':', {client_secret}))`
+      type: http
+      scheme: basic
+
+    BearerAuth:
+      description: |
+        The 4Auth APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
+        e.g. `Authorization: Bearer {access_token}`
+      type: http
+      scheme: bearer
+
+  schemas:
+
+    OAuth2Scope:
+      description: |
+        The scope of the access request i.e. what resources the Access Token provides access to.
+
+        - `projects`: `/console/{version}/projects` resources
+        - `workspaces`: `/console/{version}/workspaces` resources
+        - `phone_check`: `/phone_check` resources
+      type: string
+      enum:
+        - projects
+        - workspaces
+        - phone_check
+        - offline_access
+
+  parameters:
+
+    scope:
+      name: scope
+      description: |
+        The scope of an Access Token i.e. what resources the Access Token provides access to.
+
+        - `projects`: `/console/{version}/projects` resources
+        - `workspaces`: `/console/{version}/workspaces` resources
+        - `phone_check`: `/phone_check` resources
+      in: query
+      schema:
+        type: string
+        enum:
+          - projects
+          - workspaces
+          - phone_check
+          - offline_access

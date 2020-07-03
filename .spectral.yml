@@ -2,9 +2,9 @@ extends: spectral:oas
 
 except:
   # Endpoints for browsers so expected behaviour is a 302 redirect
-  "specs/oauth2/openapi.v1.yaml#/paths/~1authorize/get/responses":
+  "specs/openapi.v1.yaml#/paths/~1authorize/get/responses":
     - operation-2xx-response
-  "specs/oauth2/openapi.v1.yaml#/paths/~1sessions~1logout/get/responses":
+  "specs/openapi.v1.yaml#/paths/~1sessions~1logout/get/responses":
     - operation-2xx-response
 
 rules:
