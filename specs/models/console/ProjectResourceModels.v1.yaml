@@ -5,7 +5,7 @@ components:
   schemas:
     # A project definition
     ProjectPartial:
-      description: A Project. The `credentails` within the project will not contain a `client_secret`.
+      description: A Project. The `credentials` within the project will not contain a `client_secret`.
       type: object
       x-tags:
         - project
@@ -53,8 +53,7 @@ components:
           description: The credentials for the created Project. The `client_secret` will not be returned upon this request as it is not stored by the platform.
           type: array
           items:
-            anyOf:
-              - $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientPartial'
+            $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientPartial'
       required:
         - project_id
         - name
@@ -74,8 +73,7 @@ components:
               description: The credentials for the created Project. The `client_secret` will only be returned upon this request and won't be stored by the platform.
               type: array
               items:
-                anyOf:
-                  - $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientFull'
+                $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientFull'
 
 
     # PhoneCheck:
