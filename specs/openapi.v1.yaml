@@ -383,16 +383,11 @@ paths:
                   description: A field that you can use to track the check request against your own internal reference.
                   type: string
                   example: my_internal_reference
-                redirect_url:
-                  description: A URL that the client will be redirected to after navigating to the `check_url`
-                  type: string
-                  format: uri
               required:
                 - phone_number
               example:
                 phone_number: '447700900000'
                 reference_id: 'my_internal_reference'
-                redirect_url: 'https://example.com/phone_check_url_complete'
       responses:
         '201':
           description: Phone Check created
