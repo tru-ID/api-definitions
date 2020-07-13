@@ -501,7 +501,42 @@ paths:
             application/problem+json:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+  '/checks/{check_id}/redirect':
+    servers:
+      - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
+        description: Phone Checks endpoint and version
+    parameters:
+      - name: check_id
+        description: The ID of the Phone Check
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+    get:
+      summary: Perform the Phone Check
+      description: Perform the Phone Check identified by `check_id`.
+      operationId: get-phone-check-redirect
+      tags:
+        - phone_check
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+        '302':
+          description: Redirects to the `redirect_url`.
+          headers:
+            Location:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Location'
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
   
+
   ##############
   # Projects
   ##############
