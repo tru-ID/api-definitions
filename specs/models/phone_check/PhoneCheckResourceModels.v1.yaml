@@ -19,7 +19,7 @@ components:
         - COMPLETED
         - EXPIRED
         - ERROR
-      example: NEW
+      example: ACCEPTED
 
     PhoneCheck:
       description: A Phone Check resource
