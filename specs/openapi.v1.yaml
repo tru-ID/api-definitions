@@ -410,8 +410,8 @@ paths:
                         description: The current status of the Phone Check
                         type: string
                         enum:
-                          - NEW
-                        example: NEW
+                          - ACCEPTED
+                        example: ACCEPTED
 
                       # Only valid on Phone Check creation
                       snapshot_balance:
