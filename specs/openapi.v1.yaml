@@ -6,11 +6,12 @@ info:
     name: 4Auth API Team
     email: feedback@4auth.io
   description: |
-    The 4Auth API
-
     # Introduction
 
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc convallis felis sed nibh euismod cursus. Proin mattis nec nunc eu lobortis. Morbi dolor arcu, posuere vitae fringilla a, commodo eu magna. Vestibulum dignissim tincidunt leo, in sodales leo sodales ut. Phasellus pharetra hendrerit condimentum. Donec vehicula mauris eget rutrum dignissim. Aliquam sodales molestie enim, sit amet consectetur mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
+    The 4Auth API uses [OAuth2](#tag/oauth2) Access Tokens for authenentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
+    
+    
+    The [**4Auth Phone Check Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **Phone Check URL** for the purpose of this verification. 4Auth then resolves a **Phone Check Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
 
 servers:
   - url: 'https://{data_residency}.api.4auth.io/{product_group}/{version}'
@@ -62,7 +63,7 @@ x-tagGroups:
 
 paths:
 
-  '/authorize':
+  '/auth':
 
     servers:
       - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
@@ -71,7 +72,7 @@ paths:
     get:
       summary: Obtain an authorization grant (Restricted Usage)
       description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for 4Auth owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1 
-      operationId: oauth2-authorize
+      operationId: oauth2-auth
       tags:
         - hide
       parameters:
@@ -82,7 +83,7 @@ paths:
             type: string
             example: code          
         - name: client_id
-          description: The client identifier. Only issued for use with `/authorize` to internal 4Auth applications.
+          description: The client identifier. Only issued for use with `/auth` to internal 4Auth applications.
           in: query
           schema:
             type: string
@@ -123,6 +124,8 @@ paths:
       description: |
         Creates an Access Token. Access Tokens are credentails used to authenticate API interactions.
         With the 4Auth platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
+
+        To obtain a `client_id` and `client_secret` you must first [create a Project](#operation/create-project).
 
       operationId: oauth2-token
       security:
@@ -174,10 +177,10 @@ paths:
                       enum:
                         - authorization_code
                     code:
-                      description: The code that the client recieved during the interction with the `/authorize` endpoint
+                      description: The code that the client recieved during the interction with the `/auth` endpoint
                       type: string
                     redirect_uri:
-                      description: The redirect URL the client used during the interaction with the `/authorize` endpoint 
+                      description: The redirect URL the client used during the interaction with the `/auth` endpoint 
                       type: string
                       format: uri
                   required:
@@ -223,13 +226,12 @@ paths:
                           - phone_check
                           - offline_access
                     example:
-                      basic:
-                        {
-                          "access_token": "2YotnFZFEjr1zCsicMWpAA",
-                          "token_type": "bearer",
-                          "expires_in": 3600,
-                          "scope": "phone_check"
-                        }
+                      {
+                        "access_token": "2YotnFZFEjr1zCsicMWpAA",
+                        "token_type": "bearer",
+                        "expires_in": 3600,
+                        "scope": "phone_check"
+                      }
 
                   # Authorization Code Grant
                   - type: object
@@ -263,15 +265,14 @@ paths:
                       scope:
                         $ref: '#/components/schemas/OAuth2Scope'
                     example:
-                      basic:
-                        {
-                          "access_token":"2YotnFZFEjr1zCsicMWpAA",
-                          "id_token":"eyJhbGciOiJSUzINiImtpZCI6InB1Ympx",
-                          "expires_in":3600,
-                          "token_type": "bearer",
-                          "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
-                          "scope": "projects"
-                        }
+                      {
+                        "access_token":"2YotnFZFEjr1zCsicMWpAA",
+                        "id_token":"eyJhbGciOiJSUzINiImtpZCI6InB1Ympx",
+                        "expires_in":3600,
+                        "token_type": "bearer",
+                        "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
+                        "scope": "projects"
+                      }
 
   '/revoke':
 
@@ -580,9 +581,9 @@ paths:
                       self:
                         href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
                     credentials:
-                      client_id: 6779ef20e75817b79602
-                      client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
-                      created_at: '2020-06-01T16:43:30+00:00'
+                      - client_id: 6779ef20e75817b79602
+                        client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
+                        created_at: '2020-06-01T16:43:30+00:00'
       requestBody:
         description: A JSON payload for the Project that is to be created.
         content:
