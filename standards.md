@@ -402,10 +402,12 @@ Example in a body response payload:
 
 ```json
 {
-	"page_size": 100,
-	"page_number": 1,
-	"total_pages": 1,
-	"total_items": 1,
+	"page": {
+		"size": 100,
+		"number": 1,
+		"total_pages": 1,
+		"total_elements": 1
+	},
 	"_embedded": {
 		"projects": [{
 			"_links": {
@@ -462,7 +464,7 @@ Page based pagination will be the default and cursor pagination can be decided b
 
 ### Page Based
 
-In certain situations (e.g. reviewing Projects) it may be beneficial to skip over pages if you're not interested in that data. In this situation, `page` and `page_size` should be used.
+In certain situations (e.g. reviewing Projects) it may be beneficial to skip over pages if you're not interested in that data.
 
 The first page is page `1`.
 
@@ -473,17 +475,23 @@ The first page is page `1`.
 	- `first` (first page, required)
 	- `last` (last page, required)
 - Paging `_links` must include filters.
-- The page size parameter must be called `page_size`
-- The current page parameter must be called `page_number`
-- The page count parameter must be called `total_pages`
-- The results parameter must be called `total_items`
+- Paging body properties must be within a `page` object with the following properties:
+	- The page size property must be called `size`
+	- The current page property must be called `number`
+	- The page count property must be called `total_pages`
+	- The results property must be called `total_elements`
+- Paging query parameters must be as follows:
+	- The page size parameter must be called `size`
+	- The current page parameter must be called `page`
 
 ```json
 {
-	"page_size": 100,
-	"page_number": 3,
-	"total_pages": 8,
-	"total_items": 814,
+	"page": {
+		"size": 100,
+		"number": 3,
+		"total_pages": 8,
+		"total_elements": 814
+	},
 	"_embedded": {
 		"resource_name": {
 			"data":"here"
@@ -491,22 +499,24 @@ The first page is page `1`.
 	},
 	"_links": {
 		"self": {
-			"href": "https://example.com/resource?page_size=100&order=asc&page=3"
+			"href": "https://example.com/resource?size=100&order=asc&page=3"
 		},
 		"next": {
-			"href": "https://example.com/resource?page_size=100&order=asc&page=4"
+			"href": "https://example.com/resource?size=100&order=asc&page=4"
 		},
 		"prev": {
-			"href": "https://example.com/resource?page_size=100&order=asc&page=2"
+			"href": "https://example.com/resource?size=100&order=asc&page=2"
 		},
 		"last": {
-			"href": "https://example.com/resource?page_size=100&order=asc&page=8"
+			"href": "https://example.com/resource?size=100&order=asc&page=8"
 		}
 	}
 }
 ```
 
 ### Cursor based
+
+**STATUS: TBD**
 
 > Cursors, if you’re not familiar, are like pointers. Pointers point at things, they reference a specific iota, a place in the list where your last request left off. A bookmark with breadcrumbs built in. (via [Slack](https://api.slack.com/docs/pagination#cursors))
 
