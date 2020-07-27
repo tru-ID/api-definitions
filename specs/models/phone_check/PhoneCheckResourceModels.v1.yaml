@@ -32,10 +32,6 @@ components:
           description: A field that you can use to track the check request against your own internal reference.
           type: string
           example: my_internal_reference
-        check_url:
-          description: A URL that the mobile client must navigate as part of the Phone Check verification flow.
-          type: string
-          format: uri
         status:
           $ref: '#/components/schemas/PhoneCheckStatus'
         match:
@@ -73,13 +69,16 @@ components:
               description: The link to the current resource
               allOf:
                 - $ref: ../common/Link.v1.yaml
-          example:
-            _links:
-              self:
-                href: https://us.api.4auth.io/phone_checks/v0.1/checkes/{check_id}
+            check_url:
+              description: A URL that the mobile client must navigate as part of the Phone Check verification flow.
+              allOf:
+                - $ref: ../common/Link.v1.yaml
+          required:
+            - self
+            - check_url  
+
       required:
         - check_id
-        - check_url
         - status
         - match
         - charge_amount
@@ -89,7 +88,6 @@ components:
         - _links
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
-        check_url: https://example.com/check_url
         status: COMPLETED
         match: true
         charge_amount: 1
@@ -98,7 +96,9 @@ components:
         ttl: 60
         _links:
           self:
-            href: https://us.api.4auth.io/phone_checks/v0.1/checks/c69bc0e6-a429-11ea-bb37-0242ac130002
+            href: https://us.api.4auth.io/phone_checks/v0.1/checks/{check_id}
+          check_url:
+            href: https://us.api.4auth.io/phone_checks/v0.1/checks/{check_id}/redirect
 
     PhoneCheckCollection:
       description: A collection of Phone Check items

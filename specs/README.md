@@ -40,10 +40,10 @@ npm specs:lint -- {path_to_open_api_spec}
 For example:
 
 ```sh
-$ npm run specs:lint -- -F hint ./specs/console/openapi.v1.yaml                                                                
+$ npm run specs:lint -- -F hint ./specs/openapi.v1.yaml                                                                
 
 > api_definitions@0.1.0 specs:lint /Users/leggetter/4auth/git/api_definitions
-> spectral lint "-F" "hint" "./specs/console/openapi.v1.yaml"
+> spectral lint "-F" "hint" "./specs/openapi.v1.yaml"
 
 OpenAPI 3.x detected
 No results with a severity of 'hint' or higher found!
@@ -62,16 +62,16 @@ For more parameter options see [the Spectral CLI docs](https://github.com/stopli
 For example:
 
 ```sh
-$ npm run specs:mock -- ./specs/console/openapi.v1.yaml
+$ npm run specs:mock -- ./specs/openapi.v1.yaml
 
 > api_definitions@0.1.0 specs:mock /Users/leggetter/4auth/git/api_definitions
-> prism mock "./specs/console/openapi.v1.yaml"
+> prism mock "./specs/openapi.v1.yaml"
 
 [5:10:27 PM] › [CLI] …  awaiting  Starting Prism…
 [5:10:27 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/projects/8bf7a495-e3f1-6d3a-a3a2-e4d27e26cff0
 [5:10:27 PM] › [CLI] ℹ  info      DELETE     http://127.0.0.1:4010/projects/06e46cff-9e8e-fd34-cce5-70af237c7a09
 [5:10:27 PM] › [CLI] ℹ  info      POST       http://127.0.0.1:4010/projects
-[5:10:27 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/projects?name=quo&page_size=9&page_number=132
+[5:10:27 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/projects?name=quo&size=9&number=132
 [5:10:27 PM] › [CLI] ▶  start     Prism is listening on http://127.0.0.1:4010
 ```
 
@@ -86,16 +86,16 @@ npm run specs:proxy -- {path_to_openapi_spec} {api_server_URL_inc_port} -p {prox
 For example:
 
 ```sh
-$ npm run specs:proxy --  ./specs/console/openapi.v1.yaml http://localhost:4010 -p 4020
+$ npm run specs:proxy --  ./specs/openapi.v1.yaml http://localhost:4010 -p 4020
 
 > api_definitions@0.1.0 specs:proxy /Users/leggetter/4auth/git/api_definitions
-> prism proxy "./specs/console/openapi.v1.yaml" "http://localhost:4010" "-p" "4020"
+> prism proxy "./specs/openapi.v1.yaml" "http://localhost:4010" "-p" "4020"
 
 [4:44:40 PM] › [CLI] …  awaiting  Starting Prism…
 [4:44:40 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4020/projects/739282b0-2e9b-67fc-e33c-c6a40c6beea9
 [4:44:40 PM] › [CLI] ℹ  info      DELETE     http://127.0.0.1:4020/projects/16c02c10-07a1-609e-d671-8f399557e155
 [4:44:40 PM] › [CLI] ℹ  info      POST       http://127.0.0.1:4020/projects
-[4:44:40 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4020/projects?name=aliquid&page_size=17&page_number=920
+[4:44:40 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4020/projects?name=aliquid&size=17&number=920
 [4:44:40 PM] › [CLI] ▶  start     Prism is listening on http://127.0.0.1:4020
 ```
 
@@ -220,7 +220,7 @@ allOf:
 Since we use JSON Hypertext Application Language there are two groups of commonly found properties when paging through a collection:
 
 1. Pagination links: `first`, `last`, `next` and `prev`. See [PageBasedPagination](common/models/PageBasedPagination.v1.yaml)
-2. Pagination counters: such as `page_number`, `page_size`, `total_pages` and `total_items` 
+2. Pagination counters: such as `page.number`, `page.size`, `page.total_pages` and `page.total_elements` 
 
 Instead of defining these on every collection we can instead using model inheritance or composition to include these properties.
 

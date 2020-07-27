@@ -8,37 +8,43 @@ components:
       description: Used to enable paging and within the body payload of collections
       type: object
       properties:
-        page_size:
-          description: The number of records per page
-          type: integer
-          example: 10
-        page_number:
-          description: The current page number
-          type: integer
-          example: 1
-        total_pages:
-          description: The total number of pages
-          type: integer
-          example: 10
-        total_items:
-          description: The total number of records
-          type: integer
+        page:
+          description: Pagination properties
+          type: object
+          properties:
+            size:
+              description: The number of records per page
+              type: integer
+              example: 10
+            number:
+              description: The current page number
+              type: integer
+              example: 1
+            total_pages:
+              description: The total number of pages
+              type: integer
+              example: 10
+            total_elements:
+              description: The total number of records
+              type: integer
+          required:
+            - size
+            - number
+            - total_pages
+            - total_elements
       required:
-        - page_size
-        - page_number
-        - total_pages
-        - total_items
+          - page
 
   parameters:
     # Collections
     search:
       name: search
-      description: An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples] (https://github.com/jirutka/rsql-parser#examples).
+      description: An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples](https://github.com/jirutka/rsql-parser#examples).
       in: query
       schema:
         type: string
     pageNumber:
-      name: page_number
+      name: page
       description: The page number being requested
       in: query
       schema:
@@ -47,7 +53,7 @@ components:
         default: 1
         minimum: 1
     pageSize:
-      name: page_size
+      name: size
       description: The number of items to be returned for the page being requested
       in: query
       schema:

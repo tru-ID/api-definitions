@@ -630,10 +630,11 @@ paths:
               examples:
                 basic:
                   value:
-                    page_size: 10
-                    page_number: 1
-                    total_pages: 1
-                    total_items: 2
+                    page:
+                      size: 10
+                      number: 1
+                      total_pages: 1
+                      total_elements: 2
                     _embedded:
                       projects:
                         - _links:
@@ -652,15 +653,15 @@ paths:
                           updated_at: '2020-06-01T16:43:30+00:00'
                     _links:
                       first:
-                        href: '/projects/page=1&page_size=10'
+                        href: '/projects/page=1&size=10'
                       last:
-                        href: '/projects/page=1&page_size=10'
+                        href: '/projects/page=1&size=10'
                       next:
                         href: null
                       prev:
                         href: null
                       self:
-                        href: /projects?page_size=10
+                        href: /projects?size=10
 
 
   '/projects/{project_id}':
