@@ -141,6 +141,15 @@ Examples
 - `PATCH /projects/{project_id} -d '{"name": "A more descriptive name"}'` - Update only the project name
 - `DELETE /projects/{project_id}` - Remove the project identified by `{project_id}` from the collection
 
+Within the OpenAPI specification and thus the rendered API References the operations must be ordered as follows:
+
+• POST
+• GET all
+• GET by ID
+• PUT
+• PATCH
+• DELETE
+
 ## HTTP Status Codes
 
 ### 200
