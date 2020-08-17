@@ -1,6 +1,6 @@
 title: PaginationLinks
 type: object
-# description: Links to enable page-based pagination over collections.
+description: Links to enable page-based pagination over collections.
 properties:
   first:
     description: URL to the first page of records

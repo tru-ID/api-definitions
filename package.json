@@ -4,10 +4,9 @@
   "description": "Our API definitions and standards follow the OpenAPI v3.0 standard.",
   "main": "build.js",
   "scripts": {
-    "test": "spectral lint -F warn ./specs/console/openapi.v1.yaml",
+    "test": "spectral lint -F warn ./specs/openapi.v1.yaml",
+    "test:json-out": "spectral lint --format json -F warn ./specs/openapi.v1.yaml",
     "specs:lint": "spectral lint",
-    "specs:generate": "node ./specs/build/generate.js",
-    "specs:generate:clean": "node ./specs/build/generate.js clean",
     "specs:mock": "prism mock",
     "specs:proxy": "prism proxy"
   },
@@ -22,7 +21,6 @@
   },
   "homepage": "https://gitlab.com/4auth/api_definitions#readme",
   "devDependencies": {
-    "@apidevtools/json-schema-ref-parser": "^9.0.1",
     "@stoplight/prism-cli": "^3.3.5",
     "@stoplight/spectral": "^5.4.0"
   }

@@ -1,0 +1,34 @@
+title: HTTPProblemDetailTypes
+type: object
+description: Definitions of commonly used HTTP API Problem Details. See https://tools.ietf.org/html/rfc7807
+
+components:
+  responses:
+    # HTTP Problem Base
+    ProblemDetailsBase:
+      description: Base for HTTP API Problem Details
+      type: object
+      properties:
+        type:
+          description: A URI reference [RFC3986] that identifies the problem type.
+          type: string
+        title:
+          description: A short, human-readable summary of the problem type.
+          type: string
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+
+    NotFound:
+      description: Generic 404 Not Found
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+
+    InvalidPhoneNumberFormat:
+      description: >
+        The provided phone number did not adhere to the E.164 phone number format.
+        To be used with HTTP Status Code 400.
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://4auth.io/docs/reference/api/errors#invalid_phone_number_format

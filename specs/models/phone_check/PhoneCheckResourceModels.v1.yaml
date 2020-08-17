@@ -1,0 +1,120 @@
+title: PhoneCheckResourceModels
+type: object
+description: Definitions of models related to Phone Check resources
+components:
+  schemas:
+    
+    PhoneCheckStatus:
+      description: |
+        The status of a Phone Check:
+        - `ACCEPTED`: The Phone Check request has been accepted by the platform
+        - `PENDING`: The Phone Check request has been triggered but has not yet completed
+        - `COMPLETED`: The Phone Check request has completed
+        - `EXPIRED`: The Phone Check was not triggered within the TTL (time-to-live) period. By default this is 60 seconds.
+        - `ERROR`: An error occurred.
+      type: string
+      enum:
+        - ACCEPTED
+        - PENDING
+        - COMPLETED
+        - EXPIRED
+        - ERROR
+      example: ACCEPTED
+
+    PhoneCheck:
+      description: A Phone Check resource
+      type: object
+      properties:
+        check_id:
+          description: The unique ID of the Phone Check resource
+          type: string
+        reference_id:
+          description: A field that you can use to track the check request against your own internal reference.
+          type: string
+          example: my_internal_reference
+        status:
+          $ref: '#/components/schemas/PhoneCheckStatus'
+        match:
+          description: |
+            Identifies if the Phone Check request resulted in a successful match between the phone number and the mobile connection that the
+            `check_url` was accessed from.
+          type: boolean
+          default: true
+        charge_amount:
+          description: The amount that was charge for this Phone Check
+          type: number
+        charge_currency:
+          description: The currency the `charge_amount` was made in.
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/Currency
+        created_at:
+          description: When the Phone Check was created
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        updated_at:
+          description: When the Phone Check was last updated
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        ttl:
+          description: >
+            (Time to live) The number of seconds after which the Phone Check will expire and the `status` will change to `EXPIRED`.
+          type: integer
+          default: 60
+          example: 60
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              description: The link to the current resource
+              allOf:
+                - $ref: ../common/Link.v1.yaml
+            check_url:
+              description: A URL that the mobile client must navigate as part of the Phone Check verification flow.
+              allOf:
+                - $ref: ../common/Link.v1.yaml
+          required:
+            - self
+            - check_url  
+
+      required:
+        - check_id
+        - status
+        - match
+        - charge_amount
+        - charge_currency
+        - created_at
+        - ttl
+        - _links
+      example:
+        check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
+        status: COMPLETED
+        match: true
+        charge_amount: 1
+        charge_currency: API
+        created_at: '2020-06-01T16:43:30+00:00'
+        ttl: 60
+        _links:
+          self:
+            href: https://us.api.4auth.io/phone_checks/v0.1/checks/{check_id}
+          check_url:
+            href: https://us.api.4auth.io/phone_checks/v0.1/checks/{check_id}/redirect
+
+    PhoneCheckCollection:
+      description: A collection of Phone Check items
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
+          properties:
+            _links:
+              description: Links related to the current resource
+              $ref: ../common/PaginationLinks.v1.yaml
+            _embedded:
+              description: Resources related to the resource request
+              type: object
+              properties:
+                checks:
+                  description: The Phone Checks within the collection
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/PhoneCheck'

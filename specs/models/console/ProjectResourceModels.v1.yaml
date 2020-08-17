@@ -1,0 +1,138 @@
+title: ProjectResourceModels
+type: object
+description: Definitions of models related to Project resources
+components:
+  schemas:
+    # A project definition
+    ProjectPartial:
+      description: A Project. The `credentials` within the project will not contain a `client_secret`.
+      type: object
+      x-tags:
+        - project
+      properties:
+        project_id:
+          description: The unique ID of the Project
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+          example: c69bc0e6-a429-11ea-bb37-0242ac130002
+        name:
+          description: The name of the project
+          type: string
+          example: My first project
+        # Not supported in this version
+        mode:
+          type: string
+          enum:
+            - live
+            - sandbox
+            # - disabled
+          description: |
+            A project and have the following modes:
+            - `live`: relevant API interactions will incur a fee and our platform may interact with third party systems
+            - `sandbox`: See **Sandbox Rules**. Additionally, no charges will be incurred and no interactions will be made with third party systems.
+            
+            **Sandbox Rules**
+
+            When a Project is in `sandbox` mode the following rules apply:
+
+            - A `phone_number` ending with an even digit will result in `match=true`
+            - A `phone_number` ending with `00` with return an error
+            - All other Phone Checks will result in `match=false`
+          # - `disabled`: the project is in a state that it cannot be interacted with other than to enable it
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              description: The link to the current resource
+              $ref: ../common/Link.v1.yaml
+        created_at:
+          description: When the Project was created
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODateTime'
+        updated_at:
+          description: When the Project was last updated
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODateTime'
+        # Not in this version
+        # capabilities:
+        #   type: array
+        #   items:
+        #     anyOf:
+        #       - $ref: '#/components/schemas/PhoneCheck'
+        credentials:
+          description: The credentials for the created Project. The `client_secret` will not be returned upon this request as it is not stored by the platform.
+          type: array
+          items:
+            $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientPartial'
+      required:
+        - project_id
+        - name
+        - _links
+        - created_at
+        - updated_at
+        # - capabilities
+        - credentials
+
+    ProjectFull:
+      description: A Project representation as used when a new Project is created.
+      allOf:
+        - $ref: '#/components/schemas/ProjectPartial'
+        - type: object
+          properties:
+            credentials:
+              description: The credentials for the created Project. The `client_secret` will only be returned upon this request and won't be stored by the platform.
+              type: array
+              items:
+                $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientFull'
+
+
+    # PhoneCheck:
+    #   description: The ability to verify a phone
+    #   type: object
+    #   properties:
+    #     # Should Project Capabilites directly name the types as properties rather than being an Array?
+    #     type:
+    #       description: The type of Project capability
+    #       default: phone_check
+    #     mode:
+    #       description: Whether the phone check capability has been enabled on the project
+    #       type: string
+    #       enum:
+    #         - enabled
+    #         - disabled
+    #   required:
+    #     - type
+    #     - enabled
+    #   example:
+    #     type: phone_check
+    #     enabled: true
+
+    CreateProjectPayload:
+      description: The minimal structural representation to create a Project
+      type: object
+      properties:
+        name:
+          description: A descriptive name of the Project
+          type: string
+          example: My first project
+      required:
+        - name
+      x-tags:
+        - project
+
+    ProjectCollection:
+      description: A collection of Project items
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
+          properties:
+            _links:
+              description: Links related to the current resource
+              $ref: ../common/PaginationLinks.v1.yaml
+            _embedded:
+              description: Resources related to the resource request
+              type: object
+              properties:
+                projects:
+                  description: The Projects within the collection
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ProjectPartial'
