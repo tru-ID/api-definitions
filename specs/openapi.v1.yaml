@@ -381,14 +381,40 @@ paths:
                   example: '447700900000'
                   format: E.164
                 reference_id:
-                  description: A field that you can use to track the check request against your own internal reference.
+                  description: Optional. A field that you can use to track the check request against your own internal reference.
                   type: string
                   example: my_internal_reference
+                callback_url:
+                  description: Optional. A public URL that will receive a POST request when the Phone Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
+                  example: https://example.com/callback
               required:
                 - phone_number
               example:
                 phone_number: '447700900000'
                 reference_id: 'my_internal_reference'
+
+      callbacks:
+        phoneCheckEndStatus: 
+          '{$request.body#/callback_url}':
+            post:
+              parameters:
+                - in: header
+                  name: X-4Auth-Security
+                  schema:
+                    type: string
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
+              responses:
+                '200':
+                  description: |
+                    The receiving server should return a 200 response to indicate it has processed the callback.
+                    
+                    Upon receipt of a non-200 response a retry process will begin. The retry period will start at 10 seconds and increase by 10 seconds until the retry time is one minute at which point the platform will stop retrying.
+      
       responses:
         '201':
           description: Phone Check created
@@ -784,17 +810,17 @@ paths:
                           amount_reserved:
                             description: The amount in `currency` that has been reserved due to pending operations
                             type: integer
-                      owner:
-                        description: The owner of the workspace
-                        type: object
-                        properties:
-                          full_name:
-                            description: The full name of the owner of the Workspace
-                            type: string
-                          email:
-                            description: The email address of the owner of the Workspace
-                            type: string
-                            format: email 
+                      # owner:
+                      #   description: The owner of the workspace
+                      #   type: object
+                      #   properties:
+                      #     full_name:
+                      #       description: The full name of the owner of the Workspace
+                      #       type: string
+                      #     email:
+                      #       description: The email address of the owner of the Workspace
+                      #       type: string
+                      #       format: email 
 
 components:
   securitySchemes:

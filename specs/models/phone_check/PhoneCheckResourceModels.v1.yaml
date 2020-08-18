@@ -61,6 +61,10 @@ components:
           type: integer
           default: 60
           example: 60
+        callback_url:
+          description: Optional. A public URL that will receive a POST request when the Phone Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
+          type: string
+          example: https://example.com/callback
         _links:
           description: Links related to the current resource
           type: object
