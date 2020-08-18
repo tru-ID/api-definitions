@@ -16,7 +16,7 @@ rules:
     description: parameter name should be snake_case.
     type: style
     severity: error
-    given: $..parameters..name
+    given: $..get.parameters..name
     then:
       function: casing
       functionOptions:
