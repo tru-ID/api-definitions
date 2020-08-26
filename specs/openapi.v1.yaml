@@ -373,25 +373,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                phone_number:
-                  description: The phone number to be checked
-                  type: string
-                  example: '447700900000'
-                  format: E.164
-                reference_id:
-                  description: Optional. A field that you can use to track the check request against your own internal reference.
-                  type: string
-                  example: my_internal_reference
-                callback_url:
-                  description: Optional. A public URL that will receive a POST request when the Phone Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
-                  example: https://example.com/callback
-              required:
-                - phone_number
-              example:
-                phone_number: '447700900000'
-                reference_id: 'my_internal_reference'
+              $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCreatePayload
 
       callbacks:
         phoneCheckEndStatus: 
@@ -399,7 +381,14 @@ paths:
             post:
               parameters:
                 - in: header
-                  name: X-4Auth-Security
+                  name: x-4auth-security
+                  description: |
+                    To be used to verify that the callback came from the 4Auth platform and was signed with a 4Auth private key and thus can be read with a 4Auth public key.
+                    
+                    The value for the header is in the format `keyid={keyid_value} signature={signature_value}`.
+
+                    - `keyid` - identifies the public key to be used to check the `{signature_value}`
+                    - `signature` - the signiture for the signed request
                   schema:
                     type: string
               requestBody:
@@ -407,7 +396,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
+                      $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload
               responses:
                 '200':
                   description: |
