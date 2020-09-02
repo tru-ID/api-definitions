@@ -8,7 +8,7 @@ info:
   description: |
     # Introduction
 
-    The 4Auth API uses [OAuth2](#tag/oauth2) Access Tokens for authenentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
+    The 4Auth API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
     
     
     The [**4Auth Phone Check Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **Phone Check URL** for the purpose of this verification. 4Auth then resolves a **Phone Check Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
