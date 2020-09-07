@@ -391,6 +391,14 @@ paths:
                     - `signature` - the signiture for the signed request
                   schema:
                     type: string
+                - in: header
+                  name: x-4auth-callback
+                  description: |
+                    Header used to provide additional context about the callback. At present this is the only callback URL so the value will always be `phone_check`.
+                  schema:
+                    type: string
+                    enum:
+                      - phone_check
               requestBody:
                 required: true
                 content:
