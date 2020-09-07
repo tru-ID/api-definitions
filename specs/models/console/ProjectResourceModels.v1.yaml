@@ -50,20 +50,14 @@ components:
         updated_at:
           description: When the Project was last updated
           $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODateTime'
-        capabilities:
-          description: Capabilities for the Project. Each Capability can be enabled or disabled and has it's own configuration.
+        configuration:
+          description: Configuration for the Products used within a Project
           type: object
           properties:
             phone_check:
               description: Check the validity of a phone number with Phone Check
               type: object
               properties:
-                mode:
-                  description: The mode for the Capability. If `enabled` the capability is available to use. If `disabled` it is not available.
-                  type: string
-                  enum:
-                    - enabled
-                    - disabled
                 callback_url:
                   description: A callback URl that is invoked when a Phone Check reaches an end status of `COMPLETED`, `EXPIRED` or `ERROR`.
                   type: string
