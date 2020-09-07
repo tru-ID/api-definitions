@@ -136,9 +136,9 @@ Examples
 
 - `GET /projects` - lists all the resources of the collection `projects`
 - `GET /projects/{project_id}` - lists the details of the single project resource from the `projects` collection
-- `POST /projects -d '{"name": "My first project", "capabilities": ["x", "y"]}'` - create a new project
-- `PUT /projects/{project_id} -d '{"name": "Only X", "capabilities": ["x"]}'` - Replaces all the resource details. In this example the `name` is changed and only the `x` capability is now supported by the project
-- `PATCH /projects/{project_id} -d '{"name": "A more descriptive name"}'` - Update only the project name
+- `POST /projects -d '{"name": "My first project"'` - create a new project
+- `PUT /projects/{project_id} -d '{"name": "Only X"}'` - Replaces all the resource details. In this example the `name` is changed
+- `PATCH /projects/{project_id} -d '{"name": "A more descriptive name"}'` - Update only the project name (TODO: update to JSON-PATCH)
 - `DELETE /projects/{project_id}` - Remove the project identified by `{project_id}` from the collection
 
 Within the OpenAPI specification and thus the rendered API References the operations must be ordered as follows:
