@@ -379,6 +379,7 @@ paths:
         phoneCheckEndStatus: 
           '{$request.body#/callback_url}':
             post:
+              summary: Phone Check has reached an end status
               parameters:
                 - in: header
                   name: x-4auth-security
