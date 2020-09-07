@@ -461,6 +461,7 @@ paths:
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/sort'
       responses:
         '200':
           description: OK
@@ -628,6 +629,7 @@ paths:
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/sort'
       responses:
         '200':
           description: OK

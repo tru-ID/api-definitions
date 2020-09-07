@@ -43,6 +43,23 @@ components:
       in: query
       schema:
         type: string
+    sort:
+      name: sort
+      description: |
+        How the returned collection will be sorted. The string should be in the format `{property},{direction}`.
+
+        - `property` is queryable field within the resource.
+        - `direction` can be either `asc` for ascending or `desc` for descending.
+
+        Examples:
+
+        - `name,asc`
+        - `name,desc`
+        - `created_at,asc`
+        - `created_at,desc`
+      in: query
+      schema:
+        type: string
     pageNumber:
       name: page
       description: The page number being requested
