@@ -15,7 +15,8 @@ components:
           $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
           example: c69bc0e6-a429-11ea-bb37-0242ac130002
         name:
-          description: The name of the project
+          description: |
+            A name of the Project that must be unique within the Workspace. Attempting to create a Project with a `name` that is already used will result in an API error.
           type: string
           example: My first project
         mode:
