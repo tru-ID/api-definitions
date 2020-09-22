@@ -69,7 +69,7 @@ components:
       name: digest
       in: header
       description: |
-        The body contents hashed with the algoritm identified in the `Signature` header by `algorithm={algoritm_value}` and then Base64 encoded. For example, `digest: SHA-256=Base64(SHA256(Body))`.
+        The body contents hashed with the algoritm identified in the `Signature` header by `algorithm={algoritm_value}` and then Base64 encoded. For example, `digest: SHA-256=hex(SHA256(Body))`.
       schema:
         type: string
 
