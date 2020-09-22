@@ -21,7 +21,7 @@
   },
   "homepage": "https://gitlab.com/4auth/api_definitions#readme",
   "devDependencies": {
-    "@stoplight/prism-cli": "^3.3.5",
-    "@stoplight/spectral": "^5.4.0"
+    "@stoplight/prism-cli": "^3.3.7",
+    "@stoplight/spectral": "^5.5.0"
   }
 }
