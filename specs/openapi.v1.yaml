@@ -381,37 +381,19 @@ paths:
             post:
               summary: Phone Check has reached an end status
               parameters:
-                - in: header
-                  name: x-4auth-security
-                  description: |
-                    To be used to verify that the callback came from the 4Auth platform and was signed with a 4Auth private key and thus can be read with a 4Auth public key.
-                    
-                    The value for the header is in the format `keyid={keyid_value} signature={signature_value}`.
-
-                    - `keyid` - identifies the public key to be used to check the `{signature_value}`
-                    - `signature` - the signiture for the signed request
-                  schema:
-                    type: string
-                - in: header
-                  name: x-4auth-callback
-                  description: |
-                    Header used to provide additional context about the callback. At present this is the only callback URL so the value will always be `phone_check`.
-                  schema:
-                    type: string
-                    enum:
-                      - phone_check
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-security'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-callback'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/digest'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/date'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/host'
               requestBody:
                 required: true
                 content:
                   application/json:
                     schema:
-                      $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload
+                      $ref: './models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload'
               responses:
-                '200':
-                  description: |
-                    The receiving server should return a 200 response to indicate it has processed the callback.
-                    
-                    Upon receipt of a non-200 response a retry process will begin. The retry period will start at 10 seconds and increase by 10 seconds until the retry time is one minute at which point the platform will stop retrying.
+                $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
       
       responses:
         '201':
@@ -620,6 +602,26 @@ paths:
                 value:
                   name: My test project
 
+      callbacks:
+        projectLevelPhoneCheckEndStatus: 
+          '{$request.body#/configuration.phone_check.callback_url}':
+            post:
+              summary: Phone Check has reached an end status
+              parameters:
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-security'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-callback'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/digest'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/date'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/host'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: './models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload'
+              responses:
+                $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
+
     get:
       summary: Retrieve a collection of Projects
       operationId: get-projects
@@ -670,6 +672,9 @@ paths:
                           name: My first project
                           created_at: '2020-06-01T16:43:30+00:00'
                           updated_at: '2020-06-01T16:43:30+00:00'
+                          credentials:
+                            - client_id: 63f16604-2b4f-4e45-b32f-59290507fe93
+                              created_at: '2020-06-01T16:43:30+00:00'
                         - _links:
                             self:
                               href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
@@ -677,17 +682,20 @@ paths:
                           name: My second project
                           created_at: '2020-06-01T16:43:30+00:00'
                           updated_at: '2020-06-01T16:43:30+00:00'
+                          credentials:
+                            - client_id: 63f16604-2b4f-4e45-b32f-59290507fe92
+                              created_at: '2020-06-01T16:43:30+00:00'
                     _links:
                       first:
                         href: '/projects/page=1&size=10'
                       last:
-                        href: '/projects/page=1&size=10'
+                        href: '/projects/page=3&size=10'
                       next:
-                        href: null
+                        href: '/projects/page=3&size=10'
                       prev:
-                        href: null
+                        href: '/projects/page=1&size=10'
                       self:
-                        href: /projects?size=10
+                        href: '/projects/page=2&size=10'
 
 
   '/projects/{project_id}':

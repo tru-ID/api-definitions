@@ -36,6 +36,7 @@ components:
             When a Project is in `sandbox` mode the following rules apply:
 
             - A `phone_number` ending with an even digit will result in `match=true`
+            - A `phone_number` ending with an odd digit will result in `match=false`
             - A `phone_number` ending with `00` with return an error
             - All other Phone Checks will result in `match=false`
         _links:
@@ -53,16 +54,7 @@ components:
           $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODateTime'
         configuration:
           description: Configuration for the Products used within a Project
-          type: object
-          properties:
-            phone_check:
-              description: Check the validity of a phone number with Phone Check
-              type: object
-              properties:
-                callback_url:
-                  description: A callback URl that is invoked when a Phone Check reaches an end status of `COMPLETED`, `EXPIRED` or `ERROR`.
-                  type: string
-                  format: uri
+          $ref: '#/components/schemas/ProjectConfiguration'
         credentials:
           description: The credentials for the created Project. The `client_secret` will not be returned upon this request as it is not stored by the platform.
           type: array
@@ -96,6 +88,9 @@ components:
           description: A descriptive name of the Project
           type: string
           example: My first project
+        configuration:
+          description: Configuration for the Products used within a Project
+          $ref: '#/components/schemas/ProjectConfiguration'
       required:
         - name
       x-tags:
@@ -119,3 +114,19 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/ProjectPartial'
+
+    ProjectConfiguration:
+      description: Configuration for the Products used within a Project
+      type: object
+      properties:
+        phone_check:
+          description: Check the validity of a phone number with Phone Check
+          type: object
+          properties:
+            callback_url:
+              description: |
+                A callback URl that is invoked when a Phone Check reaches an end status of `COMPLETED`, `EXPIRED` or `ERROR`.
+
+                If a `callback_url` parameter is passed when an individual Phone Check is created it will override the `callback_url` set within Project configuration.
+              type: string
+              format: uri

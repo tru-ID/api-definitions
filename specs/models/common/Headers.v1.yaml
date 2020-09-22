@@ -32,3 +32,59 @@ components:
       schema:
         type: string
         format: uri
+
+    x-4auth-security:
+      name: 'Authorization'
+      in: header
+      description: |
+        To be used for [HTTP message signing authentication](/docs/authentication#signed) in the verification that the callback came from the 4Auth platform and was signed with a 4Auth private key and thus can be read with a 4Auth public key.
+        
+        The value for the header is in the format `Signature keyId="{key_id}",algorithm="{algorithm_value}",headers="{headers_value}",signature="{signature_value}"`.
+
+        - `keyId` - identifies the public key to be used to check the `signature`
+        - `algorithm` - the algorithm used to craete the `signature`
+        - `headers` - the header content used in the generation of the `signature`. `headers` contains the following which should be converted to real values:
+          - `(request-target)` - the request method and the path and query of the effective request URI ([examples](https://tools.ietf.org/html/draft-ietf-httpbis-message-signatures-00#section-2.4))
+          - `host` - the value of `Host` header
+          - `date` - the value of `Date` header
+          - `x-4auth-callback` - the value of `x-4auth-callback` header
+          - `digest` - the value of `Digest` header
+        - `signature` - the signiture for the signed request
+
+        For more details see [Signed HTTP Messages](/docs/authentication#signed).
+      schema:
+        type: string
+
+    x-4auth-callback:
+      name: x-4auth-callback
+      in: header
+      description: |
+        Header used to provide additional context about the callback. At present this is the only callback URL so the value will always be `phone_check`.
+      schema:
+        type: string
+        enum:
+          - phone_check
+
+    digest:
+      name: digest
+      in: header
+      description: |
+        The body contents hashed with the algoritm identified in the `Signature` header by `algorithm={algoritm_value}` and then Base64 encoded. For example, `digest: SHA-256=Base64(SHA256(Body))`.
+      schema:
+        type: string
+
+    host:
+      name: host
+      in: header
+      description: |
+        The host and port number of the server to which the request is being sent
+      schema:
+        type: string
+
+    date:
+      name: date
+      in: header
+      description: |
+        The date and time at which the message was originated
+      schema:
+        type: string
