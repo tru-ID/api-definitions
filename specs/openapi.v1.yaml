@@ -14,24 +14,13 @@ info:
     The [**4Auth Phone Check Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **Phone Check URL** for the purpose of this verification. 4Auth then resolves a **Phone Check Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
 
 servers:
-  - url: 'https://{data_residency}.api.4auth.io/{product_group}/{version}'
+  - url: 'https://{data_residency}.api.4auth.io'
     description: For accounts with data residency in the EU
     variables:
       data_residency:
         default: eu
         enum:
           - eu
-      product_group:
-        default: phone_check
-        enum:
-          - phone_check
-          - oauth2
-          - console
-      version:
-        default: v0.1
-        enum:
-          - v0.1
-          - v1.0
 
 tags:
   - name: oauth2
@@ -63,11 +52,7 @@ x-tagGroups:
 
 paths:
 
-  '/auth':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
-        description: OAuth2 endpoint and version
+  '/oauth2/v1/auth':
 
     get:
       summary: Obtain an authorization grant (Restricted Usage)
@@ -113,11 +98,7 @@ paths:
             X-RateLimit-Remaining:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
 
-  '/token':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
-        description: OAuth2 endpoint and version
+  '/oauth2/v1/token':
 
     post:
       summary: Create an Access Token
@@ -274,11 +255,7 @@ paths:
                         "scope": "projects"
                       }
 
-  '/revoke':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
-        description: OAuth2 endpoint and version
+  '/oauth2/v1/revoke':
 
     post:
       summary: Revoke an token
@@ -311,7 +288,7 @@ paths:
         '200':
           description: Response whether the Access Token was valid or invalid.
 
-  '/sessions/logout':
+  '/oauth2/v1/sessions/logout':
     get:
       summary: Logout of the current user session (Restricted Usage)
       description: |
@@ -353,11 +330,7 @@ paths:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
 
 
-  /checks:
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
-        description: Phone Checks endpoint and version
+  '/phone_check/v0.1/checks':
 
     post:
       summary: Create a Phone Check workflow
@@ -468,7 +441,7 @@ paths:
               schema:
                 $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCollection
 
-  '/checks/{check_id}':
+  '/phone_check/v0.1/checks/{check_id}':
     servers:
       - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
         description: Phone Checks endpoint and version
@@ -510,7 +483,7 @@ paths:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
 
-  '/checks/{check_id}/redirect':
+  '/phone_check/v0.1/checks/{check_id}/redirect':
     servers:
       - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
         description: Phone Checks endpoint and version
@@ -549,11 +522,7 @@ paths:
   # Projects
   ##############
   
-  '/projects':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
-        description: Console endpoint and version
+  '/console/v0.1/projects':
 
     post:
       summary: Create a Project
@@ -698,7 +667,7 @@ paths:
                         href: '/projects/page=2&size=10'
 
 
-  '/projects/{project_id}':
+  '/console/v0.1/projects/{project_id}':
 
     servers:
       - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
@@ -762,11 +731,7 @@ paths:
   ##############
   # Workspaces
   ##############
-  '/workspaces/default':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
-        description: Console endpoint and version
+  '/console/v0.1/workspaces/default':
 
     get:
       summary: Get the default workspace for the current user
