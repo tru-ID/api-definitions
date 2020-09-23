@@ -36,7 +36,7 @@ components:
           description: |
             Optional. A public URL that will receive a POST request when the Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
 
-            The `callback_url` used for an individual Phone Check will override a `callback_url` set within Project configuration.
+            The `callback_url` used for an individual Check will override a `callback_url` set within Project configuration.
           type: string
           format: uri
           example: https://example.com/callback
@@ -71,21 +71,21 @@ components:
           allOf:
             - $ref: ../common/DataTypes.v1.yaml#/components/schemas/Currency
         created_at:
-          description: When the Phone Check was created
+          description: When the Check was created
           allOf:
             - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
         updated_at:
-          description: When the Phone Check was last updated
+          description: When the Check was last updated
           allOf:
             - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
         ttl:
           description: >
-            (Time to live) The number of seconds after which the Phone Check will expire and the `status` will change to `EXPIRED`.
+            (Time to live) The number of seconds after which the Check will expire and the `status` will change to `EXPIRED`.
           type: integer
           default: 60
           example: 60
         callback_url:
-          description: Optional. A public URL that will receive a POST request when the Phone Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
+          description: Optional. A public URL that will receive a POST request when the Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
           type: string
           example: https://example.com/callback
 
