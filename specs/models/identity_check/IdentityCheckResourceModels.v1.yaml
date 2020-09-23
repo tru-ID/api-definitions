@@ -42,7 +42,7 @@ components:
                   allOf:
                     - $ref: ../common/Link.v1.yaml
                 check_url:
-                  description: A URL that the mobile client must navigate as part of the Phone Check verification flow.
+                  description: A URL that the mobile client must navigate as part of the Identity Check verification flow.
                   allOf:
                     - $ref: ../common/Link.v1.yaml
               required:
@@ -61,9 +61,9 @@ components:
         ttl: 60
         _links:
           self:
-            href: https://us.api.4auth.io/phone_checks/v0.1/checks/{check_id}
+            href: https://us.api.4auth.io/identity_checks/v0.1/checks/{check_id}
           check_url:
-            href: https://us.api.4auth.io/phone_checks/v0.1/checks/{check_id}/redirect
+            href: https://us.api.4auth.io/identity_checks/v0.1/checks/{check_id}/redirect
 
     IdentityCheckCollection:
       description: A Identity Check resource
@@ -79,7 +79,7 @@ components:
               type: object
               properties:
                 checks:
-                  description: The Phone Checks within the collection
+                  description: The Identity Checks within the collection
                   type: array
                   items:
                     $ref: '#/components/schemas/IdentityCheck'
