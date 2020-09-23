@@ -616,7 +616,7 @@ paths:
       security:
         - BearerAuth: []
       tags:
-        - phone_check
+        - identity_check
       parameters:
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
@@ -688,7 +688,7 @@ paths:
       description: Perform the Identity Check identified by `check_id`.
       operationId: get-identity-check-redirect
       tags:
-        - phone_check
+        - identity_check
       responses:
         '404':
           description: Not Found
