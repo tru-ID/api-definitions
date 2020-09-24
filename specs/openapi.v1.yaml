@@ -526,6 +526,16 @@ paths:
         - BearerAuth: []
       tags:
         - projects
+      requestBody:
+        description: A JSON payload for the Project that is to be created.
+        content:
+          application/json:
+            schema:
+              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/CreateProjectPayload
+            examples:
+              basic:
+                value:
+                  name: My test project
       responses:
         '201':
           description: Created
@@ -554,16 +564,6 @@ paths:
                       - client_id: 6779ef20e75817b79602
                         client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
                         created_at: '2020-06-01T16:43:30+00:00'
-      requestBody:
-        description: A JSON payload for the Project that is to be created.
-        content:
-          application/json:
-            schema:
-              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/CreateProjectPayload
-            examples:
-              basic:
-                value:
-                  name: My test project
 
       callbacks:
         projectLevelPhoneCheckEndStatus: 
@@ -664,12 +664,7 @@ paths:
   '/console/v0.1/projects/{project_id}':
 
     parameters:
-      - name: project_id
-        description: The ID of the Project
-        schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
-        in: path
-        required: true
+      - $ref: './models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId'
     get:
       summary: Retrieve Project
       description: Get a Project identified by `project_id`.
@@ -678,6 +673,68 @@ paths:
         - BearerAuth: []
       tags:
         - projects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+    patch:
+      summary: Update a Project
+      description: Update the project identified by the `project_id`.
+      operationId: patch-project
+      security:
+        - BearerAuth: []
+      tags:
+        - projects
+      requestBody:
+        description: A JSON payload for the Project that is to be created.
+        content:
+          application/json:
+            schema:
+              $ref: './models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPatchPayload'
+            examples:
+              change_mode:
+                summary: Change the Project mode to `live`
+                value:
+                  - op: 'replace'
+                    path: '/mode'
+                    value: 'live'
+              add_callback_url:
+                summary: Add a `callback_url` to the Project configuration
+                value:
+                  - op: 'add'
+                    path: '/configuration'
+                    value:
+                      phone_check:
+                        callback_url: 'https://example.com/callback'
+              replace_callback_url:
+                summary: Replace a `callback_url` for a Project configuration
+                value:
+                  - op: 'replace'
+                    path: '/configuration/phone_check/callback_url'
+                    value: 'https://example.com/updated_callback'
+              remove_callback_url:
+                summary: Remove the `callback_url` from the Project configuration
+                value:
+                  - op: 'remove'
+                    path: '/configuration/phone_check/callback_url'
+
       responses:
         '200':
           description: OK

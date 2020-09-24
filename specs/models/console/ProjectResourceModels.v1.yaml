@@ -20,25 +20,7 @@ components:
           type: string
           example: My first project
         mode:
-          type: string
-          enum:
-            - live
-            - sandbox
-            - disabled
-          description: |
-            A project and have the following modes:
-            - `live`: relevant API interactions will incur a fee and our platform may interact with third party systems
-            - `sandbox`: See **Sandbox Rules**. Additionally, no charges will be incurred and no interactions will be made with third party systems.
-            - `disabled`: the project is in a state that it cannot be interacted with other than to enable it
-            
-            **Sandbox Rules**
-
-            When a Project is in `sandbox` mode the following rules apply:
-
-            - A `phone_number` ending with an even digit will result in `match=true`
-            - A `phone_number` ending with an odd digit will result in `match=false`
-            - A `phone_number` ending with `00` with return an error
-            - All other Phone Checks will result in `match=false`
+          $ref: '#/components/schemas/ProjectMode'
         _links:
           description: Links related to the current resource
           type: object
@@ -120,13 +102,151 @@ components:
       type: object
       properties:
         phone_check:
-          description: Check the validity of a phone number with Phone Check
+          $ref: '#/components/schemas/PhoneCheckConfiguration'
+
+    ProjectMode:
+      description: |
+        A project can have the following modes:
+        - `live`: relevant API interactions will incur a fee and our platform may interact with third party systems
+        - `sandbox`: See **Sandbox Rules**. Additionally, no charges will be incurred and no interactions will be made with third party systems.
+        - `disabled`: the project is in a state that it cannot be interacted with other than to enable it
+        
+        **Sandbox Rules**
+
+        When a Project is in `sandbox` mode the following rules apply:
+
+        - A `phone_number` ending with an even digit will result in `match=true`
+        - A `phone_number` ending with an odd digit will result in `match=false`
+        - A `phone_number` ending with `00` with return an error
+        - All other Phone Checks will result in `match=false`
+      type: string
+      enum:
+        - live
+        - sandbox
+        - disabled
+
+    PhoneCheckCallbackUrl:
+      description: |
+        A callback URl that is invoked when a Phone Check reaches an end status of `COMPLETED`, `EXPIRED` or `ERROR`.
+
+        If a `callback_url` parameter is passed when an individual Phone Check is created it will override the `callback_url` set within Project configuration.
+      type: string
+      format: uri
+
+    PhoneCheckConfiguration:
+      description: Configuration for Phone Check
+      type: object
+      properties:
+        callback_url:
+          $ref: '#/components/schemas/PhoneCheckCallbackUrl'
+
+    ProjectPatchPayload:
+      description: |
+        Update a Project.
+
+        An array of JSON-PATCH operations as defined in [RFC 6902](https://tools.ietf.org/html/rfc6902).
+
+        Some operations should not be used together. For example, updating and deleting the Phone Check `callback_url`.
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/ProjectPhoneCheckCallbackAddOperation'
+          - $ref: '#/components/schemas/ProjectPhoneCheckCallbackUpdateOperation'
+          - $ref: '#/components/schemas/ProjectPhoneCheckCallbackRemoveOperation'
+          - $ref: '#/components/schemas/ProjectModeUpdateOperation'
+
+    ProjectPhoneCheckCallbackAddOperation:
+      description: Add the Phone Check callback_url
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - add
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /configuration
+        value:
+          description: The value to be used within the operations.
           type: object
           properties:
-            callback_url:
-              description: |
-                A callback URl that is invoked when a Phone Check reaches an end status of `COMPLETED`, `EXPIRED` or `ERROR`.
+            phone_check:
+              $ref: '#/components/schemas/PhoneCheckConfiguration'
+      required:
+        - op
+        - path
+        - value
 
-                If a `callback_url` parameter is passed when an individual Phone Check is created it will override the `callback_url` set within Project configuration.
-              type: string
-              format: uri
+    ProjectPhoneCheckCallbackUpdateOperation:
+      description: Add the Phone Check callback_url
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - replace
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /configuration/phone_check/callback_url
+        value:
+          description: The callback URL
+          type: string
+          format: URI
+      required:
+        - op
+        - path
+        - value
+
+    ProjectModeUpdateOperation:
+      description: Update the Project `mode`
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - replace
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /mode
+        value:
+          $ref: '#/components/schemas/ProjectMode'
+      required:
+        - op
+        - path
+        - value
+
+    ProjectPhoneCheckCallbackRemoveOperation:
+      description: Remove the Phone Check callback_url
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - remove
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /configuration/phone_check/callback_url
+      required:
+        - op
+        - path
+
+  parameters:
+    projectId:
+      name: project_id
+      description: The ID of the Project
+      schema:
+        $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+      in: path
+      required: true
