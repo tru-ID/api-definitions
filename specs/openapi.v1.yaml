@@ -442,10 +442,6 @@ paths:
                 $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCollection
 
   '/phone_check/v0.1/checks/{check_id}':
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
-        description: Phone Checks endpoint and version
-
 
     parameters:
       - name: check_id
@@ -484,9 +480,7 @@ paths:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
 
   '/phone_check/v0.1/checks/{check_id}/redirect':
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
-        description: Phone Checks endpoint and version
+
     parameters:
       - name: check_id
         description: The ID of the Phone Check
@@ -668,10 +662,6 @@ paths:
 
 
   '/console/v0.1/projects/{project_id}':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
-        description: Console endpoint and version
 
     parameters:
       - name: project_id
