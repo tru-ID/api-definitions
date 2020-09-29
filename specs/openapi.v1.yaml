@@ -115,145 +115,69 @@ paths:
         - oauth2
       requestBody:
         description: | 
-          The request body will differ depending on whether the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) or [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
-          flow is being followed.
-
-          The most common usage is Client Credentails Grant where `grant_type` should be `client_credentials`.
+          The request body should match the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) flow.
         content:
           'application/x-www-form-urlencoded':
             schema:
-              oneOf:
-                # Client Credentials Grant used by all non-OAuth2 provider API endpoints
-                - type: object
-                  description: | 
-                    Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                    This method of authentication is used by all non-OAuth2 provider API endpoints.
-                  properties:
-                    grant_type:
-                      description: |
-                        The type of grant; in this case a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                        Value must be set to `client_credentials`.
-                      type: string
-                      enum:
-                        - client_credentials
-                      example: client_credentials
-                    scope:
-                        $ref: '#/components/schemas/OAuth2Scope'
-
-                # Authorization Code Grant used with 4Auth applications such as the Console
-                - type: object
+              # Client Credentials Grant used by all non-OAuth2 provider API endpoints
+              type: object
+              description: | 
+                Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                The resulting token is used to access any API endpoints.
+              properties:
+                grant_type:
                   description: |
-                    **Used by internal 4Auth applications only**.
-                    The Access Token Request as part of a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1).
-                    Retrieves an Access Token from a `code`. 
-                  properties:
-                    client_id:
-                      description: The client identifier for the 4Auth application.
-                      type: string  
-                    grant_type:
-                      description: |
-                        The type of grant; in this case an [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1).
-                        Value must be set to `authorization_code`.
-                      type: string
-                      enum:
-                        - authorization_code
-                    code:
-                      description: The code that the client recieved during the interction with the `/auth` endpoint
-                      type: string
-                    redirect_uri:
-                      description: The redirect URL the client used during the interaction with the `/auth` endpoint 
-                      type: string
-                      format: uri
-                  required:
-                    - client_id
-                    - grant_type
-                    - code
-                    - redirect_uri
+                    The type of grant; in this case a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                    Value must be set to `client_credentials`.
+                  type: string
+                  enum:
+                    - client_credentials
+                  example: client_credentials
+                scope:
+                    $ref: '#/components/schemas/OAuth2Scope'
       responses:
         '200':
           description: The Access Token was successfully created.
           content:
             application/json:
               schema:
-                oneOf:
-                  # Client Credentails Grant
-                  - type: object
+                # Client Credentails Grant
+                type: object
+                description: |
+                  The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                properties:
+                  access_token:
+                    description: The Access Token to be used when authenticating with API endpoints
+                    type: string
+                    example: 2YotnFZFEjr1zCsicMWpAA
+                  token_type:
                     description: |
-                      The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                    properties:
-                      access_token:
-                        description: The Access Token to be used when authenticating with API endpoints
-                        type: string
-                        example: 2YotnFZFEjr1zCsicMWpAA
-                      token_type:
-                        description: |
-                          The type of token in `access_token`. The token type returned will always be `bearer`.
-                          For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
-                        type: string
-                        enum:
-                          - bearer
-                        example: bearer
-                      expires_in:
-                        description: The time in seconds when the token will expire.
-                        type: integer
-                        example: 3600
-                      scope:
-                        description: The scope of the access request i.e. what resources the Access Token provides access to.
-                        type:
-                          string
-                        enum:
-                          - projects
-                          - workspaces
-                          - phone_check
-                          - offline_access
-                    example:
-                      {
-                        "access_token": "2YotnFZFEjr1zCsicMWpAA",
-                        "token_type": "bearer",
-                        "expires_in": 3600,
-                        "scope": "phone_check"
-                      }
+                      The type of token in `access_token`. The token type returned will always be `bearer`.
+                      For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
+                    type: string
+                    enum:
+                      - bearer
+                    example: bearer
+                  expires_in:
+                    description: The time in seconds when the token will expire.
+                    type: integer
+                    example: 3600
+                  scope:
+                    description: The scope of the access request i.e. what resources the Access Token provides access to.
+                    type:
+                      string
+                    enum:
+                      - projects
+                      - workspaces
+                      - phone_check
+                example:
+                  {
+                    "access_token": "2YotnFZFEjr1zCsicMWpAA",
+                    "token_type": "bearer",
+                    "expires_in": 3600,
+                    "scope": "phone_check"
+                  }
 
-                  # Authorization Code Grant
-                  - type: object
-                    description: |
-                      **Used by internal 4Auth applications only**.
-                      The response to a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
-                    properties:
-                      access_token:
-                        description: The Access Token to be used when authenticating with API endpoints
-                        type: string
-                        example: 2YotnFZFEjr1zCsicMWpAA
-                      token_type:
-                        description: |
-                          The type of token in `access_token`. The token type returned will always be `bearer`.
-                          For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
-                        type: string
-                        enum:
-                          - bearer
-                      id_token:
-                        description: Contains the information about the user's Authentication
-                        type: string
-                        example: eyJhbGciOiJSUzINiImtpZCI6InB1Ympx
-                      expires_in:
-                        description: The time in seconds when the token will expire.
-                        type: integer
-                        example: 3600
-                      refresh_token:
-                        description: A token that can be used to request a new
-                        type: string
-                        example: tGzv3JOkF0XG5Qx2TlKWIA
-                      scope:
-                        $ref: '#/components/schemas/OAuth2Scope'
-                    example:
-                      {
-                        "access_token":"2YotnFZFEjr1zCsicMWpAA",
-                        "id_token":"eyJhbGciOiJSUzINiImtpZCI6InB1Ympx",
-                        "expires_in":3600,
-                        "token_type": "bearer",
-                        "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
-                        "scope": "projects"
-                      }
 
   '/oauth2/v1/revoke':
 
@@ -873,7 +797,6 @@ components:
         - projects
         - workspaces
         - phone_check
-        - offline_access
 
   parameters:
 
@@ -892,4 +815,3 @@ components:
           - projects
           - workspaces
           - phone_check
-          - offline_access
