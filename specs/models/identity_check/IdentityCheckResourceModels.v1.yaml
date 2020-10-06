@@ -21,12 +21,15 @@ components:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckPartial'
         - type: object
           properties:
-            no_sim_changes:
+            no_sim_change:
               description: |
-                Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-                `check_url` was accessed from.
+                Returns true if the SIM card hasn't been changed in the last 7 days.
               type: boolean
-    
+            last_sim_change_at:
+              description: When the last time the SIM card hasn't been changed.
+              allOf:
+                - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        
     IdentityCheck:
       description: The payload sent to a callback URL upon a Identity Check reaching an end state.
       allOf:
@@ -55,10 +58,10 @@ components:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: COMPLETED
         match: true
+        no_sim_change: true
         charge_amount: 1
         charge_currency: API
         created_at: '2020-06-01T16:43:30+00:00'
-        ttl: 60
         _links:
           self:
             href: https://us.api.4auth.io/identity_checks/v0.1/checks/{check_id}
