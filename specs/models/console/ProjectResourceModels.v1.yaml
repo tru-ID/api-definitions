@@ -154,6 +154,7 @@ components:
           - $ref: '#/components/schemas/ProjectPhoneCheckCallbackUpdateOperation'
           - $ref: '#/components/schemas/ProjectPhoneCheckCallbackRemoveOperation'
           - $ref: '#/components/schemas/ProjectModeUpdateOperation'
+          - $ref: '#/components/schemas/ProjectNameUpdateOperation'
 
     ProjectPhoneCheckCallbackAddOperation:
       description: Add the Phone Check callback_url
@@ -219,6 +220,29 @@ components:
             - /mode
         value:
           $ref: '#/components/schemas/ProjectMode'
+      required:
+        - op
+        - path
+        - value
+
+    ProjectNameUpdateOperation:
+      description: Update the Project `name`
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - replace
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /name
+        value:
+          description: The new name
+          type: string
+          format: URI
       required:
         - op
         - path
