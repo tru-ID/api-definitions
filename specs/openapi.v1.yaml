@@ -639,6 +639,12 @@ paths:
                   - op: 'replace'
                     path: '/mode'
                     value: 'live'
+              change_name:
+                summary: Change the Project name
+                value:
+                  - op: 'replace'
+                    path: '/name'
+                    value: 'my-new-name'
               add_callback_url:
                 summary: Add a `callback_url` to the Project configuration
                 value:
