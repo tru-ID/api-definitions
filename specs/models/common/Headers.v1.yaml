@@ -37,7 +37,7 @@ components:
       name: 'Authorization'
       in: header
       description: |
-        To be used for [HTTP message signing authentication](/docs/authentication#signed) in the verification that the callback came from the 4Auth platform and was signed with a 4Auth private key and thus can be read with a 4Auth public key.
+        To be used for [HTTP message signing authentication](/docs/authentication#signed) in the verification that the callback came from the tru.ID platform and was signed with a tru.ID private key and thus can be read with a tru.ID public key.
         
         The value for the header is in the format `Signature keyId="{key_id}",algorithm="{algorithm_value}",headers="{headers_value}",signature="{signature_value}"`.
 

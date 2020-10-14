@@ -31,4 +31,4 @@ components:
       allOf:
         - $ref: '#/components/responses/ProblemDetailsBase'
       example:
-        type: https://4auth.io/docs/reference/api/errors#invalid_phone_number_format
+        type: https://tru.id/docs/reference/api/errors#invalid_phone_number_format
