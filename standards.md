@@ -102,7 +102,7 @@ X-4AUTH-API-VERSION: 1.2.1
 
 The URL structure that our APIs follow is:
 
-`https://{data_residency}.api.4auth.io/{product_grouping}/{version}/{resource}`
+`https://{data_residency}.api.tru.id/{product_grouping}/{version}/{resource}`
 
 The key pieces of information are outlined below along with where they are represented within an API request:
 
@@ -118,9 +118,9 @@ The key pieces of information are outlined below along with where they are repre
 
 Examples:
 
-- `https://eu.api.4auth.io/phone_check/v1/checks`
-- `https://us.api.4auth.io/console/v1/projects`
-- `https://eu.api.4auth.io/console/v1/users`
+- `https://eu.api.tru.id/phone_check/v1/checks`
+- `https://us.api.tru.id/console/v1/projects`
+- `https://eu.api.tru.id/console/v1/users`
 
 ## HTTP Verbs
 
