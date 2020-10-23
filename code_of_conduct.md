@@ -60,7 +60,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-[community@4auth.io](mailto:community@4auth.io).
+[community@tru.id](mailto:community@tru.id).
 
 All complaints will be reviewed and investigated promptly and fairly.
 
@@ -131,5 +131,5 @@ https://www.contributor-covenant.org/translations.
 ## TODO
 
 - [ ] Team to review, discuss and agree
-- [ ] Create community@4auth.io or appropriate domain
+- [ ] Create community@tru.id or appropriate domain
 - [ ] Move Code of Conduct out of API Definitions and into central community-focused resource

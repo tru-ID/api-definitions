@@ -1,37 +1,26 @@
 openapi: 3.0.0
 info:
-  title: 4Auth APIs
+  title: tru APIs
   version: 'v0.1'
   contact:
-    name: 4Auth API Team
-    email: feedback@4auth.io
+    name: tru API Team
+    email: feedback@tru.id
   description: |
     # Introduction
 
-    The 4Auth API uses [OAuth2](#tag/oauth2) Access Tokens for authenentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
+    The tru API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
     
     
-    The [**4Auth Phone Check Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **Phone Check URL** for the purpose of this verification. 4Auth then resolves a **Phone Check Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
+    The [**tru Phone Check Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **Phone Check URL** for the purpose of this verification. tru.ID then resolves a **Phone Check Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
 
 servers:
-  - url: 'https://{data_residency}.api.4auth.io/{product_group}/{version}'
+  - url: 'https://{data_residency}.api.tru.id'
     description: For accounts with data residency in the EU
     variables:
       data_residency:
         default: eu
         enum:
           - eu
-      product_group:
-        default: phone_check
-        enum:
-          - phone_check
-          - oauth2
-          - console
-      version:
-        default: v0.1
-        enum:
-          - v0.1
-          - v1.0
 
 tags:
   - name: oauth2
@@ -63,15 +52,11 @@ x-tagGroups:
 
 paths:
 
-  '/auth':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
-        description: OAuth2 endpoint and version
+  '/oauth2/v1/auth':
 
     get:
       summary: Obtain an authorization grant (Restricted Usage)
-      description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for 4Auth owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1 
+      description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for tru owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1 
       operationId: oauth2-auth
       tags:
         - hide
@@ -83,7 +68,7 @@ paths:
             type: string
             example: code          
         - name: client_id
-          description: The client identifier. Only issued for use with `/auth` to internal 4Auth applications.
+          description: The client identifier. Only issued for use with `/auth` to internal tru applications.
           in: query
           schema:
             type: string
@@ -113,17 +98,13 @@ paths:
             X-RateLimit-Remaining:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
 
-  '/token':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
-        description: OAuth2 endpoint and version
+  '/oauth2/v1/token':
 
     post:
       summary: Create an Access Token
       description: |
         Creates an Access Token. Access Tokens are credentails used to authenticate API interactions.
-        With the 4Auth platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
+        With the tru.ID platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
 
         To obtain a `client_id` and `client_secret` you must first [create a Project](#operation/create-project).
 
@@ -134,151 +115,71 @@ paths:
         - oauth2
       requestBody:
         description: | 
-          The request body will differ depending on whether the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) or [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
-          flow is being followed.
-
-          The most common usage is Client Credentails Grant where `grant_type` should be `client_credentials`.
+          The request body should match the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) flow.
         content:
           'application/x-www-form-urlencoded':
             schema:
-              oneOf:
-                # Client Credentials Grant used by all non-OAuth2 provider API endpoints
-                - type: object
-                  description: | 
-                    Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                    This method of authentication is used by all non-OAuth2 provider API endpoints.
-                  properties:
-                    grant_type:
-                      description: |
-                        The type of grant; in this case a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                        Value must be set to `client_credentials`.
-                      type: string
-                      enum:
-                        - client_credentials
-                      example: client_credentials
-                    scope:
-                        $ref: '#/components/schemas/OAuth2Scope'
-
-                # Authorization Code Grant used with 4Auth applications such as the Console
-                - type: object
+              # Client Credentials Grant used by all non-OAuth2 provider API endpoints
+              type: object
+              description: | 
+                Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                The resulting token is used to access any API endpoints.
+              properties:
+                grant_type:
                   description: |
-                    **Used by internal 4Auth applications only**.
-                    The Access Token Request as part of a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1).
-                    Retrieves an Access Token from a `code`. 
-                  properties:
-                    client_id:
-                      description: The client identifier for the 4Auth application.
-                      type: string  
-                    grant_type:
-                      description: |
-                        The type of grant; in this case an [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1).
-                        Value must be set to `authorization_code`.
-                      type: string
-                      enum:
-                        - authorization_code
-                    code:
-                      description: The code that the client recieved during the interction with the `/auth` endpoint
-                      type: string
-                    redirect_uri:
-                      description: The redirect URL the client used during the interaction with the `/auth` endpoint 
-                      type: string
-                      format: uri
-                  required:
-                    - client_id
-                    - grant_type
-                    - code
-                    - redirect_uri
+                    The type of grant; in this case a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                    Value must be set to `client_credentials`.
+                  type: string
+                  enum:
+                    - client_credentials
+                  example: client_credentials
+                scope:
+                    $ref: '#/components/schemas/OAuth2Scope'
       responses:
         '200':
           description: The Access Token was successfully created.
           content:
             application/json:
               schema:
-                oneOf:
-                  # Client Credentails Grant
-                  - type: object
+                # Client Credentails Grant
+                type: object
+                description: |
+                  The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                properties:
+                  access_token:
+                    description: The Access Token to be used when authenticating with API endpoints
+                    type: string
+                    example: 2YotnFZFEjr1zCsicMWpAA
+                  token_type:
                     description: |
-                      The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                    properties:
-                      access_token:
-                        description: The Access Token to be used when authenticating with API endpoints
-                        type: string
-                        example: 2YotnFZFEjr1zCsicMWpAA
-                      token_type:
-                        description: |
-                          The type of token in `access_token`. The token type returned will always be `bearer`.
-                          For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
-                        type: string
-                        enum:
-                          - bearer
-                        example: bearer
-                      expires_in:
-                        description: The time in seconds when the token will expire.
-                        type: integer
-                        example: 3600
-                      scope:
-                        description: The scope of the access request i.e. what resources the Access Token provides access to.
-                        type:
-                          string
-                        enum:
-                          - projects
-                          - workspaces
-                          - phone_check
-                          - offline_access
-                    example:
-                      {
-                        "access_token": "2YotnFZFEjr1zCsicMWpAA",
-                        "token_type": "bearer",
-                        "expires_in": 3600,
-                        "scope": "phone_check"
-                      }
+                      The type of token in `access_token`. The token type returned will always be `bearer`.
+                      For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
+                    type: string
+                    enum:
+                      - bearer
+                    example: bearer
+                  expires_in:
+                    description: The time in seconds when the token will expire.
+                    type: integer
+                    example: 3600
+                  scope:
+                    description: The scope of the access request i.e. what resources the Access Token provides access to.
+                    type:
+                      string
+                    enum:
+                      - projects
+                      - workspaces
+                      - phone_check
+                example:
+                  {
+                    "access_token": "2YotnFZFEjr1zCsicMWpAA",
+                    "token_type": "bearer",
+                    "expires_in": 3600,
+                    "scope": "phone_check"
+                  }
 
-                  # Authorization Code Grant
-                  - type: object
-                    description: |
-                      **Used by internal 4Auth applications only**.
-                      The response to a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
-                    properties:
-                      access_token:
-                        description: The Access Token to be used when authenticating with API endpoints
-                        type: string
-                        example: 2YotnFZFEjr1zCsicMWpAA
-                      token_type:
-                        description: |
-                          The type of token in `access_token`. The token type returned will always be `bearer`.
-                          For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
-                        type: string
-                        enum:
-                          - bearer
-                      id_token:
-                        description: Contains the information about the user's Authentication
-                        type: string
-                        example: eyJhbGciOiJSUzINiImtpZCI6InB1Ympx
-                      expires_in:
-                        description: The time in seconds when the token will expire.
-                        type: integer
-                        example: 3600
-                      refresh_token:
-                        description: A token that can be used to request a new
-                        type: string
-                        example: tGzv3JOkF0XG5Qx2TlKWIA
-                      scope:
-                        $ref: '#/components/schemas/OAuth2Scope'
-                    example:
-                      {
-                        "access_token":"2YotnFZFEjr1zCsicMWpAA",
-                        "id_token":"eyJhbGciOiJSUzINiImtpZCI6InB1Ympx",
-                        "expires_in":3600,
-                        "token_type": "bearer",
-                        "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
-                        "scope": "projects"
-                      }
 
-  '/revoke':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/oauth2/v1'
-        description: OAuth2 endpoint and version
+  '/oauth2/v1/revoke':
 
     post:
       summary: Revoke an token
@@ -311,11 +212,11 @@ paths:
         '200':
           description: Response whether the Access Token was valid or invalid.
 
-  '/sessions/logout':
+  '/oauth2/v1/sessions/logout':
     get:
       summary: Logout of the current user session (Restricted Usage)
       description: |
-        **Used by internal 4Auth applications only**.
+        **Used by internal tru applications only**.
         Log the current user out of an authenticated session with the OAuth2 provider.
       operationId: oauth2-sessions-logout
       security:
@@ -353,11 +254,7 @@ paths:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
 
 
-  /checks:
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
-        description: Phone Checks endpoint and version
+  '/phone_check/v0.1/checks':
 
     post:
       summary: Create a Phone Check workflow
@@ -373,22 +270,28 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                phone_number:
-                  description: The phone number to be checked
-                  type: string
-                  example: '447700900000'
-                  format: E.164
-                reference_id:
-                  description: A field that you can use to track the check request against your own internal reference.
-                  type: string
-                  example: my_internal_reference
-              required:
-                - phone_number
-              example:
-                phone_number: '447700900000'
-                reference_id: 'my_internal_reference'
+              $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCreatePayload
+
+      callbacks:
+        phoneCheckEndStatus: 
+          '{$request.body#/callback_url}':
+            post:
+              summary: Phone Check has reached an end status
+              parameters:
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-security'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-callback'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/digest'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/date'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/host'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: './models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload'
+              responses:
+                $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
+      
       responses:
         '201':
           description: Phone Check created
@@ -446,6 +349,7 @@ paths:
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/sort'
       responses:
         '200':
           description: OK
@@ -461,11 +365,7 @@ paths:
               schema:
                 $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCollection
 
-  '/checks/{check_id}':
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
-        description: Phone Checks endpoint and version
-
+  '/phone_check/v0.1/checks/{check_id}':
 
     parameters:
       - name: check_id
@@ -503,10 +403,8 @@ paths:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
 
-  '/checks/{check_id}/redirect':
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/phone_check/v0.1'
-        description: Phone Checks endpoint and version
+  '/phone_check/v0.1/checks/{check_id}/redirect':
+
     parameters:
       - name: check_id
         description: The ID of the Phone Check
@@ -542,11 +440,7 @@ paths:
   # Projects
   ##############
   
-  '/projects':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
-        description: Console endpoint and version
+  '/console/v0.1/projects':
 
     post:
       summary: Create a Project
@@ -556,6 +450,16 @@ paths:
         - BearerAuth: []
       tags:
         - projects
+      requestBody:
+        description: A JSON payload for the Project that is to be created.
+        content:
+          application/json:
+            schema:
+              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/CreateProjectPayload
+            examples:
+              basic:
+                value:
+                  name: My test project
       responses:
         '201':
           description: Created
@@ -584,16 +488,26 @@ paths:
                       - client_id: 6779ef20e75817b79602
                         client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
                         created_at: '2020-06-01T16:43:30+00:00'
-      requestBody:
-        description: A JSON payload for the Project that is to be created.
-        content:
-          application/json:
-            schema:
-              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/CreateProjectPayload
-            examples:
-              basic:
-                value:
-                  name: My test project
+
+      callbacks:
+        projectLevelPhoneCheckEndStatus: 
+          '{$request.body#/configuration.phone_check.callback_url}':
+            post:
+              summary: Phone Check has reached an end status
+              parameters:
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-security'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-callback'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/digest'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/date'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/host'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: './models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload'
+              responses:
+                $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
 
     get:
       summary: Retrieve a collection of Projects
@@ -613,6 +527,7 @@ paths:
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/sort'
       responses:
         '200':
           description: OK
@@ -644,6 +559,9 @@ paths:
                           name: My first project
                           created_at: '2020-06-01T16:43:30+00:00'
                           updated_at: '2020-06-01T16:43:30+00:00'
+                          credentials:
+                            - client_id: 63f16604-2b4f-4e45-b32f-59290507fe93
+                              created_at: '2020-06-01T16:43:30+00:00'
                         - _links:
                             self:
                               href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
@@ -651,32 +569,26 @@ paths:
                           name: My second project
                           created_at: '2020-06-01T16:43:30+00:00'
                           updated_at: '2020-06-01T16:43:30+00:00'
+                          credentials:
+                            - client_id: 63f16604-2b4f-4e45-b32f-59290507fe92
+                              created_at: '2020-06-01T16:43:30+00:00'
                     _links:
                       first:
                         href: '/projects/page=1&size=10'
                       last:
-                        href: '/projects/page=1&size=10'
+                        href: '/projects/page=3&size=10'
                       next:
-                        href: null
+                        href: '/projects/page=3&size=10'
                       prev:
-                        href: null
+                        href: '/projects/page=1&size=10'
                       self:
-                        href: /projects?size=10
+                        href: '/projects/page=2&size=10'
 
 
-  '/projects/{project_id}':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
-        description: Console endpoint and version
+  '/console/v0.1/projects/{project_id}':
 
     parameters:
-      - name: project_id
-        description: The ID of the Project
-        schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
-        in: path
-        required: true
+      - $ref: './models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId'
     get:
       summary: Retrieve Project
       description: Get a Project identified by `project_id`.
@@ -685,6 +597,74 @@ paths:
         - BearerAuth: []
       tags:
         - projects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+    patch:
+      summary: Update a Project
+      description: Update the project identified by the `project_id`.
+      operationId: patch-project
+      security:
+        - BearerAuth: []
+      tags:
+        - projects
+      requestBody:
+        description: A JSON payload for the Project that is to be created.
+        content:
+          application/json:
+            schema:
+              $ref: './models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPatchPayload'
+            examples:
+              change_mode:
+                summary: Change the Project mode to `live`
+                value:
+                  - op: 'replace'
+                    path: '/mode'
+                    value: 'live'
+              change_name:
+                summary: Change the Project name
+                value:
+                  - op: 'replace'
+                    path: '/name'
+                    value: 'my-new-name'
+              add_callback_url:
+                summary: Add a `callback_url` to the Project configuration
+                value:
+                  - op: 'add'
+                    path: '/configuration'
+                    value:
+                      phone_check:
+                        callback_url: 'https://example.com/callback'
+              replace_callback_url:
+                summary: Replace a `callback_url` for a Project configuration
+                value:
+                  - op: 'replace'
+                    path: '/configuration/phone_check/callback_url'
+                    value: 'https://example.com/updated_callback'
+              remove_callback_url:
+                summary: Remove the `callback_url` from the Project configuration
+                value:
+                  - op: 'remove'
+                    path: '/configuration/phone_check/callback_url'
+
       responses:
         '200':
           description: OK
@@ -728,11 +708,7 @@ paths:
   ##############
   # Workspaces
   ##############
-  '/workspaces/default':
-
-    servers:
-      - url: 'https://{data_residency}.api.4auth.io/console/v0.1'
-        description: Console endpoint and version
+  '/console/v0.1/workspaces/default':
 
     get:
       summary: Get the default workspace for the current user
@@ -784,17 +760,17 @@ paths:
                           amount_reserved:
                             description: The amount in `currency` that has been reserved due to pending operations
                             type: integer
-                      owner:
-                        description: The owner of the workspace
-                        type: object
-                        properties:
-                          full_name:
-                            description: The full name of the owner of the Workspace
-                            type: string
-                          email:
-                            description: The email address of the owner of the Workspace
-                            type: string
-                            format: email 
+                      # owner:
+                      #   description: The owner of the workspace
+                      #   type: object
+                      #   properties:
+                      #     full_name:
+                      #       description: The full name of the owner of the Workspace
+                      #       type: string
+                      #     email:
+                      #       description: The email address of the owner of the Workspace
+                      #       type: string
+                      #       format: email 
 
 components:
   securitySchemes:
@@ -808,7 +784,7 @@ components:
 
     BearerAuth:
       description: |
-        The 4Auth APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
+        The tru APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
         e.g. `Authorization: Bearer {access_token}`
       type: http
       scheme: bearer
@@ -827,7 +803,6 @@ components:
         - projects
         - workspaces
         - phone_check
-        - offline_access
 
   parameters:
 
@@ -846,4 +821,3 @@ components:
           - projects
           - workspaces
           - phone_check
-          - offline_access

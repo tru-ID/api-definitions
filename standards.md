@@ -102,7 +102,7 @@ X-4AUTH-API-VERSION: 1.2.1
 
 The URL structure that our APIs follow is:
 
-`https://{data_residency}.api.4auth.io/{product_grouping}/{version}/{resource}`
+`https://{data_residency}.api.tru.id/{product_grouping}/{version}/{resource}`
 
 The key pieces of information are outlined below along with where they are represented within an API request:
 
@@ -118,9 +118,9 @@ The key pieces of information are outlined below along with where they are repre
 
 Examples:
 
-- `https://eu.api.4auth.io/phone_check/v1/checks`
-- `https://us.api.4auth.io/console/v1/projects`
-- `https://eu.api.4auth.io/console/v1/users`
+- `https://eu.api.tru.id/phone_check/v1/checks`
+- `https://us.api.tru.id/console/v1/projects`
+- `https://eu.api.tru.id/console/v1/users`
 
 ## HTTP Verbs
 
@@ -136,9 +136,9 @@ Examples
 
 - `GET /projects` - lists all the resources of the collection `projects`
 - `GET /projects/{project_id}` - lists the details of the single project resource from the `projects` collection
-- `POST /projects -d '{"name": "My first project", "capabilities": ["x", "y"]}'` - create a new project
-- `PUT /projects/{project_id} -d '{"name": "Only X", "capabilities": ["x"]}'` - Replaces all the resource details. In this example the `name` is changed and only the `x` capability is now supported by the project
-- `PATCH /projects/{project_id} -d '{"name": "A more descriptive name"}'` - Update only the project name
+- `POST /projects -d '{"name": "My first project"'` - create a new project
+- `PUT /projects/{project_id} -d '{"name": "Only X"}'` - Replaces all the resource details. In this example the `name` is changed
+- `PATCH /projects/{project_id} -d '{"name": "A more descriptive name"}'` - Update only the project name (TODO: update to JSON-PATCH)
 - `DELETE /projects/{project_id}` - Remove the project identified by `{project_id}` from the collection
 
 Within the OpenAPI specification and thus the rendered API References the operations must be ordered as follows:

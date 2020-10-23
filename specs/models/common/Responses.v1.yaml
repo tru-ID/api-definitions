@@ -1,0 +1,12 @@
+title: Responses
+type: object
+description: Definitions of commonly used responses
+components:
+  responses:
+  
+    WebHookExpectedResponse:
+      '200':
+        description: |
+          The receiving server should return a 200 response to indicate it has processed the callback.
+          
+          Upon receipt of a non-200 response a retry process will begin. The retry period will start at 10 seconds and increase by 10 seconds until the retry time is one minute at which point the platform will stop retrying.
