@@ -1,26 +1,21 @@
-title: CheckResourceModels
+title: SimCheckResourceModels
 type: object
-description: Definitions of abstract models
+description: Definitions of models related to SIM Check resources
 components:
-  schemas:
-    
-    CheckStatus:
+  schemas:  
+
+    SimCheckStatus:
       description: |
-        - `ACCEPTED`: The Check request has been accepted by the platform
-        - `PENDING`: The Check request has been triggered but has not yet completed
         - `COMPLETED`: The Check request has completed
-        - `EXPIRED`: The Check was not triggered within the TTL (time-to-live) period. By default this is 60 seconds.
         - `ERROR`: An error occurred.
       type: string
       enum:
-        - ACCEPTED
-        - PENDING
         - COMPLETED
-        - EXPIRED
         - ERROR
-      example: ACCEPTED
+      example: COMPLETED
 
-    CheckCreatePayload:
+    SimCheckCreatePayload:
+      description: Payload for creating a SIM Check
       type: object
       properties:
         phone_number:
@@ -36,22 +31,14 @@ components:
           description: Optional. A field that you can use to track the check request against your own internal reference.
           type: string
           example: my_internal_reference
-        callback_url:
-          description: |
-            Optional. A public URL that will receive a POST request when the Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
-
-            The `callback_url` used for an individual Check will override a `callback_url` set within Project configuration.
-          type: string
-          format: uri
-          example: https://example.com/callback
       required:
         - phone_number
       example:
         phone_number: '447700900000'
         reference_id: 'my_internal_reference'
-
-    CheckPartial:
-      type: object
+        
+    SimCheck:
+      description: The payload sent to a callback URL upon a Identity Check reaching an end state.
       properties:
         check_id:
           description: The unique ID of the Check resource
@@ -61,12 +48,15 @@ components:
           type: string
           example: my_internal_reference
         status:
-          $ref: '#/components/schemas/CheckStatus'
-        match:
+          $ref: '#/components/schemas/SimCheckStatus'
+        no_sim_change:
           description: |
-            Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-            `check_url` was accessed from.
+            Returns true if the SIM card hasn't been changed in the last 7 days.
           type: boolean
+        last_sim_change_at:
+          description: When the last time the SIM card hasn't been changed.
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
         charge_amount:
           description: The amount that was charge for this Check
           type: number
@@ -78,36 +68,56 @@ components:
           description: When the Check was created
           allOf:
             - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
-        updated_at:
-          description: When the Check was last updated
-          allOf:
-            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
-        ttl:
-          description: >
-            (Time to live) The number of seconds after which the Check will expire and the `status` will change to `EXPIRED`.
-          type: integer
-          default: 60
-          example: 60
-        callback_url:
-          description: Optional. A public URL that will receive a POST request when the Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
-          type: string
-          example: https://example.com/callback
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              description: The link to the current resource
+              allOf:
+                - $ref: ../common/Link.v1.yaml
+            check_url:
+              description: A URL that the mobile client must navigate as part of the Identity Check verification flow.
+              allOf:
+                - $ref: ../common/Link.v1.yaml
+          required:
+            - self
 
       required:
         - check_id
         - status
-        - match
         - charge_amount
         - charge_currency
         - created_at
-        - ttl
+        - _links
+
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: COMPLETED
-        match: true
+        no_sim_change: true
         charge_amount: 1
         charge_currency: API
         created_at: '2020-06-01T16:43:30+00:00'
-        ttl: 60
-    
-    
+        _links:
+          self:
+            href: https://us.api.4auth.io/identity_checks/v0.1/checks/{check_id}
+
+    SimCheckCollection:
+      description: A SIM Check resource
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
+          properties:
+            _links:
+              description: Links related to the current resource
+              $ref: ../common/PaginationLinks.v1.yaml
+            _embedded:
+              description: Resources related to the resource request
+              type: object
+              properties:
+                checks:
+                  description: The SIM Checks within the collection
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/SimCheck'
+
