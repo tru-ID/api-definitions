@@ -808,7 +808,6 @@ paths:
                 $ref: ./models/sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimCheckCollection
 
   '/sim_check/v0.1/checks/{check_id}':
-
     parameters:
       - name: check_id
         description: The ID of the SIM Check

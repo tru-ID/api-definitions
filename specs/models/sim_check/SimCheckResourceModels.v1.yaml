@@ -76,10 +76,6 @@ components:
               description: The link to the current resource
               allOf:
                 - $ref: ../common/Link.v1.yaml
-            check_url:
-              description: A URL that the mobile client must navigate as part of the Identity Check verification flow.
-              allOf:
-                - $ref: ../common/Link.v1.yaml
           required:
             - self
 
