@@ -54,9 +54,9 @@ components:
         ttl: 60
         _links:
           self:
-            href: https://us.api.4auth.io/phone_checks/v0.1/checks/{check_id}
+            href: https://us.api.tru.id/phone_checks/v0.1/checks/{check_id}
           check_url:
-            href: https://us.api.4auth.io/phone_checks/v0.1/checks/{check_id}/redirect
+            href: https://us.api.tru.id/phone_checks/v0.1/checks/{check_id}/redirect
 
     PhoneCheckCollection:
       description: A Phone Check resource

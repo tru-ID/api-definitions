@@ -127,145 +127,69 @@ paths:
         - oauth2
       requestBody:
         description: | 
-          The request body will differ depending on whether the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) or [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
-          flow is being followed.
-
-          The most common usage is Client Credentails Grant where `grant_type` should be `client_credentials`.
+          The request body should match the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) flow.
         content:
           'application/x-www-form-urlencoded':
             schema:
-              oneOf:
-                # Client Credentials Grant used by all non-OAuth2 provider API endpoints
-                - type: object
-                  description: | 
-                    Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                    This method of authentication is used by all non-OAuth2 provider API endpoints.
-                  properties:
-                    grant_type:
-                      description: |
-                        The type of grant; in this case a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                        Value must be set to `client_credentials`.
-                      type: string
-                      enum:
-                        - client_credentials
-                      example: client_credentials
-                    scope:
-                        $ref: '#/components/schemas/OAuth2Scope'
-
-                # Authorization Code Grant used with tru ID applications such as the Console
-                - type: object
+              # Client Credentials Grant used by all non-OAuth2 provider API endpoints
+              type: object
+              description: | 
+                Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                The resulting token is used to access any API endpoints.
+              properties:
+                grant_type:
                   description: |
-                    **Used by internal tru ID applications only**.
-                    The Access Token Request as part of a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1).
-                    Retrieves an Access Token from a `code`. 
-                  properties:
-                    client_id:
-                      description: The client identifier for the tru ID application.
-                      type: string  
-                    grant_type:
-                      description: |
-                        The type of grant; in this case an [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1).
-                        Value must be set to `authorization_code`.
-                      type: string
-                      enum:
-                        - authorization_code
-                    code:
-                      description: The code that the client recieved during the interction with the `/auth` endpoint
-                      type: string
-                    redirect_uri:
-                      description: The redirect URL the client used during the interaction with the `/auth` endpoint 
-                      type: string
-                      format: uri
-                  required:
-                    - client_id
-                    - grant_type
-                    - code
-                    - redirect_uri
+                    The type of grant; in this case a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                    Value must be set to `client_credentials`.
+                  type: string
+                  enum:
+                    - client_credentials
+                  example: client_credentials
+                scope:
+                    $ref: '#/components/schemas/OAuth2Scope'
       responses:
         '200':
           description: The Access Token was successfully created.
           content:
             application/json:
               schema:
-                oneOf:
-                  # Client Credentails Grant
-                  - type: object
+                # Client Credentails Grant
+                type: object
+                description: |
+                  The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                properties:
+                  access_token:
+                    description: The Access Token to be used when authenticating with API endpoints
+                    type: string
+                    example: 2YotnFZFEjr1zCsicMWpAA
+                  token_type:
                     description: |
-                      The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                    properties:
-                      access_token:
-                        description: The Access Token to be used when authenticating with API endpoints
-                        type: string
-                        example: 2YotnFZFEjr1zCsicMWpAA
-                      token_type:
-                        description: |
-                          The type of token in `access_token`. The token type returned will always be `bearer`.
-                          For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
-                        type: string
-                        enum:
-                          - bearer
-                        example: bearer
-                      expires_in:
-                        description: The time in seconds when the token will expire.
-                        type: integer
-                        example: 3600
-                      scope:
-                        description: The scope of the access request i.e. what resources the Access Token provides access to.
-                        type:
-                          string
-                        enum:
-                          - projects
-                          - workspaces
-                          - phone_check
-                          - offline_access
-                    example:
-                      {
-                        "access_token": "2YotnFZFEjr1zCsicMWpAA",
-                        "token_type": "bearer",
-                        "expires_in": 3600,
-                        "scope": "phone_check"
-                      }
+                      The type of token in `access_token`. The token type returned will always be `bearer`.
+                      For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
+                    type: string
+                    enum:
+                      - bearer
+                    example: bearer
+                  expires_in:
+                    description: The time in seconds when the token will expire.
+                    type: integer
+                    example: 3600
+                  scope:
+                    description: The scope of the access request i.e. what resources the Access Token provides access to.
+                    type:
+                      string
+                    enum:
+                      - projects
+                      - workspaces
+                      - phone_check
+                example:
+                  {
+                    "access_token": "2YotnFZFEjr1zCsicMWpAA",
+                    "token_type": "bearer",
+                    "expires_in": 3600,
+                    "scope": "phone_check"
+                  }
 
-                  # Authorization Code Grant
-                  - type: object
-                    description: |
-                      **Used by internal tru ID applications only**.
-                      The response to a [Authorization Code Grant](https://tools.ietf.org/html/rfc6749#section-4.1)
-                    properties:
-                      access_token:
-                        description: The Access Token to be used when authenticating with API endpoints
-                        type: string
-                        example: 2YotnFZFEjr1zCsicMWpAA
-                      token_type:
-                        description: |
-                          The type of token in `access_token`. The token type returned will always be `bearer`.
-                          For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
-                        type: string
-                        enum:
-                          - bearer
-                      id_token:
-                        description: Contains the information about the user's Authentication
-                        type: string
-                        example: eyJhbGciOiJSUzINiImtpZCI6InB1Ympx
-                      expires_in:
-                        description: The time in seconds when the token will expire.
-                        type: integer
-                        example: 3600
-                      refresh_token:
-                        description: A token that can be used to request a new
-                        type: string
-                        example: tGzv3JOkF0XG5Qx2TlKWIA
-                      scope:
-                        $ref: '#/components/schemas/OAuth2Scope'
-                    example:
-                      {
-                        "access_token":"2YotnFZFEjr1zCsicMWpAA",
-                        "id_token":"eyJhbGciOiJSUzINiImtpZCI6InB1Ympx",
-                        "expires_in":3600,
-                        "token_type": "bearer",
-                        "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
-                        "scope": "projects"
-                      }
 
   '/oauth2/v1/revoke':
 
@@ -495,9 +419,6 @@ paths:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
 
   '/phone_check/v0.1/checks/{check_id}/redirect':
-    servers:
-      - url: 'https://{data_residency}.api.tru.id/phone_check/v0.1'
-        description: Phone Checks endpoint and version
     parameters:
       - name: check_id
         description: The ID of the Phone Check
@@ -858,6 +779,16 @@ paths:
         - BearerAuth: []
       tags:
         - projects
+      requestBody:
+        description: A JSON payload for the Project that is to be created.
+        content:
+          application/json:
+            schema:
+              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/CreateProjectPayload
+            examples:
+              basic:
+                value:
+                  name: My test project
       responses:
         '201':
           description: Created
@@ -886,16 +817,6 @@ paths:
                       - client_id: 6779ef20e75817b79602
                         client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
                         created_at: '2020-06-01T16:43:30+00:00'
-      requestBody:
-        description: A JSON payload for the Project that is to be created.
-        content:
-          application/json:
-            schema:
-              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/CreateProjectPayload
-            examples:
-              basic:
-                value:
-                  name: My test project
 
       callbacks:
         projectLevelPhoneCheckEndStatus: 
@@ -994,18 +915,8 @@ paths:
 
 
   '/console/v0.1/projects/{project_id}':
-
-    servers:
-      - url: 'https://{data_residency}.api.tru.id/console/v0.1'
-        description: Console endpoint and version
-
     parameters:
-      - name: project_id
-        description: The ID of the Project
-        schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
-        in: path
-        required: true
+      - $ref: './models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId'
     get:
       summary: Retrieve Project
       description: Get a Project identified by `project_id`.
@@ -1014,6 +925,74 @@ paths:
         - BearerAuth: []
       tags:
         - projects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+    patch:
+      summary: Update a Project
+      description: Update the project identified by the `project_id`.
+      operationId: patch-project
+      security:
+        - BearerAuth: []
+      tags:
+        - projects
+      requestBody:
+        description: A JSON payload for the Project that is to be created.
+        content:
+          application/json:
+            schema:
+              $ref: './models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPatchPayload'
+            examples:
+              change_mode:
+                summary: Change the Project mode to `live`
+                value:
+                  - op: 'replace'
+                    path: '/mode'
+                    value: 'live'
+              change_name:
+                summary: Change the Project name
+                value:
+                  - op: 'replace'
+                    path: '/name'
+                    value: 'my-new-name'
+              add_callback_url:
+                summary: Add a `callback_url` to the Project configuration
+                value:
+                  - op: 'add'
+                    path: '/configuration'
+                    value:
+                      phone_check:
+                        callback_url: 'https://example.com/callback'
+              replace_callback_url:
+                summary: Replace a `callback_url` for a Project configuration
+                value:
+                  - op: 'replace'
+                    path: '/configuration/phone_check/callback_url'
+                    value: 'https://example.com/updated_callback'
+              remove_callback_url:
+                summary: Remove the `callback_url` from the Project configuration
+                value:
+                  - op: 'remove'
+                    path: '/configuration/phone_check/callback_url'
+
       responses:
         '200':
           description: OK
@@ -1148,13 +1127,14 @@ components:
         - `workspaces`: `/console/{version}/workspaces` resources
         - `phone_check`: `/phone_check` resources
         - `identity_check`: `/identity_check` resources
+        - `sim_check`: `/sim_check` resources
       type: string
       enum:
         - projects
         - workspaces
         - phone_check
         - identity_check
-        - offline_access
+        - sim_check
 
   parameters:
 
@@ -1167,6 +1147,7 @@ components:
         - `workspaces`: `/console/{version}/workspaces` resources
         - `phone_check`: `/phone_check` resources
         - `identity_check`: `/identity_check` resources
+        - `sim_check`: `/sim_check` resources
       in: query
       schema:
         type: string
@@ -1175,4 +1156,4 @@ components:
           - workspaces
           - phone_check
           - identity_check
-          - offline_access
+          - sim_check
