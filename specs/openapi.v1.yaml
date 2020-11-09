@@ -1,17 +1,17 @@
 openapi: 3.0.0
 info:
-  title: tru ID APIs
+  title: tru.ID APIs
   version: 'v0.1'
   contact:
-    name: tru ID API Team
+    name: tru.ID API Team
     email: feedback@tru.id
   description: |
     # Introduction
 
-    The tru ID API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
+    The tru.ID API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
     
     
-    The [**tru ID Phone Check Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **Phone Check URL** for the purpose of this verification. tru ID then resolves a **Phone Check Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
+    The [**tru.ID Phone Check Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **Phone Check URL** for the purpose of this verification. tru.ID then resolves a **Phone Check Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
 
 servers:
   - url: 'https://{data_residency}.api.tru.id'
@@ -68,7 +68,7 @@ paths:
 
     get:
       summary: Obtain an authorization grant (Restricted Usage)
-      description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for tru ID owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1 
+      description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for tru.ID owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1 
       operationId: oauth2-auth
       tags:
         - hide
@@ -80,7 +80,7 @@ paths:
             type: string
             example: code          
         - name: client_id
-          description: The client identifier. Only issued for use with `/auth` to internal tru ID applications.
+          description: The client identifier. Only issued for use with `/auth` to internal tru.ID applications.
           in: query
           schema:
             type: string
@@ -116,7 +116,7 @@ paths:
       summary: Create an Access Token
       description: |
         Creates an Access Token. Access Tokens are credentails used to authenticate API interactions.
-        With the tru ID platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
+        With the tru.ID platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
 
         To obtain a `client_id` and `client_secret` you must first [create a Project](#operation/create-project).
 
@@ -228,7 +228,7 @@ paths:
     get:
       summary: Logout of the current user session (Restricted Usage)
       description: |
-        **Used by internal tru ID applications only**.
+        **Used by internal tru.ID applications only**.
         Log the current user out of an authenticated session with the OAuth2 provider.
       operationId: oauth2-sessions-logout
       security:
@@ -1112,7 +1112,7 @@ components:
 
     BearerAuth:
       description: |
-        The tru ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
+        The tru.ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
         e.g. `Authorization: Bearer {access_token}`
       type: http
       scheme: bearer
