@@ -41,7 +41,7 @@ components:
           description: The credentials for the created Project. The `client_secret` will not be returned upon this request as it is not stored by the platform.
           type: array
           items:
-            $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientPartial'
+            $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientPartialScopes'
       required:
         - project_id
         - name
@@ -60,7 +60,7 @@ components:
               description: The credentials for the created Project. The `client_secret` will only be returned upon this request and won't be stored by the platform.
               type: array
               items:
-                $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientFull'
+                $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientFullScopes'
 
     CreateProjectPayload:
       description: The minimal structural representation to create a Project
