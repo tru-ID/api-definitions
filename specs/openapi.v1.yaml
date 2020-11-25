@@ -717,7 +717,7 @@ paths:
         in: path
         required: true
     post:
-      summary: Reset the Project credential
+      summary: Reset Project Credential
       description: Resets the selected credential and returns a new client secret
       operationId: reset-project-credential
       security:
