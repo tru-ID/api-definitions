@@ -707,7 +707,48 @@ paths:
     #   parameters: []
     #   tags:
     #     - project
-    # '/console/v0.1/projects/{project_id}/credentials/{client_id}':
+  '/console/v0.1/projects/{project_id}/credentials/{client_id}':
+    parameters:
+      - $ref: './models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId'
+      - name: client_id
+        description: The client ID of the Project credentials
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+    post:
+      summary: Reset the Project credential
+      description: Resets the selected credential and returns a new client secret
+      operationId: reset-project-credential
+      security:
+        - BearerAuth: []
+      tags:
+        - projects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/common/CredentialTypes.v1.yaml#/components/schemas/ClientFullScopes
+              examples:
+                basic:
+                  value:
+                    client_id: 8cbd640e-2cbf-42d1-bd57-421169144300
+                    client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
+                    scopes: ['phone_check']
+                    created_at: '2020-06-01T16:43:30+00:00'
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
 
   ##############
   # Workspaces
