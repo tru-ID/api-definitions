@@ -1,22 +1,22 @@
-title: IdentityCheckResourceModels
+title: SubscriberCheckResourceModels
 type: object
-description: Definitions of models related to Identity Check resources
+description: Definitions of models related to Subscriber Check resources
 components:
   schemas:  
 
-    IdentityCheckStatus:
+    SubscriberCheckStatus:
       description: |
-        The status of a Identity Check:
+        The status of a Subscriber Check:
       allOf:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckStatus'
 
-    IdentityCheckCreatePayload:
-      description: Payload for creating a Identity Check
+    SubscriberCheckCreatePayload:
+      description: Payload for creating a Subscriber Check
       allOf:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckCreatePayload'
 
-    IdentityCheckPartial:
-      description: A Identity Check resource
+    SubscriberCheckPartial:
+      description: A Subscriber Check resource
       allOf:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckPartial'
         - type: object
@@ -30,10 +30,10 @@ components:
               allOf:
                 - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
         
-    IdentityCheck:
-      description: The payload sent to a callback URL upon a Identity Check reaching an end state.
+    SubscriberCheck:
+      description: The payload sent to a callback URL upon a Subscriber Check reaching an end state.
       allOf:
-        - $ref: '#/components/schemas/IdentityCheckPartial'
+        - $ref: '#/components/schemas/SubscriberCheckPartial'
         - type: object
           properties:
             _links:
@@ -45,7 +45,7 @@ components:
                   allOf:
                     - $ref: ../common/Link.v1.yaml
                 check_url:
-                  description: A URL that the mobile client must navigate as part of the Identity Check verification flow.
+                  description: A URL that the mobile client must navigate as part of the Subscriber Check verification flow.
                   allOf:
                     - $ref: ../common/Link.v1.yaml
               required:
@@ -64,12 +64,12 @@ components:
         created_at: '2020-06-01T16:43:30+00:00'
         _links:
           self:
-            href: https://us.api.4auth.io/identity_checks/v0.1/checks/{check_id}
+            href: https://us.api.4auth.io/subscriber_checks/v0.1/checks/{check_id}
           check_url:
-            href: https://us.api.4auth.io/identity_checks/v0.1/checks/{check_id}/redirect
+            href: https://us.api.4auth.io/subscriber_checks/v0.1/checks/{check_id}/redirect
 
-    IdentityCheckCollection:
-      description: A Identity Check resource
+    SubscriberCheckCollection:
+      description: A Subscriber Check resource
       allOf:
         - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
         - type: object
@@ -85,9 +85,9 @@ components:
                   description: The Identity Checks within the collection
                   type: array
                   items:
-                    $ref: '#/components/schemas/IdentityCheck'
+                    $ref: '#/components/schemas/SubscriberCheck'
 
-    IdentityCheckCallbackPayload:
-      description: The payload sent to a callback URL upon a Identity Check reaching an end state.
+    SubscriberCheckCallbackPayload:
+      description: The payload sent to a callback URL upon a Subscriber Check reaching an end state.
       allOf:
-        - $ref: '#/components/schemas/IdentityCheckPartial'
+        - $ref: '#/components/schemas/SubscriberCheckPartial'

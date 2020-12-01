@@ -29,9 +29,9 @@ tags:
   - name: phone_check
     x-displayName: Phone Check
     description: Relating to Phone Check
-  - name: identity_check
-    x-displayName: Identity Check
-    description: Relating to Identity Check
+  - name: subscriber_check
+    x-displayName: Subscriber Check
+    description: Relating to Subscriber Check
   - name: sim_check
     x-displayName: SIM Check
     description: Relating to SIM Check
@@ -51,9 +51,9 @@ x-tagGroups:
   - name: Phone Check
     tags:
       - phone_check
-  - name: Identity Check
+  - name: Subscriber Check
     tags:
-      - identity_check
+      - subscriber_check
   - name: SIM Check
     tags:
       - sim_check
@@ -450,32 +450,32 @@ paths:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
   
   ##############
-  # identity_check
+  # subscriber_check
   ##############
   
-  '/identity_check/v0.1/checks':
+  '/subscriber_check/v0.1/checks':
 
     post:
-      summary: Create an Identity Check workflow
+      summary: Create an Subscriber Check workflow
       description: |
-        Starts the Identity Check workflow.
-      operationId: create-identity-check
+        Starts the Subscriber Check workflow.
+      operationId: create-subscriber-check
       security:
         - BearerAuth: []
       tags:
-        - identity_check
+        - subscriber_check
       requestBody:
-        description: JSON payload to create an Identity Check
+        description: JSON payload to create an Subscriber Check
         content:
           application/json:
             schema:
-              $ref: ./models/identity_check/IdentityCheckResourceModels.v1.yaml#/components/schemas/IdentityCheckCreatePayload
+              $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCreatePayload
 
       callbacks:
         phoneCheckEndStatus: 
           '{$request.body#/callback_url}':
             post:
-              summary: Identity Check has reached an end status
+              summary: Subscriber Check has reached an end status
               parameters:
                 - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-security'
                 - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-callback'
@@ -487,13 +487,13 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: './models/identity_check/IdentityCheckResourceModels.v1.yaml#/components/schemas/IdentityCheckCallbackPayload'
+                      $ref: './models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCallbackPayload'
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
       
       responses:
         '201':
-          description: Identity Check created
+          description: Subscriber Check created
           headers:
             X-RateLimit-Limit:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
@@ -505,12 +505,12 @@ paths:
             application/hal+json:
               schema:
                 allOf:
-                  - $ref: ./models/identity_check/IdentityCheckResourceModels.v1.yaml#/components/schemas/IdentityCheck
+                  - $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheck
                   - type: object
                     properties:
-                      # Override since creating a Phone Check only supports NEW
+                      # Override since creating a Subscriber Check only supports NEW
                       status:
-                        description: The current status of the Identity Check
+                        description: The current status of the Subscriber Check
                         type: string
                         enum:
                           - ACCEPTED
@@ -520,7 +520,7 @@ paths:
                       snapshot_balance:
                         description: |
                           The workspace balance in `charge_currency` taking into account the `charge_amount`.
-                          This property is not persisted and is only returned when the Identity Check is initially created.
+                          This property is not persisted and is only returned when the Subscriber Check is initially created.
                         type: number
                         example: 100
         '400':
@@ -537,13 +537,13 @@ paths:
                         description: The country for the supplied `phone_number` is not supported
 
     get:
-      summary: Retrieve a collection of Identity Checks
-      operationId: get-identity-checks
-      description: Get a full list of Identity Checks or filter by query parameter.
+      summary: Retrieve a collection of Subscriber Checks
+      operationId: get-subscriber-checks
+      description: Get a full list of Subscriber Checks or filter by query parameter.
       security:
         - BearerAuth: []
       tags:
-        - identity_check
+        - subscriber_check
       parameters:
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
         - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
@@ -562,32 +562,32 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/identity_check/IdentityCheckResourceModels.v1.yaml#/components/schemas/IdentityCheckCollection
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCollection
 
-  '/identity_check/v0.1/checks/{check_id}':
+  '/subscriber_check/v0.1/checks/{check_id}':
 
     parameters:
       - name: check_id
-        description: The ID of the Identity Check
+        description: The ID of the Subscriber Check
         schema:
           $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
         in: path
         required: true
     get:
-      summary: Retrieve Identity Check
-      description: Get a Identity Check identified by `check_id`.
-      operationId: get-identity-check
+      summary: Retrieve Subscriber Check
+      description: Get a Subscriber Check identified by `check_id`.
+      operationId: get-subscriber-check
       security:
         - BearerAuth: []
       tags:
-        - identity_check
+        - subscriber_check
       responses:
         '200':
           description: OK
           content:
             application/hal+json:
               schema:
-                $ref: ./models/identity_check/IdentityCheckResourceModels.v1.yaml#/components/schemas/IdentityCheck
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheck
           headers:
             X-RateLimit-Limit:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
@@ -602,20 +602,20 @@ paths:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
 
-  '/identity_check/v0.1/checks/{check_id}/redirect':
+  '/subscriber_check/v0.1/checks/{check_id}/redirect':
     parameters:
       - name: check_id
-        description: The ID of the Identity Check
+        description: The ID of the Subscriber Check
         schema:
           $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
         in: path
         required: true
     get:
-      summary: Perform the Identity Check
-      description: Perform the Identity Check identified by `check_id`.
-      operationId: get-identity-check-redirect
+      summary: Perform the Subscriber Check
+      description: Perform the Subscriber Check identified by `check_id`.
+      operationId: get-subscriber-check-redirect
       tags:
-        - identity_check
+        - subscriber_check
       responses:
         '404':
           description: Not Found
