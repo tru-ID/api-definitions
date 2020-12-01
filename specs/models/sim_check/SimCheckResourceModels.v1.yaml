@@ -38,7 +38,7 @@ components:
         reference_id: 'my_internal_reference'
         
     SimCheck:
-      description: The payload sent to a callback URL upon a Identity Check reaching an end state.
+      description: The payload sent to a callback URL upon a SimCheck reaching an end state.
       properties:
         check_id:
           description: The unique ID of the Check resource
@@ -96,7 +96,7 @@ components:
         created_at: '2020-06-01T16:43:30+00:00'
         _links:
           self:
-            href: https://us.api.4auth.io/identity_checks/v0.1/checks/{check_id}
+            href: https://us.api.4auth.io/subscriber_checks/v0.1/checks/{check_id}
 
     SimCheckCollection:
       description: A SIM Check resource

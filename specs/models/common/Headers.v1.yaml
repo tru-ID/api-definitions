@@ -64,7 +64,7 @@ components:
         type: string
         enum:
           - phone_check
-          - identity_check
+          - subscriber_check
 
     digest:
       name: digest

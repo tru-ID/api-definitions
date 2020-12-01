@@ -82,7 +82,7 @@ components:
               type: object
               properties:
                 checks:
-                  description: The Identity Checks within the collection
+                  description: The Subscriber Checks within the collection
                   type: array
                   items:
                     $ref: '#/components/schemas/SubscriberCheck'

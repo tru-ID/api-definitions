@@ -1126,14 +1126,14 @@ components:
         - `projects`: `/console/{version}/projects` resources
         - `workspaces`: `/console/{version}/workspaces` resources
         - `phone_check`: `/phone_check` resources
-        - `identity_check`: `/identity_check` resources
+        - `subscriber_check`: `/subscriber_check` resources
         - `sim_check`: `/sim_check` resources
       type: string
       enum:
         - projects
         - workspaces
         - phone_check
-        - identity_check
+        - subscriber_check
         - sim_check
 
   parameters:
@@ -1146,7 +1146,7 @@ components:
         - `projects`: `/console/{version}/projects` resources
         - `workspaces`: `/console/{version}/workspaces` resources
         - `phone_check`: `/phone_check` resources
-        - `identity_check`: `/identity_check` resources
+        - `subscriber_check`: `/subscriber_check` resources
         - `sim_check`: `/sim_check` resources
       in: query
       schema:
@@ -1155,5 +1155,5 @@ components:
           - projects
           - workspaces
           - phone_check
-          - identity_check
+          - subscriber_check
           - sim_check
