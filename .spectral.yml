@@ -8,7 +8,7 @@ except:
     - operation-2xx-response
   "specs/openapi.v1.yaml#/paths/~1phone_check~1v0.1~1checks~1{check_id}~1redirect/get/responses":
     - operation-2xx-response
-  "specs/openapi.v1.yaml#/paths/~1identity_check~1v0.1~1checks~1{check_id}~1redirect/get/responses":
+  "specs/openapi.v1.yaml#/paths/~1subscriber_check~1v0.1~1checks~1{check_id}~1redirect/get/responses":
     - operation-2xx-response
 
 rules:
