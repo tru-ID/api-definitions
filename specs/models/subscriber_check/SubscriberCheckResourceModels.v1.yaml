@@ -1,22 +1,22 @@
 title: SubscriberCheckResourceModels
 type: object
-description: Definitions of models related to Subscriber Check resources
+description: Definitions of models related to SubscriberCheck resources
 components:
   schemas:  
 
     SubscriberCheckStatus:
       description: |
-        The status of a Subscriber Check:
+        The status of a SubscriberCheck:
       allOf:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckStatus'
 
     SubscriberCheckCreatePayload:
-      description: Payload for creating a Subscriber Check
+      description: Payload for creating a SubscriberCheck
       allOf:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckCreatePayload'
 
     SubscriberCheckPartial:
-      description: A Subscriber Check resource
+      description: A SubscriberCheck resource
       allOf:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckPartial'
         - type: object
@@ -31,7 +31,7 @@ components:
                 - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
         
     SubscriberCheck:
-      description: The payload sent to a callback URL upon a Subscriber Check reaching an end state.
+      description: The payload sent to a callback URL upon a SubscriberCheck reaching an end state.
       allOf:
         - $ref: '#/components/schemas/SubscriberCheckPartial'
         - type: object
@@ -45,7 +45,7 @@ components:
                   allOf:
                     - $ref: ../common/Link.v1.yaml
                 check_url:
-                  description: A URL that the mobile client must navigate as part of the Subscriber Check verification flow.
+                  description: A URL that the mobile client must navigate as part of the SubscriberCheck verification flow.
                   allOf:
                     - $ref: ../common/Link.v1.yaml
               required:
@@ -69,7 +69,7 @@ components:
             href: https://us.api.4auth.io/subscriber_checks/v0.1/checks/{check_id}/redirect
 
     SubscriberCheckCollection:
-      description: A Subscriber Check resource
+      description: A SubscriberCheck resource
       allOf:
         - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
         - type: object
@@ -82,12 +82,12 @@ components:
               type: object
               properties:
                 checks:
-                  description: The Subscriber Checks within the collection
+                  description: The SubscriberChecks within the collection
                   type: array
                   items:
                     $ref: '#/components/schemas/SubscriberCheck'
 
     SubscriberCheckCallbackPayload:
-      description: The payload sent to a callback URL upon a Subscriber Check reaching an end state.
+      description: The payload sent to a callback URL upon a SubscriberCheck reaching an end state.
       allOf:
         - $ref: '#/components/schemas/SubscriberCheckPartial'

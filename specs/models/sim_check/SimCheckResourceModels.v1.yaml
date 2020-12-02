@@ -1,6 +1,6 @@
 title: SimCheckResourceModels
 type: object
-description: Definitions of models related to SIM Check resources
+description: Definitions of models related to SIMCheck resources
 components:
   schemas:  
 
@@ -15,7 +15,7 @@ components:
       example: COMPLETED
 
     SimCheckCreatePayload:
-      description: Payload for creating a SIM Check
+      description: Payload for creating a SIMCheck
       type: object
       properties:
         phone_number:
@@ -99,7 +99,7 @@ components:
             href: https://us.api.4auth.io/subscriber_checks/v0.1/checks/{check_id}
 
     SimCheckCollection:
-      description: A SIM Check resource
+      description: A SIMCheck resource
       allOf:
         - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
         - type: object
@@ -112,7 +112,7 @@ components:
               type: object
               properties:
                 checks:
-                  description: The SIM Checks within the collection
+                  description: The SIMChecks within the collection
                   type: array
                   items:
                     $ref: '#/components/schemas/SimCheck'
