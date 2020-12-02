@@ -54,7 +54,7 @@ components:
             Returns true if the SIM card hasn't been changed in the last 7 days.
           type: boolean
         last_sim_change_at:
-          description: When the last time the SIM card hasn't been changed.
+          description: When the last time the SIM card has been changed.
           allOf:
             - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
         charge_amount:
