@@ -440,7 +440,7 @@ paths:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
         '302':
-          description: Redirects to the `redirect_url`.
+          description: Redirects to the `check_url`.
           headers:
             Location:
               $ref: './models/common/Headers.v1.yaml#/components/headers/Location'
@@ -624,7 +624,7 @@ paths:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
         '302':
-          description: Redirects to the `redirect_url`.
+          description: Redirects to the `check_url`.
           headers:
             Location:
               $ref: './models/common/Headers.v1.yaml#/components/headers/Location'
