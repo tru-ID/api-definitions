@@ -324,7 +324,7 @@ paths:
                   - $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
                   - type: object
                     properties:
-                      # Override since creating a PhoneCheck only supports NEW
+                      # Override since creating a PhoneCheck only supports ACCEPTED
                       status:
                         description: The current status of the PhoneCheck
                         type: string
@@ -508,7 +508,7 @@ paths:
                   - $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheck
                   - type: object
                     properties:
-                      # Override since creating a SubscriberCheck only supports NEW
+                      # Override since creating a SubscriberCheck only supports ACCEPTED
                       status:
                         description: The current status of the SubscriberCheck
                         type: string
@@ -640,16 +640,16 @@ paths:
   '/sim_check/v0.1/checks':
 
     post:
-      summary: Create an SIMCheck 
+      summary: Create a SIMCheck 
       description: |
-        Starts the SIMCheck.
+        Starts the SIMCheck
       operationId: create-sim-check
       security:
         - BearerAuth: []
       tags:
         - sim_check
       requestBody:
-        description: JSON payload to create an SIMCheck
+        description: JSON payload to create a SIMCheck
         content:
           application/json:
             schema:
@@ -672,13 +672,13 @@ paths:
                   - $ref: ./models/sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimCheck
                   - type: object
                     properties:
-                      # Override since creating a SIMCheck only supports NEW
                       status:
                         description: The current status of the SIMCheck
                         type: string
                         enum:
-                          - ACCEPTED
-                        example: ACCEPTED
+                          - COMPLETED
+                          - ERROR
+                        example: COMPLETED
 
                       # Only valid on SIMCheck creation
                       snapshot_balance:
