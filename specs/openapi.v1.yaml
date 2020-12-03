@@ -9,7 +9,7 @@ info:
     # Introduction
 
     The tru.ID API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
-    
+
     The [**tru.ID PhoneCheck Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **PhoneCheck URL** for the purpose of this verification. **tru.ID** then resolves a **PhoneCheck Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
 
     The [**tru.ID SIMCheck API**](#tag/sim_check) provides information on when a SIM card associated with a mobile phone number last changed
@@ -46,6 +46,9 @@ tags:
     description: Relating to a workspace.
   - name: hide
     description: Tags that should not be rendered
+  - name: coverage
+    description: Relating to Coverage.
+
 
 x-tagGroups:
   - name: OAuth2
@@ -63,7 +66,10 @@ x-tagGroups:
   - name: Console
     tags:
       - projects
-      - workspaces    
+      - workspaces
+  - name: Coverage
+    tags:
+      - coverage
 
 paths:
 
@@ -71,7 +77,7 @@ paths:
 
     get:
       summary: Obtain an authorization grant (Restricted Usage)
-      description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for tru.ID owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1 
+      description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for tru.ID owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1
       operationId: oauth2-auth
       tags:
         - hide
@@ -81,7 +87,7 @@ paths:
           in: query
           schema:
             type: string
-            example: code          
+            example: code
         - name: client_id
           description: The client identifier. Only issued for use with `/auth` to internal tru.ID applications.
           in: query
@@ -129,14 +135,14 @@ paths:
       tags:
         - oauth2
       requestBody:
-        description: | 
+        description: |
           The request body should match the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) flow.
         content:
           'application/x-www-form-urlencoded':
             schema:
               # Client Credentials Grant used by all non-OAuth2 provider API endpoints
               type: object
-              description: | 
+              description: |
                 Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
                 The resulting token is used to access any API endpoints.
               properties:
@@ -222,7 +228,7 @@ paths:
                   enum:
                     - access_token
                     - refresh_token
-                  example: access_token                  
+                  example: access_token
       responses:
         '200':
           description: Response whether the Access Token was valid or invalid.
@@ -271,7 +277,7 @@ paths:
   ##############
   # phone_check
   ##############
-  
+
   '/phone_check/v0.1/checks':
 
     post:
@@ -291,7 +297,7 @@ paths:
               $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCreatePayload
 
       callbacks:
-        phoneCheckEndStatus: 
+        phoneCheckEndStatus:
           '{$request.body#/callback_url}':
             post:
               summary: PhoneCheck has reached an end status
@@ -309,7 +315,7 @@ paths:
                       $ref: './models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload'
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
-      
+
       responses:
         '201':
           description: PhoneCheck created
@@ -451,11 +457,11 @@ paths:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
             X-RateLimit-Remaining:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
-  
+
   ##############
   # subscriber_check
   ##############
-  
+
   '/subscriber_check/v0.1/checks':
 
     post:
@@ -475,7 +481,7 @@ paths:
               $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCreatePayload
 
       callbacks:
-        phoneCheckEndStatus: 
+        phoneCheckEndStatus:
           '{$request.body#/callback_url}':
             post:
               summary: SubscriberCheck has reached an end status
@@ -493,7 +499,7 @@ paths:
                       $ref: './models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCallbackPayload'
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
-      
+
       responses:
         '201':
           description: SubscriberCheck created
@@ -635,15 +641,15 @@ paths:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
             X-RateLimit-Remaining:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
-  
+
   ##############
   # sim_check
   ##############
-  
+
   '/sim_check/v0.1/checks':
 
     post:
-      summary: Create a SIMCheck 
+      summary: Create a SIMCheck
       description: |
         Starts the SIMCheck
       operationId: create-sim-check
@@ -767,11 +773,140 @@ paths:
             application/problem+json:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
-   
+
+  ##############
+  # Coverage   #
+  ##############
+
+  '/coverage/v0.1/countries/{code}':
+    parameters:
+      - name: code
+        schema:
+          oneOf:
+            - $ref: './models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryCode'
+            - $ref: './models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryDialingCode'
+        description: Either two letter code [ISO 3166-1 alpha-2] (https://en.wikipedia.org/wiki/ISO_3166-2) or country dialing code
+        in: path
+        required: true
+        examples:
+          country_code:
+            value: 'GB'
+            summary: United Kingdom Country Code
+          dialing_code:
+            value: 44
+            summary: The dialing code for United Kingdom
+    get:
+      summary: Retrieve Country Coverage and prices for workspace's currency.
+      description: Get the country coverage identified by `code`.
+      operationId: get-coverage-by-code
+      security:
+        - BearerAuth: []
+      tags:
+        - coverage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryCoverage
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+        '404':
+          description: No Reach
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+  '/coverage/v0.1/countries':
+    parameters:
+      - name: phone_number
+        schema:
+          type: string
+        description: Phone number for which we want the Country Coverage
+        in: query
+        required: true
+        examples:
+          phone_number:
+            value: '447700900000'
+    get:
+      summary: Retrieve Country Coverage identified by `phone_number` and the prices for workspace's currency.
+      description: Get the country coverage identified by `phone_number`.
+      operationId: get-coverage-by-phone-number
+      security:
+        - BearerAuth: []
+      tags:
+        - coverage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryCoverage
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+        '404':
+          description: No Reach
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+  '/coverage/v0.1/device_ips/{ip}':
+    parameters:
+      - name: ip
+        schema:
+          type: string
+          format : ipv4 | ipv6
+        description: The device ip in ipv4 or ipv6 format
+        in: path
+        required: true
+    get:
+      summary: Retrieve Device Coverage
+      description: Get the device coverage for the device identified by `ip`.
+      operationId: get-coverage-by-device-ip
+      security:
+        - BearerAuth: []
+      tags:
+        - coverage
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/DeviceCoverage
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+  
   ##############
   # Projects
   ##############
-  
+
   '/console/v0.1/projects':
 
     post:
@@ -823,7 +958,7 @@ paths:
                         created_at: '2020-06-01T16:43:30+00:00'
 
       callbacks:
-        projectLevelPhoneCheckEndStatus: 
+        projectLevelPhoneCheckEndStatus:
           '{$request.body#/configuration.phone_check.callback_url}':
             post:
               summary: PhoneCheck has reached an end status
@@ -1034,7 +1169,7 @@ paths:
     #         X-RateLimit-Remaining:
     #           $ref: '#/components/headers/X-RateLimit-Remaining'
     #         Access-Control-Allow-Origin:
-    #           $ref: '#/components/headers/Access-Control-Allow-Origin-All'      
+    #           $ref: '#/components/headers/Access-Control-Allow-Origin-All'
     #   parameters: []
     #   tags:
     #     - project
@@ -1148,7 +1283,7 @@ paths:
                       #     email:
                       #       description: The email address of the owner of the Workspace
                       #       type: string
-                      #       format: email 
+                      #       format: email
 
 components:
   securitySchemes:
@@ -1178,6 +1313,7 @@ components:
         - `phone_check`: `/phone_check` resources
         - `subscriber_check`: `/subscriber_check` resources
         - `sim_check`: `/sim_check` resources
+        - `coverage`: `/coverage` resources
       type: string
       enum:
         - projects
@@ -1185,6 +1321,7 @@ components:
         - phone_check
         - subscriber_check
         - sim_check
+        - coverage
 
   parameters:
 
@@ -1198,6 +1335,8 @@ components:
         - `phone_check`: `/phone_check` resources
         - `subscriber_check`: `/subscriber_check` resources
         - `sim_check`: `/sim_check` resources
+        - `coverage`: `/coverage` resources
+
       in: query
       schema:
         type: string
@@ -1207,3 +1346,4 @@ components:
           - phone_check
           - subscriber_check
           - sim_check
+          - coverage

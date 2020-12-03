@@ -1,0 +1,142 @@
+title: CoverageResourceModels
+type: object
+description: Definitions of models related to Coverage resources
+components:
+  schemas:
+    # A country coverage definition
+    CountryCoverage:
+      description: Country Coverage with prices for a specific country code or country dialing code.
+      type: object
+      x-tags:
+        - coverage
+      properties:
+        country_code:
+          $ref: '#/components/schemas/CountryCode'
+        dialing_code:
+          $ref: '#/components/schemas/CountryDialingCode'
+        products:
+          description: An array of coverage per product
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCoverage'
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              description: The link to the current country coverage
+              $ref: ../common/Link.v1.yaml
+
+
+    ProductCoverage:
+      description: Coverage for specific Product
+      type: object
+      x-tags:
+        - coverage
+      properties:
+        product_id:
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/ProductID'
+        product_name:
+          description: The product name
+          type: string
+          example: Phone Check
+        coverage:
+          $ref: '#/components/schemas/Coverage'
+          description: If there is coverage for all available networks
+          type: boolean
+          example: true
+        networks:
+          description: The coverage per network
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkCoverage'
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              description: The link to the product coverage
+              $ref: ../common/Link.v1.yaml
+
+
+    NetworkCoverage:
+      description: Network Coverage and prices
+      type: object
+      x-tags:
+        - coverage
+      properties:
+        network_id:
+          description: The network identifier
+          type: string
+          example: "23410"
+        network_name:
+          description: The network name
+          type: string
+          example: "O2 UK"
+        prices:
+          description: the prices per currency
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceCard'
+
+    PriceCard:
+      description: Network Coverage and prices
+      type: object
+      x-tags:
+        - coverage
+      properties:
+        currency:
+          $ref: ../common/DataTypes.v1.yaml#/components/schemas/Currency
+        amount:
+          description: Amount in the specific currency
+          type: number
+          example: 1.0000
+
+    DeviceCoverage:
+      description: Device Coverage for specific device ip
+      type: object
+      x-tags:
+        - coverage
+      properties:
+        network_id:
+          description: The network identifier
+          type: string
+          example: "23410"
+        network_name:
+          description: The network name
+          type: string
+          example: "O2 UK"
+        country_code:
+          $ref: '#/components/schemas/CountryCode'
+        products:
+          description: List of supported products
+          type: array
+          items:
+            type: object
+            properties:
+              product_id:
+                $ref: '../common/DataTypes.v1.yaml#/components/schemas/ProductID'
+              product_name:
+                description: The product name
+                type: string
+                example: PhoneCheck
+
+    CountryCode:
+      description: two letter country code [ISO 3166-1 alpha-2] (https://www.iso.org/obp/ui/#search)
+      type: string
+      pattern: '[A-Z]{2}'
+      example: GB
+
+    CountryDialingCode:
+      description: country dialing code (https://www.itu.int/dms_pub/itu-t/opb/sp/T-SP-E.164D-11-2011-PDF-E.pdf)
+      type: number
+      example: 44
+
+    Coverage:
+      description: If the coverage is full or partia
+      type: string
+      enum:
+        - FULL
+        - PARTIAL
+      example: FULL
+

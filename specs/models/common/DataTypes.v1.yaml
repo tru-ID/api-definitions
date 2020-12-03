@@ -14,7 +14,7 @@ components:
       type: string
       format: Datetime ISO 8601
       example: '2020-06-01T16:43:30+00:00'
-    
+
     Currency:
       description: A currency indicator
       type: string
@@ -24,4 +24,17 @@ components:
         # - USD
         # - GBP
       example: API
+
+    ProductID:
+      description: Product indicator for PhoneCheck(PCK), SubscriberCheck(SUK), SIMCheck(SCK)
+      type: string
+      enum:
+        - PCK
+        - SCK
+        - SUK
+      example: PCK
+
+
+
+
 
