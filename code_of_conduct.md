@@ -130,6 +130,4 @@ https://www.contributor-covenant.org/translations.
 
 ## TODO
 
-- [ ] Team to review, discuss and agree
-- [ ] Create community@tru.id or appropriate domain
 - [ ] Move Code of Conduct out of API Definitions and into central community-focused resource

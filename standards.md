@@ -639,7 +639,5 @@ Retry-After: 3600
 
 Tasks:
 
-- [ ] Look at [Stripe details](https://media-exp1.licdn.com/dms/image/C5622AQHx3XDY-qMIkA/feedshare-shrink_2048_1536/0?e=1593648000&v=beta&t=mfr9NzejKJTXLPuvOAt8v9jfJtB-cjiWn5_2-R-78RM) and decide which, if any, to adopt
-- [ ] Webhooks: Required for MVP A & B
 - [ ] Deprecation policy
 - [ ] Move our API supported RSQL syntax and examples into this document. [Good example](https://developer.here.com/olp/documentation/data-client-library/dev_guide/client/rsql.html)
