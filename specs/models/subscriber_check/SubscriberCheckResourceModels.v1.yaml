@@ -1,29 +1,35 @@
-title: PhoneCheckResourceModels
+title: SubscriberCheckResourceModels
 type: object
-description: Definitions of models related to PhoneCheck resources
+description: Definitions of models related to SubscriberCheck resources
 components:
   schemas:  
 
-    PhoneCheckStatus:
+    SubscriberCheckStatus:
       description: |
-        The status of a PhoneCheck:
+        The status of a SubscriberCheck:
       allOf:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckStatus'
 
-    PhoneCheckCreatePayload:
-      description: Payload for creating a PhoneCheck
+    SubscriberCheckCreatePayload:
+      description: Payload for creating a SubscriberCheck
       allOf:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckCreatePayload'
 
-    PhoneCheckPartial:
-      description: A PhoneCheck resource
+    SubscriberCheckPartial:
+      description: A SubscriberCheck resource
       allOf:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckPartial'
-    
-    PhoneCheck:
-      description: The payload sent to a callback URL upon a PhoneCheck reaching an end state.
+        - type: object
+          properties:
+            no_sim_change:
+              $ref: '../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange'
+            last_sim_change_at:
+              $ref: '../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimLastChanged'
+        
+    SubscriberCheck:
+      description: The payload sent to a callback URL upon a SubscriberCheck reaching an end state.
       allOf:
-        - $ref: '#/components/schemas/PhoneCheckPartial'
+        - $ref: '#/components/schemas/SubscriberCheckPartial'
         - type: object
           properties:
             _links:
@@ -35,7 +41,7 @@ components:
                   allOf:
                     - $ref: ../common/Link.v1.yaml
                 check_url:
-                  description: A URL that the mobile client must navigate as part of the PhoneCheck verification flow.
+                  description: A URL that the mobile client must navigate as part of the SubscriberCheck verification flow.
                   allOf:
                     - $ref: ../common/Link.v1.yaml
               required:
@@ -48,18 +54,18 @@ components:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: COMPLETED
         match: true
+        no_sim_change: true
         charge_amount: 1
         charge_currency: API
         created_at: '2020-06-01T16:43:30+00:00'
-        ttl: 60
         _links:
           self:
-            href: https://us.api.tru.id/phone_checks/v0.1/checks/{check_id}
+            href: https://us.api.4auth.io/subscriber_checks/v0.1/checks/{check_id}
           check_url:
-            href: https://us.api.tru.id/phone_checks/v0.1/checks/{check_id}/redirect
+            href: https://us.api.4auth.io/subscriber_checks/v0.1/checks/{check_id}/redirect
 
-    PhoneCheckCollection:
-      description: A PhoneCheck resource
+    SubscriberCheckCollection:
+      description: A SubscriberCheck resource
       allOf:
         - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
         - type: object
@@ -72,12 +78,12 @@ components:
               type: object
               properties:
                 checks:
-                  description: The PhoneChecks within the collection
+                  description: The SubscriberChecks within the collection
                   type: array
                   items:
-                    $ref: '#/components/schemas/PhoneCheck'
+                    $ref: '#/components/schemas/SubscriberCheck'
 
-    PhoneCheckCallbackPayload:
-      description: The payload sent to a callback URL upon a PhoneCheck reaching an end state.
+    SubscriberCheckCallbackPayload:
+      description: The payload sent to a callback URL upon a SubscriberCheck reaching an end state.
       allOf:
-        - $ref: '#/components/schemas/PhoneCheckPartial'
+        - $ref: '#/components/schemas/SubscriberCheckPartial'

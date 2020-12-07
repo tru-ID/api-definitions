@@ -59,11 +59,12 @@ components:
       name: x-4auth-callback
       in: header
       description: |
-        Header used to provide additional context about the callback. At present this is the only callback URL so the value will always be `phone_check`.
+        Header used to provide additional context about the callback.
       schema:
         type: string
         enum:
           - phone_check
+          - subscriber_check
 
     digest:
       name: digest

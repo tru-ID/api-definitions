@@ -10,8 +10,11 @@ info:
 
     The tru.ID API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
     
-    
-    The [**tru.ID Phone Check Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **Phone Check URL** for the purpose of this verification. tru.ID then resolves a **Phone Check Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
+    The [**tru.ID PhoneCheck Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **PhoneCheck URL** for the purpose of this verification. **tru.ID** then resolves a **PhoneCheck Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
+
+    The [**tru.ID SIMCheck API**](#tag/sim_check) provides information on when a SIM card associated with a mobile phone number last changed
+
+    The [**tru.ID SubscriberCheck Workflow** and API](#tag/subscriber_check) combines the functionality offerd by PhoneCheck and SIMCheck into a single API. It confirms the ownership of a mobile phone number and provides information on when the SIM card associated with the mobile phone number last changed..
 
 servers:
   - url: 'https://{data_residency}.api.tru.id'
@@ -27,8 +30,14 @@ tags:
     x-displayName: OAuth2
     description: Relating to the OAuth2 Provider
   - name: phone_check
-    x-displayName: Phone Check
-    description: Relating to Phone Check
+    x-displayName: PhoneCheck
+    description: Relating to PhoneCheck
+  - name: subscriber_check
+    x-displayName: SubscriberCheck
+    description: Relating to SubscriberCheck
+  - name: sim_check
+    x-displayName: SIMCheck
+    description: Relating to SIMCheck
   - name: projects
     x-displayName: Projects
     description: Relating to a project.
@@ -42,9 +51,15 @@ x-tagGroups:
   - name: OAuth2
     tags:
       - oauth2
-  - name: Phone Check
+  - name: PhoneCheck
     tags:
       - phone_check
+  - name: SubscriberCheck
+    tags:
+      - subscriber_check
+  - name: SIMCheck
+    tags:
+      - sim_check
   - name: Console
     tags:
       - projects
@@ -253,20 +268,23 @@ paths:
             X-RateLimit-Remaining:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
 
-
+  ##############
+  # phone_check
+  ##############
+  
   '/phone_check/v0.1/checks':
 
     post:
-      summary: Create a Phone Check workflow
+      summary: Create a PhoneCheck workflow
       description: |
-        Starts the Phone Check workflow.
+        Starts the PhoneCheck workflow.
       operationId: create-phone-check
       security:
         - BearerAuth: []
       tags:
         - phone_check
       requestBody:
-        description: JSON payload to create a Phone Check
+        description: JSON payload to create a PhoneCheck
         content:
           application/json:
             schema:
@@ -276,7 +294,7 @@ paths:
         phoneCheckEndStatus: 
           '{$request.body#/callback_url}':
             post:
-              summary: Phone Check has reached an end status
+              summary: PhoneCheck has reached an end status
               parameters:
                 - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-security'
                 - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-callback'
@@ -294,7 +312,7 @@ paths:
       
       responses:
         '201':
-          description: Phone Check created
+          description: PhoneCheck created
           headers:
             X-RateLimit-Limit:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
@@ -309,19 +327,19 @@ paths:
                   - $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
                   - type: object
                     properties:
-                      # Override since creating a Phone Check only supports NEW
+                      # Override since creating a PhoneCheck only supports ACCEPTED
                       status:
-                        description: The current status of the Phone Check
+                        description: The current status of the PhoneCheck
                         type: string
                         enum:
                           - ACCEPTED
                         example: ACCEPTED
 
-                      # Only valid on Phone Check creation
+                      # Only valid on PhoneCheck creation
                       snapshot_balance:
                         description: |
                           The workspace balance in `charge_currency` taking into account the `charge_amount`.
-                          This property is not persisted and is only returned when the Phone Check is initially created.
+                          This property is not persisted and is only returned when the PhoneCheck is initially created.
                         type: number
                         example: 100
         '400':
@@ -338,9 +356,9 @@ paths:
                         description: The country for the supplied `phone_number` is not supported
 
     get:
-      summary: Retrieve a collection of Phone Checks
+      summary: Retrieve a collection of PhoneChecks
       operationId: get-phone-checks
-      description: Get a full list of Phone Checks or filter by query parameter.
+      description: Get a full list of PhoneChecks or filter by query parameter.
       security:
         - BearerAuth: []
       tags:
@@ -369,14 +387,14 @@ paths:
 
     parameters:
       - name: check_id
-        description: The ID of the Phone Check
+        description: The ID of the PhoneCheck
         schema:
           $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
         in: path
         required: true
     get:
-      summary: Retrieve Phone Check
-      description: Get a Phone Check identified by `check_id`.
+      summary: Retrieve PhoneCheck
+      description: Get a PhoneCheck identified by `check_id`.
       operationId: get-phone-check
       security:
         - BearerAuth: []
@@ -404,17 +422,16 @@ paths:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
 
   '/phone_check/v0.1/checks/{check_id}/redirect':
-
     parameters:
       - name: check_id
-        description: The ID of the Phone Check
+        description: The ID of the PhoneCheck
         schema:
           $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
         in: path
         required: true
     get:
-      summary: Perform the Phone Check
-      description: Perform the Phone Check identified by `check_id`.
+      summary: Perform the PhoneCheck
+      description: Perform the PhoneCheck identified by `check_id`.
       operationId: get-phone-check-redirect
       tags:
         - phone_check
@@ -426,7 +443,7 @@ paths:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
         '302':
-          description: Redirects to the `redirect_url`.
+          description: Redirects to the `check_url`.
           headers:
             Location:
               $ref: './models/common/Headers.v1.yaml#/components/headers/Location'
@@ -435,7 +452,322 @@ paths:
             X-RateLimit-Remaining:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
   
+  ##############
+  # subscriber_check
+  ##############
+  
+  '/subscriber_check/v0.1/checks':
 
+    post:
+      summary: Create an SubscriberCheck workflow
+      description: |
+        Starts the SubscriberCheck workflow.
+      operationId: create-subscriber-check
+      security:
+        - BearerAuth: []
+      tags:
+        - subscriber_check
+      requestBody:
+        description: JSON payload to create an SubscriberCheck
+        content:
+          application/json:
+            schema:
+              $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCreatePayload
+
+      callbacks:
+        phoneCheckEndStatus: 
+          '{$request.body#/callback_url}':
+            post:
+              summary: SubscriberCheck has reached an end status
+              parameters:
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-security'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-callback'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/digest'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/date'
+                - $ref: './models/common/Headers.v1.yaml#/components/headers/host'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: './models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCallbackPayload'
+              responses:
+                $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
+      
+      responses:
+        '201':
+          description: SubscriberCheck created
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheck
+                  - type: object
+                    properties:
+                      # Override since creating a SubscriberCheck only supports ACCEPTED
+                      status:
+                        description: The current status of the SubscriberCheck
+                        type: string
+                        enum:
+                          - ACCEPTED
+                        example: ACCEPTED
+
+                      # Only valid on SubscriberCheck creation
+                      snapshot_balance:
+                        description: |
+                          The workspace balance in `charge_currency` taking into account the `charge_amount`.
+                          This property is not persisted and is only returned when the SubscriberCheck is initially created.
+                        type: number
+                        example: 100
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/InvalidPhoneNumberFormat'
+                  - type: object
+                    allOf:
+                      - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase'
+                      - type: object
+                        description: The country for the supplied `phone_number` is not supported
+
+    get:
+      summary: Retrieve a collection of SubscriberChecks
+      operationId: get-subscriber-checks
+      description: Get a full list of SubscriberChecks or filter by query parameter.
+      security:
+        - BearerAuth: []
+      tags:
+        - subscriber_check
+      parameters:
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/sort'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCollection
+
+  '/subscriber_check/v0.1/checks/{check_id}':
+
+    parameters:
+      - name: check_id
+        description: The ID of the SubscriberCheck
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+    get:
+      summary: Retrieve SubscriberCheck
+      description: Get a SubscriberCheck identified by `check_id`.
+      operationId: get-subscriber-check
+      security:
+        - BearerAuth: []
+      tags:
+        - subscriber_check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheck
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+  '/subscriber_check/v0.1/checks/{check_id}/redirect':
+    parameters:
+      - name: check_id
+        description: The ID of the SubscriberCheck
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+    get:
+      summary: Perform the SubscriberCheck
+      description: Perform the SubscriberCheck identified by `check_id`.
+      operationId: get-subscriber-check-redirect
+      tags:
+        - subscriber_check
+      responses:
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+        '302':
+          description: Redirects to the `check_url`.
+          headers:
+            Location:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Location'
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+  
+  ##############
+  # sim_check
+  ##############
+  
+  '/sim_check/v0.1/checks':
+
+    post:
+      summary: Create a SIMCheck 
+      description: |
+        Starts the SIMCheck
+      operationId: create-sim-check
+      security:
+        - BearerAuth: []
+      tags:
+        - sim_check
+      requestBody:
+        description: JSON payload to create a SIMCheck
+        content:
+          application/json:
+            schema:
+              $ref: ./models/sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimCheckCreatePayload
+
+      responses:
+        '201':
+          description: SIMCheck created
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimCheck
+                  - type: object
+                    properties:
+                      status:
+                        description: The current status of the SIMCheck
+                        type: string
+                        enum:
+                          - COMPLETED
+                          - ERROR
+                        example: COMPLETED
+
+                      # Only valid on SIMCheck creation
+                      snapshot_balance:
+                        description: |
+                          The workspace balance in `charge_currency` taking into account the `charge_amount`.
+                          This property is not persisted and is only returned when the SIMCheck is initially created.
+                        type: number
+                        example: 100
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/InvalidPhoneNumberFormat'
+                  - type: object
+                    allOf:
+                      - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase'
+                      - type: object
+                        description: The country for the supplied `phone_number` is not supported
+
+    get:
+      summary: Retrieve a collection of SIMChecks
+      operationId: get-sim-checks
+      description: Get a full list of SIMChecks or filter by query parameter.
+      security:
+        - BearerAuth: []
+      tags:
+        - sim_check
+      parameters:
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
+        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/sort'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimCheckCollection
+
+  '/sim_check/v0.1/checks/{check_id}':
+    parameters:
+      - name: check_id
+        description: The ID of the SIMCheck
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+    get:
+      summary: Retrieve SIMCheck
+      description: Get a SIMCheck identified by `check_id`.
+      operationId: get-sim-check
+      security:
+        - BearerAuth: []
+      tags:
+        - sim_check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimCheck
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+   
   ##############
   # Projects
   ##############
@@ -494,7 +826,7 @@ paths:
         projectLevelPhoneCheckEndStatus: 
           '{$request.body#/configuration.phone_check.callback_url}':
             post:
-              summary: Phone Check has reached an end status
+              summary: PhoneCheck has reached an end status
               parameters:
                 - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-security'
                 - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-callback'
@@ -589,7 +921,6 @@ paths:
 
 
   '/console/v0.1/projects/{project_id}':
-
     parameters:
       - $ref: './models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId'
     get:
@@ -845,11 +1176,15 @@ components:
         - `projects`: `/console/{version}/projects` resources
         - `workspaces`: `/console/{version}/workspaces` resources
         - `phone_check`: `/phone_check` resources
+        - `subscriber_check`: `/subscriber_check` resources
+        - `sim_check`: `/sim_check` resources
       type: string
       enum:
         - projects
         - workspaces
         - phone_check
+        - subscriber_check
+        - sim_check
 
   parameters:
 
@@ -861,6 +1196,8 @@ components:
         - `projects`: `/console/{version}/projects` resources
         - `workspaces`: `/console/{version}/workspaces` resources
         - `phone_check`: `/phone_check` resources
+        - `subscriber_check`: `/subscriber_check` resources
+        - `sim_check`: `/sim_check` resources
       in: query
       schema:
         type: string
@@ -868,3 +1205,5 @@ components:
           - projects
           - workspaces
           - phone_check
+          - subscriber_check
+          - sim_check
