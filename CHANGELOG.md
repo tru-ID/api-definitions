@@ -7,9 +7,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* `/projects` for managing **tru.ID** projects
-* `/workspaces` for querying workspace information such as API credit. Details around workspaces are not fully shared as yet.
+* `/console/v0.1/projects` for managing **tru.ID** projects
+* `/console/v0.1/workspaces` for querying workspace information such as API credit. Details around workspaces are not fully shared as yet.
 * `/phone_check/v0.1/` for creating and querying PhoneChecks
 * `/sim_check/v0.1/` for creating and querying SIMChecks
 * `/subscriber_check/v0.1/` for creating an querying SubscriberChecks
-* `/oauth2` for creating and revoking access tokens
+* `/oauth2/v1/` for creating and revoking access tokens
