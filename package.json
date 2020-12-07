@@ -8,7 +8,8 @@
     "test:json-out": "spectral lint --format json -F warn ./specs/openapi.v1.yaml",
     "specs:lint": "spectral lint",
     "specs:mock": "prism mock",
-    "specs:proxy": "prism proxy"
+    "specs:proxy": "prism proxy",
+    "changelog": "standard-version"
   },
   "repository": {
     "type": "git",
@@ -20,8 +21,16 @@
     "url": "https://gitlab.com/4auth/api_definitions/issues"
   },
   "homepage": "https://gitlab.com/4auth/api_definitions#readme",
+  "standard-version": {
+    "skip": {
+      "commit": true,
+      "tag": true,
+      "bump": true
+    }
+  },
   "devDependencies": {
     "@stoplight/prism-cli": "^3.3.7",
-    "@stoplight/spectral": "^5.5.0"
+    "@stoplight/spectral": "^5.5.0",
+    "standard-version": "^9.0.0"
   }
 }
