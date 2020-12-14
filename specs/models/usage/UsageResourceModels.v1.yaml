@@ -1,0 +1,117 @@
+title: UsageResourcesModels
+type: object
+description: Definitions of models related to Usage resources
+components:
+  schemas:
+    UsageResourceBase:
+      description: A Usage Resource
+      type: object
+      x-tags:
+        - usage
+      required:
+        - amount
+        - currency
+        - counter
+      properties:
+        product_id:
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/ProductID'
+        project_id:
+          type: string
+          description: ID of the project that the usage is related to.
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+          example: c69bc0e6-a429-11ea-bb37-0242ac130002
+
+        amount:
+          description: The amount billed for the usage resource. 
+          type: number
+          example: 10.0
+
+        counter:
+          description: The number of billed requests
+          type: number
+          example: 10
+
+        currency:
+          description: The currency of the amount billed for the usage resource
+          allOf:
+            - $ref: "../common/DataTypes.v1.yaml#/components/schemas/Currency"
+
+    UsageResourceDaily:
+      required:
+        - date
+      allOf:
+        - $ref: '#/components/schemas/UsageResourceBase'
+        - type: object
+          properties:
+            date:
+              $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODate'
+
+    UsageResourceMonthly:
+      required:
+        - date
+      allOf:
+        - $ref: '#/components/schemas/UsageResourceBase'
+        - type: object
+          properties:
+            date:
+              $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISOYearMonth'
+
+    UsageResourceHourly:
+      required:
+        - date
+      allOf:
+        - $ref: '#/components/schemas/UsageResourceBase'
+        - type: object
+          properties:
+            date:
+              $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODateHour'
+
+  parameters:
+    groupBy:
+      name: group_by
+      description: groups results by the specified field.
+      in: query
+      schema:
+        type: string
+        enum:
+          - product_id
+          - project_id
+        example: product_id
+
+    searchDaily:
+      name: search
+      description: |
+        An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples](https://github.com/jirutka/rsql-parser#examples).
+        ### Params
+        * date (required YYYY-MM-DD)
+      in: query
+      required: true
+      schema:
+        type: string
+      example: date>=2020-01-10
+
+    searchMonthly:
+      name: search
+      description: |
+        An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples](https://github.com/jirutka/rsql-parser#examples).
+        ### Params
+        * date (required YYYY-MM)
+      in: query
+      required: true
+      schema:
+        type: string
+      example: date>=2020-01
+
+    searchHourly:
+      name: search
+      description: |
+        An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples](https://github.com/jirutka/rsql-parser#examples).
+        ### Params
+        * date (required YYYY-MM-DDThh)
+      in: query
+      required: true
+      schema:
+        type: string
+      example: date>=2020-01-10T00
+
+
