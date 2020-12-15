@@ -797,8 +797,8 @@ paths:
             value: 44
             summary: The dialing code for United Kingdom
     get:
-      summary: Retrieve Country Coverage identified by `code`
-      description: Get the country coverage and prices for workspace's currency identified by `code`.
+      summary: Retrieve Country Coverage
+      description: Get the Country Coverage and prices for workspace's currency identified by `code`.
       operationId: get-coverage-by-code
       security:
         - BearerAuth: []
@@ -837,7 +837,7 @@ paths:
           phone_number:
             value: '447700900000'
     get:
-      summary: Retrieve Country Coverage identified by `phone_number` 
+      summary: Retrieve Country Coverage 
       description: Retrieve Country Coverage and the prices for workspace's currency identified by `phone_number`.
       operationId: get-coverage-by-phone-number
       security:
