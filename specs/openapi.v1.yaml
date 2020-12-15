@@ -47,6 +47,7 @@ tags:
   - name: hide
     description: Tags that should not be rendered
   - name: coverage
+    x-displayName: Coverage
     description: Relating to Coverage.
 
 
@@ -785,7 +786,7 @@ paths:
           oneOf:
             - $ref: './models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryCode'
             - $ref: './models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryDialingCode'
-        description: Either two letter code [ISO 3166-1 alpha-2] (https://www.iso.org/obp/ui/#search) or country dialing code
+        description: Either two letter code [ISO 3166-1 alpha-2](https://www.iso.org/obp/ui/#search) or country dialing code
         in: path
         required: true
         examples:
@@ -796,8 +797,8 @@ paths:
             value: 44
             summary: The dialing code for United Kingdom
     get:
-      summary: Retrieve Country Coverage and prices for workspace's currency.
-      description: Get the country coverage identified by `code`.
+      summary: Retrieve Country Coverage identified by `code`
+      description: Get the country coverage and prices for workspace's currency identified by `code`.
       operationId: get-coverage-by-code
       security:
         - BearerAuth: []
@@ -836,8 +837,8 @@ paths:
           phone_number:
             value: '447700900000'
     get:
-      summary: Retrieve Country Coverage identified by `phone_number` and the prices for workspace's currency.
-      description: Get the country coverage identified by `phone_number`.
+      summary: Retrieve Country Coverage identified by `phone_number` 
+      description: Retrieve Country Coverage and the prices for workspace's currency identified by `phone_number`.
       operationId: get-coverage-by-phone-number
       security:
         - BearerAuth: []
