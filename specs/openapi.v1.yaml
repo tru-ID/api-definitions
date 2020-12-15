@@ -785,7 +785,7 @@ paths:
           oneOf:
             - $ref: './models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryCode'
             - $ref: './models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryDialingCode'
-        description: Either two letter code [ISO 3166-1 alpha-2] (https://en.wikipedia.org/wiki/ISO_3166-2) or country dialing code
+        description: Either two letter code [ISO 3166-1 alpha-2] (https://www.iso.org/obp/ui/#search) or country dialing code
         in: path
         required: true
         examples:
