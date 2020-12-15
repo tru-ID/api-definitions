@@ -125,7 +125,7 @@ components:
       example: GB
 
     CountryDialingCode:
-      description: [country dialing code](https://www.itu.int/dms_pub/itu-t/opb/sp/T-SP-E.164D-11-2011-PDF-E.pdf)
+      description: the [country dialing code](https://www.itu.int/dms_pub/itu-t/opb/sp/T-SP-E.164D-11-2011-PDF-E.pdf)
       type: number
       example: 44
 
