@@ -42,9 +42,6 @@ components:
           example: Phone Check
         coverage:
           $ref: '#/components/schemas/Coverage'
-          description: If there is coverage for all available networks
-          type: boolean
-          example: true
         networks:
           description: The coverage per network
           type: array
@@ -133,7 +130,7 @@ components:
       example: 44
 
     Coverage:
-      description: If the coverage is full or partia
+      description: If the coverage is full for all networks or partial
       type: string
       enum:
         - FULL
