@@ -824,47 +824,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
-
-  '/coverage/v0.1/countries':
-    parameters:
-      - name: phone_number
-        schema:
-          type: string
-        description: Phone number for which we want the Country Coverage
-        in: query
-        required: true
-        examples:
-          phone_number:
-            value: '447700900000'
-    get:
-      summary: Retrieve Country Coverage 
-      description: Retrieve Country Coverage and the prices for workspace's currency identified by `phone_number`.
-      operationId: get-coverage-by-phone-number
-      security:
-        - BearerAuth: []
-      tags:
-        - coverage
-      responses:
-        '200':
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryCoverage
-          headers:
-            X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
-            X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
-            Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
-        '404':
-          description: No Reach
-          content:
-            application/problem+json:
-              schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
-
+  
   '/coverage/v0.1/device_ips/{ip}':
     parameters:
       - name: ip
@@ -875,8 +835,8 @@ paths:
         in: path
         required: true
     get:
-      summary: Retrieve Device Coverage
-      description: Get the device coverage for the device identified by `ip`.
+      summary: Get Reachability of device 
+      description: Get Reachability of device by `ip`
       operationId: get-coverage-by-device-ip
       security:
         - BearerAuth: []
@@ -888,7 +848,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/DeviceCoverage
+                $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/DeviceReachability
           headers:
             X-RateLimit-Limit:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
