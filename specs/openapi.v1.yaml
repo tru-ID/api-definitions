@@ -835,8 +835,8 @@ paths:
         in: path
         required: true
     get:
-      summary: Get Reachability of device 
-      description: Get Reachability of device by `ip`
+      summary: Get Device Reachability
+      description: Get Device Reachability by `ip`
       operationId: get-coverage-by-device-ip
       security:
         - BearerAuth: []
