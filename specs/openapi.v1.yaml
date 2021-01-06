@@ -287,7 +287,7 @@ paths:
         Starts the PhoneCheck workflow.
       operationId: create-phone-check
       security:
-        - BearerAuth: []
+        - ProjectBearerAuth: []
       tags:
         - phone_check
       requestBody:
@@ -367,7 +367,7 @@ paths:
       operationId: get-phone-checks
       description: Get a full list of PhoneChecks or filter by query parameter.
       security:
-        - BearerAuth: []
+        - ProjectBearerAuth: []
       tags:
         - phone_check
       parameters:
@@ -404,7 +404,7 @@ paths:
       description: Get a PhoneCheck identified by `check_id`.
       operationId: get-phone-check
       security:
-        - BearerAuth: []
+        - ProjectBearerAuth: []
       tags:
         - phone_check
       responses:
@@ -471,7 +471,7 @@ paths:
         Starts the SubscriberCheck workflow.
       operationId: create-subscriber-check
       security:
-        - BearerAuth: []
+        - ProjectBearerAuth: []
       tags:
         - subscriber_check
       requestBody:
@@ -551,7 +551,7 @@ paths:
       operationId: get-subscriber-checks
       description: Get a full list of SubscriberChecks or filter by query parameter.
       security:
-        - BearerAuth: []
+        - ProjectBearerAuth: []
       tags:
         - subscriber_check
       parameters:
@@ -588,7 +588,7 @@ paths:
       description: Get a SubscriberCheck identified by `check_id`.
       operationId: get-subscriber-check
       security:
-        - BearerAuth: []
+        - ProjectBearerAuth: []
       tags:
         - subscriber_check
       responses:
@@ -655,7 +655,7 @@ paths:
         Starts the SIMCheck
       operationId: create-sim-check
       security:
-        - BearerAuth: []
+        - ProjectBearerAuth: []
       tags:
         - sim_check
       requestBody:
@@ -715,7 +715,7 @@ paths:
       operationId: get-sim-checks
       description: Get a full list of SIMChecks or filter by query parameter.
       security:
-        - BearerAuth: []
+        - ProjectBearerAuth: []
       tags:
         - sim_check
       parameters:
@@ -751,7 +751,7 @@ paths:
       description: Get a SIMCheck identified by `check_id`.
       operationId: get-sim-check
       security:
-        - BearerAuth: []
+        - ProjectBearerAuth: []
       tags:
         - sim_check
       responses:
@@ -798,10 +798,13 @@ paths:
             summary: The dialing code for United Kingdom
     get:
       summary: Retrieve Country Coverage
-      description: Get the Country Coverage and prices for workspace's currency identified by `code`.
+      description: |
+        Get the country coverage by country code.
+        
+        Project-level authentication (`client_id` and `client_secret`) is required. Associated pricing for the countries in the API response are based on the Workspace that the Project is associated with.
       operationId: get-coverage-by-code
       security:
-        - BearerAuth: []
+        - ProjectBearerAuth: []
       tags:
         - coverage
       responses:
@@ -839,7 +842,7 @@ paths:
       description: Get Device Reachability by `ip`
       operationId: get-coverage-by-device-ip
       security:
-        - BearerAuth: []
+        - ProjectBearerAuth: []
       tags:
         - coverage
       responses:
@@ -875,7 +878,7 @@ paths:
       description: Create a Project
       operationId: create-project
       security:
-        - BearerAuth: []
+        - WorkspaceBearerAuth: []
       tags:
         - projects
       requestBody:
@@ -943,7 +946,7 @@ paths:
       operationId: get-projects
       description: Get a full list of Projects or filter by query parameter.
       security:
-        - BearerAuth: []
+        - WorkspaceBearerAuth: []
       tags:
         - projects
       parameters:
@@ -1024,7 +1027,7 @@ paths:
       description: Get a Project identified by `project_id`.
       operationId: get-project
       security:
-        - BearerAuth: []
+        - WorkspaceBearerAuth: []
       tags:
         - projects
       responses:
@@ -1053,7 +1056,7 @@ paths:
       description: Update the project identified by the `project_id`.
       operationId: patch-project
       security:
-        - BearerAuth: []
+        - WorkspaceBearerAuth: []
       tags:
         - projects
       requestBody:
@@ -1148,7 +1151,7 @@ paths:
       description: Resets the selected credential and returns a new client secret
       operationId: reset-project-credential
       security:
-        - BearerAuth: []
+        - WorkspaceBearerAuth: []
       tags:
         - projects
       responses:
@@ -1183,11 +1186,11 @@ paths:
   '/console/v0.1/workspaces/default':
 
     get:
-      summary: Get the default workspace for the current user
-      description: Gets the default workspace for the current user as identified by the owner of the access token used with the resource
+      summary: Get the default workspace resource for the current user
+      description: Gets the default workspace resource for the current user as identified by the owner of the access token used with the resource
       operationId: get-workspaces-default
       security:
-        - BearerAuth: []
+        - WorkspaceBearerAuth: []
       tags:
         - workspaces
       responses:
@@ -1256,10 +1259,21 @@ components:
       type: http
       scheme: basic
 
-    BearerAuth:
+    WorkspaceBearerAuth:
       description: |
         The tru.ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
         e.g. `Authorization: Bearer {access_token}`
+
+        The token should be a Workspace-level access token. These are created using your Workspace `client_id` and `client_secret`.
+      type: http
+      scheme: bearer
+
+    ProjectBearerAuth:
+      description: |
+        The tru.ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
+        e.g. `Authorization: Bearer {access_token}`. See [Create an Access Token](#operation/oauth2-token).
+
+        The token should be associated with **tru.ID** Project. These are created using a Project `client_id` and `client_secret`. See [Create an Access Token](#operation/oauth2-token).
       type: http
       scheme: bearer
 
