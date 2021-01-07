@@ -58,15 +58,11 @@ x-tagGroups:
   - name: OAuth2
     tags:
       - oauth2
-  - name: PhoneCheck
+  - name: Products
     tags:
-      - phone_check
-  - name: SubscriberCheck
-    tags:
+      - phone_check 
       - subscriber_check
-  - name: SIMCheck
-    tags:
-      - sim_check
+      - sim_check      
   - name: Console
     tags:
       - projects
