@@ -71,12 +71,10 @@ x-tagGroups:
     tags:
       - projects
       - workspaces
+      - usage
   - name: Coverage
     tags:
       - coverage
-  - name: Usage
-    tags:
-      - usage
 
 paths:
 
