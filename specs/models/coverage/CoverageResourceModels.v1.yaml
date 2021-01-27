@@ -119,7 +119,7 @@ components:
                 example: PhoneCheck
 
     CountryCode:
-      description: two letter country code [ISO 3166-1 alpha-2](https://www.iso.org/obp/ui/#search)
+      description: two letter country code [ISO 3166-1 alpha-2](https://www.iso.org/obp/ui/#iso:std:iso:3166:-3:ed-3:v1:en)
       type: string
       pattern: '[A-Z]{2}'
       example: GB
