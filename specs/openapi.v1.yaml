@@ -799,7 +799,7 @@ paths:
     get:
       summary: Retrieve Country Coverage
       description: |
-        Get the country coverage by country code.
+        Get the country product coverage by country code.
         
         Project-level authentication (`client_id` and `client_secret`) is required. Associated pricing for the countries in the API response are based on the Workspace that the Project is associated with.
       operationId: get-coverage-by-code
@@ -839,7 +839,7 @@ paths:
         required: true
     get:
       summary: Get Device Reachability
-      description: Get Device Reachability by `ip`
+      description: Get the mobile network that a device is on along with products that are supported based on device IP address.
       operationId: get-coverage-by-device-ip
       security:
         - ProjectBearerAuth: []
