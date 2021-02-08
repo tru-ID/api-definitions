@@ -60,9 +60,9 @@ x-tagGroups:
       - oauth2
   - name: Products
     tags:
-      - phone_check 
+      - phone_check
       - subscriber_check
-      - sim_check      
+      - sim_check
   - name: Console
     tags:
       - projects
@@ -459,6 +459,139 @@ paths:
             X-RateLimit-Remaining:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
 
+  '/phone_check/v0.1/checks/{check_id}/traces':
+    parameters:
+      - name: check_id
+        description: The ID of the PhoneCheck
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+    get:
+      summary: Get Traces of PhoneCheck
+      description: Get Traces of the PhoneCheck identified by `check_id`
+      operationId: get-phone-check-traces
+      tags:
+        - phone_check
+      responses:
+        '200':
+          description: OK
+
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/trace/TraceResourceModels.v1.yaml#/components/schemas/TraceCollection
+              examples:
+                basic:
+                  value:
+                    _embedded:
+                      traces:
+                      - _links:
+                          self:
+                            href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+                        trace_id: 6f2a0e25fc0caa25
+                        logs:
+                        - timestamp: '2021-02-05T13:58:48.751Z'
+                          message: 'Check create: phone number is reachable'
+                        - timestamp: '2021-02-05T13:58:48.856Z'
+                          message: 'Check balance: authorized'
+                          attributes:
+                            amount: 1
+                            currency: API
+                        - timestamp: '2021-02-05T13:58:48.864Z'
+                          message: 'Check create: accepted'
+                      - _links:
+                          self:
+                            href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
+                        trace_id: 7f1bc78ab197ee8b
+                        logs:
+                        - timestamp: '2021-02-05T13:59:05.060Z'
+                          message: 'Check balance: confirmed'
+                          attributes:
+                            amount: 1
+                            currency: API
+                    _links:
+                      self:
+                        href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces
+
+
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+  '/phone_check/v0.1/checks/{check_id}/traces/{trace_id}':
+    parameters:
+      - name: check_id
+        description: The ID of the PhoneCheck
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+      - name: trace_id
+        description: The ID of the Trace
+        schema:
+          type: string
+        in: path
+        required: true
+    get:
+      summary: Get Trace of PhoneCheck
+      description: Get the Trace identified by `trace_id` of the PhoneCheck identified by `check_id`
+      operationId: get-phone-check-trace
+      tags:
+        - phone_check
+      responses:
+        '200':
+          description: OK
+
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/trace/TraceResourceModels.v1.yaml#/components/schemas/TraceResource
+              examples:
+                basic:
+                  value:
+                    trace_id: 6f2a0e25fc0caa25
+                    logs:
+                    - timestamp: '2021-02-05T13:58:48.751Z'
+                      message: 'Check create: request accepted'
+                    - timestamp: '2021-02-05T13:58:48.824Z'
+                      message: 'Check create: phone number is routable'
+                    - timestamp: '2021-02-05T13:58:48.856Z'
+                      message: 'Check balance: authorized'
+                      attributes:
+                        amount: 1
+                        currency_code: API
+                    - timestamp: '2021-02-05T13:58:48.864Z'
+                      message: 'Check create: successful '
+                    _links:
+                      self:
+                        href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+
+
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
   ##############
   # subscriber_check
   ##############
@@ -643,6 +776,137 @@ paths:
             X-RateLimit-Remaining:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
 
+  '/subscriber_check/v0.1/checks/{check_id}/traces':
+    parameters:
+      - name: check_id
+        description: The ID of the SubscriberCheck
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+    get:
+      summary: Get Traces of SubscriberCheck
+      description: Get Traces of the SubscriberCheck identified by `check_id`
+      operationId: get-subscriber-check-traces
+      tags:
+        - subscriber_check
+      responses:
+        '200':
+          description: OK
+
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/trace/TraceResourceModels.v1.yaml#/components/schemas/TraceCollection
+              examples:
+                basic:
+                  value:
+                    _embedded:
+                      traces:
+                      - _links:
+                          self:
+                            href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+                        trace_id: 6f2a0e25fc0caa25
+                        logs:
+                        - timestamp: '2021-02-05T13:58:48.751Z'
+                          message: 'Check create: phone number is reachable'
+                        - timestamp: '2021-02-05T13:58:48.856Z'
+                          message: 'Check balance: authorized'
+                          attributes:
+                            amount: 1
+                            currency: API
+                        - timestamp: '2021-02-05T13:58:48.864Z'
+                          message: 'Check create: accepted'
+                      - _links:
+                          self:
+                            href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
+                        trace_id: 7f1bc78ab197ee8b
+                        logs:
+                        - timestamp: '2021-02-05T13:59:05.060Z'
+                          message: 'Check balance: confirmed'
+                          attributes:
+                            amount: 1
+                            currency: API
+                    _links:
+                      self:
+                        href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces
+
+
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+  '/subscriber_check/v0.1/checks/{check_id}/traces/{trace_id}':
+    parameters:
+      - name: check_id
+        description: The ID of the SubscriberCheck
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+      - name: trace_id
+        description: The ID of the of the Trace
+        schema:
+          type: string
+        in: path
+        required: true
+    get:
+      summary: Get Trace of SubscriberCheck
+      description: Get the Trace identified by `trace_id`  of the SubscriberCheck identified by `check_id`
+      operationId: get-subscriber-check-trace
+      tags:
+        - subscriber_check
+      responses:
+        '200':
+          description: OK
+
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/trace/TraceResourceModels.v1.yaml#/components/schemas/TraceResource
+              examples:
+                basic:
+                  value:
+                      trace_id: 6f2a0e25fc0caa25
+                      logs:
+                      - timestamp: '2021-02-05T13:58:48.751Z'
+                        message: 'Check create: phone number is reachable'
+                      - timestamp: '2021-02-05T13:58:48.856Z'
+                        message: 'Check balance: authorized'
+                        attributes:
+                          amount: 1
+                          currency: API
+                      - timestamp: '2021-02-05T13:58:48.864Z'
+                        message: 'Check create: accepted'
+                        _links:
+                          self:
+                            href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+
+
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
   ##############
   # sim_check
   ##############
@@ -775,6 +1039,139 @@ paths:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
 
+  '/sim_check/v0.1/checks/{check_id}/traces':
+    parameters:
+      - name: check_id
+        description: The ID of the SIMCheck
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+    get:
+      summary: Get Traces of SIMCheck
+      description: Get Traces of the SIMCheck identified by `check_id`
+      operationId: get-sim-check-traces
+      tags:
+        - sim_check
+      responses:
+        '200':
+          description: OK
+
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/trace/TraceResourceModels.v1.yaml#/components/schemas/TraceCollection
+              examples:
+                basic:
+                  value:
+                    _embedded:
+                      traces:
+                      - _links:
+                          self:
+                            href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+                        trace_id: 6f2a0e25fc0caa25
+                        logs:
+                        - timestamp: '2021-02-05T13:58:48.751Z'
+                          message: 'Check create: phone number is reachable'
+                        - timestamp: '2021-02-05T13:58:48.856Z'
+                          message: 'Check balance: authorized'
+                          attributes:
+                            amount: 1
+                            currency: API
+                        - timestamp: '2021-02-05T13:58:48.864Z'
+                          message: 'Check create: accepted'
+                      - _links:
+                          self:
+                            href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
+                        trace_id: 7f1bc78ab197ee8b
+                        logs:
+                        - timestamp: '2021-02-05T13:59:05.060Z'
+                          message: 'Check balance: confirmed'
+                          attributes:
+                            amount: 1
+                            currency: API
+                    _links:
+                      self:
+                        href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces
+
+
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
+  '/sim_check/v0.1/checks/{check_id}/traces/{trace_id}':
+    parameters:
+      - name: check_id
+        description: The ID of the SIMCheck
+        schema:
+          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+        in: path
+        required: true
+      - name: trace_id
+        description: The ID of the of the trace
+        schema:
+          type: string
+        in: path
+        required: true
+    get:
+      summary: Get Trace of Simcheck
+      description: Get the Trace identified by `trace_id`  of the SIMCheck identified by `check_id`
+      operationId: get-sim-check-trace
+      tags:
+        - sim_check
+      responses:
+        '200':
+          description: OK
+
+          headers:
+            X-RateLimit-Limit:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+            Access-Control-Allow-Origin:
+              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/trace/TraceResourceModels.v1.yaml#/components/schemas/TraceResource
+              examples:
+                basic:
+                  value:
+                    trace_id: 6f2a0e25fc0caa25
+                    logs:
+                    - timestamp: '2021-02-05T13:58:48.751Z'
+                      message: 'Check create: request accepted'
+                    - timestamp: '2021-02-05T13:58:48.824Z'
+                      message: 'Check create: phone number is routable'
+                    - timestamp: '2021-02-05T13:58:48.856Z'
+                      message: 'Check balance: authorized'
+                      attributes:
+                        amount: 1
+                        currency_code: API
+                    - timestamp: '2021-02-05T13:58:48.864Z'
+                      message: 'Check create: successful'
+                    _links:
+                      self:
+                        href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+
+
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+
   ##############
   # Coverage   #
   ##############
@@ -800,7 +1197,7 @@ paths:
       summary: Retrieve Country Coverage
       description: |
         Get the country product coverage by country code.
-        
+
         Project-level authentication (`client_id` and `client_secret`) is required. Associated pricing for the countries in the API response are based on the Workspace that the Project is associated with.
       operationId: get-coverage-by-code
       security:
@@ -827,7 +1224,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
-  
+
   '/coverage/v0.1/device_ips/{ip}':
     parameters:
       - name: ip
@@ -866,7 +1263,7 @@ paths:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
 
-  
+
   ##############
   # Projects
   ##############

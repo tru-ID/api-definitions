@@ -1,0 +1,83 @@
+title: TraceResourceModels
+type: object
+description: Definitions of models related to Traces
+components:
+  schemas:
+    TraceResource:
+      description: A Trace resource
+      type: object
+      x-tags:
+        - trace
+      required:
+        - logs
+        - trace_id
+      properties:
+        logs:
+          description: Logs of the corresponding Trace ordered by timestamp ascending.
+          type: array
+          items:
+            $ref: '#/components/schemas/Log'
+        trace_id:
+          description: The unique ID of the Trace resource
+          type: string
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              description: The link to the current resouce
+              allOf:
+                - $ref: ../common/Link.v1.yaml
+          required:
+            - self        
+
+    Log:
+      description: A Log Entry
+      type: object
+      x-tags:
+        - trace
+      required:
+        - message
+        - timestamp
+      properties:
+        message:
+          type: string
+          description: The Log Entry message
+        timestamp:
+          description: When the Log Entry occured
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        attributes:
+          type: object
+          additionalProperties: true
+          description: Extra fields related to the Log Entry
+          example:
+            amount: 1,
+            currency: "API"
+            status: "COMPLETED"      
+
+    TraceCollection:
+      description: Collection of Trace resources ordered by oldest to latest.
+      type: object
+      properties:
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              description: The link to the current resource
+              $ref: ../common/Link.v1.yaml
+        _embedded:
+          description: Collection of Trace resources
+          type: object
+          properties:
+            traces:
+              description: collection of Traces
+              type: array
+              items:
+                $ref: '#/components/schemas/TraceResource'
+
+
+                  
+        
+
