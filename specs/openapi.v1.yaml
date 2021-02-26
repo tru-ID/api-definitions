@@ -1137,7 +1137,7 @@ paths:
     #   parameters: []
     #   tags:
     #     - project
-  '/console/v0.1/projects/{project_id}/credentials/{client_id}':
+  '/console/v0.1/projects/{project_id}/credentials/{client_id}/reset':
     parameters:
       - $ref: './models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId'
       - name: client_id
