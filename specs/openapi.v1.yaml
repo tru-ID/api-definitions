@@ -363,7 +363,7 @@ paths:
                         description: The country for the supplied `phone_number` is not supported
 
     get:
-      summary: Retrieve a collection of PhoneChecks
+      summary: Get a collection of PhoneChecks
       operationId: get-phone-checks
       description: Get a full list of PhoneChecks or filter by query parameter.
       security:
@@ -400,7 +400,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Retrieve PhoneCheck
+      summary: Get PhoneCheck
       description: Get a PhoneCheck identified by `check_id`.
       operationId: get-phone-check
       security:
@@ -468,7 +468,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Get Traces of PhoneCheck
+      summary: Get a collection of PhoneCheck Traces
       description: Get Traces of the PhoneCheck identified by `check_id`
       operationId: get-phone-check-traces
       tags:
@@ -544,7 +544,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Get Trace of PhoneCheck
+      summary: Get PhoneCheck Trace
       description: Get the Trace identified by `trace_id` of the PhoneCheck identified by `check_id`
       operationId: get-phone-check-trace
       tags:
@@ -680,7 +680,7 @@ paths:
                         description: The country for the supplied `phone_number` is not supported
 
     get:
-      summary: Retrieve a collection of SubscriberChecks
+      summary: Get a collection of SubscriberChecks
       operationId: get-subscriber-checks
       description: Get a full list of SubscriberChecks or filter by query parameter.
       security:
@@ -717,7 +717,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Retrieve SubscriberCheck
+      summary: Get SubscriberCheck
       description: Get a SubscriberCheck identified by `check_id`.
       operationId: get-subscriber-check
       security:
@@ -785,7 +785,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Get Traces of SubscriberCheck
+      summary: Get a collection of SubscriberCheck Traces
       description: Get Traces of the SubscriberCheck identified by `check_id`
       operationId: get-subscriber-check-traces
       tags:
@@ -861,7 +861,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Get Trace of SubscriberCheck
+      summary: Get SubscriberCheck Trace
       description: Get the Trace identified by `trace_id`  of the SubscriberCheck identified by `check_id`
       operationId: get-subscriber-check-trace
       tags:
@@ -975,7 +975,7 @@ paths:
                         description: The country for the supplied `phone_number` is not supported
 
     get:
-      summary: Retrieve a collection of SIMChecks
+      summary: Get a collection of SIMChecks
       operationId: get-sim-checks
       description: Get a full list of SIMChecks or filter by query parameter.
       security:
@@ -1011,7 +1011,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Retrieve SIMCheck
+      summary: Get SIMCheck
       description: Get a SIMCheck identified by `check_id`.
       operationId: get-sim-check
       security:
@@ -1048,7 +1048,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Get Traces of SIMCheck
+      summary: Get a collection of SIMCheck Traces
       description: Get Traces of the SIMCheck identified by `check_id`
       operationId: get-sim-check-traces
       tags:
@@ -1124,7 +1124,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Get Trace of Simcheck
+      summary: Get Simcheck Trace
       description: Get the Trace identified by `trace_id`  of the SIMCheck identified by `check_id`
       operationId: get-sim-check-trace
       tags:
@@ -1194,7 +1194,7 @@ paths:
             value: 44
             summary: The dialing code for United Kingdom
     get:
-      summary: Retrieve Country Coverage
+      summary: Get Country Coverage
       description: |
         Get the country product coverage by country code.
 
@@ -1339,7 +1339,7 @@ paths:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
 
     get:
-      summary: Retrieve a collection of Projects
+      summary: Get a collection of Projects
       operationId: get-projects
       description: Get a full list of Projects or filter by query parameter.
       security:
@@ -1420,7 +1420,7 @@ paths:
     parameters:
       - $ref: './models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId'
     get:
-      summary: Retrieve Project
+      summary: Get Project
       description: Get a Project identified by `project_id`.
       operationId: get-project
       security:
