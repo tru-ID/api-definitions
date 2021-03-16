@@ -69,14 +69,22 @@ components:
   parameters:
     groupBy:
       name: group_by
-      description: groups results by the specified field.
+      description: groups results by one or more fields.
       in: query
       schema:
-        type: string
-        enum:
-          - product_id
-          - project_id
-        example: product_id
+        type: array
+        items:
+          type: string
+          enum:
+            - product_id
+            - project_id
+      examples: 
+        product:
+          value: [product_id]
+        both:
+          value: [product_id,project_id]
+        project:
+          value: [project_id]
 
     searchDaily:
       name: search
