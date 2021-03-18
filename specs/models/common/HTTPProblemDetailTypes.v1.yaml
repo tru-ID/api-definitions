@@ -26,7 +26,7 @@ components:
 
     InvalidPhoneNumberFormat:
       description: >
-        The provided phone number did not adhere to the E.164 phone number format.
+        The provided phone number did not adhere to the [E.164 phone number format](https://www.itu.int/rec/T-REC-E.164-201011-I/en).
         To be used with HTTP Status Code 400.
       allOf:
         - $ref: '#/components/responses/ProblemDetailsBase'
