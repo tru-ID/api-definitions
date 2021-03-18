@@ -24,7 +24,7 @@ components:
       type: object
       properties:
         phone_number:
-          description: The phone number to be checked
+          description: The phone number to be checked in [E.164 format](https://www.itu.int/rec/T-REC-E.164-201011-I/en)
           type: string
           example: '447700900000'
           format: E.164
