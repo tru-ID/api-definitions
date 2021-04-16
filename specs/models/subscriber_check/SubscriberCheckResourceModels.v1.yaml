@@ -23,8 +23,6 @@ components:
           properties:
             no_sim_change:
               $ref: '../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange'
-            last_sim_change_at:
-              $ref: '../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimLastChanged'
         
     SubscriberCheck:
       description: The payload sent to a callback URL upon a SubscriberCheck reaching an end state.
