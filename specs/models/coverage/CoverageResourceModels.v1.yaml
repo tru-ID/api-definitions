@@ -14,6 +14,11 @@ components:
           $ref: '#/components/schemas/CountryCode'
         dialing_code:
           $ref: '#/components/schemas/CountryDialingCode'
+        prices_starting_from:
+          description: An array of lowest prices from the networks available in the country
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceCard'
         products:
           description: An array of coverage per product
           type: array
@@ -77,7 +82,7 @@ components:
             $ref: '#/components/schemas/PriceCard'
 
     PriceCard:
-      description: Network Coverage and prices
+      description: Charged amount and currency
       type: object
       x-tags:
         - coverage
@@ -135,5 +140,6 @@ components:
       enum:
         - FULL
         - PARTIAL
+        - COMING_SOON
       example: FULL
 
