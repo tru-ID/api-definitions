@@ -14,11 +14,6 @@ components:
           $ref: '#/components/schemas/CountryCode'
         dialing_code:
           $ref: '#/components/schemas/CountryDialingCode'
-        prices_starting_from:
-          description: An array of lowest prices from the networks available in the country
-          type: array
-          items:
-            $ref: '#/components/schemas/PriceCard'
         products:
           description: An array of coverage per product
           type: array
@@ -47,6 +42,11 @@ components:
           example: Phone Check
         coverage:
           $ref: '#/components/schemas/Coverage'
+        prices_starting_from:
+          description: An array of lowest prices from the networks available in the country
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceCard'          
         networks:
           description: The coverage per network
           type: array
