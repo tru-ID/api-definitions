@@ -1471,7 +1471,7 @@ paths:
       requestBody:
         description: A JSON payload for the Project that is to be created.
         content:
-          application/json:
+          application/json-patch+json:
             schema:
               $ref: './models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPatchPayload'
             examples:
