@@ -70,6 +70,8 @@ components:
           description: A descriptive name of the Project
           type: string
           example: My first project
+        mode:
+          $ref: '#/components/schemas/ProjectMode'
         configuration:
           description: Configuration for the Products used within a Project
           $ref: '#/components/schemas/ProjectConfiguration'
