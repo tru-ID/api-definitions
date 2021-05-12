@@ -24,6 +24,14 @@ components:
       allOf:
         - $ref: '#/components/responses/ProblemDetailsBase'
 
+    MobileNetworkOperatorNotSupported:
+      description: >
+        The Mobile Network Operator (MNO) associated with phone number is not supported.
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://developer.tru.id/docs/reference/api-errors#mno_not_supported
+
     InvalidPhoneNumberFormat:
       description: >
         The provided phone number did not adhere to the [E.164 phone number format](https://www.itu.int/rec/T-REC-E.164-201011-I/en).
@@ -31,4 +39,4 @@ components:
       allOf:
         - $ref: '#/components/responses/ProblemDetailsBase'
       example:
-        type: https://tru.id/docs/reference/api/errors#invalid_phone_number_format
+        type: https://developer.tru.id/docs/reference/api-errors#invalid_phone_number_format

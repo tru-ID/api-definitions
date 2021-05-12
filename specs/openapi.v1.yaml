@@ -443,12 +443,6 @@ paths:
       tags:
         - phone_check
       responses:
-        '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
         '302':
           description: Redirects to the `check_url`.
           headers:
@@ -458,6 +452,18 @@ paths:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
             X-RateLimit-Remaining:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+        '400':
+          description: Mobile Network Operator Not Supported
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
 
   '/phone_check/v0.1/checks/{check_id}/traces':
     parameters:
@@ -760,12 +766,6 @@ paths:
       tags:
         - subscriber_check
       responses:
-        '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
         '302':
           description: Redirects to the `check_url`.
           headers:
@@ -775,6 +775,18 @@ paths:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
             X-RateLimit-Remaining:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+        '400':
+          description: Mobile Network Operator Not Supported
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
 
   '/subscriber_check/v0.1/checks/{check_id}/traces':
     parameters:
