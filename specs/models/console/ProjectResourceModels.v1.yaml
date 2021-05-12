@@ -70,6 +70,8 @@ components:
           description: A descriptive name of the Project
           type: string
           example: My first project
+        mode:
+          $ref: '#/components/schemas/ProjectMode'
         configuration:
           description: Configuration for the Products used within a Project
           $ref: '#/components/schemas/ProjectConfiguration'
@@ -115,10 +117,10 @@ components:
 
         When a Project is in `sandbox` mode the following rules apply:
 
-        - A `phone_number` ending with an even digit will result in `match=true`
-        - A `phone_number` ending with an odd digit will result in `match=false`
-        - A `phone_number` ending with `00` with return an error
-        - All other PhoneChecks will result in `match=false`
+        - A `phone_number` ending with an even digit (`0`, `2`, `4` ...) will result in a successful check
+        - A `phone_number` ending with an odd digit (`1`, `3`, `5` ...) will result in a failed check
+        - A `phone_number` ending with `99` with return an error
+        - All other checks will result in a failed check
       type: string
       enum:
         - live
