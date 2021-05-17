@@ -156,7 +156,8 @@ paths:
                     - client_credentials
                   example: client_credentials
                 scope:
-                    $ref: '#/components/schemas/OAuth2Scope'
+                  $ref: '#/components/schemas/OAuth2Scope'
+
       responses:
         '200':
           description: The Access Token was successfully created.
@@ -185,20 +186,16 @@ paths:
                     type: integer
                     example: 3600
                   scope:
-                    description: The scope of the access request i.e. what resources the Access Token provides access to.
-                    type:
-                      string
-                    enum:
-                      - projects
-                      - workspaces
-                      - phone_check
-                example:
-                  {
-                    "access_token": "2YotnFZFEjr1zCsicMWpAA",
-                    "token_type": "bearer",
-                    "expires_in": 3600,
-                    "scope": "phone_check"
-                  }
+                    $ref: '#/components/schemas/OAuth2Scope'
+              examples:
+                phone_check:
+                  value:
+                    {
+                      "access_token": "2YotnFZFEjr1zCsicMWpAA",
+                      "token_type": "bearer",
+                      "expires_in": 3600,
+                      "scope": "phone_check coverage"
+                    }
 
 
   '/oauth2/v1/revoke':
@@ -1834,48 +1831,25 @@ components:
 
     OAuth2Scope:
       description: |
-        The scope of the access request i.e. what resources the Access Token provides access to.
+        The scope of the access request. A spaced delimited list of scopes representing the resources the Access Token provides access to.
 
         - `projects`: `/console/{version}/projects` resources
         - `workspaces`: `/console/{version}/workspaces` resources
         - `phone_check`: `/phone_check` resources
         - `subscriber_check`: `/subscriber_check` resources
         - `sim_check`: `/sim_check` resources
-        - `usage`: `/console/{version}/workspaces/default/usage` resources
         - `coverage`: `/coverage` resources
+        - `usage`: `/console/{version}/workspaces/default/usage` resources
       type: string
-      enum:
-        - projects
-        - workspaces
-        - phone_check
-        - subscriber_check
-        - sim_check
-        - coverage
-        - usage
+      example:
+        "phone_check subscriber_check sim_check"
 
   parameters:
 
     scope:
       name: scope
       description: |
-        The scope of an Access Token i.e. what resources the Access Token provides access to.
-
-        - `projects`: `/console/{version}/projects` resources
-        - `workspaces`: `/console/{version}/workspaces` resources
-        - `phone_check`: `/phone_check` resources
-        - `subscriber_check`: `/subscriber_check` resources
-        - `sim_check`: `/sim_check` resources
-        - `coverage`: `/coverage` resources
-        - `usage`: `/console/{version}/workspaces/default/usage` resources
-
+        A spaced delimited list of scopes representing the resources the Access Token provides access to.
       in: query
       schema:
-        type: string
-        enum:
-          - projects
-          - workspaces
-          - phone_check
-          - subscriber_check
-          - sim_check
-          - coverage
-          - usage
+        $ref: '#/components/schemas/OAuth2Scope'
