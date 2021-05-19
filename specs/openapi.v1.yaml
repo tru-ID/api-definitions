@@ -1265,12 +1265,18 @@ paths:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
             Access-Control-Allow-Origin:
               $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
-        '404':
-          description: Not Found
+        '400':
+          description: MNO Not Supported
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported'
+        '412':
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
 
 
   ##############
