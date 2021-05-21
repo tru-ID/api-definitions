@@ -7,7 +7,7 @@ components:
     SimCheckStatus:
       description: |
         - `COMPLETED`: The Check request has completed
-        - `ERROR`: An error occurred.
+        - `ERROR`: The resource was created but there was a problem performing the lookup with MNO (Mobile Network Operator).
       type: string
       enum:
         - COMPLETED
