@@ -40,7 +40,7 @@ tags:
     description: Relating to SIMCheck
   - name: projects
     x-displayName: Projects
-    description: Relating to a project.
+    description: A project is container for configuration on the platform. A project contains credentials used to authenticate API requests with a project `mode` and per-product configuration.
   - name: workspaces
     x-displayName: Workspaces
     description: Relating to a workspace.
