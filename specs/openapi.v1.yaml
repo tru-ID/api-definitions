@@ -461,6 +461,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+        '412':
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
 
   '/phone_check/v0.1/checks/{check_id}/traces':
     parameters:
@@ -784,6 +790,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+        '412':
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
 
   '/subscriber_check/v0.1/checks/{check_id}/traces':
     parameters:
