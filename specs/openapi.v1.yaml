@@ -461,6 +461,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+        '412':
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
 
   '/phone_check/v0.1/checks/{check_id}/traces':
     parameters:
@@ -784,6 +790,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+        '412':
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
 
   '/subscriber_check/v0.1/checks/{check_id}/traces':
     parameters:
@@ -971,17 +983,17 @@ paths:
                         type: number
                         example: 100
         '400':
-          description: Bad Request
+          description: Mobile Network Operator Not Supported
           content:
             application/problem+json:
               schema:
-                oneOf:
-                  - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/InvalidPhoneNumberFormat'
-                  - type: object
-                    allOf:
-                      - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase'
-                      - type: object
-                        description: The country for the supplied `phone_number` is not supported
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported'
+        '412':
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
 
     get:
       summary: Get a collection of SIMChecks
