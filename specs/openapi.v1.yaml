@@ -44,14 +44,21 @@ tags:
   - name: workspaces
     x-displayName: Workspaces
     description: Relating to a workspace.
+  - name: usage
+  - name: projects_deprecated
+    x-displayName: Projects
+    description: A project is container for configuration on the platform. A project contains credentials used to authenticate API requests with a project `mode` and per-product configuration.
+  - name: workspaces_deprecated
+    x-displayName: Workspaces
+    description: Relating to a workspace.
+  - name: usage_deprecated
+    x-displayName: Usage
+    description: Relating to Usage.
   - name: hide
     description: Tags that should not be rendered
   - name: coverage
     x-displayName: Coverage
     description: Relating to Coverage.
-  - name: usage
-    x-displayName: Usage
-    description: Relating to Usage.
 
 x-tagGroups:
   - name: OAuth2
@@ -62,7 +69,7 @@ x-tagGroups:
       - phone_check
       - subscriber_check
       - sim_check
-  - name: Console
+  - name: Console v2
     tags:
       - projects
       - workspaces
@@ -70,6 +77,11 @@ x-tagGroups:
   - name: Coverage
     tags:
       - coverage
+  - name: Deprecated
+    tags:
+      - projects_deprecated
+      - workspaces_deprecated
+      - usage_deprecated
 
 paths:
   "/oauth2/v1/auth":
@@ -1320,7 +1332,7 @@ paths:
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - projects
+        - projects_deprecated
       requestBody:
         description: A JSON payload for the Project that is to be created.
         content:
@@ -1468,7 +1480,7 @@ paths:
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - projects
+        - projects_deprecated
       responses:
         "200":
           description: OK
@@ -1592,7 +1604,7 @@ paths:
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - projects
+        - projects_deprecated
       responses:
         "200":
           description: OK
@@ -1630,7 +1642,7 @@ paths:
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - workspaces
+        - workspaces_deprecated
       responses:
         "200":
           description: OK
@@ -1699,7 +1711,7 @@ paths:
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - usage
+        - usage_deprecated
       parameters:
         - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize"
         - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber"
@@ -1745,7 +1757,7 @@ paths:
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - usage
+        - usage_deprecated
       parameters:
         - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize"
         - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber"
@@ -1791,7 +1803,7 @@ paths:
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - usage
+        - usage_deprecated
       parameters:
         - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize"
         - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber"
