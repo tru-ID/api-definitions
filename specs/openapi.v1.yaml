@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: tru.ID APIs
-  version: 'v0.1'
+  version: "v0.1"
   contact:
     name: tru.ID API Team
     email: feedback@tru.id
@@ -17,7 +17,7 @@ info:
     The [**tru.ID SubscriberCheck Workflow** and API](#tag/subscriber_check) combines the functionality offerd by PhoneCheck and SIMCheck into a single API. It confirms the ownership of a mobile phone number and provides information on when the SIM card associated with the mobile phone number last changed..
 
 servers:
-  - url: 'https://{data_residency}.api.tru.id'
+  - url: "https://{data_residency}.api.tru.id"
     description: For accounts with data residency in the EU
     variables:
       data_residency:
@@ -53,7 +53,6 @@ tags:
     x-displayName: Usage
     description: Relating to Usage.
 
-
 x-tagGroups:
   - name: OAuth2
     tags:
@@ -73,9 +72,7 @@ x-tagGroups:
       - coverage
 
 paths:
-
-  '/oauth2/v1/auth':
-
+  "/oauth2/v1/auth":
     get:
       summary: Obtain an authorization grant (Restricted Usage)
       description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for tru.ID owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1
@@ -102,7 +99,7 @@ paths:
           in: query
           schema:
             type: string
-        - $ref: '#/components/parameters/scope'
+        - $ref: "#/components/parameters/scope"
         - name: redirect_url
           description: After completing the interaction with the resource owner, the authorization server directs the resource owner's user-agent back the location identified by `redirect_url`.
           in: query
@@ -110,18 +107,17 @@ paths:
             type: string
             format: uri
       responses:
-        '302':
+        "302":
           description: Redirects to the `redirect_url`.
           headers:
             Location:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Location'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Location"
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
 
-  '/oauth2/v1/token':
-
+  "/oauth2/v1/token":
     post:
       summary: Create an Access Token
       description: |
@@ -139,7 +135,7 @@ paths:
         description: |
           The request body should match the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) flow.
         content:
-          'application/x-www-form-urlencoded':
+          "application/x-www-form-urlencoded":
             schema:
               # Client Credentials Grant used by all non-OAuth2 provider API endpoints
               type: object
@@ -156,10 +152,10 @@ paths:
                     - client_credentials
                   example: client_credentials
                 scope:
-                  $ref: '#/components/schemas/OAuth2Scope'
+                  $ref: "#/components/schemas/OAuth2Scope"
 
       responses:
-        '200':
+        "200":
           description: The Access Token was successfully created.
           content:
             application/json:
@@ -186,7 +182,7 @@ paths:
                     type: integer
                     example: 3600
                   scope:
-                    $ref: '#/components/schemas/OAuth2Scope'
+                    $ref: "#/components/schemas/OAuth2Scope"
               examples:
                 phone_check:
                   value:
@@ -194,12 +190,10 @@ paths:
                       "access_token": "2YotnFZFEjr1zCsicMWpAA",
                       "token_type": "bearer",
                       "expires_in": 3600,
-                      "scope": "phone_check coverage"
+                      "scope": "phone_check coverage",
                     }
 
-
-  '/oauth2/v1/revoke':
-
+  "/oauth2/v1/revoke":
     post:
       summary: Revoke an token
       description: Revoke a token from the OAuth2 provider.
@@ -210,7 +204,7 @@ paths:
         - oauth2
       requestBody:
         content:
-          'application/x-www-form-urlencoded':
+          "application/x-www-form-urlencoded":
             schema:
               type: object
               description: |
@@ -228,10 +222,10 @@ paths:
                     - refresh_token
                   example: access_token
       responses:
-        '200':
+        "200":
           description: Response whether the Access Token was valid or invalid.
 
-  '/oauth2/v1/sessions/logout':
+  "/oauth2/v1/sessions/logout":
     get:
       summary: Logout of the current user session (Restricted Usage)
       description: |
@@ -262,22 +256,21 @@ paths:
             example: https://example.com/logged_out
           in: query
       responses:
-        '302':
+        "302":
           description: Redirects to the `post_logout_redirect_uri`
           headers:
             Location:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Location'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Location"
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
 
   ##############
   # phone_check
   ##############
 
-  '/phone_check/v0.1/checks':
-
+  "/phone_check/v0.1/checks":
     post:
       summary: Create a PhoneCheck workflow
       description: |
@@ -296,34 +289,34 @@ paths:
 
       callbacks:
         phoneCheckEndStatus:
-          '{$request.body#/callback_url}':
+          "{$request.body#/callback_url}":
             post:
               summary: PhoneCheck has reached an end status
               parameters:
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-security'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-callback'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/digest'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/date'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/host'
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/x-4auth-security"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/x-4auth-callback"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/digest"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/date"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/host"
               requestBody:
                 required: true
                 content:
                   application/json:
                     schema:
-                      $ref: './models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload'
+                      $ref: "./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload"
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
 
       responses:
-        '201':
+        "201":
           description: PhoneCheck created
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -346,16 +339,16 @@ paths:
                           This property is not persisted and is only returned when the PhoneCheck is initially created.
                         type: number
                         example: 100
-        '400':
+        "400":
           description: Bad Request
           content:
             application/problem+json:
               schema:
                 oneOf:
-                  - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/InvalidPhoneNumberFormat'
+                  - $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/InvalidPhoneNumberFormat"
                   - type: object
                     allOf:
-                      - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase'
+                      - $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase"
                       - type: object
                         description: The country for the supplied `phone_number` is not supported
 
@@ -368,32 +361,31 @@ paths:
       tags:
         - phone_check
       parameters:
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/sort'
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/search"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort"
       responses:
-        '200':
+        "200":
           description: OK
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
                 $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCollection
 
-  '/phone_check/v0.1/checks/{check_id}':
-
+  "/phone_check/v0.1/checks/{check_id}":
     parameters:
       - name: check_id
         description: The ID of the PhoneCheck
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
     get:
@@ -405,7 +397,7 @@ paths:
       tags:
         - phone_check
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/hal+json:
@@ -413,24 +405,24 @@ paths:
                 $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
-        '404':
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
-  '/phone_check/v0.1/checks/{check_id}/redirect':
+  "/phone_check/v0.1/checks/{check_id}/redirect":
     parameters:
       - name: check_id
         description: The ID of the PhoneCheck
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
     get:
@@ -440,40 +432,40 @@ paths:
       tags:
         - phone_check
       responses:
-        '302':
+        "302":
           description: Redirects to the `check_url`.
           headers:
             Location:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Location'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Location"
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
-        '400':
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
+        "400":
           description: Mobile Network Operator Not Supported
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported'
-        '404':
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported"
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
-        '412':
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
+        "412":
           description: Not a mobile IP
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp"
 
-  '/phone_check/v0.1/checks/{check_id}/traces':
+  "/phone_check/v0.1/checks/{check_id}/traces":
     parameters:
       - name: check_id
         description: The ID of the PhoneCheck
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
     get:
@@ -483,16 +475,16 @@ paths:
       tags:
         - phone_check
       responses:
-        '200':
+        "200":
           description: OK
 
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -502,48 +494,47 @@ paths:
                   value:
                     _embedded:
                       traces:
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
-                        trace_id: 6f2a0e25fc0caa25
-                        logs:
-                        - timestamp: '2021-02-05T13:58:48.751Z'
-                          message: 'Check create: phone number is reachable'
-                        - timestamp: '2021-02-05T13:58:48.856Z'
-                          message: 'Check balance: authorized'
-                          attributes:
-                            amount: 1
-                            currency: API
-                        - timestamp: '2021-02-05T13:58:48.864Z'
-                          message: 'Check create: accepted'
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
-                        trace_id: 7f1bc78ab197ee8b
-                        logs:
-                        - timestamp: '2021-02-05T13:59:05.060Z'
-                          message: 'Check balance: confirmed'
-                          attributes:
-                            amount: 1
-                            currency: API
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+                          trace_id: 6f2a0e25fc0caa25
+                          logs:
+                            - timestamp: "2021-02-05T13:58:48.751Z"
+                              message: "Check create: phone number is reachable"
+                            - timestamp: "2021-02-05T13:58:48.856Z"
+                              message: "Check balance: authorized"
+                              attributes:
+                                amount: 1
+                                currency: API
+                            - timestamp: "2021-02-05T13:58:48.864Z"
+                              message: "Check create: accepted"
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
+                          trace_id: 7f1bc78ab197ee8b
+                          logs:
+                            - timestamp: "2021-02-05T13:59:05.060Z"
+                              message: "Check balance: confirmed"
+                              attributes:
+                                amount: 1
+                                currency: API
                     _links:
                       self:
                         href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces
 
-
-        '404':
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
-  '/phone_check/v0.1/checks/{check_id}/traces/{trace_id}':
+  "/phone_check/v0.1/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
         description: The ID of the PhoneCheck
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
       - name: trace_id
@@ -559,16 +550,16 @@ paths:
       tags:
         - phone_check
       responses:
-        '200':
+        "200":
           description: OK
 
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -578,35 +569,33 @@ paths:
                   value:
                     trace_id: 6f2a0e25fc0caa25
                     logs:
-                    - timestamp: '2021-02-05T13:58:48.751Z'
-                      message: 'Check create: request accepted'
-                    - timestamp: '2021-02-05T13:58:48.824Z'
-                      message: 'Check create: phone number is routable'
-                    - timestamp: '2021-02-05T13:58:48.856Z'
-                      message: 'Check balance: authorized'
-                      attributes:
-                        amount: 1
-                        currency_code: API
-                    - timestamp: '2021-02-05T13:58:48.864Z'
-                      message: 'Check create: successful '
+                      - timestamp: "2021-02-05T13:58:48.751Z"
+                        message: "Check create: request accepted"
+                      - timestamp: "2021-02-05T13:58:48.824Z"
+                        message: "Check create: phone number is routable"
+                      - timestamp: "2021-02-05T13:58:48.856Z"
+                        message: "Check balance: authorized"
+                        attributes:
+                          amount: 1
+                          currency_code: API
+                      - timestamp: "2021-02-05T13:58:48.864Z"
+                        message: "Check create: successful "
                     _links:
                       self:
                         href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
 
-
-        '404':
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
   ##############
   # subscriber_check
   ##############
 
-  '/subscriber_check/v0.1/checks':
-
+  "/subscriber_check/v0.1/checks":
     post:
       summary: Create an SubscriberCheck workflow
       description: |
@@ -625,34 +614,34 @@ paths:
 
       callbacks:
         phoneCheckEndStatus:
-          '{$request.body#/callback_url}':
+          "{$request.body#/callback_url}":
             post:
               summary: SubscriberCheck has reached an end status
               parameters:
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-security'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-callback'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/digest'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/date'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/host'
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/x-4auth-security"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/x-4auth-callback"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/digest"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/date"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/host"
               requestBody:
                 required: true
                 content:
                   application/json:
                     schema:
-                      $ref: './models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCallbackPayload'
+                      $ref: "./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCallbackPayload"
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
 
       responses:
-        '201':
+        "201":
           description: SubscriberCheck created
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -675,16 +664,16 @@ paths:
                           This property is not persisted and is only returned when the SubscriberCheck is initially created.
                         type: number
                         example: 100
-        '400':
+        "400":
           description: Bad Request
           content:
             application/problem+json:
               schema:
                 oneOf:
-                  - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/InvalidPhoneNumberFormat'
+                  - $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/InvalidPhoneNumberFormat"
                   - type: object
                     allOf:
-                      - $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase'
+                      - $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase"
                       - type: object
                         description: The country for the supplied `phone_number` is not supported
 
@@ -697,32 +686,31 @@ paths:
       tags:
         - subscriber_check
       parameters:
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/sort'
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/search"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort"
       responses:
-        '200':
+        "200":
           description: OK
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
                 $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCollection
 
-  '/subscriber_check/v0.1/checks/{check_id}':
-
+  "/subscriber_check/v0.1/checks/{check_id}":
     parameters:
       - name: check_id
         description: The ID of the SubscriberCheck
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
     get:
@@ -734,7 +722,7 @@ paths:
       tags:
         - subscriber_check
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/hal+json:
@@ -742,24 +730,24 @@ paths:
                 $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheck
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
-        '404':
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
-  '/subscriber_check/v0.1/checks/{check_id}/redirect':
+  "/subscriber_check/v0.1/checks/{check_id}/redirect":
     parameters:
       - name: check_id
         description: The ID of the SubscriberCheck
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
     get:
@@ -769,40 +757,40 @@ paths:
       tags:
         - subscriber_check
       responses:
-        '302':
+        "302":
           description: Redirects to the `check_url`.
           headers:
             Location:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Location'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Location"
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
-        '400':
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
+        "400":
           description: Mobile Network Operator Not Supported
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported'
-        '404':
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported"
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
-        '412':
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
+        "412":
           description: Not a mobile IP
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp"
 
-  '/subscriber_check/v0.1/checks/{check_id}/traces':
+  "/subscriber_check/v0.1/checks/{check_id}/traces":
     parameters:
       - name: check_id
         description: The ID of the SubscriberCheck
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
     get:
@@ -812,16 +800,16 @@ paths:
       tags:
         - subscriber_check
       responses:
-        '200':
+        "200":
           description: OK
 
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -831,48 +819,47 @@ paths:
                   value:
                     _embedded:
                       traces:
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
-                        trace_id: 6f2a0e25fc0caa25
-                        logs:
-                        - timestamp: '2021-02-05T13:58:48.751Z'
-                          message: 'Check create: phone number is reachable'
-                        - timestamp: '2021-02-05T13:58:48.856Z'
-                          message: 'Check balance: authorized'
-                          attributes:
-                            amount: 1
-                            currency: API
-                        - timestamp: '2021-02-05T13:58:48.864Z'
-                          message: 'Check create: accepted'
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
-                        trace_id: 7f1bc78ab197ee8b
-                        logs:
-                        - timestamp: '2021-02-05T13:59:05.060Z'
-                          message: 'Check balance: confirmed'
-                          attributes:
-                            amount: 1
-                            currency: API
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+                          trace_id: 6f2a0e25fc0caa25
+                          logs:
+                            - timestamp: "2021-02-05T13:58:48.751Z"
+                              message: "Check create: phone number is reachable"
+                            - timestamp: "2021-02-05T13:58:48.856Z"
+                              message: "Check balance: authorized"
+                              attributes:
+                                amount: 1
+                                currency: API
+                            - timestamp: "2021-02-05T13:58:48.864Z"
+                              message: "Check create: accepted"
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
+                          trace_id: 7f1bc78ab197ee8b
+                          logs:
+                            - timestamp: "2021-02-05T13:59:05.060Z"
+                              message: "Check balance: confirmed"
+                              attributes:
+                                amount: 1
+                                currency: API
                     _links:
                       self:
                         href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces
 
-
-        '404':
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
-  '/subscriber_check/v0.1/checks/{check_id}/traces/{trace_id}':
+  "/subscriber_check/v0.1/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
         description: The ID of the SubscriberCheck
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
       - name: trace_id
@@ -888,16 +875,16 @@ paths:
       tags:
         - subscriber_check
       responses:
-        '200':
+        "200":
           description: OK
 
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -905,35 +892,33 @@ paths:
               examples:
                 basic:
                   value:
-                      trace_id: 6f2a0e25fc0caa25
-                      logs:
-                      - timestamp: '2021-02-05T13:58:48.751Z'
-                        message: 'Check create: phone number is reachable'
-                      - timestamp: '2021-02-05T13:58:48.856Z'
-                        message: 'Check balance: authorized'
+                    trace_id: 6f2a0e25fc0caa25
+                    logs:
+                      - timestamp: "2021-02-05T13:58:48.751Z"
+                        message: "Check create: phone number is reachable"
+                      - timestamp: "2021-02-05T13:58:48.856Z"
+                        message: "Check balance: authorized"
                         attributes:
                           amount: 1
                           currency: API
-                      - timestamp: '2021-02-05T13:58:48.864Z'
-                        message: 'Check create: accepted'
+                      - timestamp: "2021-02-05T13:58:48.864Z"
+                        message: "Check create: accepted"
                         _links:
                           self:
                             href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
 
-
-        '404':
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
   ##############
   # sim_check
   ##############
 
-  '/sim_check/v0.1/checks':
-
+  "/sim_check/v0.1/checks":
     post:
       summary: Create a SIMCheck
       description: |
@@ -951,15 +936,15 @@ paths:
               $ref: ./models/sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimCheckCreatePayload
 
       responses:
-        '201':
+        "201":
           description: SIMCheck created
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -982,18 +967,18 @@ paths:
                           This property is not persisted and is only returned when the SIMCheck is initially created.
                         type: number
                         example: 100
-        '400':
+        "400":
           description: Mobile Network Operator Not Supported
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported'
-        '412':
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported"
+        "412":
           description: Not a mobile IP
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp"
 
     get:
       summary: Get a collection of SIMChecks
@@ -1004,31 +989,31 @@ paths:
       tags:
         - sim_check
       parameters:
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/sort'
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/search"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort"
       responses:
-        '200':
+        "200":
           description: OK
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
                 $ref: ./models/sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimCheckCollection
 
-  '/sim_check/v0.1/checks/{check_id}':
+  "/sim_check/v0.1/checks/{check_id}":
     parameters:
       - name: check_id
         description: The ID of the SIMCheck
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
     get:
@@ -1040,7 +1025,7 @@ paths:
       tags:
         - sim_check
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/hal+json:
@@ -1048,24 +1033,24 @@ paths:
                 $ref: ./models/sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimCheck
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
-        '404':
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
-  '/sim_check/v0.1/checks/{check_id}/traces':
+  "/sim_check/v0.1/checks/{check_id}/traces":
     parameters:
       - name: check_id
         description: The ID of the SIMCheck
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
     get:
@@ -1075,16 +1060,16 @@ paths:
       tags:
         - sim_check
       responses:
-        '200':
+        "200":
           description: OK
 
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -1094,48 +1079,47 @@ paths:
                   value:
                     _embedded:
                       traces:
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
-                        trace_id: 6f2a0e25fc0caa25
-                        logs:
-                        - timestamp: '2021-02-05T13:58:48.751Z'
-                          message: 'Check create: phone number is reachable'
-                        - timestamp: '2021-02-05T13:58:48.856Z'
-                          message: 'Check balance: authorized'
-                          attributes:
-                            amount: 1
-                            currency: API
-                        - timestamp: '2021-02-05T13:58:48.864Z'
-                          message: 'Check create: accepted'
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
-                        trace_id: 7f1bc78ab197ee8b
-                        logs:
-                        - timestamp: '2021-02-05T13:59:05.060Z'
-                          message: 'Check balance: confirmed'
-                          attributes:
-                            amount: 1
-                            currency: API
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+                          trace_id: 6f2a0e25fc0caa25
+                          logs:
+                            - timestamp: "2021-02-05T13:58:48.751Z"
+                              message: "Check create: phone number is reachable"
+                            - timestamp: "2021-02-05T13:58:48.856Z"
+                              message: "Check balance: authorized"
+                              attributes:
+                                amount: 1
+                                currency: API
+                            - timestamp: "2021-02-05T13:58:48.864Z"
+                              message: "Check create: accepted"
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
+                          trace_id: 7f1bc78ab197ee8b
+                          logs:
+                            - timestamp: "2021-02-05T13:59:05.060Z"
+                              message: "Check balance: confirmed"
+                              attributes:
+                                amount: 1
+                                currency: API
                     _links:
                       self:
                         href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces
 
-
-        '404':
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
-  '/sim_check/v0.1/checks/{check_id}/traces/{trace_id}':
+  "/sim_check/v0.1/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
         description: The ID of the SIMCheck
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
       - name: trace_id
@@ -1151,16 +1135,16 @@ paths:
       tags:
         - sim_check
       responses:
-        '200':
+        "200":
           description: OK
 
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -1170,46 +1154,45 @@ paths:
                   value:
                     trace_id: 6f2a0e25fc0caa25
                     logs:
-                    - timestamp: '2021-02-05T13:58:48.751Z'
-                      message: 'Check create: request accepted'
-                    - timestamp: '2021-02-05T13:58:48.824Z'
-                      message: 'Check create: phone number is routable'
-                    - timestamp: '2021-02-05T13:58:48.856Z'
-                      message: 'Check balance: authorized'
-                      attributes:
-                        amount: 1
-                        currency_code: API
-                    - timestamp: '2021-02-05T13:58:48.864Z'
-                      message: 'Check create: successful'
+                      - timestamp: "2021-02-05T13:58:48.751Z"
+                        message: "Check create: request accepted"
+                      - timestamp: "2021-02-05T13:58:48.824Z"
+                        message: "Check create: phone number is routable"
+                      - timestamp: "2021-02-05T13:58:48.856Z"
+                        message: "Check balance: authorized"
+                        attributes:
+                          amount: 1
+                          currency_code: API
+                      - timestamp: "2021-02-05T13:58:48.864Z"
+                        message: "Check create: successful"
                     _links:
                       self:
                         href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
 
-
-        '404':
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
   ##############
   # Coverage   #
   ##############
 
-  '/coverage/v0.1/countries/{code}':
+  "/coverage/v0.1/countries/{code}":
     parameters:
       - name: code
         schema:
           oneOf:
-            - $ref: './models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryCode'
-            - $ref: './models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryDialingCode'
+            - $ref: "./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryCode"
+            - $ref: "./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryDialingCode"
         description: Either two letter code [ISO 3166-1 alpha-2](https://www.iso.org/obp/ui/#iso:std:iso:3166:-3:ed-3:v1:en) or country dialing code
         in: path
         required: true
         examples:
           country_code:
-            value: 'GB'
+            value: "GB"
             summary: United Kingdom Country Code
           dialing_code:
             value: 44
@@ -1226,7 +1209,7 @@ paths:
       tags:
         - coverage
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/hal+json:
@@ -1234,24 +1217,24 @@ paths:
                 $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryCoverage
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
-        '404':
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
+        "404":
           description: No Reach
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
-  '/coverage/v0.1/device_ips/{ip}':
+  "/coverage/v0.1/device_ips/{ip}":
     parameters:
       - name: ip
         schema:
           type: string
-          format : ipv4 | ipv6
+          format: ipv4 | ipv6
         description: The device ip in ipv4 or ipv6 format
         in: path
         required: true
@@ -1264,7 +1247,7 @@ paths:
       tags:
         - coverage
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/hal+json:
@@ -1272,34 +1255,34 @@ paths:
                 $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/DeviceReachability
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
-        '400':
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
+        "400":
           description: MNO Not Supported
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported'
-        '412':
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported"
+        "412":
           description: Not a mobile IP
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp"
 
-  '/public/coverage/v0.1/device_ip':
+  "/public/coverage/v0.1/device_ip":
     get:
       summary: Get Device Reachability
       description: Get the mobile network that a device is on along with products that are supported based on the sender device IP address. No Authentication is required for this endpoint.
       operationId: get-public-coverage-by-device-ip
-      security: []       
+      security: []
       tags:
         - coverage
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/hal+json:
@@ -1307,34 +1290,29 @@ paths:
                 $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/DeviceReachability
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
-        '400':
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
+        "400":
           description: MNO Not Supported
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported'
-        '412':
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported"
+        "412":
           description: Not a mobile IP
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
-
-
-
-
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp"
 
   ##############
   # Projects
   ##############
 
-  '/console/v0.1/projects':
-
+  "/console/v0.1/projects":
     post:
       summary: Create a Project
       description: Create a Project
@@ -1354,15 +1332,15 @@ paths:
                 value:
                   name: My test project
       responses:
-        '201':
+        "201":
           description: Created
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -1372,34 +1350,34 @@ paths:
                   value:
                     project_id: c69bc0e6-a429-11ea-bb37-0242ac130003
                     name: My test project
-                    created_at: '2020-06-01T16:43:30+00:00'
-                    updated_at: '2020-06-01T16:43:30+00:00'
+                    created_at: "2020-06-01T16:43:30+00:00"
+                    updated_at: "2020-06-01T16:43:30+00:00"
                     _links:
                       self:
                         href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
                     credentials:
                       - client_id: 6779ef20e75817b79602
                         client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
-                        scopes: ['phone_check']
-                        created_at: '2020-06-01T16:43:30+00:00'
+                        scopes: ["phone_check"]
+                        created_at: "2020-06-01T16:43:30+00:00"
 
       callbacks:
         projectLevelPhoneCheckEndStatus:
-          '{$request.body#/configuration.phone_check.callback_url}':
+          "{$request.body#/configuration.phone_check.callback_url}":
             post:
               summary: PhoneCheck has reached an end status
               parameters:
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-security'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/x-4auth-callback'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/digest'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/date'
-                - $ref: './models/common/Headers.v1.yaml#/components/headers/host'
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/x-4auth-security"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/x-4auth-callback"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/digest"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/date"
+                - $ref: "./models/common/Headers.v1.yaml#/components/headers/host"
               requestBody:
                 required: true
                 content:
                   application/json:
                     schema:
-                      $ref: './models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload'
+                      $ref: "./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload"
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
 
@@ -1418,20 +1396,20 @@ paths:
             type: string
             example: hello
           in: query
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/search'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/sort'
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/search"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort"
       responses:
-        '200':
+        "200":
           description: OK
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -1451,39 +1429,38 @@ paths:
                               href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130002
                           project_id: c69bc0e6-a429-11ea-bb37-0242ac130002
                           name: My first project
-                          created_at: '2020-06-01T16:43:30+00:00'
-                          updated_at: '2020-06-01T16:43:30+00:00'
+                          created_at: "2020-06-01T16:43:30+00:00"
+                          updated_at: "2020-06-01T16:43:30+00:00"
                           credentials:
                             - client_id: 63f16604-2b4f-4e45-b32f-59290507fe93
-                              scopes: ['phone_check']
-                              created_at: '2020-06-01T16:43:30+00:00'
+                              scopes: ["phone_check"]
+                              created_at: "2020-06-01T16:43:30+00:00"
                         - _links:
                             self:
                               href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
                           project_id: c69bc0e6-a429-11ea-bb37-0242ac130003
                           name: My second project
-                          created_at: '2020-06-01T16:43:30+00:00'
-                          updated_at: '2020-06-01T16:43:30+00:00'
+                          created_at: "2020-06-01T16:43:30+00:00"
+                          updated_at: "2020-06-01T16:43:30+00:00"
                           credentials:
                             - client_id: 63f16604-2b4f-4e45-b32f-59290507fe92
-                              scopes: ['phone_check']
-                              created_at: '2020-06-01T16:43:30+00:00'
+                              scopes: ["phone_check"]
+                              created_at: "2020-06-01T16:43:30+00:00"
                     _links:
                       first:
-                        href: '/projects/page=1&size=10'
+                        href: "/projects/page=1&size=10"
                       last:
-                        href: '/projects/page=3&size=10'
+                        href: "/projects/page=3&size=10"
                       next:
-                        href: '/projects/page=3&size=10'
+                        href: "/projects/page=3&size=10"
                       prev:
-                        href: '/projects/page=1&size=10'
+                        href: "/projects/page=1&size=10"
                       self:
-                        href: '/projects/page=2&size=10'
+                        href: "/projects/page=2&size=10"
 
-
-  '/console/v0.1/projects/{project_id}':
+  "/console/v0.1/projects/{project_id}":
     parameters:
-      - $ref: './models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId'
+      - $ref: "./models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId"
     get:
       summary: Get Project
       description: Get a Project identified by `project_id`.
@@ -1493,7 +1470,7 @@ paths:
       tags:
         - projects
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/hal+json:
@@ -1501,17 +1478,17 @@ paths:
                 $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
-        '404':
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
     patch:
       summary: Update a Project
@@ -1526,42 +1503,42 @@ paths:
         content:
           application/json-patch+json:
             schema:
-              $ref: './models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPatchPayload'
+              $ref: "./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPatchPayload"
             examples:
               change_mode:
                 summary: Change the Project mode to `live`
                 value:
-                  - op: 'replace'
-                    path: '/mode'
-                    value: 'live'
+                  - op: "replace"
+                    path: "/mode"
+                    value: "live"
               change_name:
                 summary: Change the Project name
                 value:
-                  - op: 'replace'
-                    path: '/name'
-                    value: 'my-new-name'
+                  - op: "replace"
+                    path: "/name"
+                    value: "my-new-name"
               add_callback_url:
                 summary: Add a `callback_url` to the Project configuration
                 value:
-                  - op: 'add'
-                    path: '/configuration'
+                  - op: "add"
+                    path: "/configuration"
                     value:
                       phone_check:
-                        callback_url: 'https://example.com/callback'
+                        callback_url: "https://example.com/callback"
               replace_callback_url:
                 summary: Replace a `callback_url` for a Project configuration
                 value:
-                  - op: 'replace'
-                    path: '/configuration/phone_check/callback_url'
-                    value: 'https://example.com/updated_callback'
+                  - op: "replace"
+                    path: "/configuration/phone_check/callback_url"
+                    value: "https://example.com/updated_callback"
               remove_callback_url:
                 summary: Remove the `callback_url` from the Project configuration
                 value:
-                  - op: 'remove'
-                    path: '/configuration/phone_check/callback_url'
+                  - op: "remove"
+                    path: "/configuration/phone_check/callback_url"
 
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/hal+json:
@@ -1569,17 +1546,17 @@ paths:
                 $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
-        '404':
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
     # Delete not supported in current version
     # delete:
@@ -1599,13 +1576,13 @@ paths:
     #   parameters: []
     #   tags:
     #     - project
-  '/console/v0.1/projects/{project_id}/credentials/{client_id}/reset':
+  "/console/v0.1/projects/{project_id}/credentials/{client_id}/reset":
     parameters:
-      - $ref: './models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId'
+      - $ref: "./models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId"
       - name: client_id
         description: The client ID of the Project credentials
         schema:
-          $ref: './models/common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: "./models/common/DataTypes.v1.yaml#/components/schemas/UUID"
         in: path
         required: true
     post:
@@ -1617,7 +1594,7 @@ paths:
       tags:
         - projects
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -1628,25 +1605,24 @@ paths:
                   value:
                     client_id: 8cbd640e-2cbf-42d1-bd57-421169144300
                     client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
-                    scopes: ['phone_check']
-                    created_at: '2020-06-01T16:43:30+00:00'
+                    scopes: ["phone_check"]
+                    created_at: "2020-06-01T16:43:30+00:00"
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
-        '404':
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
+        "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
-                $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound'
+                $ref: "./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound"
 
   ##############
   # Workspaces
   ##############
-  '/console/v0.1/workspaces/default':
-
+  "/console/v0.1/workspaces/default":
     get:
       summary: Get the default workspace resource for the current user
       description: Gets the default workspace resource for the current user as identified by the owner of the access token used with the resource
@@ -1656,15 +1632,15 @@ paths:
       tags:
         - workspaces
       responses:
-        '200':
+        "200":
           description: OK
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -1698,7 +1674,8 @@ paths:
                             description: The amount in `currency` that has been reserved due to pending operations
                             type: integer
                   credentials:
-                    $ref: ./models/common/CredentialTypes.v1.yaml#/components/schemas/ClientPartial
+                    $ref:
+                      ./models/common/CredentialTypes.v1.yaml#/components/schemas/ClientPartial
                       # owner:
                       #   description: The owner of the workspace
                       #   type: object
@@ -1711,12 +1688,10 @@ paths:
                       #       type: string
                       #       format: email
 
-
   ################
   # Usage Hourly
   ################
-  '/console/v0.1/workspaces/default/usage/hourly':
-
+  "/console/v0.1/workspaces/default/usage/hourly":
     get:
       summary: Hourly API usage
       description: Get the default workspace's usage with hourly breakdown
@@ -1726,20 +1701,20 @@ paths:
       tags:
         - usage
       parameters:
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
-        - $ref: './models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchHourly'
-        - $ref: './models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy'
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber"
+        - $ref: "./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchHourly"
+        - $ref: "./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy"
       responses:
-        '200':
+        "200":
           description: OK
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -1757,14 +1732,12 @@ paths:
                             description: The Usage resources within the collection
                             type: array
                             items:
-                              $ref: './models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceHourly'
-
+                              $ref: "./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceHourly"
 
   #################
   # Usage Daily
   #################
-  '/console/v0.1/workspaces/default/usage/daily':
-
+  "/console/v0.1/workspaces/default/usage/daily":
     get:
       summary: Daily API usage
       description: Get the default workspace's usage with daily breakdown
@@ -1774,20 +1747,20 @@ paths:
       tags:
         - usage
       parameters:
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
-        - $ref: './models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchDaily'
-        - $ref: './models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy'
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber"
+        - $ref: "./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchDaily"
+        - $ref: "./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy"
       responses:
-        '200':
+        "200":
           description: OK
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
           content:
             application/hal+json:
               schema:
@@ -1805,13 +1778,12 @@ paths:
                             description: The Usage Resources within the collection
                             type: array
                             items:
-                              $ref: './models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceDaily'
+                              $ref: "./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceDaily"
 
   #################
   # Usage Monthly
   #################
-  '/console/v0.1/workspaces/default/usage/monthly':
-
+  "/console/v0.1/workspaces/default/usage/monthly":
     get:
       summary: Monthly API usage
       description: Get the default workspace's usage with monthly breakdown
@@ -1821,20 +1793,20 @@ paths:
       tags:
         - usage
       parameters:
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize'
-        - $ref: './models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber'
-        - $ref: './models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchMonthly'
-        - $ref: './models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy'
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize"
+        - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber"
+        - $ref: "./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchMonthly"
+        - $ref: "./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy"
       responses:
-        '200':
+        "200":
           description: OK
           headers:
             X-RateLimit-Limit:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit"
             X-RateLimit-Remaining:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining"
             Access-Control-Allow-Origin:
-              $ref: './models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All'
+              $ref: "./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All"
 
           content:
             application/hal+json:
@@ -1853,11 +1825,10 @@ paths:
                             description: The Usage Resources within the collection
                             type: array
                             items:
-                              $ref: './models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceMonthly'
+                              $ref: "./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceMonthly"
 
 components:
   securitySchemes:
-
     BasicAuth:
       description: |
         Basic Authentication Header. In the request the `Authentication` HTTP header value should be composed of `Basic` plus a Base64 value generated by concatenating a `client_id`, a colon (":") and a `client_secret`.
@@ -1884,7 +1855,6 @@ components:
       scheme: bearer
 
   schemas:
-
     OAuth2Scope:
       description: |
         The scope of the access request. A spaced delimited list of scopes representing the resources the Access Token provides access to.
@@ -1897,15 +1867,13 @@ components:
         - `coverage`: `/coverage` resources
         - `usage`: `/console/{version}/workspaces/default/usage` resources
       type: string
-      example:
-        "phone_check subscriber_check sim_check"
+      example: "phone_check subscriber_check sim_check"
 
   parameters:
-
     scope:
       name: scope
       description: |
         A spaced delimited list of scopes representing the resources the Access Token provides access to.
       in: query
       schema:
-        $ref: '#/components/schemas/OAuth2Scope'
+        $ref: "#/components/schemas/OAuth2Scope"

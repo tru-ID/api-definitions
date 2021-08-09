@@ -9,7 +9,8 @@
     "specs:lint": "spectral lint",
     "specs:mock": "prism mock",
     "specs:proxy": "prism proxy",
-    "changelog": "standard-version"
+    "changelog": "standard-version",
+    "prettier": "prettier specs/openapi.v1.yaml --write"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@stoplight/prism-cli": "^3.3.7",
     "@stoplight/spectral": "^5.5.0",
+    "prettier": "^2.3.2",
     "standard-version": "^9.0.0"
   }
 }
