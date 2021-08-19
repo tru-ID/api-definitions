@@ -1,0 +1,265 @@
+title: PaymentResourceModels
+type: object
+description: Definitions of models related to Payment resources
+components:
+  schemas:
+    BillingAccountPartial:
+      description: A workspace billing account.
+      type: object
+      x-tags:
+        - payments
+      properties:
+        billing_id:
+          type: string
+          minLength: 1
+        billing_mode:
+          type: string
+          minLength: 1
+        company_name:
+          type: string
+          minLength: 1
+        contact_name:
+          type: string
+          minLength: 1
+        contact_email:
+          type: string
+          minLength: 1
+        address1:
+          type: string
+          minLength: 1
+        address2:
+          type: string
+        city:
+          type: string
+          minLength: 1
+        zip:
+          type: string
+          minLength: 1
+        country:
+          type: string
+          minLength: 1
+        terms:
+          type: string
+          minLength: 1
+      required:
+        - billing_id
+        - contact_email
+        - zip
+        - country
+        - terms
+    BillingAccount:
+      description: A workspace billing account.
+      allOf:
+        - $ref: '#/components/schemas/BillingAccountPartial'
+        - type: object
+          properties:
+            _links:
+              type: object
+              properties:
+                self:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                      minLength: 1
+                  required:
+                    - href
+              required:
+                - self
+      required:
+        - billing_id
+        - billing_mode
+        - company_name
+        - contact_name
+        - contact_email
+        - address1
+        - address2
+        - city
+        - zip
+        - country
+        - terms
+        - _links
+    PaymentMethod:
+      description: 'A payment method'
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+        last_four_digits:
+          type: string
+          minLength: 1
+        expiry_month:
+          type: number
+        expiry_year:
+          type: number
+      required:
+        - id
+        - last_four_digits
+        - expiry_month
+        - expiry_year
+    PaymentMethodCollection:
+      description: A collection of payment methods
+      type: object
+      x-tags:
+        - payments
+      properties:
+        _embedded:
+          type: object
+          properties:
+            payment_methods:
+              type: array
+              items:
+                $ref: '#/components/schemas/PaymentMethod'
+          required:
+            - payment_methods
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  minLength: 1
+              required:
+                - href
+          required:
+            - self
+        page:
+          type: object
+          properties:
+            size:
+              type: number
+            total_elements:
+              type: number
+            total_pages:
+              type: number
+            number:
+              type: number
+          required:
+            - size
+            - total_elements
+            - total_pages
+            - number
+      required:
+        - _embedded
+        - _links
+        - page
+    CreateTopup:
+      description: JSON payload to create a topup.
+      type: object
+      x-tags:
+        - payments
+      required:
+        - payment_method_id
+        - currency
+        - amount
+        - close_free_trial
+      properties:
+        payment_method_id:
+          type: string
+          minLength: 1
+        currency:
+          type: string
+          minLength: 1
+        amount:
+          type: number
+        close_free_trial:
+          type: boolean
+    TopupCollection:
+      description: A collection of topups.
+      type: object
+      x-tags:
+        - payments
+      properties:
+        _embedded:
+          type: object
+          properties:
+            top_ups:
+              type: array
+              uniqueItems: true
+              minItems: 1
+              items:
+                required:
+                  - top_up_id
+                  - type
+                  - billing_id
+                  - currency
+                  - amount
+                  - created_at
+                properties:
+                  top_up_id:
+                    type: string
+                    minLength: 1
+                  type:
+                    type: string
+                    minLength: 1
+                  billing_id:
+                    type: string
+                    minLength: 1
+                  currency:
+                    type: string
+                    minLength: 1
+                  amount:
+                    type: number
+                  created_at:
+                    type: string
+                    minLength: 1
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            minLength: 1
+                        required:
+                          - href
+                    required:
+                      - self
+          required:
+            - top_ups
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  minLength: 1
+              required:
+                - href
+          required:
+            - self
+        page:
+          type: object
+          properties:
+            size:
+              type: number
+            total_elements:
+              type: number
+            total_pages:
+              type: number
+            number:
+              type: number
+          required:
+            - size
+            - total_elements
+            - total_pages
+            - number
+      required:
+        - _embedded
+        - _links
+        - page
+
+  parameters:
+    billingAccountId:
+      name: billing_id
+      description: The ID of the Billing Account
+      schema:
+        $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+      in: path
+      required: true

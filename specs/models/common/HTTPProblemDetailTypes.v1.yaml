@@ -39,7 +39,6 @@ components:
         - $ref: '#/components/responses/ProblemDetailsBase'
       example:
         type: https://developer.tru.id/docs/reference/api-errors#not_mobile_ip
-        
 
     InvalidPhoneNumberFormat:
       description: >

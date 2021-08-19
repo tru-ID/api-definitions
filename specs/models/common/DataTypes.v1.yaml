@@ -36,11 +36,11 @@ components:
     Currency:
       description: A currency indicator
       type: string
-      pattern: '[A-Z]{3}'
       enum:
         - API
-        # - USD
-        # - GBP
+        - USD
+        - GBP
+        - EUR
       example: API
 
     ProductID:
@@ -52,7 +52,35 @@ components:
         - SUK
       example: PCK
 
+    WorkspaceRole:
+      description: Workspace member role
+      type: string
+      enum:
+        - OWNER
+        - ADMIN
+        - VIEWER
+      example: ADMIN
 
+    Scope:
+      description: Token scope
+      type: string
+      enum:
+        - phone_check
+        - sim_check
+        - subscriber_check
+        - console
+        - workspaces
+        - projects
+        - balance
+        - payments
+        - coverage
+      example: phone_check
 
-
-
+    BillingMode:
+      description: Billing mode
+      type: string
+      enum:
+        - FREE
+        - PREPAID
+        - POSTPAID
+      example: PREPAID

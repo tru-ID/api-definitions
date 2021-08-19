@@ -3,7 +3,6 @@ type: object
 description: Definitions of models related to Project resources
 components:
   schemas:
-    # A project definition
     ProjectPartial:
       description: A Project. The `credentials` within the project will not contain a `client_secret`.
       type: object
@@ -12,7 +11,7 @@ components:
       properties:
         project_id:
           description: The unique ID of the Project
-          $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+          $ref: ../common/DataTypes.v1.yaml#/components/schemas/UUID
           example: c69bc0e6-a429-11ea-bb37-0242ac130002
         name:
           description: |
@@ -30,10 +29,10 @@ components:
               $ref: ../common/Link.v1.yaml
         created_at:
           description: When the Project was created
-          $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODateTime'
+          $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
         updated_at:
           description: When the Project was last updated
-          $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODateTime'
+          $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
         configuration:
           description: Configuration for the Products used within a Project
           $ref: '#/components/schemas/ProjectConfiguration'
@@ -41,7 +40,7 @@ components:
           description: The credentials for the created Project. The `client_secret` will not be returned upon this request as it is not stored by the platform.
           type: array
           items:
-            $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientPartialScopes'
+            $ref: ../common/CredentialTypes.v1.yaml#/components/schemas/ClientPartialScopes
       required:
         - project_id
         - name
@@ -49,7 +48,6 @@ components:
         - created_at
         - updated_at
         - credentials
-
     ProjectFull:
       description: A Project representation as used when a new Project is created.
       allOf:
@@ -60,8 +58,7 @@ components:
               description: The credentials for the created Project. The `client_secret` will only be returned upon this request and won't be stored by the platform.
               type: array
               items:
-                $ref: '../common/CredentialTypes.v1.yaml#/components/schemas/ClientFullScopes'
-
+                $ref: ../common/CredentialTypes.v1.yaml#/components/schemas/ClientFullScopes
     CreateProjectPayload:
       description: The minimal structural representation to create a Project
       type: object
@@ -79,7 +76,6 @@ components:
         - name
       x-tags:
         - project
-
     ProjectCollection:
       description: A collection of Project items
       allOf:
@@ -98,21 +94,19 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/ProjectPartial'
-
     ProjectConfiguration:
       description: Configuration for the Products used within a Project
       type: object
       properties:
         phone_check:
           $ref: '#/components/schemas/PhoneCheckConfiguration'
-
     ProjectMode:
       description: |
         A project can have the following modes:
         - `live`: relevant API interactions will incur a fee and our platform may interact with third party systems
         - `sandbox`: See **Sandbox Rules**. Additionally, no charges will be incurred and no interactions will be made with third party systems.
         - `disabled`: the project is in a state that it cannot be interacted with other than to enable it
-        
+
         **Sandbox Rules**
 
         When a Project is in `sandbox` mode the following rules apply:
@@ -126,7 +120,6 @@ components:
         - live
         - sandbox
         - disabled
-
     PhoneCheckCallbackUrl:
       description: |
         A callback URl that is invoked when a PhoneCheck reaches an end status of `COMPLETED`, `EXPIRED` or `ERROR`.
@@ -134,14 +127,12 @@ components:
         If a `callback_url` parameter is passed when an individual PhoneCheck is created it will override the `callback_url` set within Project configuration.
       type: string
       format: uri
-
     PhoneCheckConfiguration:
       description: Configuration for PhoneCheck
       type: object
       properties:
         callback_url:
           $ref: '#/components/schemas/PhoneCheckCallbackUrl'
-
     ProjectPatchPayload:
       description: |
         Update a Project.
@@ -157,7 +148,6 @@ components:
           - $ref: '#/components/schemas/ProjectPhoneCheckCallbackRemoveOperation'
           - $ref: '#/components/schemas/ProjectModeUpdateOperation'
           - $ref: '#/components/schemas/ProjectNameUpdateOperation'
-
     ProjectPhoneCheckCallbackAddOperation:
       description: Add the PhoneCheck callback_url
       type: object
@@ -182,7 +172,6 @@ components:
         - op
         - path
         - value
-
     ProjectPhoneCheckCallbackUpdateOperation:
       description: Add the PhoneCheck callback_url
       type: object
@@ -205,7 +194,6 @@ components:
         - op
         - path
         - value
-
     ProjectModeUpdateOperation:
       description: Update the Project `mode`
       type: object
@@ -226,7 +214,6 @@ components:
         - op
         - path
         - value
-
     ProjectNameUpdateOperation:
       description: Update the Project `name`
       type: object
@@ -249,7 +236,6 @@ components:
         - op
         - path
         - value
-
     ProjectPhoneCheckCallbackRemoveOperation:
       description: Remove the PhoneCheck callback_url
       type: object
@@ -267,12 +253,13 @@ components:
       required:
         - op
         - path
-
   parameters:
     projectId:
       name: project_id
       description: The ID of the Project
       schema:
-        $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+        $ref: ../common/DataTypes.v1.yaml#/components/schemas/UUID
       in: path
       required: true
+x-internal: false
+examples: []
