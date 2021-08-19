@@ -30,12 +30,12 @@ components:
         - $ref: '#/components/schemas/PhoneCheckCreatePartial'
 
     PhoneCheckGetPartial:
-      description: A get PhoneCheck partial resource
+      description: A partial response for getting the PhoneCheck
       allOf:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckGetPartial'
 
     PhoneCheckGetResponse:
-      description:
+      description: A PhoneCheck response
       allOf:
         - $ref: '#/components/schemas/PhoneCheckGetPartial'
 
