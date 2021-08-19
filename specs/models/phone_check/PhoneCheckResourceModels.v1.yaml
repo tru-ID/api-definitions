@@ -2,8 +2,7 @@ title: PhoneCheckResourceModels
 type: object
 description: Definitions of models related to PhoneCheck resources
 components:
-  schemas:  
-
+  schemas:
     PhoneCheckStatus:
       description: |
         The status of a PhoneCheck:
@@ -19,7 +18,27 @@ components:
       description: A PhoneCheck resource
       allOf:
         - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckPartial'
-    
+
+    PhoneCheckCreatePartial:
+      description: A create PhoneCheck partial resource
+      allOf:
+        - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckCreatePartial'
+
+    PhoneCheckCreateResponse:
+      description: A PhoneCheck Created response
+      allOf:
+        - $ref: '#/components/schemas/PhoneCheckCreatePartial'
+
+    PhoneCheckGetPartial:
+      description: A get PhoneCheck partial resource
+      allOf:
+        - $ref: '../check/CheckResourceModels.v1.yaml#/components/schemas/CheckGetPartial'
+
+    PhoneCheckGetResponse:
+      description:
+      allOf:
+        - $ref: '#/components/schemas/PhoneCheckGetPartial'
+
     PhoneCheck:
       description: The payload sent to a callback URL upon a PhoneCheck reaching an end state.
       allOf:
