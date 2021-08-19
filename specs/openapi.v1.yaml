@@ -53,7 +53,6 @@ tags:
     x-displayName: Usage
     description: Relating to Usage.
 
-
 x-tagGroups:
   - name: OAuth2
     tags:
@@ -73,9 +72,7 @@ x-tagGroups:
       - coverage
 
 paths:
-
   '/oauth2/v1/auth':
-
     get:
       summary: Obtain an authorization grant (Restricted Usage)
       description: Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for tru.ID owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1
@@ -121,7 +118,6 @@ paths:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining'
 
   '/oauth2/v1/token':
-
     post:
       summary: Create an Access Token
       description: |
@@ -191,15 +187,13 @@ paths:
                 phone_check:
                   value:
                     {
-                      "access_token": "2YotnFZFEjr1zCsicMWpAA",
-                      "token_type": "bearer",
-                      "expires_in": 3600,
-                      "scope": "phone_check coverage"
+                      'access_token': '2YotnFZFEjr1zCsicMWpAA',
+                      'token_type': 'bearer',
+                      'expires_in': 3600,
+                      'scope': 'phone_check coverage',
                     }
 
-
   '/oauth2/v1/revoke':
-
     post:
       summary: Revoke an token
       description: Revoke a token from the OAuth2 provider.
@@ -277,7 +271,6 @@ paths:
   ##############
 
   '/phone_check/v0.1/checks':
-
     post:
       summary: Create a PhoneCheck workflow
       description: |
@@ -328,7 +321,7 @@ paths:
             application/hal+json:
               schema:
                 allOf:
-                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
+                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCreateResponse
                   - type: object
                     properties:
                       # Override since creating a PhoneCheck only supports ACCEPTED
@@ -388,7 +381,6 @@ paths:
                 $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCollection
 
   '/phone_check/v0.1/checks/{check_id}':
-
     parameters:
       - name: check_id
         description: The ID of the PhoneCheck
@@ -410,7 +402,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckGetResponse
           headers:
             X-RateLimit-Limit:
               $ref: './models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit'
@@ -502,34 +494,33 @@ paths:
                   value:
                     _embedded:
                       traces:
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
-                        trace_id: 6f2a0e25fc0caa25
-                        logs:
-                        - timestamp: '2021-02-05T13:58:48.751Z'
-                          message: 'Check create: phone number is reachable'
-                        - timestamp: '2021-02-05T13:58:48.856Z'
-                          message: 'Check balance: authorized'
-                          attributes:
-                            amount: 1
-                            currency: API
-                        - timestamp: '2021-02-05T13:58:48.864Z'
-                          message: 'Check create: accepted'
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
-                        trace_id: 7f1bc78ab197ee8b
-                        logs:
-                        - timestamp: '2021-02-05T13:59:05.060Z'
-                          message: 'Check balance: confirmed'
-                          attributes:
-                            amount: 1
-                            currency: API
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+                          trace_id: 6f2a0e25fc0caa25
+                          logs:
+                            - timestamp: '2021-02-05T13:58:48.751Z'
+                              message: 'Check create: phone number is reachable'
+                            - timestamp: '2021-02-05T13:58:48.856Z'
+                              message: 'Check balance: authorized'
+                              attributes:
+                                amount: 1
+                                currency: API
+                            - timestamp: '2021-02-05T13:58:48.864Z'
+                              message: 'Check create: accepted'
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
+                          trace_id: 7f1bc78ab197ee8b
+                          logs:
+                            - timestamp: '2021-02-05T13:59:05.060Z'
+                              message: 'Check balance: confirmed'
+                              attributes:
+                                amount: 1
+                                currency: API
                     _links:
                       self:
                         href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces
-
 
         '404':
           description: Not Found
@@ -578,21 +569,20 @@ paths:
                   value:
                     trace_id: 6f2a0e25fc0caa25
                     logs:
-                    - timestamp: '2021-02-05T13:58:48.751Z'
-                      message: 'Check create: request accepted'
-                    - timestamp: '2021-02-05T13:58:48.824Z'
-                      message: 'Check create: phone number is routable'
-                    - timestamp: '2021-02-05T13:58:48.856Z'
-                      message: 'Check balance: authorized'
-                      attributes:
-                        amount: 1
-                        currency_code: API
-                    - timestamp: '2021-02-05T13:58:48.864Z'
-                      message: 'Check create: successful '
+                      - timestamp: '2021-02-05T13:58:48.751Z'
+                        message: 'Check create: request accepted'
+                      - timestamp: '2021-02-05T13:58:48.824Z'
+                        message: 'Check create: phone number is routable'
+                      - timestamp: '2021-02-05T13:58:48.856Z'
+                        message: 'Check balance: authorized'
+                        attributes:
+                          amount: 1
+                          currency_code: API
+                      - timestamp: '2021-02-05T13:58:48.864Z'
+                        message: 'Check create: successful '
                     _links:
                       self:
                         href: https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
-
 
         '404':
           description: Not Found
@@ -606,7 +596,6 @@ paths:
   ##############
 
   '/subscriber_check/v0.1/checks':
-
     post:
       summary: Create an SubscriberCheck workflow
       description: |
@@ -717,7 +706,6 @@ paths:
                 $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCollection
 
   '/subscriber_check/v0.1/checks/{check_id}':
-
     parameters:
       - name: check_id
         description: The ID of the SubscriberCheck
@@ -831,34 +819,33 @@ paths:
                   value:
                     _embedded:
                       traces:
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
-                        trace_id: 6f2a0e25fc0caa25
-                        logs:
-                        - timestamp: '2021-02-05T13:58:48.751Z'
-                          message: 'Check create: phone number is reachable'
-                        - timestamp: '2021-02-05T13:58:48.856Z'
-                          message: 'Check balance: authorized'
-                          attributes:
-                            amount: 1
-                            currency: API
-                        - timestamp: '2021-02-05T13:58:48.864Z'
-                          message: 'Check create: accepted'
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
-                        trace_id: 7f1bc78ab197ee8b
-                        logs:
-                        - timestamp: '2021-02-05T13:59:05.060Z'
-                          message: 'Check balance: confirmed'
-                          attributes:
-                            amount: 1
-                            currency: API
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+                          trace_id: 6f2a0e25fc0caa25
+                          logs:
+                            - timestamp: '2021-02-05T13:58:48.751Z'
+                              message: 'Check create: phone number is reachable'
+                            - timestamp: '2021-02-05T13:58:48.856Z'
+                              message: 'Check balance: authorized'
+                              attributes:
+                                amount: 1
+                                currency: API
+                            - timestamp: '2021-02-05T13:58:48.864Z'
+                              message: 'Check create: accepted'
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
+                          trace_id: 7f1bc78ab197ee8b
+                          logs:
+                            - timestamp: '2021-02-05T13:59:05.060Z'
+                              message: 'Check balance: confirmed'
+                              attributes:
+                                amount: 1
+                                currency: API
                     _links:
                       self:
                         href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces
-
 
         '404':
           description: Not Found
@@ -905,8 +892,8 @@ paths:
               examples:
                 basic:
                   value:
-                      trace_id: 6f2a0e25fc0caa25
-                      logs:
+                    trace_id: 6f2a0e25fc0caa25
+                    logs:
                       - timestamp: '2021-02-05T13:58:48.751Z'
                         message: 'Check create: phone number is reachable'
                       - timestamp: '2021-02-05T13:58:48.856Z'
@@ -920,7 +907,6 @@ paths:
                           self:
                             href: https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
 
-
         '404':
           description: Not Found
           content:
@@ -933,7 +919,6 @@ paths:
   ##############
 
   '/sim_check/v0.1/checks':
-
     post:
       summary: Create a SIMCheck
       description: |
@@ -1094,34 +1079,33 @@ paths:
                   value:
                     _embedded:
                       traces:
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
-                        trace_id: 6f2a0e25fc0caa25
-                        logs:
-                        - timestamp: '2021-02-05T13:58:48.751Z'
-                          message: 'Check create: phone number is reachable'
-                        - timestamp: '2021-02-05T13:58:48.856Z'
-                          message: 'Check balance: authorized'
-                          attributes:
-                            amount: 1
-                            currency: API
-                        - timestamp: '2021-02-05T13:58:48.864Z'
-                          message: 'Check create: accepted'
-                      - _links:
-                          self:
-                            href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
-                        trace_id: 7f1bc78ab197ee8b
-                        logs:
-                        - timestamp: '2021-02-05T13:59:05.060Z'
-                          message: 'Check balance: confirmed'
-                          attributes:
-                            amount: 1
-                            currency: API
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
+                          trace_id: 6f2a0e25fc0caa25
+                          logs:
+                            - timestamp: '2021-02-05T13:58:48.751Z'
+                              message: 'Check create: phone number is reachable'
+                            - timestamp: '2021-02-05T13:58:48.856Z'
+                              message: 'Check balance: authorized'
+                              attributes:
+                                amount: 1
+                                currency: API
+                            - timestamp: '2021-02-05T13:58:48.864Z'
+                              message: 'Check create: accepted'
+                        - _links:
+                            self:
+                              href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b
+                          trace_id: 7f1bc78ab197ee8b
+                          logs:
+                            - timestamp: '2021-02-05T13:59:05.060Z'
+                              message: 'Check balance: confirmed'
+                              attributes:
+                                amount: 1
+                                currency: API
                     _links:
                       self:
                         href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces
-
 
         '404':
           description: Not Found
@@ -1170,21 +1154,20 @@ paths:
                   value:
                     trace_id: 6f2a0e25fc0caa25
                     logs:
-                    - timestamp: '2021-02-05T13:58:48.751Z'
-                      message: 'Check create: request accepted'
-                    - timestamp: '2021-02-05T13:58:48.824Z'
-                      message: 'Check create: phone number is routable'
-                    - timestamp: '2021-02-05T13:58:48.856Z'
-                      message: 'Check balance: authorized'
-                      attributes:
-                        amount: 1
-                        currency_code: API
-                    - timestamp: '2021-02-05T13:58:48.864Z'
-                      message: 'Check create: successful'
+                      - timestamp: '2021-02-05T13:58:48.751Z'
+                        message: 'Check create: request accepted'
+                      - timestamp: '2021-02-05T13:58:48.824Z'
+                        message: 'Check create: phone number is routable'
+                      - timestamp: '2021-02-05T13:58:48.856Z'
+                        message: 'Check balance: authorized'
+                        attributes:
+                          amount: 1
+                          currency_code: API
+                      - timestamp: '2021-02-05T13:58:48.864Z'
+                        message: 'Check create: successful'
                     _links:
                       self:
                         href: https://eu.api.tru.id/sim_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25
-
 
         '404':
           description: Not Found
@@ -1251,7 +1234,7 @@ paths:
       - name: ip
         schema:
           type: string
-          format : ipv4 | ipv6
+          format: ipv4 | ipv6
         description: The device ip in ipv4 or ipv6 format
         in: path
         required: true
@@ -1295,7 +1278,7 @@ paths:
       summary: Get Device Reachability
       description: Get the mobile network that a device is on along with products that are supported based on the sender device IP address. No Authentication is required for this endpoint.
       operationId: get-public-coverage-by-device-ip
-      security: []       
+      security: []
       tags:
         - coverage
       responses:
@@ -1325,16 +1308,11 @@ paths:
               schema:
                 $ref: './models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp'
 
-
-
-
-
   ##############
   # Projects
   ##############
 
   '/console/v0.1/projects':
-
     post:
       summary: Create a Project
       description: Create a Project
@@ -1479,7 +1457,6 @@ paths:
                         href: '/projects/page=1&size=10'
                       self:
                         href: '/projects/page=2&size=10'
-
 
   '/console/v0.1/projects/{project_id}':
     parameters:
@@ -1646,7 +1623,6 @@ paths:
   # Workspaces
   ##############
   '/console/v0.1/workspaces/default':
-
     get:
       summary: Get the default workspace resource for the current user
       description: Gets the default workspace resource for the current user as identified by the owner of the access token used with the resource
@@ -1698,7 +1674,8 @@ paths:
                             description: The amount in `currency` that has been reserved due to pending operations
                             type: integer
                   credentials:
-                    $ref: ./models/common/CredentialTypes.v1.yaml#/components/schemas/ClientPartial
+                    $ref:
+                      ./models/common/CredentialTypes.v1.yaml#/components/schemas/ClientPartial
                       # owner:
                       #   description: The owner of the workspace
                       #   type: object
@@ -1711,12 +1688,10 @@ paths:
                       #       type: string
                       #       format: email
 
-
   ################
   # Usage Hourly
   ################
   '/console/v0.1/workspaces/default/usage/hourly':
-
     get:
       summary: Hourly API usage
       description: Get the default workspace's usage with hourly breakdown
@@ -1744,11 +1719,11 @@ paths:
             application/hal+json:
               schema:
                 allOf:
-                  - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody"
+                  - $ref: './models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody'
                   - type: object
                     properties:
                       _links:
-                        $ref: "./models/common/PaginationLinks.v1.yaml"
+                        $ref: './models/common/PaginationLinks.v1.yaml'
                       _embedded:
                         description: Resources related to the resource request
                         type: object
@@ -1759,12 +1734,10 @@ paths:
                             items:
                               $ref: './models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceHourly'
 
-
   #################
   # Usage Daily
   #################
   '/console/v0.1/workspaces/default/usage/daily':
-
     get:
       summary: Daily API usage
       description: Get the default workspace's usage with daily breakdown
@@ -1792,11 +1765,11 @@ paths:
             application/hal+json:
               schema:
                 allOf:
-                  - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody"
+                  - $ref: './models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody'
                   - type: object
                     properties:
                       _links:
-                        $ref: "./models/common/PaginationLinks.v1.yaml"
+                        $ref: './models/common/PaginationLinks.v1.yaml'
                       _embedded:
                         description: Resources related to the resource request
                         type: object
@@ -1811,7 +1784,6 @@ paths:
   # Usage Monthly
   #################
   '/console/v0.1/workspaces/default/usage/monthly':
-
     get:
       summary: Monthly API usage
       description: Get the default workspace's usage with monthly breakdown
@@ -1840,11 +1812,11 @@ paths:
             application/hal+json:
               schema:
                 allOf:
-                  - $ref: "./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody"
+                  - $ref: './models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody'
                   - type: object
                     properties:
                       _links:
-                        $ref: "./models/common/PaginationLinks.v1.yaml"
+                        $ref: './models/common/PaginationLinks.v1.yaml'
                       _embedded:
                         description: Resources related to the resource request
                         type: object
@@ -1857,7 +1829,6 @@ paths:
 
 components:
   securitySchemes:
-
     BasicAuth:
       description: |
         Basic Authentication Header. In the request the `Authentication` HTTP header value should be composed of `Basic` plus a Base64 value generated by concatenating a `client_id`, a colon (":") and a `client_secret`.
@@ -1884,7 +1855,6 @@ components:
       scheme: bearer
 
   schemas:
-
     OAuth2Scope:
       description: |
         The scope of the access request. A spaced delimited list of scopes representing the resources the Access Token provides access to.
@@ -1897,11 +1867,9 @@ components:
         - `coverage`: `/coverage` resources
         - `usage`: `/console/{version}/workspaces/default/usage` resources
       type: string
-      example:
-        "phone_check subscriber_check sim_check"
+      example: 'phone_check subscriber_check sim_check'
 
   parameters:
-
     scope:
       name: scope
       description: |
