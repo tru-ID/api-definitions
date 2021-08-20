@@ -23,6 +23,10 @@ components:
       description: Generic 404 Not Found
       allOf:
         - $ref: '#/components/responses/ProblemDetailsBase'
+    Forbidden:
+      description: Generic 403 Forbidden
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
 
     MobileNetworkOperatorNotSupported:
       description: >

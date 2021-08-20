@@ -66,6 +66,9 @@ tags:
   - name: payments
     x-displayName: Payments
     description: Relating to Payments.
+  - name: members
+    x-displayName: Members
+    description: Relating to Members.
 x-tagGroups:
   - name: OAuth2
     tags:
@@ -83,6 +86,8 @@ x-tagGroups:
       - workspaces
       - credentials
       - payments
+      - projects
+      - members
   - name: Deprecated
     tags:
       - projects_deprecated
@@ -1256,7 +1261,7 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
   /console/v0.2/workspaces:
     get:
-      summary: Get workspaces
+      summary: Get a collection of Workspaces
       description: 'Get the list of workspaces'
       tags:
         - workspaces
@@ -1282,7 +1287,7 @@ paths:
     parameters:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
     get:
-      summary: Get workspace
+      summary: Get a Workspace
       description: 'Get a specific workspace'
       tags:
         - workspaces
@@ -1306,6 +1311,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: get-console-v0.2-workspace
       security:
         - UserBearerAuth: []
@@ -1314,7 +1325,7 @@ paths:
     parameters:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
     get:
-      summary: Get credentials
+      summary: Get a collection of Credentials
       description: 'Get all the workspace credentials'
       tags:
         - credentials
@@ -1332,6 +1343,12 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: get-console-v0.2-workspace-credentials
       security:
         - UserBearerAuth: []
@@ -1340,7 +1357,7 @@ paths:
     parameters:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
     get:
-      summary: Get billing account
+      summary: Get a Billing Account
       description: 'Get the billing account'
       tags:
         - payments
@@ -1358,12 +1375,18 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: get-console-v0.2-workspace-billing_account
       security:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
     put:
-      summary: Update billing account
+      summary: Update a Billing Account
       description: 'Update the billing account'
       tags:
         - payments
@@ -1381,6 +1404,12 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: put-console-v0.2-workspace-billing_account
       requestBody:
         description: JSON payload to update a billing account
@@ -1395,7 +1424,7 @@ paths:
     parameters:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
     get:
-      summary: Get payment methods
+      summary: Get a collection of Payment Methods
       description: 'Get all the payment methods'
       tags:
         - payments
@@ -1413,6 +1442,12 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: get-console-v0.2-workspace-payment_methods
       security:
         - UserBearerAuth: []
@@ -1422,7 +1457,7 @@ paths:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
       - $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/parameters/paymentMethodId
     get:
-      summary: Get payment method
+      summary: Get a Payment Method
       description: 'Get a payment method'
       tags:
         - payments
@@ -1446,12 +1481,18 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: get-console-v0.2-workspace-payment_method
       security:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
     delete:
-      summary: Delete payment method
+      summary: Delete a Payment Method
       description: 'Delete a payment method'
       tags:
         - payments
@@ -1473,7 +1514,7 @@ paths:
     parameters:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
     get:
-      summary: Get topups
+      summary: Get a collection of Topups
       description: 'Get the topups history'
       tags:
         - payments
@@ -1491,12 +1532,18 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: get-console-v0.2-workspace-topups
       security:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
     post:
-      summary: Create topups
+      summary: Create a Topup
       description: 'Create a topup'
       tags:
         - payments
@@ -1516,6 +1563,12 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: post-console-v0.2-workspace-topups
       security:
         - UserBearerAuth: []
@@ -1525,10 +1578,10 @@ paths:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/memberId
     get:
-      summary: Get credentials
+      summary: Get a collection of Member Credentials
       description: 'Get all the workspace credentials created by a specific member'
       tags:
-        - credentials
+        - members
       responses:
         '200':
           description: OK
@@ -1548,10 +1601,10 @@ paths:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
     post:
-      summary: Create credential
+      summary: Create a Credential
       description: 'Create workspace credential associated with a specific member'
       tags:
-        - credentials
+        - members
       responses:
         '200':
           description: OK
@@ -1566,6 +1619,12 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: post-console-v0.2-workspace-member-credential-create
       security:
         - UserBearerAuth: []
@@ -1576,10 +1635,10 @@ paths:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/memberId
       - $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/parameters/credentialId
     post:
-      summary: Reset credential
+      summary: Reset a Member Credential
       description: 'Reset workspace credential created by a specific member'
       tags:
-        - credentials
+        - members
       responses:
         '200':
           description: OK
@@ -1594,6 +1653,12 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: post-console-v0.2-workspace-member-credential-reset
       security:
         - UserBearerAuth: []
@@ -1603,7 +1668,7 @@ paths:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
       - $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/parameters/credentialId
     post:
-      summary: Reset credential
+      summary: Reset a Credential
       description: 'Reset workspace credential'
       tags:
         - credentials
@@ -1621,6 +1686,12 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: post-console-v0.2-workspace-credential-reset
       security:
         - UserBearerAuth: []
@@ -1676,6 +1747,12 @@ paths:
                         scopes:
                           - phone_check
                         created_at: '2020-06-01T16:43:30+00:00'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       callbacks:
         projectLevelPhoneCheckEndStatus:
           '{$request.body#/configuration.phone_check.callback_url}':
@@ -1784,7 +1861,7 @@ paths:
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - projects_deprecated
+        - projects
       responses:
         '200':
           description: OK
@@ -1805,6 +1882,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
     patch:
       summary: Update a Project
       description: Update the project identified by the `project_id`.
@@ -1871,6 +1954,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
   '/console/v0.2/workspaces/{workspace_id}/projects/{project_id}/credentials/{credential_id}/reset':
     parameters:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
@@ -1883,7 +1972,7 @@ paths:
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - projects_deprecated
+        - projects
       responses:
         '200':
           description: OK
@@ -1910,12 +1999,17 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
-
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
   # DEPRECATED STUFF
   /console/v0.1/projects:
     post:
       summary: Create a Project
-      description: Create a Project
+      description: '🚨 [DEPRECATED] use <a href="#operation/post-console-v0.2-workspace-projects">v0.2 endpoint</a>'
       operationId: create-project
       security:
         - WorkspaceBearerAuth: []
@@ -1983,11 +2077,11 @@ paths:
     get:
       summary: Get a collection of Projects
       operationId: get-projects
-      description: Get a full list of Projects or filter by query parameter.
+      description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-workspace-projects">v0.2 endpoint</a>'
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - projects
+        - projects_deprecated
       parameters:
         - name: name
           description: The name of the project
@@ -2063,7 +2157,7 @@ paths:
       - $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId
     get:
       summary: Get Project
-      description: Get a Project identified by `project_id`.
+      description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-workspace-project">v0.2 endpoint</a>'
       operationId: get-project
       security:
         - WorkspaceBearerAuth: []
@@ -2091,12 +2185,12 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
     patch:
       summary: Update a Project
-      description: Update the project identified by the `project_id`.
+      description: '🚨 [DEPRECATED] use <a href="#operation/patch-console-v0.2-workspace-project">v0.2 endpoint</a>'
       operationId: patch-project
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - projects
+        - projects_deprecated
       requestBody:
         description: A JSON payload for the Project that is to be created.
         content:
@@ -2166,7 +2260,7 @@ paths:
         required: true
     post:
       summary: Reset Project Credential
-      description: Resets the selected credential and returns a new client secret
+      description: '🚨 [DEPRECATED] use <a href="#operation/post-console-v0.2-workspace-projects">v0.2 endpoint</a>'
       operationId: reset-project-credential
       security:
         - WorkspaceBearerAuth: []
@@ -2201,7 +2295,7 @@ paths:
   /console/v0.1/workspaces/default:
     get:
       summary: Get the default workspace resource for the current user
-      description: Gets the default workspace resource for the current user as identified by the owner of the access token used with the resource
+      description: '🚨 [DEPRECATED]'
       operationId: get-workspaces-default
       security:
         - WorkspaceBearerAuth: []
@@ -2254,7 +2348,7 @@ paths:
   /console/v0.1/workspaces/default/usage/hourly:
     get:
       summary: Hourly API usage
-      description: Get the default workspace's usage with hourly breakdown
+      description: 🚨 [DEPRECATED] Get the default workspace's usage with hourly breakdown
       operationId: get-usage-hourly
       security:
         - WorkspaceBearerAuth: []
@@ -2296,7 +2390,7 @@ paths:
   /console/v0.1/workspaces/default/usage/daily:
     get:
       summary: Daily API usage
-      description: Get the default workspace's usage with daily breakdown
+      description: 🚨 [DEPRECATED] Get the default workspace's usage with daily breakdown
       operationId: get-usage-daily
       security:
         - WorkspaceBearerAuth: []
@@ -2338,7 +2432,7 @@ paths:
   /console/v0.1/workspaces/default/usage/monthly:
     get:
       summary: Monthly API usage
-      description: Get the default workspace's usage with monthly breakdown
+      description: 🚨 [DEPRECATED] Get the default workspace's usage with monthly breakdown
       operationId: get-usage-monthly
       security:
         - WorkspaceBearerAuth: []
