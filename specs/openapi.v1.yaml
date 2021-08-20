@@ -1279,16 +1279,11 @@ paths:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   '/console/v0.2/workspaces/{workspace_id}':
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
     get:
       summary: Get workspace
       description: 'Get a specific workspace'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
       tags:
         - workspaces
       responses:
@@ -1316,16 +1311,11 @@ paths:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   '/console/v0.2/workspaces/{workspace_id}/credentials':
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
     get:
       summary: Get credentials
       description: 'Get all the workspace credentials'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
       tags:
         - credentials
       responses:
@@ -1347,16 +1337,11 @@ paths:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   '/console/v0.2/workspaces/{workspace_id}/billing_account':
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
     get:
       summary: Get billing account
       description: 'Get the billing account'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
       tags:
         - payments
       responses:
@@ -1380,13 +1365,6 @@ paths:
     put:
       summary: Update billing account
       description: 'Update the billing account'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
       tags:
         - payments
       responses:
@@ -1414,16 +1392,11 @@ paths:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   '/console/v0.2/workspaces/{workspace_id}/payment_methods':
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
     get:
       summary: Get payment methods
       description: 'Get all the payment methods'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
       tags:
         - payments
       responses:
@@ -1445,22 +1418,12 @@ paths:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   '/console/v0.2/workspaces/{workspace_id}/payment_methods/{payment_method_id}':
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/parameters/paymentMethodId
     get:
       summary: Get payment method
       description: 'Get a payment method'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
-        - in: path
-          name: payment_method_id
-          schema:
-            type: string
-          required: true
-          description: Payment Method ID
       tags:
         - payments
       responses:
@@ -1490,19 +1453,6 @@ paths:
     delete:
       summary: Delete payment method
       description: 'Delete a payment method'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
-        - in: path
-          name: payment_method_id
-          schema:
-            type: string
-          required: true
-          description: Payment Method ID
       tags:
         - payments
       responses:
@@ -1520,16 +1470,11 @@ paths:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   '/console/v0.2/workspaces/{workspace_id}/topups':
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
     get:
       summary: Get topups
       description: 'Get the topups history'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
       tags:
         - payments
       responses:
@@ -1553,13 +1498,6 @@ paths:
     post:
       summary: Create topups
       description: 'Create a topup'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
       tags:
         - payments
       requestBody:
@@ -1583,22 +1521,12 @@ paths:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   '/console/v0.2/workspaces/{workspace_id}/members/{member_id}/credentials':
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/memberId
     get:
       summary: Get credentials
       description: 'Get all the workspace credentials created by a specific member'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
-        - in: path
-          name: member_id
-          schema:
-            type: string
-          required: true
-          description: Workspace Member ID
       tags:
         - credentials
       responses:
@@ -1622,19 +1550,6 @@ paths:
     post:
       summary: Create credential
       description: 'Create workspace credential associated with a specific member'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
-        - in: path
-          name: member_id
-          schema:
-            type: string
-          required: true
-          description: Workspace Member ID
       tags:
         - credentials
       responses:
@@ -1656,28 +1571,13 @@ paths:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   '/console/v0.2/workspaces/{workspace_id}/members/{member_id}/credentials/{credential_id}/reset':
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/memberId
+      - $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/parameters/credentialId
     post:
       summary: Reset credential
       description: 'Reset workspace credential created by a specific member'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
-        - in: path
-          name: member_id
-          schema:
-            type: string
-          required: true
-          description: Workspace Member ID
-        - in: path
-          name: credential_id
-          schema:
-            type: string
-          required: true
-          description: Credential ID
       tags:
         - credentials
       responses:
@@ -1699,22 +1599,12 @@ paths:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   '/console/v0.2/workspaces/{workspace_id}/credentials/{credential_id}/reset':
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/parameters/credentialId
     post:
       summary: Reset credential
       description: 'Reset workspace credential'
-      parameters:
-        - in: path
-          name: workspace_id
-          schema:
-            type: string
-          required: true
-          description: Workspace ID
-        - in: path
-          name: credential_id
-          schema:
-            type: string
-          required: true
-          description: Credential ID
       tags:
         - credentials
       responses:
@@ -1735,6 +1625,292 @@ paths:
       security:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
+  '/console/v0.2/workspaces/{workspace_id}/projects':
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+    post:
+      summary: Create a Project
+      description: Create a Project
+      operationId: post-console-v0.2-workspace-projects
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - projects
+      requestBody:
+        description: A JSON payload for the Project that is to be created.
+        content:
+          application/json:
+            schema:
+              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/CreateProjectPayload
+            examples:
+              basic:
+                value:
+                  name: My test project
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectFull
+              examples:
+                basic:
+                  value:
+                    project_id: c69bc0e6-a429-11ea-bb37-0242ac130003
+                    name: My test project
+                    created_at: '2020-06-01T16:43:30+00:00'
+                    updated_at: '2020-06-01T16:43:30+00:00'
+                    _links:
+                      self:
+                        href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
+                    credentials:
+                      - client_id: 6779ef20e75817b79602
+                        client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
+                        scopes:
+                          - phone_check
+                        created_at: '2020-06-01T16:43:30+00:00'
+      callbacks:
+        projectLevelPhoneCheckEndStatus:
+          '{$request.body#/configuration.phone_check.callback_url}':
+            post:
+              summary: PhoneCheck has reached an end status
+              parameters:
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-4auth-security
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-4auth-callback
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/digest
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/date
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/host
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload
+              responses:
+                $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
+    get:
+      summary: Get a collection of Projects
+      description: Get a full list of Projects or filter by query parameter.
+      operationId: get-console-v0.2-workspace-projects
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - projects
+      parameters:
+        - name: name
+          description: The name of the project
+          schema:
+            type: string
+            example: hello
+          in: query
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/search
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectCollection
+              examples:
+                basic:
+                  value:
+                    page:
+                      size: 10
+                      number: 1
+                      total_pages: 1
+                      total_elements: 2
+                    _embedded:
+                      projects:
+                        - _links:
+                            self:
+                              href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130002
+                          project_id: c69bc0e6-a429-11ea-bb37-0242ac130002
+                          name: My first project
+                          created_at: '2020-06-01T16:43:30+00:00'
+                          updated_at: '2020-06-01T16:43:30+00:00'
+                          credentials:
+                            - client_id: 63f16604-2b4f-4e45-b32f-59290507fe93
+                              scopes:
+                                - phone_check
+                              created_at: '2020-06-01T16:43:30+00:00'
+                        - _links:
+                            self:
+                              href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
+                          project_id: c69bc0e6-a429-11ea-bb37-0242ac130003
+                          name: My second project
+                          created_at: '2020-06-01T16:43:30+00:00'
+                          updated_at: '2020-06-01T16:43:30+00:00'
+                          credentials:
+                            - client_id: 63f16604-2b4f-4e45-b32f-59290507fe92
+                              scopes:
+                                - phone_check
+                              created_at: '2020-06-01T16:43:30+00:00'
+                    _links:
+                      first:
+                        href: /projects/page=1&size=10
+                      last:
+                        href: /projects/page=3&size=10
+                      next:
+                        href: /projects/page=3&size=10
+                      prev:
+                        href: /projects/page=1&size=10
+                      self:
+                        href: /projects/page=2&size=10
+  '/console/v0.2/workspaces/{workspace_id}/projects/{project_id}':
+    parameters:
+      - $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+    get:
+      summary: Get Project
+      description: Get a Project identified by `project_id`.
+      operationId: get-console-v0.2-workspace-project
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - projects_deprecated
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+    patch:
+      summary: Update a Project
+      description: Update the project identified by the `project_id`.
+      operationId: patch-console-v0.2-workspace-project
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - projects
+      requestBody:
+        description: A JSON payload for the Project that is to be created.
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPatchPayload
+            examples:
+              change_mode:
+                summary: Change the Project mode to `live`
+                value:
+                  - op: replace
+                    path: /mode
+                    value: live
+              change_name:
+                summary: Change the Project name
+                value:
+                  - op: replace
+                    path: /name
+                    value: my-new-name
+              add_callback_url:
+                summary: Add a `callback_url` to the Project configuration
+                value:
+                  - op: add
+                    path: /configuration
+                    value:
+                      phone_check:
+                        callback_url: 'https://example.com/callback'
+              replace_callback_url:
+                summary: Replace a `callback_url` for a Project configuration
+                value:
+                  - op: replace
+                    path: /configuration/phone_check/callback_url
+                    value: 'https://example.com/updated_callback'
+              remove_callback_url:
+                summary: Remove the `callback_url` from the Project configuration
+                value:
+                  - op: remove
+                    path: /configuration/phone_check/callback_url
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+  '/console/v0.2/workspaces/{workspace_id}/projects/{project_id}/credentials/{credential_id}/reset':
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId
+      - $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/parameters/credentialId
+    post:
+      summary: Reset Project Credential
+      description: Resets the selected credential and returns a new client secret
+      operationId: post-console-v0.2-workspace-project-credential-reset
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - projects_deprecated
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/common/CredentialTypes.v1.yaml#/components/schemas/ClientFullScopes
+              examples:
+                basic:
+                  value:
+                    client_id: 8cbd640e-2cbf-42d1-bd57-421169144300
+                    client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
+                    scopes:
+                      - phone_check
+                    created_at: '2020-06-01T16:43:30+00:00'
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+
   # DEPRECATED STUFF
   /console/v0.1/projects:
     post:

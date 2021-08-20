@@ -263,3 +263,10 @@ components:
         $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
       in: path
       required: true
+    paymentMethodId:
+      name: payment_method_id
+      description: The ID of the Payment Method
+      schema:
+        $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+      in: path
+      required: true

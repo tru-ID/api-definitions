@@ -144,3 +144,10 @@ components:
         $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
       in: path
       required: true
+    memberId:
+      name: member_id
+      description: The ID of the Workspace Member
+      schema:
+        $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+      in: path
+      required: true
