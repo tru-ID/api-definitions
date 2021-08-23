@@ -10,11 +10,10 @@ components:
         - workspace
       properties:
         workspace_id:
-          type: string
-          minLength: 1
+          description: Workspace ID
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
         data_residency:
-          type: string
-          minLength: 1
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/DataResidency"
         name:
           type: string
           minLength: 1
@@ -22,32 +21,15 @@ components:
           type: string
           minLength: 1
         _links:
+          description: Links related to the current resource
           type: object
           properties:
             self:
-              type: object
-              required:
-                - href
-              properties:
-                href:
-                  type: string
-                  minLength: 1
+              $ref: ../common/Link.v1.yaml
             credentials:
-              type: object
-              required:
-                - href
-              properties:
-                href:
-                  type: string
-                  minLength: 1
+              $ref: ../common/Link.v1.yaml
             members:
-              type: object
-              required:
-                - href
-              properties:
-                href:
-                  type: string
-                  minLength: 1
+              $ref: ../common/Link.v1.yaml
           required:
             - self
             - credentials
@@ -61,16 +43,18 @@ components:
     WorkspaceFull:
       description: A Workspace representation as used when a new Workspace is created.
       allOf:
-        - $ref: '#/components/schemas/WorkspacePartial'
+        - $ref: "#/components/schemas/WorkspacePartial"
         - type: object
           properties:
             _embedded:
+              description: Resources related to the resource request
               type: object
               required:
                 - balance
                 - me
               properties:
                 balance:
+                  description: Workspace balance data
                   type: object
                   required:
                     - currency
@@ -79,15 +63,18 @@ components:
                     - credit_limit
                   properties:
                     currency:
-                      type: string
-                      minLength: 1
+                      $ref: "../common/DataTypes.v1.yaml#/components/schemas/Currency"
                     amount_available:
+                      description: Workspace currency amount available
                       type: number
                     amount_reserved:
+                      description: Workspace currency amount reserved
                       type: number
                     credit_limit:
+                      description: Workspace credit limit
                       type: number
                 me:
+                  description: Workspace details about current user
                   type: object
                   required:
                     - member_id
@@ -96,26 +83,22 @@ components:
                     - _links
                   properties:
                     member_id:
-                      type: string
-                      minLength: 1
+                      description: Workspace Member ID
+                      $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
                     name:
+                      description: Workspace user name
                       type: string
                       minLength: 1
                     role:
                       $ref: ../common/DataTypes.v1.yaml#/components/schemas/WorkspaceRole
                     _links:
+                      description: Links related to the current resource
                       type: object
                       required:
                         - credentials
                       properties:
                         credentials:
-                          type: object
-                          required:
-                            - href
-                          properties:
-                            href:
-                              type: string
-                              minLength: 1
+                          $ref: ../common/Link.v1.yaml
 
     WorkspaceCollection:
       description: A collection of Workspace items
@@ -134,20 +117,20 @@ components:
                   description: The Workspaces within the collection
                   type: array
                   items:
-                    $ref: '#/components/schemas/WorkspacePartial'
+                    $ref: "#/components/schemas/WorkspacePartial"
 
   parameters:
     workspaceId:
       name: workspace_id
       description: The ID of the Workspace
       schema:
-        $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
       in: path
       required: true
     memberId:
       name: member_id
       description: The ID of the Workspace Member
       schema:
-        $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
       in: path
       required: true

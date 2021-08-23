@@ -16,7 +16,7 @@ components:
           description: Logs of the corresponding Trace ordered by timestamp ascending.
           type: array
           items:
-            $ref: '#/components/schemas/Log'
+            $ref: "#/components/schemas/Log"
         trace_id:
           description: The unique ID of the Trace resource
           type: string
@@ -26,10 +26,9 @@ components:
           properties:
             self:
               description: The link to the current resouce
-              allOf:
-                - $ref: ../common/Link.v1.yaml
+              $ref: ../common/Link.v1.yaml
           required:
-            - self        
+            - self
 
     Log:
       description: A Log Entry
@@ -54,7 +53,7 @@ components:
           example:
             amount: 1,
             currency: "API"
-            status: "COMPLETED"      
+            status: "COMPLETED"
 
     TraceCollection:
       description: Collection of Trace resources ordered by oldest to latest.
@@ -75,9 +74,4 @@ components:
               description: collection of Traces
               type: array
               items:
-                $ref: '#/components/schemas/TraceResource'
-
-
-                  
-        
-
+                $ref: "#/components/schemas/TraceResource"

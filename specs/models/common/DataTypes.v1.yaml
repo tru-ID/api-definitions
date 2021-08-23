@@ -7,31 +7,37 @@ components:
       description: a Universally Unique IDentifier
       type: string
       format: uuid
-      pattern: '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+      pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
 
     ISODateTime:
       description: A DateTime conforming to ISO 8601 specifications
       type: string
       format: Datetime ISO 8601
-      example: '2020-06-01T16:43:30+00:00'
+      example: "2020-06-01T16:43:30+00:00"
 
     ISOYearMonth:
       description: Year and month to ISO 8601 specifications in the format YYYY-MM
       type: string
       pattern: '^(\d{4}-\d{2})$'
-      example: '2020-06'
+      example: "2020-06"
 
     ISODate:
       description: Date to ISO 8601 specifications in the format YYYY-MM-DD
       type: string
       pattern: '^(\d{4}-\d{2}-\d{2})$'
-      example: '2020-06-01'
+      example: "2020-06-01"
 
     ISODateHour:
       description: Date and hour to ISO 8601 specifications in the format YYYY-MM-DDThh
       type: string
       pattern: '^(\d{4}-\d{2}-\d{2}T\d{2})$'
-      example: '2020-06-01T11'
+      example: "2020-06-01T11"
+
+    Country:
+      description: Country ISO 3166-1 alpha-2
+      type: string
+      pattern: "[A-Z]{2}"
+      example: "US"
 
     Currency:
       description: A currency indicator
@@ -84,3 +90,10 @@ components:
         - PREPAID
         - POSTPAID
       example: PREPAID
+
+    DataResidency:
+      description: Where the data related to the resource is stored
+      type: string
+      enum:
+        - EU
+      example: EU

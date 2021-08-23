@@ -10,35 +10,41 @@ components:
         - payments
       properties:
         billing_id:
-          type: string
-          minLength: 1
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+          description: Billing Account ID
         billing_mode:
-          type: string
-          minLength: 1
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/BillingMode"
         company_name:
+          description: Company name
           type: string
           minLength: 1
         contact_name:
+          description: Contact name
           type: string
           minLength: 1
         contact_email:
+          description: Contact email
           type: string
           minLength: 1
         address1:
+          description: Address line 1
           type: string
           minLength: 1
         address2:
+          description: Address line 2
           type: string
         city:
+          description: City
           type: string
           minLength: 1
         zip:
+          description: Zip code
           type: string
           minLength: 1
         country:
-          type: string
-          minLength: 1
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/Country"
         terms:
+          description: Link to terms & conditions
           type: string
           minLength: 1
       required:
@@ -50,48 +56,40 @@ components:
     BillingAccount:
       description: A workspace billing account.
       allOf:
-        - $ref: '#/components/schemas/BillingAccountPartial'
+        - $ref: "#/components/schemas/BillingAccountPartial"
         - type: object
           properties:
             _links:
+              description: Links related to the current resource
               type: object
               properties:
                 self:
-                  type: object
-                  properties:
-                    href:
-                      type: string
-                      minLength: 1
-                  required:
-                    - href
+                  $ref: ../common/Link.v1.yaml
               required:
                 - self
       required:
         - billing_id
         - billing_mode
-        - company_name
         - contact_name
         - contact_email
-        - address1
-        - address2
-        - city
-        - zip
         - country
         - terms
         - _links
     PaymentMethod:
-      description: 'A payment method'
+      description: "A payment method"
       type: object
       properties:
         id:
-          type: string
-          minLength: 1
+          description: Payment Account ID
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
         last_four_digits:
+          description: Card last 4 digits
           type: string
-          minLength: 1
         expiry_month:
+          description: Card month expiry
           type: number
         expiry_year:
+          description: Card year expiry
           type: number
       required:
         - id
@@ -103,45 +101,29 @@ components:
       type: object
       x-tags:
         - payments
-      properties:
-        _embedded:
-          type: object
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
           properties:
-            payment_methods:
-              type: array
-              items:
-                $ref: '#/components/schemas/PaymentMethod'
-          required:
-            - payment_methods
-        _links:
-          type: object
-          properties:
-            self:
+            _embedded:
+              description: Resources related to the resource request
               type: object
               properties:
-                href:
-                  type: string
-                  minLength: 1
+                payment_methods:
+                  description: Collection of Payment Methods
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/PaymentMethod"
               required:
-                - href
-          required:
-            - self
-        page:
-          type: object
-          properties:
-            size:
-              type: number
-            total_elements:
-              type: number
-            total_pages:
-              type: number
-            number:
-              type: number
-          required:
-            - size
-            - total_elements
-            - total_pages
-            - number
+                - payment_methods
+            _links:
+              description: Links related to the current resource
+              type: object
+              properties:
+                self:
+                  $ref: ../common/Link.v1.yaml
+              required:
+                - self
       required:
         - _embedded
         - _links
@@ -158,98 +140,80 @@ components:
         - close_free_trial
       properties:
         payment_method_id:
-          type: string
-          minLength: 1
+          description: Billing Account ID
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
         currency:
-          type: string
-          minLength: 1
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/Currency"
         amount:
+          description: Topup amount
           type: number
         close_free_trial:
+          description: Required to be true in order to close the free trial and lose all the remaining free API credits
           type: boolean
     TopupCollection:
       description: A collection of topups.
       type: object
       x-tags:
         - payments
-      properties:
-        _embedded:
-          type: object
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
           properties:
-            top_ups:
-              type: array
-              uniqueItems: true
-              minItems: 1
-              items:
-                required:
-                  - top_up_id
-                  - type
-                  - billing_id
-                  - currency
-                  - amount
-                  - created_at
-                properties:
-                  top_up_id:
-                    type: string
-                    minLength: 1
-                  type:
-                    type: string
-                    minLength: 1
-                  billing_id:
-                    type: string
-                    minLength: 1
-                  currency:
-                    type: string
-                    minLength: 1
-                  amount:
-                    type: number
-                  created_at:
-                    type: string
-                    minLength: 1
-                  _links:
-                    type: object
-                    properties:
-                      self:
-                        type: object
-                        properties:
-                          href:
-                            type: string
-                            minLength: 1
-                        required:
-                          - href
-                    required:
-                      - self
-          required:
-            - top_ups
-        _links:
-          type: object
-          properties:
-            self:
+            _embedded:
+              description: Resources related to the resource request
               type: object
               properties:
-                href:
-                  type: string
-                  minLength: 1
+                top_ups:
+                  description: Collection of Topups
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    required:
+                      - top_up_id
+                      - type
+                      - billing_id
+                      - currency
+                      - amount
+                      - created_at
+                    properties:
+                      top_up_id:
+                        description: Topup ID
+                        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+                      type:
+                        description: Topup type
+                        type: string
+                        minLength: 1
+                      billing_id:
+                        description: Billing Account ID
+                        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+                      currency:
+                        $ref: "../common/DataTypes.v1.yaml#/components/schemas/Currency"
+                      amount:
+                        description: Topup Amount
+                        type: number
+                      created_at:
+                        description: Creation date
+                        type: string
+                        minLength: 1
+                      _links:
+                        description: Links related to the current resource
+                        type: object
+                        properties:
+                          self:
+                            $ref: ../common/Link.v1.yaml
+                        required:
+                          - self
               required:
-                - href
-          required:
-            - self
-        page:
-          type: object
-          properties:
-            size:
-              type: number
-            total_elements:
-              type: number
-            total_pages:
-              type: number
-            number:
-              type: number
-          required:
-            - size
-            - total_elements
-            - total_pages
-            - number
+                - top_ups
+            _links:
+              description: Links related to the current resource
+              type: object
+              properties:
+                self:
+                  $ref: ../common/Link.v1.yaml
+              required:
+                - self
       required:
         - _embedded
         - _links
@@ -260,13 +224,13 @@ components:
       name: billing_id
       description: The ID of the Billing Account
       schema:
-        $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
       in: path
       required: true
     paymentMethodId:
       name: payment_method_id
       description: The ID of the Payment Method
       schema:
-        $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
       in: path
       required: true
