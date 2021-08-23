@@ -43,7 +43,8 @@ components:
     WorkspaceFull:
       description: A Workspace representation as used when a new Workspace is created.
       allOf:
-        - $ref: "#/components/schemas/WorkspacePartial"
+        - description: A Workspace
+          $ref: "#/components/schemas/WorkspacePartial"
         - type: object
           properties:
             _embedded:
