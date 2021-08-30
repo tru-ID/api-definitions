@@ -15,11 +15,13 @@ components:
         data_residency:
           $ref: "../common/DataTypes.v1.yaml#/components/schemas/DataResidency"
         name:
+          description: Workspace name
           type: string
           minLength: 1
         created_at:
-          type: string
-          minLength: 1
+          description: Workspace creation date
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
         _links:
           description: Links related to the current resource
           type: object
@@ -43,8 +45,7 @@ components:
     WorkspaceFull:
       description: A Workspace representation as used when a new Workspace is created.
       allOf:
-        - description: A Workspace
-          $ref: "#/components/schemas/WorkspacePartial"
+        - $ref: "#/components/schemas/WorkspacePartial"
         - type: object
           properties:
             _embedded:
