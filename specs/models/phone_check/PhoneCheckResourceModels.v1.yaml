@@ -19,6 +19,26 @@ components:
       allOf:
         - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckPartial"
 
+    PhoneCheckCreatePartial:
+      description: A create PhoneCheck partial resource
+      allOf:
+        - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckCreatePartial"
+
+    PhoneCheckCreateResponse:
+      description: A PhoneCheck Created response
+      allOf:
+        - $ref: "#/components/schemas/PhoneCheckCreatePartial"
+
+    PhoneCheckGetPartial:
+      description: A partial response for getting the PhoneCheck
+      allOf:
+        - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckGetPartial"
+
+    PhoneCheckGetResponse:
+      description: A PhoneCheck response
+      allOf:
+        - $ref: "#/components/schemas/PhoneCheckGetPartial"
+
     PhoneCheck:
       description: The payload sent to a callback URL upon a PhoneCheck reaching an end state.
       allOf:

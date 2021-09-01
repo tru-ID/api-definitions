@@ -69,6 +69,10 @@ tags:
   - name: members
     x-displayName: Members
     description: Relating to Members.
+  - name: usage
+    x-displayName: Usage
+    description: Relating to Usage.
+
 x-tagGroups:
   - name: OAuth2
     tags:
@@ -327,7 +331,7 @@ paths:
             application/hal+json:
               schema:
                 allOf:
-                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
+                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCreateResponse
                   - type: object
                     properties:
                       status:
@@ -403,7 +407,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckGetResponse
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -1259,6 +1263,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+
   /console/v0.2/workspaces:
     get:
       summary: Get a collection of Workspaces
