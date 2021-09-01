@@ -2,8 +2,7 @@ title: SimCheckResourceModels
 type: object
 description: Definitions of models related to SIMCheck resources
 components:
-  schemas:  
-
+  schemas:
     SimCheckStatus:
       description: |
         - `COMPLETED`: The Check request has completed
@@ -21,7 +20,7 @@ components:
         phone_number:
           description: The phone number to be checked in [E.164 format](https://www.itu.int/rec/T-REC-E.164-201011-I/en)
           type: string
-          example: '447700900000'
+          example: "447700900000"
           format: E.164
         phone_ip:
           description: Optional. The IP address (IPv4 or IPv6 format) of the mobile device associated with the phone number
@@ -34,9 +33,9 @@ components:
       required:
         - phone_number
       example:
-        phone_number: '447700900000'
-        reference_id: 'my_internal_reference'
-        
+        phone_number: "447700900000"
+        reference_id: "my_internal_reference"
+
     SimCheck:
       description: The payload sent to a callback URL upon a SimCheck reaching an end state.
       properties:
@@ -48,9 +47,9 @@ components:
           type: string
           example: my_internal_reference
         status:
-          $ref: '#/components/schemas/SimCheckStatus'
+          $ref: "#/components/schemas/SimCheckStatus"
         no_sim_change:
-          $ref: '#/components/schemas/NoSimChange'
+          $ref: "#/components/schemas/NoSimChange"
         charge_amount:
           description: The amount that was charge for this Check
           type: number
@@ -68,8 +67,7 @@ components:
           properties:
             self:
               description: The link to the current resource
-              allOf:
-                - $ref: ../common/Link.v1.yaml
+              $ref: ../common/Link.v1.yaml
           required:
             - self
 
@@ -87,7 +85,7 @@ components:
         no_sim_change: true
         charge_amount: 1
         charge_currency: API
-        created_at: '2020-06-01T16:43:30+00:00'
+        created_at: "2020-06-01T16:43:30+00:00"
         _links:
           self:
             href: https://us.api.4auth.io/subscriber_checks/v0.1/checks/{check_id}
@@ -109,12 +107,12 @@ components:
                   description: The SIMChecks within the collection
                   type: array
                   items:
-                    $ref: '#/components/schemas/SimCheck'
+                    $ref: "#/components/schemas/SimCheck"
 
     SimLastChanged:
       description: |
         When the last time the SIM card has been changed.
-        
+
         This property will be provided when available and isn't guaranteed to be present.
       allOf:
         - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
@@ -125,4 +123,3 @@ components:
         The value is `true` if the SIM card **has not** been changed.
         The value is `false` if the SIM card **has** been changed.
       type: boolean
-

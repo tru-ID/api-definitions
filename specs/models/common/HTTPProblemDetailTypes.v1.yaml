@@ -23,6 +23,10 @@ components:
       description: Generic 404 Not Found
       allOf:
         - $ref: '#/components/responses/ProblemDetailsBase'
+    Forbidden:
+      description: Generic 403 Forbidden
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
 
     MobileNetworkOperatorNotSupported:
       description: >
@@ -39,7 +43,6 @@ components:
         - $ref: '#/components/responses/ProblemDetailsBase'
       example:
         type: https://developer.tru.id/docs/reference/api-errors#not_mobile_ip
-        
 
     InvalidPhoneNumberFormat:
       description: >

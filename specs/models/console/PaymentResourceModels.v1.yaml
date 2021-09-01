@@ -1,0 +1,236 @@
+title: PaymentResourceModels
+type: object
+description: Definitions of models related to Payment resources
+components:
+  schemas:
+    BillingAccountPartial:
+      description: A workspace billing account.
+      type: object
+      x-tags:
+        - payments
+      properties:
+        billing_id:
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+          description: Billing Account ID
+        billing_mode:
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/BillingMode"
+        company_name:
+          description: Company name
+          type: string
+          minLength: 1
+        contact_name:
+          description: Contact name
+          type: string
+          minLength: 1
+        contact_email:
+          description: Contact email
+          type: string
+          minLength: 1
+        address1:
+          description: Address line 1
+          type: string
+          minLength: 1
+        address2:
+          description: Address line 2
+          type: string
+        city:
+          description: City
+          type: string
+          minLength: 1
+        zip:
+          description: Zip code
+          type: string
+          minLength: 1
+        country:
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/Country"
+        terms:
+          description: Link to terms & conditions
+          type: string
+          minLength: 1
+      required:
+        - billing_id
+        - contact_email
+        - zip
+        - country
+        - terms
+    BillingAccount:
+      description: A workspace billing account.
+      allOf:
+        - $ref: "#/components/schemas/BillingAccountPartial"
+        - type: object
+          properties:
+            _links:
+              description: Links related to the current resource
+              type: object
+              properties:
+                self:
+                  $ref: ../common/Link.v1.yaml
+              required:
+                - self
+      required:
+        - billing_id
+        - billing_mode
+        - contact_name
+        - contact_email
+        - country
+        - terms
+        - _links
+    PaymentMethod:
+      description: "A payment method"
+      type: object
+      properties:
+        id:
+          description: Payment Account ID
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+        last_four_digits:
+          description: Card last 4 digits
+          type: string
+        expiry_month:
+          description: Card month expiry
+          type: number
+        expiry_year:
+          description: Card year expiry
+          type: number
+      required:
+        - id
+        - last_four_digits
+        - expiry_month
+        - expiry_year
+    PaymentMethodCollection:
+      description: A collection of payment methods
+      type: object
+      x-tags:
+        - payments
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
+          properties:
+            _embedded:
+              description: Resources related to the resource request
+              type: object
+              properties:
+                payment_methods:
+                  description: Collection of Payment Methods
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/PaymentMethod"
+              required:
+                - payment_methods
+            _links:
+              description: Links related to the current resource
+              type: object
+              properties:
+                self:
+                  $ref: ../common/Link.v1.yaml
+              required:
+                - self
+      required:
+        - _embedded
+        - _links
+        - page
+    CreateTopup:
+      description: JSON payload to create a topup.
+      type: object
+      x-tags:
+        - payments
+      required:
+        - payment_method_id
+        - currency
+        - amount
+        - close_free_trial
+      properties:
+        payment_method_id:
+          description: Billing Account ID
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+        currency:
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/Currency"
+        amount:
+          description: Topup amount
+          type: number
+        close_free_trial:
+          description: Required to be true in order to close the free trial and lose all the remaining free API credits
+          type: boolean
+    TopupCollection:
+      description: A collection of topups.
+      type: object
+      x-tags:
+        - payments
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
+          properties:
+            _embedded:
+              description: Resources related to the resource request
+              type: object
+              properties:
+                top_ups:
+                  description: Collection of Topups
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    required:
+                      - top_up_id
+                      - type
+                      - billing_id
+                      - currency
+                      - amount
+                      - created_at
+                    properties:
+                      top_up_id:
+                        description: Topup ID
+                        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+                      type:
+                        description: Topup type
+                        type: string
+                        minLength: 1
+                      billing_id:
+                        description: Billing Account ID
+                        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+                      currency:
+                        $ref: "../common/DataTypes.v1.yaml#/components/schemas/Currency"
+                      amount:
+                        description: Topup Amount
+                        type: number
+                      created_at:
+                        description: Creation date
+                        type: string
+                        minLength: 1
+                      _links:
+                        description: Links related to the current resource
+                        type: object
+                        properties:
+                          self:
+                            $ref: ../common/Link.v1.yaml
+                        required:
+                          - self
+              required:
+                - top_ups
+            _links:
+              description: Links related to the current resource
+              type: object
+              properties:
+                self:
+                  $ref: ../common/Link.v1.yaml
+              required:
+                - self
+      required:
+        - _embedded
+        - _links
+        - page
+
+  parameters:
+    billingAccountId:
+      name: billing_id
+      description: The ID of the Billing Account
+      schema:
+        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+      in: path
+      required: true
+    paymentMethodId:
+      name: payment_method_id
+      description: The ID of the Payment Method
+      schema:
+        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+      in: path
+      required: true
