@@ -395,7 +395,7 @@ paths:
         required: true
     get:
       summary: Get PhoneCheck
-      description: Get a PhoneCheck identified by `check_id`.
+      description: "Get a PhoneCheck identified by `check_id`. NB: if the user never visits the `check_url`, after 60 seconds the Check will be deleted and 404 returned."
       operationId: get-phone-check
       security:
         - ProjectBearerAuth: []

@@ -8,7 +8,7 @@ components:
         - `ACCEPTED`: The Check request has been accepted by the platform
         - `PENDING`: The Check request has been triggered but has not yet completed
         - `COMPLETED`: The Check request has completed
-        - `EXPIRED`: The Check was not triggered within the TTL (time-to-live) period. By default this is 60 seconds.
+        - `EXPIRED`: The `check_url` has been triggered but never completed in the default TTL (60s)
         - `ERROR`: An error occurred.
       type: string
       enum:
@@ -25,7 +25,7 @@ components:
         phone_number:
           description: The phone number to be checked in [E.164 format](https://www.itu.int/rec/T-REC-E.164-201011-I/en)
           type: string
-          example: '447700900000'
+          example: "447700900000"
           format: E.164
         phone_ip:
           description: Optional. The IP address (IPv4 or IPv6 format) of the mobile device associated with the phone number
@@ -46,8 +46,8 @@ components:
       required:
         - phone_number
       example:
-        phone_number: '447700900000'
-        reference_id: 'my_internal_reference'
+        phone_number: "447700900000"
+        reference_id: "my_internal_reference"
 
     CheckPartial:
       type: object
@@ -60,7 +60,7 @@ components:
           type: string
           example: my_internal_reference
         status:
-          $ref: '#/components/schemas/CheckStatus'
+          $ref: "#/components/schemas/CheckStatus"
         charge_amount:
           description: The amount that was charge for this Check
           type: number
@@ -88,11 +88,11 @@ components:
         status: COMPLETED
         charge_amount: 1
         charge_currency: API
-        created_at: '2020-06-01T16:43:30+00:00'
+        created_at: "2020-06-01T16:43:30+00:00"
 
     CheckCreatePartial:
       allOf:
-        - $ref: '#/components/schemas/CheckPartial'
+        - $ref: "#/components/schemas/CheckPartial"
         - type: object
           properties:
             ttl:
@@ -108,7 +108,7 @@ components:
 
     CheckGetPartial:
       allOf:
-        - $ref: '#/components/schemas/CheckPartial'
+        - $ref: "#/components/schemas/CheckPartial"
         - type: object
           properties:
             match:
@@ -123,7 +123,7 @@ components:
 
     CheckFullPartial:
       allOf:
-        - $ref: '#/components/schemas/CheckPartial'
+        - $ref: "#/components/schemas/CheckPartial"
         - type: object
           properties:
             ttl:
