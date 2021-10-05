@@ -1628,8 +1628,8 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: post-console-v0.2-workspace-member-credential-reset
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}/projects":
     parameters:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
@@ -1639,6 +1639,7 @@ paths:
       operationId: post-console-v0.2-workspace-projects
       security:
         - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
       tags:
         - projects
       requestBody:
@@ -1712,6 +1713,7 @@ paths:
       operationId: get-console-v0.2-workspace-projects
       security:
         - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
       tags:
         - projects
       parameters:
@@ -1794,6 +1796,7 @@ paths:
       operationId: get-console-v0.2-workspace-project
       security:
         - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
       tags:
         - projects
       responses:
@@ -1828,6 +1831,7 @@ paths:
       operationId: patch-console-v0.2-workspace-project
       security:
         - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
       tags:
         - projects
       requestBody:
@@ -1905,6 +1909,7 @@ paths:
       operationId: post-console-v0.2-workspace-project-credential-reset
       security:
         - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
       tags:
         - projects
       responses:
