@@ -42,10 +42,9 @@ tags:
   - name: workspaces
     x-displayName: Workspaces
     description: Relating to a workspace.
-  - name: workspace_credentials
-    x-displayName: Workspace Credentials
-    description: Relating to a workspace credentials.
   - name: usage
+    x-displayName: Usage
+    description: Relating to Usage.
   - name: projects_deprecated
     x-displayName: Projects
     description: A project is container for configuration on the platform. A project contains credentials used to authenticate API requests with a project `mode` and per-product configuration.
@@ -60,18 +59,12 @@ tags:
   - name: coverage
     x-displayName: Coverage
     description: Relating to Coverage.
-  - name: credentials
-    x-displayName: Credentials
-    description: Relating to Credentials.
   - name: payments
     x-displayName: Payments
     description: Relating to Payments.
   - name: members
     x-displayName: Members
     description: Relating to Members.
-  - name: usage
-    x-displayName: Usage
-    description: Relating to Usage.
 
 x-tagGroups:
   - name: OAuth2
@@ -92,6 +85,7 @@ x-tagGroups:
       - payments
       - projects
       - members
+      - usage
   - name: Deprecated
     tags:
       - projects_deprecated
@@ -1326,38 +1320,6 @@ paths:
       security:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
-  "/console/v0.2/workspaces/{workspace_id}/credentials":
-    parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
-    get:
-      summary: Get a collection of Credentials
-      description: "Get all the workspace credentials"
-      tags:
-        - credentials
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/schemas/CredentialCollection
-          headers:
-            X-RateLimit-Limit:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
-            X-RateLimit-Remaining:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
-        "403":
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
-      operationId: get-console-v0.2-workspace-credentials
-      security:
-        - UserBearerAuth: []
-        - WorkspaceBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}/billing_account":
     parameters:
       - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
@@ -1665,39 +1627,6 @@ paths:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: post-console-v0.2-workspace-member-credential-reset
-      security:
-        - UserBearerAuth: []
-        - WorkspaceBearerAuth: []
-  "/console/v0.2/workspaces/{workspace_id}/credentials/{credential_id}/reset":
-    parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
-      - $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/parameters/credentialId
-    post:
-      summary: Reset a Credential
-      description: "Reset workspace credential"
-      tags:
-        - credentials
-      responses:
-        "200":
-          description: OK
-          content:
-            application/hal+json:
-              schema:
-                $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/schemas/CredentialPartial
-          headers:
-            X-RateLimit-Limit:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
-            X-RateLimit-Remaining:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
-        "403":
-          description: Forbidden
-          content:
-            application/problem+json:
-              schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
-      operationId: post-console-v0.2-workspace-credential-reset
       security:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
@@ -2010,6 +1939,143 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+  /console/v0.2/workspaces/{workspace_id}/usage/hourly:
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+    get:
+      summary: Hourly API usage
+      description: Get the workspace's usage with hourly breakdown
+      operationId: get-console-v0.2-usage-hourly
+      security:
+        - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
+      tags:
+        - usage
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchHourly
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          usage:
+                            description: The Usage resources within the collection
+                            type: array
+                            items:
+                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceHourly
+  /console/v0.2/workspaces/{workspace_id}/usage/daily:
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+    get:
+      summary: Daily API usage
+      description: Get the workspace's usage with daily breakdown
+      operationId: get-console-v0.2-usage-daily
+      security:
+        - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
+      tags:
+        - usage
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchDaily
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          usage:
+                            description: The Usage Resources within the collection
+                            type: array
+                            items:
+                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceDaily
+                          
+  /console/v0.2/workspaces/{workspace_id}/usage/monthly:
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+    get:
+      summary: Monthly API usage
+      description: Get the workspace's usage with monthly breakdown
+      operationId: get-console-v0.2-usage-monthly
+      security:
+        - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
+      tags:
+        - usage
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchMonthly
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          usage:
+                            description: The Usage Resources within the collection
+                            type: array
+                            items:
+                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceMonthly
+
   # DEPRECATED STUFF
   /console/v0.1/projects:
     post:
@@ -2348,7 +2414,7 @@ paths:
   /console/v0.1/workspaces/default/usage/hourly:
     get:
       summary: Hourly API usage
-      description: 🚨 [DEPRECATED] Get the default workspace's usage with hourly breakdown
+      description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-usage-hourly">v0.2 endpoint</a>'
       operationId: get-usage-hourly
       security:
         - WorkspaceBearerAuth: []
@@ -2390,7 +2456,7 @@ paths:
   /console/v0.1/workspaces/default/usage/daily:
     get:
       summary: Daily API usage
-      description: 🚨 [DEPRECATED] Get the default workspace's usage with daily breakdown
+      description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-usage-daily">v0.2 endpoint</a>'
       operationId: get-usage-daily
       security:
         - WorkspaceBearerAuth: []
@@ -2432,7 +2498,7 @@ paths:
   /console/v0.1/workspaces/default/usage/monthly:
     get:
       summary: Monthly API usage
-      description: 🚨 [DEPRECATED] Get the default workspace's usage with monthly breakdown
+      description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-usage-monthly">v0.2 endpoint</a>'
       operationId: get-usage-monthly
       security:
         - WorkspaceBearerAuth: []
@@ -2495,20 +2561,20 @@ components:
       scheme: bearer
     UserBearerAuth:
       type: http
-      scheme: basic
+      scheme: bearer
   schemas:
     OAuth2Scope:
       description: |
         The scope of the access request. A spaced delimited list of scopes representing the resources the Access Token provides access to.
 
-        - `console`: `/console/{version}` resources
-        - `projects`: `/console/{version}/projects` resources
-        - `workspaces`: `/console/{version}/workspaces` resources
+        - `console`: `/console/{version}` resources. From version 0.2.
+        - `projects`: `/console/v0.1/projects` resources
+        - `workspaces`: `/console/v0.1/workspaces` resources
         - `phone_check`: `/phone_check` resources
         - `subscriber_check`: `/subscriber_check` resources
         - `sim_check`: `/sim_check` resources
         - `coverage`: `/coverage` resources
-        - `usage`: `/console/{version}/workspaces/default/usage` resources
+        - `usage`: `/console/v0.1/workspaces/default/usage` resources
       type: string
       example: phone_check subscriber_check sim_check
   parameters:
