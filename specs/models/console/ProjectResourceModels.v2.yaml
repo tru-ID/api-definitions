@@ -1,9 +1,9 @@
-title: ProjectResourceModels
+title: ProjectResourceModelsV2
 type: object
-description: Definitions of models related to Project resources for v0.1
+description: Definitions of models related to Project resources for v0.2
 components:
   schemas:
-    ProjectPartial:
+    Project:
       description: A Project. The `credentials` within the project will not contain a `client_secret`.
       type: object
       x-tags:
@@ -26,7 +26,18 @@ components:
           properties:
             self:
               description: The link to the current resource
-              $ref: ../common/Link.v1.yaml
+              allOf:
+              - $ref: ../common/Link.v1.yaml
+              example: http://www.example.com
+            my_credentials:
+              description: The link to to the current member's project credentials
+              allOf:
+              - $ref: ../common/Link.v1.yaml
+              example: http://www.example.com
+        member_id:
+          description: The member that created the project
+          allOf:
+          - $ref: ../common/DataTypes.v1.yaml#/components/schemas/UUID
         created_at:
           description: When the Project was created
           allOf:
@@ -39,30 +50,12 @@ components:
           description: Configuration for the Products used within a Project
           allOf:
           - $ref: ../common/ProjectCommon.v1.yaml#/components/schemas/ProjectConfiguration
-        credentials:
-          description: The credentials for the created Project. The `client_secret` will not be returned upon this request as it is not stored by the platform.
-          type: array
-          items:
-            $ref: ../common/CredentialTypes.v1.yaml#/components/schemas/ClientPartialScopes
       required:
         - project_id
         - name
         - _links
         - created_at
         - updated_at
-        - credentials
-
-    ProjectFull:
-      description: A Project representation as used when a new Project is created.
-      allOf:
-        - $ref: '#/components/schemas/ProjectPartial'
-        - type: object
-          properties:
-            credentials:
-              description: The credentials for the created Project. The `client_secret` will only be returned upon this request and won't be stored by the platform.
-              type: array
-              items:
-                $ref: ../common/CredentialTypes.v1.yaml#/components/schemas/ClientFullScopes
 
     CreateProjectPayload:
       description: The minimal structural representation to create a Project
@@ -82,6 +75,25 @@ components:
         - name
       x-tags:
         - project
+    
+    ProjectCreated:
+      description: A Project representation as used when a new Project is created.
+      allOf:
+        - $ref: '#/components/schemas/Project'
+        - type: object
+          properties:
+            _embedded:
+              description: Embedded objects
+              type: object
+              properties:
+                credentials:
+                  description: The credentials of the project
+                  type: array
+                  items:
+                    $ref: ../console/CredentialResourceModels.v1.yaml#/components/schemas/ProjectCredential
+  
+
+
     ProjectCollection:
       description: A collection of Project items
       allOf:
@@ -99,7 +111,8 @@ components:
                   description: The Projects within the collection
                   type: array
                   items:
-                    $ref: '#/components/schemas/ProjectPartial'
-    
+                    $ref: '#/components/schemas/Project'  
+      
+
 x-internal: false
 examples: []

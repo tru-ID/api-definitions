@@ -1,0 +1,145 @@
+title: WorkspaceResourceModels
+type: object
+description: Definitions of models related to Workspace resources v0.2
+components:
+  schemas:
+    WorkspaceFull:
+      description: A Workspace representation as used when a new Workspace is created.  
+      type: object
+      properties:
+        workspace_id:
+          description: Workspace ID
+          allOf:
+          - $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+        data_residency:
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/DataResidency"
+        name:
+          description: Workspace name
+          type: string
+          minLength: 1
+          example: Paul's Workspace
+        created_at:
+          description: Workspace creation date
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime      
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              $ref: ../common/Link.v1.yaml
+            credentials:
+              description: Link to workspace credentials 
+              allOf:
+              - $ref: ../common/Link.v1.yaml
+            members:
+              description: Link to workspace members
+              allOf:
+              - $ref: ../common/Link.v1.yaml
+          required:
+            - self
+            - credentials
+            - members      
+        _embedded:
+          description: Resources related to the resource request
+          type: object
+          required:
+            - balance
+            - me
+          properties:
+            balance:
+              description: Workspace balance data
+              type: object
+              required:
+                - currency
+                - amount_available
+                - amount_reserved
+                - credit_limit
+              properties:
+                currency:
+                  $ref: "../common/DataTypes.v1.yaml#/components/schemas/Currency"
+                amount_available:
+                  description: Workspace currency amount available
+                  type: number
+                  example: 70.000
+                amount_reserved:
+                  description: Workspace currency amount reserved
+                  type: number
+                  example: 0.000
+                credit_limit:
+                  description: Workspace credit limit
+                  type: number
+                  example: 0.000
+            me:
+              description: Member Info for current user
+              type: object
+              required:
+                - member_id
+                - name
+                - role
+                - _links
+              properties:
+                member_id:
+                  description: Workspace Member ID
+                  $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+                name:
+                  description: Workspace user name
+                  type: string
+                  minLength: 1
+                  example: Paul Brown
+                role:
+                  $ref: ../common/DataTypes.v1.yaml#/components/schemas/WorkspaceRole
+                _links:
+                  description: Links related to the current resource
+                  type: object
+                  required:
+                    - credentials
+                  properties:
+                    credentials:
+                      description: Link to Credentials of the current user
+                      allOf:
+                      - $ref: ../common/Link.v1.yaml
+                    self:
+                      description: Link to Member Info of the current user
+                      allOf:
+                      - $ref: ../common/Link.v1.yaml
+      required:
+        - workspace_id
+        - data_residency
+        - name
+        - created_at          
+
+    WorkspaceCollection:
+      description: A collection of Workspace items
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
+          properties:
+            _links:
+              description: Links related to the current resource
+              $ref: ../common/PaginationLinks.v1.yaml
+            _embedded:
+              description: Resources related to the resource request
+              type: object
+              properties:
+                workspaces:
+                  description: The Workspaces within the collection
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/WorkspaceFull"
+
+  parameters:
+    workspaceId:
+      name: workspace_id
+      description: The ID of the Workspace
+      schema:
+        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+      in: path
+      required: true
+    memberId:
+      name: member_id
+      description: The ID of the Workspace Member
+      schema:
+        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+      in: path
+      required: true

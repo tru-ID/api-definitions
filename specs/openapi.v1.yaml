@@ -276,6 +276,7 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+
   /phone_check/v0.1/checks:
     post:
       summary: Create a PhoneCheck workflow
@@ -1244,7 +1245,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/schemas/WorkspaceCollection
+                $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/schemas/WorkspaceCollection
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -1258,7 +1259,7 @@ paths:
         - WorkspaceBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}":
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
     get:
       summary: Get a Workspace
       description: "Get a specific workspace"
@@ -1270,7 +1271,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/schemas/WorkspaceFull
+                $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/schemas/WorkspaceFull
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -1296,7 +1297,7 @@ paths:
         - WorkspaceBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}/billing_account":
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
     get:
       summary: Get a Billing Account
       description: "Get the billing account"
@@ -1363,7 +1364,7 @@ paths:
         - WorkspaceBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}/payment_methods":
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
     get:
       summary: Get a collection of Payment Methods
       description: "Get all the payment methods"
@@ -1395,7 +1396,7 @@ paths:
         - WorkspaceBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}/payment_methods/{payment_method_id}":
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
       - $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/parameters/paymentMethodId
     get:
       summary: Get a Payment Method
@@ -1453,7 +1454,7 @@ paths:
         - WorkspaceBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}/topups":
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
     get:
       summary: Get a collection of Topups
       description: "Get the topups history"
@@ -1514,13 +1515,13 @@ paths:
       security:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
-  "/console/v0.2/workspaces/{workspace_id}/members/{member_id}/credentials":
+  
+  "/console/v0.2/workspaces/{workspace_id}/members":
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/memberId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
     get:
-      summary: Get a collection of Member Credentials
-      description: "Get all the workspace credentials created by a specific member"
+      summary: Get a collection of Members
+      description: "Get all members for the workspace identified by `workspace_id`"
       tags:
         - members
       responses:
@@ -1529,7 +1530,62 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/schemas/CredentialCollection
+                $ref: ./models/console/Member.v1.yaml#/components/schemas/MemberCollection
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+      operationId: get-console-v0.2-workspace-members
+      security:
+        - UserBearerAuth: []
+        - WorkspaceBearerAuth: []
+  "/console/v0.2/workspaces/{workspace_id}/members/{member_id}":
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/memberId
+    get:
+      summary: Get a Member
+      description: "Get a Member identified by `member_id`"
+      tags:
+        - members
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/Member.v1.yaml#/components/schemas/MemberFull
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+      operationId: get-console-v0.2-workspace-member
+      security:
+        - UserBearerAuth: []
+        - WorkspaceBearerAuth: []
+
+  "/console/v0.2/workspaces/{workspace_id}/members/{member_id}/credentials":
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/memberId
+    get:
+      summary: Get a collection of Workspace  Credentials
+      description: "Get the Workspace Credentials created by the member identified by `member_id`"
+      tags:
+        - members
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/schemas/WorkspaceCredentialCollection
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -1542,7 +1598,7 @@ paths:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
     post:
-      summary: Create a Credential
+      summary: Create a Workspace Credential
       description: "Create workspace credential associated with a specific member"
       tags:
         - members
@@ -1552,7 +1608,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/schemas/CredentialPartial
+                $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/schemas/WorkspaceCredential
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -1570,14 +1626,16 @@ paths:
       security:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
-  "/console/v0.2/workspaces/{workspace_id}/members/{member_id}/credentials/{credential_id}/reset":
+  
+
+  "/console/v0.2/workspaces/{workspace_id}/members/{member_id}/credentials/{client_id}":
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/memberId
-      - $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/parameters/credentialId
-    post:
-      summary: Reset a Member Credential
-      description: "Reset workspace credential created by a specific member"
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/memberId
+      - $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/parameters/clientId
+    get:
+      summary: Get a Workspace Credential
+      description: "Get the Workspace Credential identified by `client_id`"
       tags:
         - members
       responses:
@@ -1586,7 +1644,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/schemas/CredentialPartial
+                $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/schemas/WorkspaceCredential
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -1600,13 +1658,39 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
-      operationId: post-console-v0.2-workspace-member-credential-reset
+      operationId: get-console-v0.2-workspace-member-credential
       security:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
+    delete:
+      summary: Delete a Workspace Credential
+      description: "Delete the Workspace Credential identified by `client_id`"
+      tags:
+        - members
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "403":
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+      operationId: delete-console-v0.2-workspace-member-credential
+      security:
+        - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
+
   "/console/v0.2/workspaces/{workspace_id}/projects":
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
     post:
       summary: Create a Project
       description: Create a Project
@@ -1621,7 +1705,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/CreateProjectPayload
+              $ref: ./models/console/ProjectResourceModels.v2.yaml#/components/schemas/CreateProjectPayload
             examples:
               basic:
                 value:
@@ -1639,7 +1723,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectFull
+                $ref: ./models/console/ProjectResourceModels.v2.yaml#/components/schemas/ProjectCreated
               examples:
                 basic:
                   value:
@@ -1649,13 +1733,23 @@ paths:
                     updated_at: "2020-06-01T16:43:30+00:00"
                     _links:
                       self:
-                        href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
-                    credentials:
-                      - client_id: 6779ef20e75817b79602
-                        client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
-                        scopes:
-                          - phone_check
-                        created_at: "2020-06-01T16:43:30+00:00"
+                        href: /console/v0.2/workspaces/8d2ad339-8f11-4858-9623-a20c42b79acf/projects/c69bc0e6-a429-11ea-bb37-0242ac130003
+                      my_credentials:
+                        href: /console/v0.2/workspaces/8d2ad339-8f11-4858-9623-a20c42b79acf/projects/c69bc0e6-a429-11ea-bb37-0242ac130003/credentials?search==member_id             
+                    _embedded:
+                      credentials:
+                        - client_id: 6779ef20e75817b79602
+                          client_secret: 6779ef20e75
+                          scopes:
+                            - phone_check
+                          created_at: "2020-06-01T16:43:30+00:00"
+                          updated_at: "2020-06-01T16:43:30+00:00"
+                          _links:
+                            self:
+                              href: /console/v0.2/workspaces/8d2ad339-8f11-4858-9623-a20c42b79acf/projects/c69bc0e6-a429-11ea-bb37-0242ac130003/credentials/6779ef20e75817b79602
+                            member:
+                              href: /console/v0.2/workspaces/8d2ad339-8f11-4858-9623-a20c42b79acf/members/c78ac34e-20b9-47dc-a070-c0abec1a3c61
+
         "403":
           description: Forbidden
           content:
@@ -1714,7 +1808,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectCollection
+                $ref: ./models/console/ProjectResourceModels.v2.yaml#/components/schemas/ProjectCollection
               examples:
                 basic:
                   value:
@@ -1728,27 +1822,23 @@ paths:
                         - _links:
                             self:
                               href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130002
+                            my_credentials:
+                              href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130002/credentials
                           project_id: c69bc0e6-a429-11ea-bb37-0242ac130002
                           name: My first project
                           created_at: "2020-06-01T16:43:30+00:00"
                           updated_at: "2020-06-01T16:43:30+00:00"
-                          credentials:
-                            - client_id: 63f16604-2b4f-4e45-b32f-59290507fe93
-                              scopes:
-                                - phone_check
-                              created_at: "2020-06-01T16:43:30+00:00"
+                          member_id: c78ac34e-20b9-47dc-a070-c0abec1a3c61
                         - _links:
                             self:
                               href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
+                            my_credentials:
+                              href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130002/credentials
                           project_id: c69bc0e6-a429-11ea-bb37-0242ac130003
                           name: My second project
                           created_at: "2020-06-01T16:43:30+00:00"
                           updated_at: "2020-06-01T16:43:30+00:00"
-                          credentials:
-                            - client_id: 63f16604-2b4f-4e45-b32f-59290507fe92
-                              scopes:
-                                - phone_check
-                              created_at: "2020-06-01T16:43:30+00:00"
+                          member_id: c78ac34e-20b9-47dc-a070-c0abec1a3c61
                     _links:
                       first:
                         href: /projects/page=1&size=10
@@ -1760,12 +1850,13 @@ paths:
                         href: /projects/page=1&size=10
                       self:
                         href: /projects/page=2&size=10
+
   "/console/v0.2/workspaces/{workspace_id}/projects/{project_id}":
     parameters:
-      - $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/common/ProjectCommon.v1.yaml#/components/parameters/projectId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
     get:
-      summary: Get Project
+      summary: Get a Project
       description: Get a Project identified by `project_id`.
       operationId: get-console-v0.2-workspace-project
       security:
@@ -1779,7 +1870,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
+                $ref: ./models/console/ProjectResourceModels.v2.yaml#/components/schemas/Project
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -1813,7 +1904,7 @@ paths:
         content:
           application/json-patch+json:
             schema:
-              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPatchPayload
+              $ref: ./models/common/ProjectCommon.v1.yaml#/components/schemas/ProjectPatchPayload
             examples:
               change_mode:
                 summary: Change the Project mode to `live`
@@ -1852,7 +1943,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPartial
+                $ref: ./models/console/ProjectResourceModels.v2.yaml#/components/schemas/Project
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -1872,15 +1963,16 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
-  "/console/v0.2/workspaces/{workspace_id}/projects/{project_id}/credentials/{credential_id}/reset":
+  
+  "/console/v0.2/workspaces/{workspace_id}/projects/{project_id}/credentials/{client_id}":
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
-      - $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId
-      - $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/parameters/credentialId
-    post:
-      summary: Reset Project Credential
-      description: Resets the selected credential and returns a new client secret
-      operationId: post-console-v0.2-workspace-project-credential-reset
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+      - $ref: ./models/common/ProjectCommon.v1.yaml#/components/parameters/projectId
+      - $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/parameters/clientId
+    get:
+      summary: Get Project Credential
+      description: 'Get the Project Credential identified by `client_id`'
+      operationId: get-console-v0.2-workspace-project-credential
       security:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
@@ -1892,15 +1984,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./models/common/CredentialTypes.v1.yaml#/components/schemas/ClientFullScopes
+                $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/schemas/ProjectCredential
               examples:
                 basic:
                   value:
                     client_id: 8cbd640e-2cbf-42d1-bd57-421169144300
-                    client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
                     scopes:
                       - phone_check
                     created_at: "2020-06-01T16:43:30+00:00"
+                    updated_at: "2020-06-01T16:43:30+00:00"
+                    _embedded:
+                      created_by:
+                        member_id: c78ac34e-20b9-47dc-a070-c0abec1a3c61
+                        name: John Brown
+                        _links:
+                          self:
+                            href: /console/v0.2/workspaces/8d2ad339-8f11-4858-9623-a20c42b79acf/members/c78ac34e-20b9-47dc-a070-c0abec1a3c61
+                    _links:
+                      self:
+                        href: /console/v0.2/workspaces/8d2ad339-8f11-4858-9623-a20c42b79acf/projects/123cccb-20b9-47dc-a070-c0abec1a3c61/credentials/8cbd640e-2cbf-42d1-bd57-421169144300
+                      member:
+                        href: /console/v0.2/workspaces/8d2ad339-8f11-4858-9623-a20c42b79acf/members/c78ac34e-20b9-47dc-a070-c0abec1a3c61
+                      
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -1918,9 +2023,152 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+    delete:
+      summary: Delete Project Credential
+      description: 'Delete the Project Credential identified by `client_id`'
+      operationId: delete-console-v0.2-workspace-project-credential
+      security:
+        - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
+      tags:
+        - projects
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "403":
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+
+  "/console/v0.2/workspaces/{workspace_id}/projects/{project_id}/credentials":
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+      - $ref: ./models/common/ProjectCommon.v1.yaml#/components/parameters/projectId
+    get:
+      summary: Get a collection of Project Credentials
+      description: 'Get the collection of Project Credentials for the project identified by `project_id`'
+      operationId: get-console-v0.2-workspace-project-credentials
+      security:
+        - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
+      tags:
+        - projects
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/schemas/ProjectCredentialCollection
+              examples:
+                basic:
+                  value:
+                    page:
+                      size: 10
+                      number: 1
+                      total_pages: 1
+                      total_elements: 2
+                    _embedded:
+                      credentials:
+                      - client_id: 8cbd640e-2cbf-42d1-bd57-421169144300
+                        scopes:
+                          - phone_check
+                        created_at: "2020-06-01T16:43:30+00:00"
+                        updated_at: "2020-06-01T16:43:30+00:00"
+                        _embedded:
+                          created_by:
+                            member_id: c78ac34e-20b9-47dc-a070-c0abec1a3c61
+                            name: John Brown
+                            _links:
+                              self:
+                                href: /console/v0.2/workspaces/8d2ad339-8f11-4858-9623-a20c42b79acf/members/c78ac34e-20b9-47dc-a070-c0abec1a3c61
+                        _links:
+                          self:
+                            href: /console/v0.2/workspaces/8d2ad339-8f11-4858-9623-a20c42b79acf/projects/c69bc0e6-a429-11ea-bb37-0242ac130002/credentials/8cbd640e-2cbf-42d1-bd57-421169144300
+                          member:
+                            href: /console/v0.2/workspaces/8d2ad339-8f11-4858-9623-a20c42b79acf/members/c78ac34e-20b9-47dc-a070-c0abec1a3c61
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "403":
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+    post:
+      summary: Create Project Credential
+      description: 'Create Project Credential for the project identified by `project_id`'
+      operationId: post-console-v0.2-workspace-project-credential
+      security:
+        - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
+      tags:
+        - projects
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/console/CredentialResourceModels.v1.yaml#/components/schemas/ProjectCredential
+              examples:
+                basic:
+                  value:
+                    client_id: 8cbd640e-2cbf-42d1-bd57-421169144300
+                    scopes:
+                      - phone_check
+                    created_at: "2020-06-01T16:43:30+00:00"
+                    updated_at: "2020-06-01T16:43:30+00:00"
+                    _embedded:
+                      created_by:
+                        member_id: c78ac34e-20b9-47dc-a070-c0abec1a3c61
+                        name: John Brown
+                        _links:
+                          self:
+                            href: /console/v0.2/workspaces/8d2ad339-8f11-4858-9623-a20c42b79acf/members/c78ac34e-20b9-47dc-a070-c0abec1a3c61
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "403":
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+
   /console/v0.2/workspaces/{workspace_id}/usage/hourly:
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
     get:
       summary: Hourly API usage
       description: Get the workspace's usage with hourly breakdown
@@ -1963,9 +2211,10 @@ paths:
                             type: array
                             items:
                               $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceHourly
+
   /console/v0.2/workspaces/{workspace_id}/usage/daily:
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
     get:
       summary: Daily API usage
       description: Get the workspace's usage with daily breakdown
@@ -2011,7 +2260,7 @@ paths:
                           
   /console/v0.2/workspaces/{workspace_id}/usage/monthly:
     parameters:
-      - $ref: ./models/console/WorkspaceResourceModels.v1.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
     get:
       summary: Monthly API usage
       description: Get the workspace's usage with monthly breakdown
@@ -2101,7 +2350,7 @@ paths:
                         href: /projects/c69bc0e6-a429-11ea-bb37-0242ac130003
                     credentials:
                       - client_id: 6779ef20e75817b79602
-                        client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
+                        client_secret: 6779ef20e758
                         scopes:
                           - phone_check
                         created_at: "2020-06-01T16:43:30+00:00"
@@ -2204,7 +2453,7 @@ paths:
                         href: /projects/page=2&size=10
   "/console/v0.1/projects/{project_id}":
     parameters:
-      - $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId
+      - $ref: ./models/common/ProjectCommon.v1.yaml#/components/parameters/projectId
     get:
       summary: Get Project
       description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-workspace-project">v0.2 endpoint</a>'
@@ -2246,7 +2495,7 @@ paths:
         content:
           application/json-patch+json:
             schema:
-              $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/schemas/ProjectPatchPayload
+              $ref: ./models/common/ProjectCommon.v1.yaml#/components/schemas/ProjectPatchPayload
             examples:
               change_mode:
                 summary: Change the Project mode to `live`
@@ -2301,7 +2550,7 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
   "/console/v0.1/projects/{project_id}/credentials/{client_id}/reset":
     parameters:
-      - $ref: ./models/console/ProjectResourceModels.v1.yaml#/components/parameters/projectId
+      - $ref: ./models/common/ProjectCommon.v1.yaml#/components/parameters/projectId
       - name: client_id
         description: The client ID of the Project credentials
         schema:
@@ -2327,7 +2576,7 @@ paths:
                 basic:
                   value:
                     client_id: 8cbd640e-2cbf-42d1-bd57-421169144300
-                    client_secret: dzi1v4osLNr5vv0.2mnvcKM37.
+                    client_secret: 8cbd640e-2cbf-42d1
                     scopes:
                       - phone_check
                     created_at: "2020-06-01T16:43:30+00:00"

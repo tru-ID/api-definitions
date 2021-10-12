@@ -1,0 +1,104 @@
+title: MemberResourceModels
+type: object
+description: Definitions of models related to Workspace Member resources
+components:
+  schemas:
+    MemberFull:
+      description: A Member representation   
+      x-tags:
+        - workspace  
+      properties:
+        member_id:
+          description: Member ID
+          allOf:
+          - $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+          example: 1422f9b3-2d36-4745-b912-8bb7b3c57cee
+        role: 
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/WorkspaceRole"
+        data_residency:
+          description: The location where the member's user info is stored.
+          allOf:
+          - $ref: "../common/DataTypes.v1.yaml#/components/schemas/DataResidency"
+        user_id:
+          description: The user id of the member
+          allOf:
+          - $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+          example: b68be1dd-8eb2-4d48-b9e1-8e1b73caf265
+        name:
+          description: The name of the member
+          type: string
+          example: Paul Brown
+        invitation_reference:
+          description: The invitation reference included in the invitation of the member. 
+          type: string
+          example: Paul's Invitation 
+        created_at:
+          description: When the member was created
+          allOf:
+          - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime    
+        _links:
+          type: object
+          description: Links related to the current resource
+          properties:
+            self:
+              description: The link to the current Member
+              allOf:
+              - $ref: ../common/Link.v1.yaml       
+
+    MemberCollection:
+      description: A collection of Members
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
+          properties:
+            _links:
+              description: Links related to the current resource
+              $ref: ../common/PaginationLinks.v1.yaml
+            _embedded:
+              description: Resources related to the resource request
+              type: object
+              properties:
+                members:
+                  description: The members within the collection
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/MemberFull"
+
+    MemberPartial:
+      description: A Member representation      
+      properties:
+        member_id:
+          description: Member ID
+          allOf:
+          - $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+          example: 1422f9b3-2d36-4745-b912-8bb7b3c57cee
+        name:
+          description: The name of the member
+          type: string
+          example: Paul Brown
+        _links:
+          type: object
+          description: Links related to the current resource
+          properties:
+            self:
+              description: The link to the current Member
+              allOf:
+              - $ref: ../common/Link.v1.yaml
+    
+
+
+  parameters:
+    workspaceId:
+      name: workspace_id
+      description: The ID of the Workspace
+      schema:
+        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+      in: path
+      required: true
+    memberId:
+      name: member_id
+      description: The ID of the Workspace Member
+      schema:
+        $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+      in: path
+      required: true

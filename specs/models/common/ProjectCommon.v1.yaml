@@ -1,0 +1,182 @@
+title: ProjectCommon
+type: object
+description: Definitions of common data types used in v0.1 and v0.2 of project resources
+components:
+  schemas:
+
+    ProjectConfiguration:
+      description: Configuration for the Products used within a Project
+      type: object
+      properties:
+        phone_check:
+          $ref: '#/components/schemas/PhoneCheckConfiguration'
+
+    ProjectMode:
+      description: |
+        A project can have the following modes:
+        - `live`: relevant API interactions will incur a fee and our platform may interact with third party systems
+        - `sandbox`: See **Sandbox Rules**. Additionally, no charges will be incurred and no interactions will be made with third party systems.
+        - `disabled`: the project is in a state that it cannot be interacted with other than to enable it
+
+        **Sandbox Rules**
+
+        When a Project is in `sandbox` mode the following rules apply:
+
+        - A `phone_number` ending with an even digit (`0`, `2`, `4` ...) will result in a successful check
+        - A `phone_number` ending with an odd digit (`1`, `3`, `5` ...) will result in a failed check
+        - A `phone_number` ending with `99` with return an error
+        - All other checks will result in a failed check
+      type: string
+      enum:
+        - live
+        - sandbox
+        - disabled
+    PhoneCheckCallbackUrl:
+      description: |
+        A callback URl that is invoked when a PhoneCheck reaches an end status of `COMPLETED`, `EXPIRED` or `ERROR`.
+
+        If a `callback_url` parameter is passed when an individual PhoneCheck is created it will override the `callback_url` set within Project configuration.
+      type: string
+      format: uri
+
+    PhoneCheckConfiguration:
+      description: Configuration for PhoneCheck
+      type: object
+      properties:
+        callback_url:
+          $ref: '#/components/schemas/PhoneCheckCallbackUrl'
+
+    ProjectPatchPayload:
+      description: |
+        Update a Project.
+
+        An array of JSON-PATCH operations as defined in [RFC 6902](https://tools.ietf.org/html/rfc6902).
+
+        Some operations should not be used together. For example, updating and deleting the PhoneCheck `callback_url`.
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/ProjectPhoneCheckCallbackAddOperation'
+          - $ref: '#/components/schemas/ProjectPhoneCheckCallbackUpdateOperation'
+          - $ref: '#/components/schemas/ProjectPhoneCheckCallbackRemoveOperation'
+          - $ref: '#/components/schemas/ProjectModeUpdateOperation'
+          - $ref: '#/components/schemas/ProjectNameUpdateOperation'
+
+    ProjectPhoneCheckCallbackAddOperation:
+      description: Add the PhoneCheck callback_url
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - add
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /configuration
+        value:
+          description: The value to be used within the operations.
+          type: object
+          properties:
+            phone_check:
+              $ref: '#/components/schemas/PhoneCheckConfiguration'
+      required:
+        - op
+        - path
+        - value
+
+    ProjectPhoneCheckCallbackUpdateOperation:
+      description: Add the PhoneCheck callback_url
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - replace
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /configuration/phone_check/callback_url
+        value:
+          description: The callback URL
+          type: string
+          format: URI
+      required:
+        - op
+        - path
+        - value
+
+    ProjectModeUpdateOperation:
+      description: Update the Project `mode`
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - replace
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /mode
+        value:
+          $ref: '#/components/schemas/ProjectMode'
+      required:
+        - op
+        - path
+        - value
+
+    ProjectNameUpdateOperation:
+      description: Update the Project `name`
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - replace
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /name
+        value:
+          description: The new name
+          type: string
+          format: URI
+      required:
+        - op
+        - path
+        - value
+
+    ProjectPhoneCheckCallbackRemoveOperation:
+      description: Remove the PhoneCheck callback_url
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - remove
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /configuration/phone_check/callback_url
+      required:
+        - op
+        - path
+        
+  parameters:
+    projectId:
+      name: project_id
+      description: The ID of the Project
+      schema:
+        $ref: ../common/DataTypes.v1.yaml#/components/schemas/UUID
+      in: path
+      required: true
