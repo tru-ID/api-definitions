@@ -18,29 +18,65 @@ components:
       description: A PhoneCheck resource
       allOf:
         - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckPartial"
-
-    PhoneCheckCreatePartial:
-      description: A create PhoneCheck partial resource
-      allOf:
-        - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckCreatePartial"
+  
 
     PhoneCheckCreateResponse:
       description: A PhoneCheck Created response
       allOf:
-        - $ref: "#/components/schemas/PhoneCheckCreatePartial"
+        - $ref: "#/components/schemas/PhoneCheckPartial"
+        - type: object
+          properties:
+            status:
+              description: The current status of the PhoneCheck
+              type: string
+              enum:
+                - ACCEPTED
+              example: ACCEPTED
+            snapshot_balance:
+              description: |
+                The workspace balance in `charge_currency` taking into account the `charge_amount`.
+                This property is not persisted and is only returned when the PhoneCheck is initially created.
+              type: number
+              example: 100
+            _links:
+              description: Links related to the current resource
+              type: object
+              properties:
+                self:
+                  description: The link to the current resource
+                  allOf:
+                  - $ref: ../common/Link.v1.yaml
+                check_url:
+                  description: A URL that the mobile client must navigate as part of the PhoneCheck verification flow.
+                  allOf:
+                    - $ref: ../common/Link.v1.yaml
+              required:
+                - self
+                - check_url
+      example:
+        check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
+        status: ACCEPTED
+        match: true
+        charge_amount: 1
+        charge_currency: API
+        snapshot_balance: 99
+        created_at: "2020-06-01T16:43:30+00:00"
+        ttl: 60
+        _links:
+          self:
+            href: https://us.api.tru.id/phone_checks/v0.1/checks/{check_id}
+          check_url:
+            href: https://us.api.tru.id/phone_checks/v0.1/checks/{check_id}/redirect
+               
+            
 
     PhoneCheckGetPartial:
       description: A partial response for getting the PhoneCheck
       allOf:
         - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckGetPartial"
 
-    PhoneCheckGetResponse:
-      description: A PhoneCheck response
-      allOf:
-        - $ref: "#/components/schemas/PhoneCheckGetPartial"
-
     PhoneCheck:
-      description: The payload sent to a callback URL upon a PhoneCheck reaching an end state.
+      description: Phone Check Resource
       allOf:
         - $ref: "#/components/schemas/PhoneCheckPartial"
         - type: object
@@ -51,17 +87,16 @@ components:
               properties:
                 self:
                   description: The link to the current resource
-                  $ref: ../common/Link.v1.yaml
+                  allOf:
+                  - $ref: ../common/Link.v1.yaml
                 check_url:
                   description: A URL that the mobile client must navigate as part of the PhoneCheck verification flow.
                   allOf:
                     - $ref: ../common/Link.v1.yaml
               required:
                 - self
-                - check_url
       required:
         - _links
-
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: COMPLETED
@@ -73,9 +108,7 @@ components:
         _links:
           self:
             href: https://us.api.tru.id/phone_checks/v0.1/checks/{check_id}
-          check_url:
-            href: https://us.api.tru.id/phone_checks/v0.1/checks/{check_id}/redirect
-
+         
     PhoneCheckCollection:
       description: A PhoneCheck resource
       allOf:
