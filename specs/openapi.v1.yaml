@@ -299,8 +299,8 @@ paths:
             post:
               summary: PhoneCheck has reached an end status
               parameters:
-                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-4auth-security
-                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-4auth-callback
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-security
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-callback
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/digest
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/date
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/host
@@ -593,8 +593,8 @@ paths:
             post:
               summary: SubscriberCheck has reached an end status
               parameters:
-                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-4auth-security
-                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-4auth-callback
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-security
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-callback
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/digest
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/date
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/host
@@ -1762,8 +1762,8 @@ paths:
             post:
               summary: PhoneCheck has reached an end status
               parameters:
-                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-4auth-security
-                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-4auth-callback
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-security
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-callback
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/digest
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/date
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/host
@@ -2360,8 +2360,8 @@ paths:
             post:
               summary: PhoneCheck has reached an end status
               parameters:
-                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-4auth-security
-                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-4auth-callback
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-security
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-callback
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/digest
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/date
                 - $ref: ./models/common/Headers.v1.yaml#/components/headers/host
