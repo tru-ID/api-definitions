@@ -42,7 +42,7 @@ For example:
 ```sh
 $ npm run specs:lint -- -F hint ./specs/openapi.v1.yaml                                                                
 
-> api_definitions@0.1.0 specs:lint /Users/leggetter/4auth/git/api_definitions
+> api_definitions@0.1.0 specs:lint /Users/leggetter/tru/git/api_definitions
 > spectral lint "-F" "hint" "./specs/openapi.v1.yaml"
 
 OpenAPI 3.x detected
@@ -64,7 +64,7 @@ For example:
 ```sh
 $ npm run specs:mock -- ./specs/openapi.v1.yaml
 
-> api_definitions@0.1.0 specs:mock /Users/leggetter/4auth/git/api_definitions
+> api_definitions@0.1.0 specs:mock /Users/leggetter/tru/git/api_definitions
 > prism mock "./specs/openapi.v1.yaml"
 
 [5:10:27 PM] › [CLI] …  awaiting  Starting Prism…
@@ -88,7 +88,7 @@ For example:
 ```sh
 $ npm run specs:proxy --  ./specs/openapi.v1.yaml http://localhost:4010 -p 4020
 
-> api_definitions@0.1.0 specs:proxy /Users/leggetter/4auth/git/api_definitions
+> api_definitions@0.1.0 specs:proxy /Users/leggetter/tru/git/api_definitions
 > prism proxy "./specs/openapi.v1.yaml" "http://localhost:4010" "-p" "4020"
 
 [4:44:40 PM] › [CLI] …  awaiting  Starting Prism…

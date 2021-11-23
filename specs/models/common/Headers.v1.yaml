@@ -32,7 +32,7 @@ components:
         type: string
         format: uri
 
-    x-4auth-security:
+    x-tru-security:
       name: 'Authorization'
       in: header
       description: |
@@ -46,7 +46,7 @@ components:
           - `(request-target)` - the request method and the path and query of the effective request URI ([examples](https://tools.ietf.org/html/draft-ietf-httpbis-message-signatures-00#section-2.4))
           - `host` - the value of `Host` header
           - `date` - the value of `Date` header
-          - `x-4auth-callback` - the value of `x-4auth-callback` header
+          - `x-tru-callback` - the value of `x-tru-callback` header
           - `digest` - the value of `Digest` header
         - `signature` - the signiture for the signed request
 
@@ -54,8 +54,8 @@ components:
       schema:
         type: string
 
-    x-4auth-callback:
-      name: x-4auth-callback
+    x-tru-callback:
+      name: x-tru-callback
       in: header
       description: |
         Header used to provide additional context about the callback.
