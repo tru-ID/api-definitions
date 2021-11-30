@@ -20,6 +20,10 @@ components:
         - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckPartial"
         - type: object
           properties:
+            error_code:
+              $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckErrorCode" 
+        - type: object
+          properties:
             no_sim_change:
               $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange"
 

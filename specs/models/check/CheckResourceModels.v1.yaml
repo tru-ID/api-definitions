@@ -143,3 +143,12 @@ components:
           required:
             - ttl
             - match
+    
+    CheckErrorCode:
+      description: An indicator of why the Check failed.
+      type: string
+      enum:
+        - not_mobile_ip
+        - mno_not_supported
+        - mno_timeout
+
