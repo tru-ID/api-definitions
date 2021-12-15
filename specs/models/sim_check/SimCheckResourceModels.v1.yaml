@@ -53,6 +53,9 @@ components:
         charge_amount:
           description: The amount that was charge for this Check
           type: number
+        network_id:
+          description: The network identifier
+          type: string
         charge_currency:
           description: The currency the `charge_amount` was made in.
           allOf:
