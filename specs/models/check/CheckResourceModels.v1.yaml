@@ -76,6 +76,9 @@ components:
           description: When the Check was last updated
           allOf:
             - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        network_id:
+          description: The network identifier. Only returned when `status` is `"COMPLETED"`.
+          type: string
 
       required:
         - check_id
