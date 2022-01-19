@@ -54,7 +54,7 @@ components:
           description: The amount that was charge for this Check
           type: number
         network_id:
-          description: The network identifier
+          description: The network identifier. Only returned when `status` is `"COMPLETED"`.
           type: string
         charge_currency:
           description: The currency the `charge_amount` was made in.
@@ -92,7 +92,7 @@ components:
         network_id: "23599"
         _links:
           self:
-            href: https://us.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
+            href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
 
     SimCheckCollection:
       description: A SIMCheck resource

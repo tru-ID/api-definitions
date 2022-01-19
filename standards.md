@@ -119,7 +119,7 @@ The key pieces of information are outlined below along with where they are repre
 Examples:
 
 - `https://eu.api.tru.id/phone_check/v1/checks`
-- `https://us.api.tru.id/console/v1/projects`
+- `https://eu.api.tru.id/console/v1/projects`
 - `https://eu.api.tru.id/console/v1/users`
 
 ## HTTP Verbs
