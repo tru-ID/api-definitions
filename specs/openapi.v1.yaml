@@ -24,72 +24,85 @@ servers:
         enum:
           - eu
 tags:
-  - name: v1
-    x-displayName: OAuth2
+  - name: oauth2_v1
+    x-displayName: v1
     description: Relating to the OAuth2 Provider
-  - name: phone_check
-    x-displayName: PhoneCheck
+  - name: phone_check_v0.1
+    x-displayName: v0.1
     description: Relating to PhoneCheck
-  - name: subscriber_check
-    x-displayName: SubscriberCheck
+  - name: subscriber_check_v0.1
+    x-displayName: v0.1
     description: Relating to SubscriberCheck
-  - name: sim_check
-    x-displayName: SIMCheck
+  - name: sim_check_v0.1
+    x-displayName: v0.1
     description: Relating to SIMCheck
-  - name: projects
-    x-displayName: Projects
+  - name: workspaces_v0.2
+    x-displayName: v0.2
     description: A project is container for configuration on the platform. A project contains credentials used to authenticate API requests with a project `mode` and per-product configuration.
-  - name: workspaces
-    x-displayName: Workspaces
+  - name: workspaces_v0.2
+    x-displayName: v0.2
     description: Relating to a workspace.
-  - name: usage
-    x-displayName: Usage
+  - name: usage_v0.2
+    x-displayName: v0.2
     description: Relating to Usage.
+  - name: projects_v0.2
+    x-displayName: v0.2
+    description: Relating to Project.
   - name: projects_deprecated
-    x-displayName: Projects
+    x-displayName: v0.1 (deprecated)
     description: A project is container for configuration on the platform. A project contains credentials used to authenticate API requests with a project `mode` and per-product configuration.
   - name: workspaces_deprecated
-    x-displayName: Workspaces
+    x-displayName: v0.1 (deprecated)
     description: Relating to a workspace.
   - name: usage_deprecated
-    x-displayName: Usage
+    x-displayName: v0.1 (deprecated)
     description: Relating to Usage.
   - name: hide
     description: Tags that should not be rendered
   - name: coverage
-    x-displayName: Coverage
+    x-displayName: v0.1
     description: Relating to Coverage.
-  - name: payments
-    x-displayName: Payments
+  - name: payments_v0.2
+    x-displayName: v0.2
     description: Relating to Payments.
-  - name: members
-    x-displayName: Members
+  - name: members_v0.2
+    x-displayName: v0.2
     description: Relating to Members.
 
+
 x-tagGroups:
-  - name: OAuth2
+  - name: oAuth2
     tags:
       - oauth2_v1
-  - name: Products
+  - name: PhoneCheck
     tags:
-      - phone_check
-      - subscriber_check
-      - sim_check
+      - phone_check_v0.1
+  - name: SubscriberCheck
+    tags:
+      - subscriber_check_v0.1
+  - name: SIMCheck
+    tags:
+      - sim_check_v0.1
   - name: Coverage
     tags:
       - coverage
-  - name: Console v0.2
+  - name: Workspaces
     tags:
-      - workspaces
-      - credentials
-      - payments
-      - projects
-      - members
-      - usage
-  - name: Deprecated
-    tags:
-      - projects_deprecated
+      - workspaces_v0.2
       - workspaces_deprecated
+  - name: Projects
+    tags:
+      - projects_v0.2
+      - projects_deprecated
+  - name: Members
+    tags:
+      - members_v0.2
+  - name: Payment
+    tags:
+      - payments_v0.2
+  - name: Usage
+    tags:
+      - usage_v0.2
       - usage_deprecated
 paths:
   /oauth2/v1/auth:
@@ -286,7 +299,7 @@ paths:
       security:
         - ProjectBearerAuth: []
       tags:
-        - phone_check
+        - phone_check_v0.1
       requestBody:
         description: JSON payload to create a PhoneCheck
         content:
@@ -348,7 +361,7 @@ paths:
       security:
         - ProjectBearerAuth: []
       tags:
-        - phone_check
+        - phone_check_v0.1
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
@@ -383,7 +396,7 @@ paths:
       security:
         - ProjectBearerAuth: []
       tags:
-        - phone_check
+        - phone_check_v0.1
       responses:
         "200":
           description: OK
@@ -417,7 +430,7 @@ paths:
       description: Perform the PhoneCheck identified by `check_id`.
       operationId: get-phone-check-redirect
       tags:
-        - phone_check
+        - phone_check_v0.1
       responses:
         "302":
           description: Redirects to the `check_url`.
@@ -459,7 +472,7 @@ paths:
       description: Get Traces of the PhoneCheck identified by `check_id`
       operationId: get-phone-check-traces
       tags:
-        - phone_check
+        - phone_check_v0.1
       responses:
         "200":
           description: OK
@@ -531,7 +544,7 @@ paths:
       description: Get the Trace identified by `trace_id` of the PhoneCheck identified by `check_id`
       operationId: get-phone-check-trace
       tags:
-        - phone_check
+        - phone_check_v0.1
       responses:
         "200":
           description: OK
@@ -580,7 +593,7 @@ paths:
       security:
         - ProjectBearerAuth: []
       tags:
-        - subscriber_check
+        - subscriber_check_v0.1
       requestBody:
         description: JSON payload to create an SubscriberCheck
         content:
@@ -640,7 +653,7 @@ paths:
       security:
         - ProjectBearerAuth: []
       tags:
-        - subscriber_check
+        - subscriber_check_v0.1
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
@@ -675,7 +688,7 @@ paths:
       security:
         - ProjectBearerAuth: []
       tags:
-        - subscriber_check
+        - subscriber_check_v0.1
       responses:
         "200":
           description: OK
@@ -709,7 +722,7 @@ paths:
       description: Perform the SubscriberCheck identified by `check_id`.
       operationId: get-subscriber-check-redirect
       tags:
-        - subscriber_check
+        - subscriber_check_v0.1
       responses:
         "302":
           description: Redirects to the `check_url`.
@@ -751,7 +764,7 @@ paths:
       description: Get Traces of the SubscriberCheck identified by `check_id`
       operationId: get-subscriber-check-traces
       tags:
-        - subscriber_check
+        - subscriber_check_v0.1
       responses:
         "200":
           description: OK
@@ -823,7 +836,7 @@ paths:
       description: Get the Trace identified by `trace_id`  of the SubscriberCheck identified by `check_id`
       operationId: get-subscriber-check-trace
       tags:
-        - subscriber_check
+        - subscriber_check_v0.1
       responses:
         "200":
           description: OK
@@ -870,7 +883,7 @@ paths:
       security:
         - ProjectBearerAuth: []
       tags:
-        - sim_check
+        - sim_check_v0.1
       requestBody:
         description: JSON payload to create a SIMCheck
         content:
@@ -926,7 +939,7 @@ paths:
       security:
         - ProjectBearerAuth: []
       tags:
-        - sim_check
+        - sim_check_v0.1
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
@@ -961,7 +974,7 @@ paths:
       security:
         - ProjectBearerAuth: []
       tags:
-        - sim_check
+        - sim_check_v0.1
       responses:
         "200":
           description: OK
@@ -995,7 +1008,7 @@ paths:
       description: Get Traces of the SIMCheck identified by `check_id`
       operationId: get-sim-check-traces
       tags:
-        - sim_check
+        - sim_check_v0.1
       responses:
         "200":
           description: OK
@@ -1067,7 +1080,7 @@ paths:
       description: Get the Trace identified by `trace_id`  of the SIMCheck identified by `check_id`
       operationId: get-sim-check-trace
       tags:
-        - sim_check
+        - sim_check_v0.1
       responses:
         "200":
           description: OK
@@ -1238,7 +1251,7 @@ paths:
       summary: Get a collection of Workspaces
       description: "Get the list of workspaces"
       tags:
-        - workspaces
+        - workspaces_v0.2
       responses:
         "200":
           description: OK
@@ -1264,7 +1277,7 @@ paths:
       summary: Get a Workspace
       description: "Get a specific workspace"
       tags:
-        - workspaces
+        - workspaces_v0.2
       responses:
         "200":
           description: OK
@@ -1302,7 +1315,7 @@ paths:
       summary: Get a Billing Account
       description: "Get the billing account"
       tags:
-        - payments
+        - payments_v0.2
       responses:
         "200":
           description: OK
@@ -1331,7 +1344,7 @@ paths:
       summary: Update a Billing Account
       description: "Update the billing account"
       tags:
-        - payments
+        - payments_v0.2
       responses:
         "200":
           description: OK
@@ -1369,7 +1382,7 @@ paths:
       summary: Get a collection of Payment Methods
       description: "Get all the payment methods"
       tags:
-        - payments
+        - payments_v0.2
       responses:
         "200":
           description: OK
@@ -1402,7 +1415,7 @@ paths:
       summary: Get a Payment Method
       description: "Get a payment method"
       tags:
-        - payments
+        - payments_v0.2
       responses:
         "200":
           description: OK
@@ -1437,7 +1450,7 @@ paths:
       summary: Delete a Payment Method
       description: "Delete a payment method"
       tags:
-        - payments
+        - payments_v0.2
       responses:
         "200":
           description: OK
@@ -1459,7 +1472,7 @@ paths:
       summary: Get a collection of Topups
       description: "Get the topups history"
       tags:
-        - payments
+        - payments_v0.2
       responses:
         "200":
           description: OK
@@ -1488,7 +1501,7 @@ paths:
       summary: Create a Topup
       description: "Create a topup"
       tags:
-        - payments
+        - payments_v0.2
       requestBody:
         description: A JSON payload for the topup that is to be created.
         content:
@@ -1523,7 +1536,7 @@ paths:
       summary: Get a collection of Members
       description: "Get all members for the workspace identified by `workspace_id`"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -1550,7 +1563,7 @@ paths:
       summary: Get a Member
       description: "Get a Member identified by `member_id`"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -1578,7 +1591,7 @@ paths:
       summary: Get a collection of Workspace  Credentials
       description: "Get the Workspace Credentials created by the member identified by `member_id`"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -1601,7 +1614,7 @@ paths:
       summary: Create a Workspace Credential
       description: "Create workspace credential associated with a specific member"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -1637,7 +1650,7 @@ paths:
       summary: Get a Workspace Credential
       description: "Get the Workspace Credential identified by `client_id`"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -1666,7 +1679,7 @@ paths:
       summary: Delete a Workspace Credential
       description: "Delete the Workspace Credential identified by `client_id`"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -1699,7 +1712,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       requestBody:
         description: A JSON payload for the Project that is to be created.
         content:
@@ -1783,7 +1796,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       parameters:
         - name: name
           description: The name of the project
@@ -1863,7 +1876,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       responses:
         "200":
           description: OK
@@ -1898,7 +1911,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       requestBody:
         description: A JSON payload for the Project that is to be created.
         content:
@@ -1977,7 +1990,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       responses:
         "200":
           description: OK
@@ -2031,7 +2044,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       responses:
         "200":
           description: OK
@@ -2065,7 +2078,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       responses:
         "200":
           description: OK
@@ -2125,7 +2138,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       responses:
         "200":
           description: OK
@@ -2177,7 +2190,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - usage
+        - usage_v0.2
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
@@ -2223,7 +2236,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - usage
+        - usage_v0.2
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
@@ -2269,7 +2282,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - usage
+        - usage_v0.2
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
