@@ -117,10 +117,8 @@ components:
             match:
               description: |
                 Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-                `check_url` was accessed from.
+                `check_url` was accessed from. Only visible if `status` is `COMPLETED`.
               type: boolean
-          required:
-            - match
           example:
             match: true
 
@@ -138,14 +136,13 @@ components:
             match:
               description: |
                 Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-                `check_url` was accessed from.
+                `check_url` was accessed from. Only visible if `status` is `COMPLETED`.
               type: boolean
           example:
             ttl: 60
             match: true
           required:
             - ttl
-            - match
     
     CheckErrorCode:
       description: An indicator of why the Check failed.
