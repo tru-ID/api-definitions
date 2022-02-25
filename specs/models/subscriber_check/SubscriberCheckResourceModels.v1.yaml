@@ -63,7 +63,6 @@ components:
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: ACCEPTED
-        match: true
         charge_amount: 1
         charge_currency: API
         snapshot_balance: 99
@@ -74,7 +73,17 @@ components:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
           check_url:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}/redirect
-               
+
+    SubscriberCheckGetPartial:
+      description: A partial response for getting the SubscriberCheck
+      allOf:
+        - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckGetPartial"
+
+    SubscriberCheckGetResponse:
+      description: Phone Check Get Response
+      allOf:
+        - $ref: "#/components/schemas/SubscriberCheck"
+        - $ref: "#/components/schemas/SubscriberCheckGetPartial"
 
     SubscriberCheck:
       description: A SubscriberCheck Resource
