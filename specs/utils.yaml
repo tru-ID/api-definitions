@@ -1,0 +1,310 @@
+openapi: 3.0.0
+info:
+  title: tru.ID APIs
+  version: v0.1
+  contact:
+    name: tru.ID API Team
+    email: feedback@tru.id
+  description: |
+    # Introduction
+
+    The tru.ID API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
+
+    The [**tru.ID PhoneCheck Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **PhoneCheck URL** for the purpose of this verification. **tru.ID** then resolves a **PhoneCheck Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
+
+    The [**tru.ID SIMCheck API**](#tag/sim_check) provides information on when a SIM card associated with a mobile phone number last changed
+
+    The [**tru.ID SubscriberCheck Workflow** and API](#tag/subscriber_check) combines the functionality offerd by PhoneCheck and SIMCheck into a single API. It confirms the ownership of a mobile phone number and provides information on when the SIM card associated with the mobile phone number last changed..
+servers:
+  - url: "https://{data_residency}.api.tru.id"
+    description: For accounts with data residency in the EU
+    variables:
+      data_residency:
+        default: eu
+        enum:
+          - eu
+tags:
+  - name: oauth2_v1
+    x-displayName: v1
+    description: Relating to the OAuth2 Provider
+  - name: coverage
+    x-displayName: v0.1
+    description: Relating to Coverage.
+
+
+x-tagGroups:
+  - name: oAuth2
+    tags:
+      - oauth2_v1
+  - name: Coverage
+    tags:
+      - coverage
+
+paths:
+  /oauth2/v1/auth:
+    get:
+      summary: Obtain an authorization grant (Restricted Usage)
+      description: "Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for tru.ID owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1"
+      operationId: oauth2-auth
+      tags:
+        - hide
+      parameters:
+        - name: response_type
+          description: "Used as part of an Authorization Code Grant. Expected to have a value of `code`. See https://tools.ietf.org/html/rfc6749#section-4.1"
+          in: query
+          schema:
+            type: string
+            example: code
+        - name: client_id
+          description: The client identifier. Only issued for use with `/auth` to internal tru.ID applications.
+          in: query
+          schema:
+            type: string
+            example: 63f16604-2b4f-4e45-b32f-59290507fe93
+        - name: state
+          description: |
+            An opaque value used by the client to maintain state between the request and callback. The authorization server includes this value when redirecting the user-agent back to the client.
+            See: https://tools.ietf.org/html/rfc6749#section-4.1.1"
+          in: query
+          schema:
+            type: string
+        - $ref: "#/components/parameters/scope"
+        - name: redirect_url
+          description: "After completing the interaction with the resource owner, the authorization server directs the resource owner's user-agent back the location identified by `redirect_url`."
+          in: query
+          schema:
+            type: string
+            format: uri
+      responses:
+        "302":
+          description: Redirects to the `redirect_url`.
+          headers:
+            Location:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Location
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+  /oauth2/v1/token:
+    post:
+      summary: Create an Access Token
+      description: |
+        Creates an Access Token. Access Tokens are credentails used to authenticate API interactions.
+        With the tru.ID platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
+
+        To obtain a `client_id` and `client_secret` you must first [create a Project](#operation/create-project).
+      operationId: oauth2-token
+      security:
+        - BasicAuth: []
+      tags:
+        - oauth2_v1
+      requestBody:
+        description: |
+          The request body should match the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) flow.
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              description: |
+                Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                The resulting token is used to access any API endpoints.
+              properties:
+                grant_type:
+                  description: |
+                    The type of grant; in this case a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                    Value must be set to `client_credentials`.
+                  type: string
+                  enum:
+                    - client_credentials
+                  example: client_credentials
+                scope:
+                  $ref: "#/components/schemas/OAuth2Scope"
+      responses:
+        "200":
+          description: The Access Token was successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: |
+                  The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                properties:
+                  access_token:
+                    description: The Access Token to be used when authenticating with API endpoints
+                    type: string
+                    example: 2YotnFZFEjr1zCsicMWpAA
+                  token_type:
+                    description: |
+                      The type of token in `access_token`. The token type returned will always be `bearer`.
+                      For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
+                    type: string
+                    enum:
+                      - bearer
+                    example: bearer
+                  expires_in:
+                    description: The time in seconds when the token will expire.
+                    type: integer
+                    example: 3600
+                  scope:
+                    $ref: "#/components/schemas/OAuth2Scope"
+              examples:
+                phone_check:
+                  value:
+                    access_token: 2YotnFZFEjr1zCsicMWpAA
+                    token_type: bearer
+                    expires_in: 3600
+                    scope: phone_check coverage
+  /oauth2/v1/revoke:
+    post:
+      summary: Revoke an token
+      description: Revoke a token from the OAuth2 provider.
+      operationId: oauth2-revoke
+      security:
+        - BasicAuth: []
+      tags:
+        - oauth2_v1
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              description: |
+                The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+              properties:
+                token:
+                  description: The token to be revoked
+                  type: string
+                  example: 2YotnFZFEjr1zCsicMWpAA
+                token_type_hint:
+                  description: A hint to help the OAuth2 provider identify the type of token
+                  type: string
+                  enum:
+                    - access_token
+                    - refresh_token
+                  example: access_token
+      responses:
+        "200":
+          description: Response whether the Access Token was valid or invalid.
+  /oauth2/v1/sessions/logout:
+    get:
+      summary: Logout of the current user session (Restricted Usage)
+      description: |
+        **Used by internal tru.ID applications only**.
+        Log the current user out of an authenticated session with the OAuth2 provider.
+      operationId: oauth2-sessions-logout
+      security:
+        - BasicAuth: []
+      tags:
+        - hide
+      parameters:
+        - name: id_token_hint
+          description: The OAuth2 id token received when the client logged in
+          schema:
+            type: string
+            example: token
+          in: query
+        - name: state
+          description: "state that is played back to the client, when successfully redirected to the `post_logout_redirect_uri`"
+          schema:
+            type: string
+            example: token
+          in: query
+        - name: post_logout_redirect_uri
+          description: Where the browser client will be redirected to after a successful logout
+          schema:
+            type: string
+            example: "https://example.com/logged_out"
+          in: query
+      responses:
+        "302":
+          description: Redirects to the `post_logout_redirect_uri`
+          headers:
+            Location:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Location
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+
+  /public/coverage/v0.1/device_ip:
+    get:
+      summary: Get Device Reachability
+      description: Get the mobile network that a device is on along with products that are supported based on the sender device IP address. No Authentication is required for this endpoint.
+      operationId: get-public-coverage-by-device-ip
+      security: []
+      tags:
+        - coverage
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/DeviceReachability
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "400":
+          description: MNO Not Supported
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported
+        "412":
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    WorkspaceBearerAuth:
+      description: |
+        The tru.ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
+        e.g. `Authorization: Bearer {access_token}`
+
+        The token should be a Workspace-level access token. These are created using your Workspace `client_id` and `client_secret`.
+      type: http
+      scheme: bearer
+    ProjectBearerAuth:
+      description: |
+        The tru.ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
+        e.g. `Authorization: Bearer {access_token}`. See [Create an Access Token](#operation/oauth2-token).
+
+        The token should be associated with **tru.ID** Project. These are created using a Project `client_id` and `client_secret`. See [Create an Access Token](#operation/oauth2-token).
+      type: http
+      scheme: bearer
+    UserBearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    OAuth2Scope:
+      description: |
+        The scope of the access request. A spaced delimited list of scopes representing the resources the Access Token provides access to.
+
+        - `console`: `/console/{version}` resources. From version 0.2.
+        - `projects`: `/console/v0.1/projects` resources
+        - `workspaces`: `/console/v0.1/workspaces` resources
+        - `phone_check`: `/phone_check` resources
+        - `subscriber_check`: `/subscriber_check` resources
+        - `sim_check`: `/sim_check` resources
+        - `coverage`: `/coverage` resources
+        - `usage`: `/console/v0.1/workspaces/default/usage` resources
+      type: string
+      example: phone_check subscriber_check sim_check
+  parameters:
+    scope:
+      name: scope
+      description: |
+        A spaced delimited list of scopes representing the resources the Access Token provides access to.
+      in: query
+      schema:
+        $ref: "#/components/schemas/OAuth2Scope"
