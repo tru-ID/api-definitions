@@ -24,208 +24,123 @@ servers:
         enum:
           - eu
 tags:
-  - name: oauth2_v1
-    x-displayName: v1
-    description: Relating to the OAuth2 Provider
   - name: coverage
     x-displayName: v0.1
     description: Relating to Coverage.
-
+  - name: usage_v0.2
+    x-displayName: v0.2
+    description: Relating to Usage.
+  - name: usage_deprecated
+    x-displayName: v0.1 (deprecated)
+    description: Relating to Usage.
+  - name: payments_v0.2
+    x-displayName: v0.2
+    description: Relating to Payments.
 
 x-tagGroups:
-  - name: oAuth2
-    tags:
-      - oauth2_v1
   - name: Coverage
     tags:
       - coverage
+  - name: Payment
+    tags:
+      - payments_v0.2
+  - name: Usage
+    tags:
+      - usage_v0.2
+      - usage_deprecated
 
 paths:
-  /oauth2/v1/auth:
+  "/coverage/v0.1/countries/{code}":
+    parameters:
+      - name: code
+        schema:
+          oneOf:
+            - $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryCode
+            - $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryDialingCode
+        description: "Either two letter code [ISO 3166-1 alpha-2](https://www.iso.org/obp/ui/#iso:std:iso:3166:-3:ed-3:v1:en) or country dialing code"
+        in: path
+        required: true
+        examples:
+          country_code:
+            value: GB
+            summary: United Kingdom Country Code
+          dialing_code:
+            value: 44
+            summary: The dialing code for United Kingdom
     get:
-      summary: Obtain an authorization grant (Restricted Usage)
-      description: "Used within the OAuth2 flow. Used to request access to a resource from the resource owner. Only supported for tru.ID owned applications. See https://tools.ietf.org/html/rfc6749#section-3.1"
-      operationId: oauth2-auth
-      tags:
-        - hide
-      parameters:
-        - name: response_type
-          description: "Used as part of an Authorization Code Grant. Expected to have a value of `code`. See https://tools.ietf.org/html/rfc6749#section-4.1"
-          in: query
-          schema:
-            type: string
-            example: code
-        - name: client_id
-          description: The client identifier. Only issued for use with `/auth` to internal tru.ID applications.
-          in: query
-          schema:
-            type: string
-            example: 63f16604-2b4f-4e45-b32f-59290507fe93
-        - name: state
-          description: |
-            An opaque value used by the client to maintain state between the request and callback. The authorization server includes this value when redirecting the user-agent back to the client.
-            See: https://tools.ietf.org/html/rfc6749#section-4.1.1"
-          in: query
-          schema:
-            type: string
-        - $ref: "#/components/parameters/scope"
-        - name: redirect_url
-          description: "After completing the interaction with the resource owner, the authorization server directs the resource owner's user-agent back the location identified by `redirect_url`."
-          in: query
-          schema:
-            type: string
-            format: uri
-      responses:
-        "302":
-          description: Redirects to the `redirect_url`.
-          headers:
-            Location:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Location
-            X-RateLimit-Limit:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
-            X-RateLimit-Remaining:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-  /oauth2/v1/token:
-    post:
-      summary: Create an Access Token
+      summary: Get Country Coverage
       description: |
-        Creates an Access Token. Access Tokens are credentails used to authenticate API interactions.
-        With the tru.ID platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
+        Get the country product coverage by country code.
 
-        To obtain a `client_id` and `client_secret` you must first [create a Project](#operation/create-project).
-      operationId: oauth2-token
+        Project-level authentication (`client_id` and `client_secret`) is required. Associated pricing for the countries in the API response are based on the Workspace that the Project is associated with.
+      operationId: get-coverage-by-code
       security:
-        - BasicAuth: []
+        - ProjectBearerAuth: []
       tags:
-        - oauth2_v1
-      requestBody:
-        description: |
-          The request body should match the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) flow.
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              description: |
-                Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                The resulting token is used to access any API endpoints.
-              properties:
-                grant_type:
-                  description: |
-                    The type of grant; in this case a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                    Value must be set to `client_credentials`.
-                  type: string
-                  enum:
-                    - client_credentials
-                  example: client_credentials
-                scope:
-                  $ref: "#/components/schemas/OAuth2Scope"
+        - coverage
       responses:
         "200":
-          description: The Access Token was successfully created.
+          description: OK
           content:
-            application/json:
+            application/hal+json:
               schema:
-                type: object
-                description: |
-                  The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-                properties:
-                  access_token:
-                    description: The Access Token to be used when authenticating with API endpoints
-                    type: string
-                    example: 2YotnFZFEjr1zCsicMWpAA
-                  token_type:
-                    description: |
-                      The type of token in `access_token`. The token type returned will always be `bearer`.
-                      For more information see [The OAuth 2.0 Authorization Framework: Bearer Token Usage](https://tools.ietf.org/html/rfc6750)
-                    type: string
-                    enum:
-                      - bearer
-                    example: bearer
-                  expires_in:
-                    description: The time in seconds when the token will expire.
-                    type: integer
-                    example: 3600
-                  scope:
-                    $ref: "#/components/schemas/OAuth2Scope"
-              examples:
-                phone_check:
-                  value:
-                    access_token: 2YotnFZFEjr1zCsicMWpAA
-                    token_type: bearer
-                    expires_in: 3600
-                    scope: phone_check coverage
-  /oauth2/v1/revoke:
-    post:
-      summary: Revoke an token
-      description: Revoke a token from the OAuth2 provider.
-      operationId: oauth2-revoke
-      security:
-        - BasicAuth: []
-      tags:
-        - oauth2_v1
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              description: |
-                The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
-              properties:
-                token:
-                  description: The token to be revoked
-                  type: string
-                  example: 2YotnFZFEjr1zCsicMWpAA
-                token_type_hint:
-                  description: A hint to help the OAuth2 provider identify the type of token
-                  type: string
-                  enum:
-                    - access_token
-                    - refresh_token
-                  example: access_token
-      responses:
-        "200":
-          description: Response whether the Access Token was valid or invalid.
-  /oauth2/v1/sessions/logout:
-    get:
-      summary: Logout of the current user session (Restricted Usage)
-      description: |
-        **Used by internal tru.ID applications only**.
-        Log the current user out of an authenticated session with the OAuth2 provider.
-      operationId: oauth2-sessions-logout
-      security:
-        - BasicAuth: []
-      tags:
-        - hide
-      parameters:
-        - name: id_token_hint
-          description: The OAuth2 id token received when the client logged in
-          schema:
-            type: string
-            example: token
-          in: query
-        - name: state
-          description: "state that is played back to the client, when successfully redirected to the `post_logout_redirect_uri`"
-          schema:
-            type: string
-            example: token
-          in: query
-        - name: post_logout_redirect_uri
-          description: Where the browser client will be redirected to after a successful logout
-          schema:
-            type: string
-            example: "https://example.com/logged_out"
-          in: query
-      responses:
-        "302":
-          description: Redirects to the `post_logout_redirect_uri`
+                $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/CountryCoverage
           headers:
-            Location:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Location
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "404":
+          description: No Reach
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+  "/coverage/v0.1/device_ips/{ip}":
+    parameters:
+      - name: ip
+        schema:
+          type: string
+          format: ipv4 | ipv6
+        description: The device ip in ipv4 or ipv6 format
+        in: path
+        required: true
+    get:
+      summary: Get Device Reachability
+      description: Get the mobile network that a device is on along with products that are supported based on device IP address.
+      operationId: get-coverage-by-device-ip
+      security:
+        - ProjectBearerAuth: []
+      tags:
+        - coverage
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/DeviceReachability
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "400":
+          description: MNO Not Supported
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported
+        "412":
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
   /public/coverage/v0.1/device_ip:
     get:
       summary: Get Device Reachability
@@ -261,6 +176,489 @@ paths:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
 
+  /console/v0.2/workspaces/{workspace_id}/usage/hourly:
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+    get:
+      summary: Hourly API usage
+      description: Get the workspace's usage with hourly breakdown
+      operationId: get-console-v0.2-usage-hourly
+      security:
+        - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
+      tags:
+        - usage_v0.2
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchHourly
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          usage:
+                            description: The Usage resources within the collection
+                            type: array
+                            items:
+                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceHourly
+  /console/v0.2/workspaces/{workspace_id}/usage/daily:
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+    get:
+      summary: Daily API usage
+      description: Get the workspace's usage with daily breakdown
+      operationId: get-console-v0.2-usage-daily
+      security:
+        - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
+      tags:
+        - usage_v0.2
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchDaily
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          usage:
+                            description: The Usage Resources within the collection
+                            type: array
+                            items:
+                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceDaily
+  /console/v0.2/workspaces/{workspace_id}/usage/monthly:
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+    get:
+      summary: Monthly API usage
+      description: Get the workspace's usage with monthly breakdown
+      operationId: get-console-v0.2-usage-monthly
+      security:
+        - WorkspaceBearerAuth: []
+        - UserBearerAuth: []
+      tags:
+        - usage_v0.2
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchMonthly
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          usage:
+                            description: The Usage Resources within the collection
+                            type: array
+                            items:
+                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceMonthly
+  /console/v0.1/workspaces/default/usage/hourly:
+    get:
+      summary: Hourly API usage
+      description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-usage-hourly">v0.2 endpoint</a>'
+      operationId: get-usage-hourly
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - usage_deprecated
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchHourly
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          usage:
+                            description: The Usage resources within the collection
+                            type: array
+                            items:
+                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceHourly
+  /console/v0.1/workspaces/default/usage/daily:
+    get:
+      summary: Daily API usage
+      description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-usage-daily">v0.2 endpoint</a>'
+      operationId: get-usage-daily
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - usage_deprecated
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchDaily
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          usage:
+                            description: The Usage Resources within the collection
+                            type: array
+                            items:
+                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceDaily
+  /console/v0.1/workspaces/default/usage/monthly:
+    get:
+      summary: Monthly API usage
+      description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-usage-monthly">v0.2 endpoint</a>'
+      operationId: get-usage-monthly
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - usage_deprecated
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchMonthly
+        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          usage:
+                            description: The Usage Resources within the collection
+                            type: array
+                            items:
+                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceMonthly
+
+  "/console/v0.2/workspaces/{workspace_id}/billing_account":
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+    get:
+      summary: Get a Billing Account
+      description: "Get the billing account"
+      tags:
+        - payments_v0.2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/schemas/BillingAccount
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "403":
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+      operationId: get-console-v0.2-workspace-billing_account
+      security:
+        - UserBearerAuth: []
+        - WorkspaceBearerAuth: []
+    put:
+      summary: Update a Billing Account
+      description: "Update the billing account"
+      tags:
+        - payments_v0.2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/schemas/BillingAccount
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "403":
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+      operationId: put-console-v0.2-workspace-billing_account
+      requestBody:
+        description: JSON payload to update a billing account
+        content:
+          application/json:
+            schema:
+              $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/schemas/BillingAccountPartial
+      security:
+        - UserBearerAuth: []
+        - WorkspaceBearerAuth: []
+  "/console/v0.2/workspaces/{workspace_id}/payment_methods":
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+    get:
+      summary: Get a collection of Payment Methods
+      description: "Get all the payment methods"
+      tags:
+        - payments_v0.2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/schemas/PaymentMethodCollection
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "403":
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+      operationId: get-console-v0.2-workspace-payment_methods
+      security:
+        - UserBearerAuth: []
+        - WorkspaceBearerAuth: []
+  "/console/v0.2/workspaces/{workspace_id}/payment_methods/{payment_method_id}":
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/parameters/paymentMethodId
+    get:
+      summary: Get a Payment Method
+      description: "Get a payment method"
+      tags:
+        - payments_v0.2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/schemas/PaymentMethod
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "403":
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+      operationId: get-console-v0.2-workspace-payment_method
+      security:
+        - UserBearerAuth: []
+        - WorkspaceBearerAuth: []
+    delete:
+      summary: Delete a Payment Method
+      description: "Delete a payment method"
+      tags:
+        - payments_v0.2
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+      operationId: delete-console-v0.2-workspace-payment_method
+      security:
+        - UserBearerAuth: []
+        - WorkspaceBearerAuth: []
+  "/console/v0.2/workspaces/{workspace_id}/topups":
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+    get:
+      summary: Get a collection of Topups
+      description: "Get the topups history"
+      tags:
+        - payments_v0.2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/schemas/TopupCollection
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "403":
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+      operationId: get-console-v0.2-workspace-topups
+      security:
+        - UserBearerAuth: []
+        - WorkspaceBearerAuth: []
+    post:
+      summary: Create a Topup
+      description: "Create a topup"
+      tags:
+        - payments_v0.2
+      requestBody:
+        description: A JSON payload for the topup that is to be created.
+        content:
+          application/hal+json:
+            schema:
+              $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/schemas/CreateTopup
+      responses:
+        "201":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "403":
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+      operationId: post-console-v0.2-workspace-topups
+      security:
+        - UserBearerAuth: []
+        - WorkspaceBearerAuth: []
+  
 components:
   securitySchemes:
     BasicAuth:
