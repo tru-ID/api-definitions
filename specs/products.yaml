@@ -524,15 +524,15 @@ paths:
       tags:
         - phone_check_v0.2
       responses:
-        # "302":
-        #   description: Redirects to the `check_url`.
-        #   headers:
-        #     Location:
-        #       $ref: ./models/common/Headers.v1.yaml#/components/headers/Location
-        #     X-RateLimit-Limit:
-        #       $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
-        #     X-RateLimit-Remaining:
-        #       $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+        "302":
+          description: Redirects to the `check_url`.
+          headers:
+            Location:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Location
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
         "400":
           description: Mobile Network Operator Not Supported
           content:
@@ -1531,26 +1531,3 @@ components:
     UserBearerAuth:
       type: http
       scheme: bearer
-  schemas:
-    OAuth2Scope:
-      description: |
-        The scope of the access request. A spaced delimited list of scopes representing the resources the Access Token provides access to.
-
-        - `console`: `/console/{version}` resources. From version 0.2.
-        - `projects`: `/console/v0.1/projects` resources
-        - `workspaces`: `/console/v0.1/workspaces` resources
-        - `phone_check`: `/phone_check` resources
-        - `subscriber_check`: `/subscriber_check` resources
-        - `sim_check`: `/sim_check` resources
-        - `coverage`: `/coverage` resources
-        - `usage`: `/console/v0.1/workspaces/default/usage` resources
-      type: string
-      example: phone_check subscriber_check sim_check
-  parameters:
-    scope:
-      name: scope
-      description: |
-        A spaced delimited list of scopes representing the resources the Access Token provides access to.
-      in: query
-      schema:
-        $ref: "#/components/schemas/OAuth2Scope"

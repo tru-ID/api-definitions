@@ -249,7 +249,7 @@ paths:
       summary: Get a collection of Workspaces
       description: "Get the list of workspaces"
       tags:
-        - workspaces
+        - workspaces_v0.2
       responses:
         "200":
           description: OK
@@ -275,7 +275,7 @@ paths:
       summary: Get a Workspace
       description: "Get a specific workspace"
       tags:
-        - workspaces
+        - workspaces_v0.2
       responses:
         "200":
           description: OK
@@ -314,7 +314,7 @@ paths:
       summary: Get a collection of Members
       description: "Get all members for the workspace identified by `workspace_id`"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -341,7 +341,7 @@ paths:
       summary: Get a Member
       description: "Get a Member identified by `member_id`"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -369,7 +369,7 @@ paths:
       summary: Get a collection of Workspace  Credentials
       description: "Get the Workspace Credentials created by the member identified by `member_id`"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -392,7 +392,7 @@ paths:
       summary: Create a Workspace Credential
       description: "Create workspace credential associated with a specific member"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -427,7 +427,7 @@ paths:
       summary: Get a Workspace Credential
       description: "Get the Workspace Credential identified by `client_id`"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -456,7 +456,7 @@ paths:
       summary: Delete a Workspace Credential
       description: "Delete the Workspace Credential identified by `client_id`"
       tags:
-        - members
+        - members_v0.2
       responses:
         "200":
           description: OK
@@ -489,7 +489,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       requestBody:
         description: A JSON payload for the Project that is to be created.
         content:
@@ -573,7 +573,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       parameters:
         - name: name
           description: The name of the project
@@ -653,7 +653,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       responses:
         "200":
           description: OK
@@ -688,7 +688,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       requestBody:
         description: A JSON payload for the Project that is to be created.
         content:
@@ -767,7 +767,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       responses:
         "200":
           description: OK
@@ -821,7 +821,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       responses:
         "200":
           description: OK
@@ -855,7 +855,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       responses:
         "200":
           description: OK
@@ -915,7 +915,7 @@ paths:
         - WorkspaceBearerAuth: []
         - UserBearerAuth: []
       tags:
-        - projects
+        - projects_v0.2
       responses:
         "200":
           description: OK
