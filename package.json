@@ -4,14 +4,14 @@
   "description": "Our API definitions and standards follow the OpenAPI v3.0 standard.",
   "main": "build.js",
   "scripts": {
-    "test": "spectral lint -F warn ./specs/openapi.v1.yaml",
-    "test:json-out": "spectral lint --format json -F warn ./specs/openapi.v1.yaml",
+    "test": "spectral lint -F warn ./specs/*.yaml",
+    "test:json-out": "spectral lint --format json -F warn ./specs/*.yaml",
     "specs:lint": "spectral lint",
     "specs:mock": "prism mock",
     "specs:proxy": "prism proxy",
     "changelog": "standard-version",
     "prettier": "prettier specs/*.yaml --write",
-    "bundle": "redoc-cli bundle specs/openapi.v1.yaml"
+    "bundle": "redoc-cli bundle specs/*.yaml"
   },
   "repository": {
     "type": "git",
