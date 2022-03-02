@@ -403,7 +403,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/phone_check/0.#/components/schemas/PhoneCheck
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheck
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
