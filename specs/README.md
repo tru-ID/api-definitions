@@ -119,7 +119,7 @@ specs
 │   ├── console
 │   │   └── ProjectResourceModels.v1.yaml
 │   └── phone_check
-│       └── PhoneCheckResourceModels.v1.yaml
+│       └── PhoneCheckResourceModels.v0.1.yaml
 └── openapi.v1.yaml
 ```
 

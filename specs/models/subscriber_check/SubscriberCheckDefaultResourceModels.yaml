@@ -7,21 +7,21 @@ components:
       description: |
         The status of a SubscriberCheck:
       allOf:
-        - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckStatus"
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckStatus"
 
     SubscriberCheckCreatePayload:
       description: Payload for creating a SubscriberCheck
       allOf:
-        - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckCreatePayload"
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckCreatePayload"
 
     SubscriberCheckPartial:
       description: A SubscriberCheck resource
       allOf:
-        - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckPartial"
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckPartial"
         - type: object
           properties:
             error_code:
-              $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckErrorCode" 
+              $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckErrorCode" 
         - type: object
           properties:
             no_sim_change:

@@ -1,0 +1,138 @@
+title: SubscriberCheckResourceModels
+type: object
+description: Definitions of models related to SubscriberCheck resources
+components:
+  schemas:
+    SubscriberCheckStatus:
+      description: |
+        The status of a SubscriberCheck:
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckStatus"
+
+    SubscriberCheckCreatePayload:
+      description: Payload for creating a SubscriberCheck
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckCreatePayload"
+
+    SubscriberCheckPartial:
+      description: A SubscriberCheck resource
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckPartial"
+        - type: object
+          properties:
+            error_code:
+              $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckErrorCode" 
+        - type: object
+          properties:
+            no_sim_change:
+              $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange"
+
+    SubscriberCheckCreateResponse:
+      description: A Subscriber Created response
+      allOf:
+        - $ref: "#/components/schemas/SubscriberCheckPartial"
+        - type: object
+          properties:
+            status:
+              description: The current status of the PhoneCheck
+              type: string
+              enum:
+                - ACCEPTED
+              example: ACCEPTED
+            snapshot_balance:
+              description: |
+                The workspace balance in `charge_currency` taking into account the `charge_amount`.
+                This property is not persisted and is only returned when the SubscriberCheck is initially created.
+              type: number
+              example: 100
+            _links:
+              description: Links related to the current resource
+              type: object
+              properties:
+                self:
+                  description: The link to the current resource
+                  allOf:
+                  - $ref: ../common/Link.v1.yaml
+                check_url:
+                  description: A URL that the mobile client must navigate as part of the SubscriberCheck verification flow.
+                  allOf:
+                    - $ref: ../common/Link.v1.yaml
+              required:
+                - self
+                - check_url
+      example:
+        check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
+        status: ACCEPTED
+        match: true
+        charge_amount: 1
+        charge_currency: API
+        snapshot_balance: 99
+        created_at: "2020-06-01T16:43:30+00:00"
+        ttl: 60
+        _links:
+          self:
+            href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
+          check_url:
+            href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}/redirect
+               
+
+    SubscriberCheck:
+      description: A SubscriberCheck Resource
+      allOf:
+        - $ref: "#/components/schemas/SubscriberCheckPartial"
+        - type: object
+          properties:
+            _links:
+              description: Links related to the current resource
+              type: object
+              properties:
+                self:
+                  description: The link to the current resource
+                  allOf:
+                  - $ref: ../common/Link.v1.yaml
+                check_url:
+                  description: A URL that the mobile client must navigate as part of the SubscriberCheck verification flow.
+                  allOf:
+                    - $ref: ../common/Link.v1.yaml
+              required:
+                - self
+      required:
+        - _links
+
+      example:
+        check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
+        status: COMPLETED
+        match: true
+        no_sim_change: true
+        charge_amount: 1
+        charge_currency: API
+        created_at: "2020-06-01T16:43:30+00:00"
+        network_id: "23599"
+        _links:
+          self:
+            href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
+          
+
+    SubscriberCheckCollection:
+      description: A Collection of SubscriberCheck resources
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
+          properties:
+            _links:
+              description: Links related to the current resource
+              $ref: ../common/PaginationLinks.v1.yaml
+            _embedded:
+              description: Resources related to the resource request
+              type: object
+              properties:
+                checks:
+                  description: The SubscriberChecks within the collection
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/SubscriberCheck"
+
+    SubscriberCheckCallbackPayload:
+      description: The payload sent to a callback URL upon a SubscriberCheck reaching an end state.
+      allOf:
+        - $ref: "#/components/schemas/SubscriberCheckPartial"

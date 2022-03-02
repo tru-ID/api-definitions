@@ -1,0 +1,71 @@
+title: CheckResourceModels
+type: object
+description: Definitions of abstract models
+components:
+  schemas:
+    CheckStatus:
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckStatus"
+
+    CheckCreatePayload:
+      type: object
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckCreatePayload"
+      properties:
+        redirect_url:
+          description: |
+            Optional. A public URL, that when defined, will force a redirect for the user.
+          type: string
+          format: uri
+          example: https://example.com/redirect_url
+
+    CheckPatchPayload:
+      type: object
+      properties:
+        op:
+          description: TODO add this
+          type: string
+          enmum: [add]
+          example: "add"
+        path:
+          description: TODO add this
+          type: string
+          enum: ["/code"]
+          example: /code
+        value:
+          description: TODO add this
+          type: string
+          example: my_internal_reference
+      required:
+        - op
+        - path
+        - value
+      example:
+        op: "add"
+        path: "/code"
+        value: "code"
+
+    CheckPartial:
+      type: object
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckPartial"
+
+    CheckCreatePartial:
+      allOf:
+        - $ref: "#/components/schemas/CheckPartial"
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckCreatePartial"
+
+    CheckGetPartial:
+      allOf:
+        - $ref: "#/components/schemas/CheckPartial"
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckGetPartial"
+
+    CheckFullPartial:
+      allOf:
+        - $ref: "#/components/schemas/CheckPartial"
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckFullPartial"
+    
+    CheckErrorCode:
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckErrorCode"
+

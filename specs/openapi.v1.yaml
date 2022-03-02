@@ -305,7 +305,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCreatePayload
+              $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCreatePayload
       callbacks:
         phoneCheckEndStatus:
           "{$request.body#/callback_url}":
@@ -322,7 +322,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload
+                      $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCallbackPayload
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
       responses:
@@ -339,7 +339,7 @@ paths:
             application/hal+json:
               schema:
                 allOf:
-                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCreateResponse
+                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCreateResponse
                  
                     
         "400":
@@ -380,7 +380,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCollection
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCollection
   "/phone_check/v0.1/checks/{check_id}":
     parameters:
       - name: check_id
@@ -403,7 +403,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
+                $ref: ./models/phone_check/0.#/components/schemas/PhoneCheck
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -599,7 +599,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCreatePayload
+              $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.1.yaml#/components/schemas/SubscriberCheckCreatePayload
       callbacks:
         phoneCheckEndStatus:
           "{$request.body#/callback_url}":
@@ -616,7 +616,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCallbackPayload
+                      $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.1.yaml#/components/schemas/SubscriberCheckCallbackPayload
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
       responses:
@@ -633,7 +633,7 @@ paths:
             application/hal+json:
               schema:
                 allOf:
-                  - $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCreateResponse
+                  - $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.1.yaml#/components/schemas/SubscriberCheckCreateResponse
         "400":
           description: Bad Request
           content:
@@ -672,7 +672,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCollection
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.1.yaml#/components/schemas/SubscriberCheckCollection
   "/subscriber_check/v0.1/checks/{check_id}":
     parameters:
       - name: check_id
@@ -695,7 +695,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheck
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.1.yaml#/components/schemas/SubscriberCheck
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -1785,7 +1785,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload
+                      $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCallbackPayload
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
     get:
@@ -2383,7 +2383,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload
+                      $ref: ./models/phone_check/0.#/components/schemas/PhoneCheckCallbackPayload
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
     get:

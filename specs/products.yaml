@@ -24,11 +24,17 @@ servers:
         enum:
           - eu
 tags:
-  - name: phone_check_v0.1
-    x-displayName: v0.1
+  - name: phone_check_v0.2
+    x-displayName: v0.2
     description: Relating to PhoneCheck
+  - name: phone_check_v0.1
+    x-displayName: v0.1 (deprecated)
+    description: Relating to PhoneCheck
+  - name: subscriber_check_v0.2
+    x-displayName: v0.2
+    description: Relating to SubscriberCheck
   - name: subscriber_check_v0.1
-    x-displayName: v0.1
+    x-displayName: v0.1 (deprecated)
     description: Relating to SubscriberCheck
   - name: sim_check_v0.1
     x-displayName: v0.1
@@ -37,9 +43,11 @@ tags:
 x-tagGroups:
   - name: PhoneCheck
     tags:
+      - phone_check_v0.2
       - phone_check_v0.1
   - name: SubscriberCheck
     tags:
+      - subscriber_check_v0.2
       - subscriber_check_v0.1
   - name: SIMCheck
     tags:
@@ -51,7 +59,7 @@ paths:
       summary: Create a PhoneCheck workflow
       description: |
         Starts the PhoneCheck workflow.
-      operationId: create-phone-check
+      operationId: create-phone-check-v0.1
       security:
         - ProjectBearerAuth: []
       tags:
@@ -61,7 +69,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCreatePayload
+              $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCreatePayload
       callbacks:
         phoneCheckEndStatus:
           "{$request.body#/callback_url}":
@@ -78,7 +86,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload
+                      $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCallbackPayload
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
       responses:
@@ -95,7 +103,7 @@ paths:
             application/hal+json:
               schema:
                 allOf:
-                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCreateResponse
+                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCreateResponse
                  
                     
         "400":
@@ -112,7 +120,7 @@ paths:
                         description: The country for the supplied `phone_number` is not supported
     get:
       summary: Get a collection of PhoneChecks
-      operationId: get-phone-checks
+      operationId: get-phone-checks-v0.1
       description: Get a full list of PhoneChecks or filter by query parameter.
       security:
         - ProjectBearerAuth: []
@@ -136,7 +144,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCollection
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCollection
   "/phone_check/v0.1/checks/{check_id}":
     parameters:
       - name: check_id
@@ -148,7 +156,7 @@ paths:
     get:
       summary: Get PhoneCheck
       description: "Get a PhoneCheck identified by `check_id`. NB: if the user never visits the `check_url`, after 60 seconds the Check will be deleted and 404 returned."
-      operationId: get-phone-check
+      operationId: get-phone-check-v0.1
       security:
         - ProjectBearerAuth: []
       tags:
@@ -159,7 +167,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheck
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheck
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -184,7 +192,7 @@ paths:
     get:
       summary: Perform the PhoneCheck
       description: Perform the PhoneCheck identified by `check_id`.
-      operationId: get-phone-check-redirect
+      operationId: get-phone-check-redirect-v0.1
       tags:
         - phone_check_v0.1
       responses:
@@ -226,7 +234,7 @@ paths:
     get:
       summary: Get a collection of PhoneCheck Traces
       description: Get Traces of the PhoneCheck identified by `check_id`
-      operationId: get-phone-check-traces
+      operationId: get-phone-check-traces-v0.1
       tags:
         - phone_check_v0.1
       responses:
@@ -298,7 +306,7 @@ paths:
     get:
       summary: Get PhoneCheck Trace
       description: Get the Trace identified by `trace_id` of the PhoneCheck identified by `check_id`
-      operationId: get-phone-check-trace
+      operationId: get-phone-check-trace-v0.1
       tags:
         - phone_check_v0.1
       responses:
@@ -340,22 +348,354 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
-  /subscriber_check/v0.1/checks:
+
+  /phone_check/v0.2/checks:
+    post:
+      summary: Create a PhoneCheck workflow
+      description: |
+        Starts the PhoneCheck workflow.
+      operationId: create-phone-check-v0.2
+      security:
+        - ProjectBearerAuth: []
+      tags:
+        - phone_check_v0.2
+      requestBody:
+        description: JSON payload to create a PhoneCheck
+        content:
+          application/json:
+            schema:
+              $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheckCreatePayload
+      callbacks:
+        phoneCheckEndStatus:
+          "{$request.body#/callback_url}":
+            post:
+              summary: PhoneCheck has reached an end status
+              parameters:
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-security
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-callback
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/digest
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/date
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/host
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheckCallbackPayload
+              responses:
+                $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
+      responses:
+        "201":
+          description: PhoneCheck created
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheckCreateResponse
+                 
+                    
+        "400":
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/InvalidPhoneNumberFormat
+                  - type: object
+                    allOf:
+                      - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase
+                      - type: object
+                        description: The country for the supplied `phone_number` is not supported
+    get:
+      summary: Get a collection of PhoneChecks
+      operationId: get-phone-checks-v0.2
+      description: Get a full list of PhoneChecks or filter by query parameter.
+      security:
+        - ProjectBearerAuth: []
+      tags:
+        - phone_check_v0.2
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/search
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheckCollection
+  "/phone_check/v0.2/checks/{check_id}":
+    parameters:
+      - name: check_id
+        description: The ID of the PhoneCheck
+        schema:
+          $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/UUID
+        in: path
+        required: true
+    get:
+      summary: Get PhoneCheck
+      description: "Get a PhoneCheck identified by `check_id`. NB: if the user never visits the `check_url`, after 60 seconds the Check will be deleted and 404 returned."
+      operationId: get-phone-check-v0.2
+      security:
+        - ProjectBearerAuth: []
+      tags:
+        - phone_check_v0.2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheck
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+    patch:
+      summary: Complete check 
+      description: TODO update this
+      operationId: patch-phone-check-v0.2
+      security:
+        - ProjectBearerAuth: []
+      tags:
+        - phone_check_v0.2
+      requestBody:
+        description: JSON payload to update a PhoneCheck
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheckPatchPayload
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheck
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+  
+  "/phone_check/v0.2/checks/{check_id}/redirect":
+    parameters:
+      - name: check_id
+        description: The ID of the PhoneCheck
+        schema:
+          $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/UUID
+        in: path
+        required: true
+    get:
+      summary: Perform the PhoneCheck
+      description: Perform the PhoneCheck identified by `check_id`.
+      operationId: get-phone-check-redirect-v0.2
+      tags:
+        - phone_check_v0.2
+      responses:
+        # "302":
+        #   description: Redirects to the `check_url`.
+        #   headers:
+        #     Location:
+        #       $ref: ./models/common/Headers.v1.yaml#/components/headers/Location
+        #     X-RateLimit-Limit:
+        #       $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+        #     X-RateLimit-Remaining:
+        #       $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+        "400":
+          description: Mobile Network Operator Not Supported
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "412":
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+
+  "/phone_check/v0.2/checks/{check_id}/traces":
+    parameters:
+      - name: check_id
+        description: The ID of the PhoneCheck
+        schema:
+          $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/UUID
+        in: path
+        required: true
+    get:
+      summary: Get a collection of PhoneCheck Traces
+      description: Get Traces of the PhoneCheck identified by `check_id`
+      operationId: get-phone-check-traces-v0.2
+      tags:
+        - phone_check_v0.2
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/trace/TraceResourceModels.v1.yaml#/components/schemas/TraceCollection
+              examples:
+                basic:
+                  value:
+                    _embedded:
+                      traces:
+                        - _links:
+                            self:
+                              href: "https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25"
+                          trace_id: 6f2a0e25fc0caa25
+                          logs:
+                            - timestamp: "2021-02-05T13:58:48.751Z"
+                              message: "Check create: phone number is reachable"
+                            - timestamp: "2021-02-05T13:58:48.856Z"
+                              message: "Check balance: authorized"
+                              attributes:
+                                amount: 1
+                                currency: API
+                            - timestamp: "2021-02-05T13:58:48.864Z"
+                              message: "Check create: accepted"
+                        - _links:
+                            self:
+                              href: "https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b"
+                          trace_id: 7f1bc78ab197ee8b
+                          logs:
+                            - timestamp: "2021-02-05T13:59:05.060Z"
+                              message: "Check balance: confirmed"
+                              attributes:
+                                amount: 1
+                                currency: API
+                    _links:
+                      self:
+                        href: "https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces"
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+  "/phone_check/v0.2/checks/{check_id}/traces/{trace_id}":
+    parameters:
+      - name: check_id
+        description: The ID of the PhoneCheck
+        schema:
+          $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/UUID
+        in: path
+        required: true
+      - name: trace_id
+        description: The ID of the Trace
+        schema:
+          type: string
+        in: path
+        required: true
+    get:
+      summary: Get PhoneCheck Trace
+      description: Get the Trace identified by `trace_id` of the PhoneCheck identified by `check_id`
+      operationId: get-phone-check-trace-v0.2
+      tags:
+        - phone_check_v0.2
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/trace/TraceResourceModels.v1.yaml#/components/schemas/TraceResource
+              examples:
+                basic:
+                  value:
+                    trace_id: 6f2a0e25fc0caa25
+                    logs:
+                      - timestamp: "2021-02-05T13:58:48.751Z"
+                        message: "Check create: request accepted"
+                      - timestamp: "2021-02-05T13:58:48.824Z"
+                        message: "Check create: phone number is routable"
+                      - timestamp: "2021-02-05T13:58:48.856Z"
+                        message: "Check balance: authorized"
+                        attributes:
+                          amount: 1
+                          currency_code: API
+                      - timestamp: "2021-02-05T13:58:48.864Z"
+                        message: "Check create: successful "
+                    _links:
+                      self:
+                        href: "https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25"
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+
+  /subscriber_check/v0.2/checks:
     post:
       summary: Create an SubscriberCheck workflow
       description: |
         Starts the SubscriberCheck workflow.
-      operationId: create-subscriber-check
+      operationId: create-subscriber-check-v0.2
       security:
         - ProjectBearerAuth: []
       tags:
-        - subscriber_check_v0.1
+        - subscriber_check_v0.2
       requestBody:
         description: JSON payload to create an SubscriberCheck
         content:
           application/json:
             schema:
-              $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCreatePayload
+              $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheckCreatePayload
       callbacks:
         phoneCheckEndStatus:
           "{$request.body#/callback_url}":
@@ -372,7 +712,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCallbackPayload
+                      $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheckCallbackPayload
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
       responses:
@@ -389,7 +729,298 @@ paths:
             application/hal+json:
               schema:
                 allOf:
-                  - $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCreateResponse
+                  - $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheckCreateResponse
+        "400":
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                oneOf:
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/InvalidPhoneNumberFormat
+                  - type: object
+                    allOf:
+                      - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase
+                      - type: object
+                        description: The country for the supplied `phone_number` is not supported
+    get:
+      summary: Get a collection of SubscriberChecks
+      operationId: get-subscriber-checks-v0.2
+      description: Get a full list of SubscriberChecks or filter by query parameter.
+      security:
+        - ProjectBearerAuth: []
+      tags:
+        - subscriber_check_v0.2
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/search
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheckCollection
+  "/subscriber_check/v0.2/checks/{check_id}":
+    parameters:
+      - name: check_id
+        description: The ID of the SubscriberCheck
+        schema:
+          $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/UUID
+        in: path
+        required: true
+    get:
+      summary: Get SubscriberCheck
+      description: Get a SubscriberCheck identified by `check_id`.
+      operationId: get-subscriber-check-v0.2
+      security:
+        - ProjectBearerAuth: []
+      tags:
+        - subscriber_check_v0.2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheck
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+  "/subscriber_check/v0.2/checks/{check_id}/redirect":
+    parameters:
+      - name: check_id
+        description: The ID of the SubscriberCheck
+        schema:
+          $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/UUID
+        in: path
+        required: true
+    get:
+      summary: Perform the SubscriberCheck
+      description: Perform the SubscriberCheck identified by `check_id`.
+      operationId: get-subscriber-check-redirect-v0.2
+      tags:
+        - subscriber_check_v0.2
+      responses:
+        "302":
+          description: Redirects to the `check_url`.
+          headers:
+            Location:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Location
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+        "400":
+          description: Mobile Network Operator Not Supported
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "412":
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+  "/subscriber_check/v0.2/checks/{check_id}/traces":
+    parameters:
+      - name: check_id
+        description: The ID of the SubscriberCheck
+        schema:
+          $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/UUID
+        in: path
+        required: true
+    get:
+      summary: Get a collection of SubscriberCheck Traces
+      description: Get Traces of the SubscriberCheck identified by `check_id`
+      operationId: get-subscriber-check-traces-v0.2
+      tags:
+        - subscriber_check_v0.2
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/trace/TraceResourceModels.v1.yaml#/components/schemas/TraceCollection
+              examples:
+                basic:
+                  value:
+                    _embedded:
+                      traces:
+                        - _links:
+                            self:
+                              href: "https://eu.api.tru.id/subscriber_check/v0.2/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25"
+                          trace_id: 6f2a0e25fc0caa25
+                          logs:
+                            - timestamp: "2021-02-05T13:58:48.751Z"
+                              message: "Check create: phone number is reachable"
+                            - timestamp: "2021-02-05T13:58:48.856Z"
+                              message: "Check balance: authorized"
+                              attributes:
+                                amount: 1
+                                currency: API
+                            - timestamp: "2021-02-05T13:58:48.864Z"
+                              message: "Check create: accepted"
+                        - _links:
+                            self:
+                              href: "https://eu.api.tru.id/subscriber_check/v0.2/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/7f1bc78ab197ee8b"
+                          trace_id: 7f1bc78ab197ee8b
+                          logs:
+                            - timestamp: "2021-02-05T13:59:05.060Z"
+                              message: "Check balance: confirmed"
+                              attributes:
+                                amount: 1
+                                currency: API
+                    _links:
+                      self:
+                        href: "https://eu.api.tru.id/subscriber_check/v0.2/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces"
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+  "/subscriber_check/v0.2/checks/{check_id}/traces/{trace_id}":
+    parameters:
+      - name: check_id
+        description: The ID of the SubscriberCheck
+        schema:
+          $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/UUID
+        in: path
+        required: true
+      - name: trace_id
+        description: The ID of the of the Trace
+        schema:
+          type: string
+        in: path
+        required: true
+    get:
+      summary: Get SubscriberCheck Trace
+      description: Get the Trace identified by `trace_id`  of the SubscriberCheck identified by `check_id`
+      operationId: get-subscriber-check-trace-v0.2
+      tags:
+        - subscriber_check_v0.2
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/trace/TraceResourceModels.v1.yaml#/components/schemas/TraceResource
+              examples:
+                basic:
+                  value:
+                    trace_id: 6f2a0e25fc0caa25
+                    logs:
+                      - timestamp: "2021-02-05T13:58:48.751Z"
+                        message: "Check create: phone number is reachable"
+                      - timestamp: "2021-02-05T13:58:48.856Z"
+                        message: "Check balance: authorized"
+                        attributes:
+                          amount: 1
+                          currency: API
+                      - timestamp: "2021-02-05T13:58:48.864Z"
+                        message: "Check create: accepted"
+                        _links:
+                          self:
+                            href: "https://eu.api.tru.id/subscriber_check/v0.2/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25"
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+
+  /subscriber_check/v0.1/checks:
+    post:
+      summary: Create an SubscriberCheck workflow
+      description: |
+        Starts the SubscriberCheck workflow.
+      operationId: create-subscriber-check
+      security:
+        - ProjectBearerAuth: []
+      tags:
+        - subscriber_check_v0.1
+      requestBody:
+        description: JSON payload to create an SubscriberCheck
+        content:
+          application/json:
+            schema:
+              $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.1.yaml#/components/schemas/SubscriberCheckCreatePayload
+      callbacks:
+        phoneCheckEndStatus:
+          "{$request.body#/callback_url}":
+            post:
+              summary: SubscriberCheck has reached an end status
+              parameters:
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-security
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/x-tru-callback
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/digest
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/date
+                - $ref: ./models/common/Headers.v1.yaml#/components/headers/host
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.1.yaml#/components/schemas/SubscriberCheckCallbackPayload
+              responses:
+                $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
+      responses:
+        "201":
+          description: SubscriberCheck created
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.1.yaml#/components/schemas/SubscriberCheckCreateResponse
         "400":
           description: Bad Request
           content:
@@ -428,7 +1059,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheckCollection
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.1.yaml#/components/schemas/SubscriberCheckCollection
   "/subscriber_check/v0.1/checks/{check_id}":
     parameters:
       - name: check_id
@@ -451,7 +1082,7 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v1.yaml#/components/schemas/SubscriberCheck
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.1.yaml#/components/schemas/SubscriberCheck
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit

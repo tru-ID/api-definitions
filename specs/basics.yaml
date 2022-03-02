@@ -563,7 +563,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload
+                      $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCallbackPayload
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
     get:
@@ -1023,7 +1023,7 @@ paths:
                 content:
                   application/json:
                     schema:
-                      $ref: ./models/phone_check/PhoneCheckResourceModels.v1.yaml#/components/schemas/PhoneCheckCallbackPayload
+                      $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCallbackPayload
               responses:
                 $ref: ./models/common/Responses.v1.yaml#/components/responses/WebHookExpectedResponse
     get:
