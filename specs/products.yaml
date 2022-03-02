@@ -104,8 +104,7 @@ paths:
               schema:
                 allOf:
                   - $ref: ./models/phone_check/PhoneCheckResourceModels.v0.1.yaml#/components/schemas/PhoneCheckCreateResponse
-                 
-                    
+
         "400":
           description: Bad Request
           content:
@@ -399,8 +398,7 @@ paths:
               schema:
                 allOf:
                   - $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheckCreateResponse
-                 
-                    
+
         "400":
           description: Bad Request
           content:
@@ -510,7 +508,7 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
-  
+
   "/phone_check/v0.2/checks/{check_id}/redirect":
     parameters:
       - name: check_id

@@ -658,7 +658,7 @@ paths:
       security:
         - UserBearerAuth: []
         - WorkspaceBearerAuth: []
-  
+
 components:
   securitySchemes:
     BasicAuth:
