@@ -51,6 +51,7 @@ components:
 
     CheckPartial:
       type: object
+      description: hello
       properties:
         check_id:
           description: The unique ID of the Check resource

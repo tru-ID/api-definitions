@@ -25,7 +25,6 @@ components:
         op:
           description: TODO add this
           type: string
-          enmum: [add]
           example: "add"
         path:
           description: TODO add this
@@ -47,6 +46,7 @@ components:
 
     CheckPartial:
       type: object
+      description: test
       allOf:
         - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckPartial"
 
@@ -66,6 +66,7 @@ components:
         - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckFullPartial"
     
     CheckErrorCode:
+      description: An indicator of why the Check failed.
       allOf:
         - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckErrorCode"
 

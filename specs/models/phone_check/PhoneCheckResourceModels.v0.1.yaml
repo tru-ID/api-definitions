@@ -27,7 +27,7 @@ components:
       description: A PhoneCheck Created response
       allOf:
         - $ref: "#/components/schemas/PhoneCheckPartial"
-        - $ref: "../check/PhoneCheckDefaultResourceModels.yaml#/components/schemas/PhoneCheckCreateResponse"
+        - $ref: "./PhoneCheckDefaultResourceModels.yaml#/components/schemas/PhoneCheckCreateResponse"
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: ACCEPTED
@@ -42,13 +42,11 @@ components:
             href: https://eu.api.tru.id/phone_checks/v0.1/checks/{check_id}
           check_url:
             href: https://eu.api.tru.id/phone_checks/v0.1/checks/{check_id}/redirect
-               
-            
 
     PhoneCheckGetPartial:
       description: A partial response for getting the PhoneCheck
       allOf:
-        - $ref: "../check0.#/components/schemas/CheckGetPartial"
+        - $ref: "../check/CheckGetPartial.v0.1.yaml#/components/schemas/CheckGetPartial"
 
     PhoneCheck:
       description: Phone Check Resource
