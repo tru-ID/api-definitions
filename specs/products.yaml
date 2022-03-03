@@ -527,15 +527,19 @@ paths:
       tags:
         - phone_check_v0.2
       responses:
-        "302":
-          description: Redirects to the `check_url`.
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheck
           headers:
-            Location:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Location
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "400":
           description: Mobile Network Operator Not Supported
           content:
@@ -856,15 +860,19 @@ paths:
       tags:
         - subscriber_check_v0.2
       responses:
-        "302":
-          description: Redirects to the `check_url`.
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheck
           headers:
-            Location:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Location
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "400":
           description: Mobile Network Operator Not Supported
           content:
