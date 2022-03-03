@@ -479,7 +479,7 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
     patch:
       summary: Complete PhoneCheck
-      description: TODO update this
+      description: "Complete a PhoneCheck identified by `check_id`. NB: the user needs to visit the `check_url` before this endpoint, otherwise a 404 will be returned."
       operationId: patch-phone-check-v0.2
       security:
         - ProjectBearerAuth: []
@@ -808,7 +808,7 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
     patch:
       summary: Complete SubscriberCheck
-      description: TODO update this
+      description: "Complete a SubscriberCheck identified by `check_id`. NB: the user needs to visit the `check_url` before this endpoint, otherwise a 404 will be returned."
       operationId: patch-subscriber-check-v0.2
       security:
         - ProjectBearerAuth: []

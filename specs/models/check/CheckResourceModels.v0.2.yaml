@@ -23,18 +23,18 @@ components:
       type: object
       properties:
         op:
-          description: TODO add this
+          description: The operation to be performed
           type: string
           example: "add"
         path:
-          description: TODO add this
+          description: A JSON-Pointer
           type: string
           enum: ["/code"]
           example: /code
         value:
-          description: TODO add this
+          description: The value to be used within the operations. The `code` is retrieved by making a POST request to the `check_url` and extracting it from the response body.
           type: string
-          example: my_internal_reference
+          example: code
       required:
         - op
         - path
