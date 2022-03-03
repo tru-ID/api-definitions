@@ -14,6 +14,11 @@ components:
       allOf:
         - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckCreatePayload"
 
+    SubscriberCheckPatchPayload:
+      description: Payload for creating a SubscriberCheck
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckPatchPayload"
+
     SubscriberCheckPartial:
       description: A SubscriberCheck resource
       allOf:

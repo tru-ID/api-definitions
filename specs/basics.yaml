@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: tru.ID Basics APIs
-  version: v0.1
+  version: ""
   contact:
     name: tru.ID API Team
     email: feedback@tru.id
@@ -11,12 +11,13 @@ info:
     The tru.ID API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
 servers:
   - url: "https://{data_residency}.api.tru.id"
-    description: For accounts with data residency in the EU
+    description: For accounts with data residency in the EU or IN
     variables:
       data_residency:
         default: eu
         enum:
           - eu
+          - in
 tags:
   - name: oauth2_v1
     x-displayName: v1
@@ -1303,14 +1304,6 @@ components:
         e.g. `Authorization: Bearer {access_token}`
 
         The token should be a Workspace-level access token. These are created using your Workspace `client_id` and `client_secret`.
-      type: http
-      scheme: bearer
-    ProjectBearerAuth:
-      description: |
-        The tru.ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
-        e.g. `Authorization: Bearer {access_token}`. See [Create an Access Token](#operation/oauth2-token).
-
-        The token should be associated with **tru.ID** Project. These are created using a Project `client_id` and `client_secret`. See [Create an Access Token](#operation/oauth2-token).
       type: http
       scheme: bearer
     UserBearerAuth:

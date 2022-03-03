@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: tru.ID APIs
-  version: v0.1
+  title: tru.ID Utility APIs
+  version: ""
   contact:
     name: tru.ID API Team
     email: feedback@tru.id
@@ -17,12 +17,13 @@ info:
     The [**tru.ID SubscriberCheck Workflow** and API](#tag/subscriber_check) combines the functionality offerd by PhoneCheck and SIMCheck into a single API. It confirms the ownership of a mobile phone number and provides information on when the SIM card associated with the mobile phone number last changed..
 servers:
   - url: "https://{data_residency}.api.tru.id"
-    description: For accounts with data residency in the EU
+    description: For accounts with data residency in the EU or IN
     variables:
       data_residency:
         default: eu
         enum:
           - eu
+          - in
 tags:
   - name: coverage
     x-displayName: v0.1
@@ -661,9 +662,6 @@ paths:
 
 components:
   securitySchemes:
-    BasicAuth:
-      type: http
-      scheme: basic
     WorkspaceBearerAuth:
       description: |
         The tru.ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.

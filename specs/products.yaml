@@ -1,28 +1,31 @@
 openapi: 3.0.0
 info:
-  title: tru.ID APIs
-  version: v0.1
+  title: tru.ID Product APIs
+  version: ""
   contact:
     name: tru.ID API Team
     email: feedback@tru.id
   description: |
     # Introduction
 
-    The tru.ID API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
+    The tru.ID API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](/docs/reference/basics#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](/docs/reference/basics#operation/post-console-v0.2-workspace-projects).
 
     The [**tru.ID PhoneCheck Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **PhoneCheck URL** for the purpose of this verification. **tru.ID** then resolves a **PhoneCheck Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
 
+    The [**tru.ID SubscriberCheck Workflow** and API](#tag/subscriber_check) combines the functionality offerd by PhoneCheck and SIMCheck into a single API. It confirms the ownership of a mobile phone number and provides information on when the SIM card associated with the mobile phone number last changed..
+
     The [**tru.ID SIMCheck API**](#tag/sim_check) provides information on when a SIM card associated with a mobile phone number last changed
 
-    The [**tru.ID SubscriberCheck Workflow** and API](#tag/subscriber_check) combines the functionality offerd by PhoneCheck and SIMCheck into a single API. It confirms the ownership of a mobile phone number and provides information on when the SIM card associated with the mobile phone number last changed..
 servers:
   - url: "https://{data_residency}.api.tru.id"
-    description: For accounts with data residency in the EU
+    description: For accounts with data residency in the EU or IN
     variables:
       data_residency:
         default: eu
         enum:
           - eu
+          - in
+
 tags:
   - name: phone_check_v0.2
     x-displayName: v0.2
@@ -803,6 +806,41 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+    patch:
+      summary: Complete SubscriberCheck
+      description: TODO update this
+      operationId: patch-subscriber-check-v0.2
+      security:
+        - ProjectBearerAuth: []
+      tags:
+        - subscriber_check_v0.2
+      requestBody:
+        description: JSON payload to update a PhoneCheck
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheckPatchPayload
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheck
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+
   "/subscriber_check/v0.2/checks/{check_id}/redirect":
     parameters:
       - name: check_id
@@ -1509,25 +1547,11 @@ paths:
 
 components:
   securitySchemes:
-    BasicAuth:
-      type: http
-      scheme: basic
-    WorkspaceBearerAuth:
-      description: |
-        The tru.ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
-        e.g. `Authorization: Bearer {access_token}`
-
-        The token should be a Workspace-level access token. These are created using your Workspace `client_id` and `client_secret`.
-      type: http
-      scheme: bearer
     ProjectBearerAuth:
       description: |
         The tru.ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
         e.g. `Authorization: Bearer {access_token}`. See [Create an Access Token](#operation/oauth2-token).
 
         The token should be associated with **tru.ID** Project. These are created using a Project `client_id` and `client_secret`. See [Create an Access Token](#operation/oauth2-token).
-      type: http
-      scheme: bearer
-    UserBearerAuth:
       type: http
       scheme: bearer
