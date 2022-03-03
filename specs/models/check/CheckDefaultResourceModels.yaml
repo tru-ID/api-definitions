@@ -37,7 +37,7 @@ components:
           example: my_internal_reference
         callback_url:
           description: |
-            Optional. A public URL that will receive a POST request when the Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
+            Optional. A public URL that will receive an asynchronous POST request as a notification when the Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
 
             The `callback_url` used for an individual Check will override a `callback_url` set within Project configuration.
           type: string
