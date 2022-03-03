@@ -8,13 +8,13 @@ info:
   description: |
     # Introduction
 
-    The tru.ID API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
+    The tru.ID API uses [OAuth2](/docs/reference/basics#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](/docs/reference/basics#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](/docs/reference/basics#operation/create-project).
 
-    The [**tru.ID PhoneCheck Workflow** and API](#tag/phone_check) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **PhoneCheck URL** for the purpose of this verification. **tru.ID** then resolves a **PhoneCheck Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
+    The [**tru.ID Coverage API**](#tag/coverage) enables applications to check whether the SIM card within a user's device is on a net work that **tru.ID** has connectivity to. A request is made with the mobile data connection to determine whether the IP address is cellular or landline. If the IP address is mobile then checks are made to determine whether it is supported by **tru.ID**
 
-    The [**tru.ID SIMCheck API**](#tag/sim_check) provides information on when a SIM card associated with a mobile phone number last changed
+    The [**tru.ID Payment API**](#tag/payments_v0.2) provides functionality for businesses to manage the billing of their accounts themselves, with functionality for CRUD on payment methods, as well as creating a Topup.
 
-    The [**tru.ID SubscriberCheck Workflow** and API](#tag/subscriber_check) combines the functionality offerd by PhoneCheck and SIMCheck into a single API. It confirms the ownership of a mobile phone number and provides information on when the SIM card associated with the mobile phone number last changed..
+    The [**tru.ID Usage API**](#tag/usage_v0.2) provides functionality for businesses to implement their accounts usage on an hourly, daily, and monthly basis.
 servers:
   - url: "https://{data_residency}.api.tru.id"
     description: For accounts with data residency in the EU or IN
@@ -32,7 +32,7 @@ tags:
     x-displayName: v0.2
     description: Relating to Usage.
   - name: usage_deprecated
-    x-displayName: v0.1 (deprecated)
+    x-displayName: v0.1
     description: Relating to Usage.
   - name: payments_v0.2
     x-displayName: v0.2

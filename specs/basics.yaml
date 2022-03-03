@@ -9,6 +9,12 @@ info:
     # Introduction
 
     The tru.ID API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
+
+    The [**tru.ID Workspaces API**](#tag/workspaces_v0.2) provides access to manage Workspaces, which are containers for users accounts nad billing accounts.
+
+    The [**tru.ID Projects API**](#tag/projects_v0.2) allows the management of the projects under your Workspace, to manage the projects credentials and logically group API calls.
+
+    The [**tru.ID Members API**](#tag/members_v0.2) provides functionality to manage all of the members under the Workspace.
 servers:
   - url: "https://{data_residency}.api.tru.id"
     description: For accounts with data residency in the EU or IN
@@ -29,10 +35,10 @@ tags:
     x-displayName: v0.2
     description: Relating to a workspace.
   - name: projects_deprecated
-    x-displayName: v0.1 (deprecated)
+    x-displayName: v0.1
     description: A project is container for configuration on the platform. A project contains credentials used to authenticate API requests with a project `mode` and per-product configuration.
   - name: workspaces_deprecated
-    x-displayName: v0.1 (deprecated)
+    x-displayName: v0.1
     description: Relating to a workspace.
   - name: hide
     description: Tags that should not be rendered
@@ -48,9 +54,6 @@ x-tagGroups:
     tags:
       - workspaces_v0.2
       - workspaces_deprecated
-  - name: credentials
-    tags:
-      - credentials_v0.2
   - name: Projects
     tags:
       - projects_v0.2
