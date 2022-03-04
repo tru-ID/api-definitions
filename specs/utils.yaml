@@ -32,7 +32,7 @@ tags:
     x-displayName: v0.2
     description: Relating to Usage.
   - name: usage_deprecated
-    x-displayName: v0.1
+    x-displayName: v0.1 (deprecated)
     description: Relating to Usage.
   - name: payments_v0.2
     x-displayName: v0.2
