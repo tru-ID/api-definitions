@@ -270,7 +270,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
       operationId: get-console-v0.2-workspaces
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}":
     parameters:
@@ -308,7 +307,6 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: get-console-v0.2-workspace
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
 
   "/console/v0.2/workspaces/{workspace_id}/members":
@@ -335,7 +333,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
       operationId: get-console-v0.2-workspace-members
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}/members/{member_id}":
     parameters:
@@ -362,7 +359,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
       operationId: get-console-v0.2-workspace-member
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
 
   "/console/v0.2/workspaces/{workspace_id}/members/{member_id}/credentials":
@@ -390,7 +386,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
       operationId: get-console-v0.2-workspace-member-credentials
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
     post:
       summary: Create a Workspace Credential
@@ -419,7 +414,6 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: post-console-v0.2-workspace-member-credential-create
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
 
   "/console/v0.2/workspaces/{workspace_id}/members/{member_id}/credentials/{client_id}":
@@ -455,7 +449,6 @@ paths:
       operationId: get-console-v0.2-workspace-member-credential
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
     delete:
       summary: Delete a Workspace Credential
       description: "Delete the Workspace Credential identified by `client_id`"
@@ -480,7 +473,6 @@ paths:
       operationId: delete-console-v0.2-workspace-member-credential
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
 
   "/console/v0.2/workspaces/{workspace_id}/projects":
     parameters:
@@ -491,7 +483,6 @@ paths:
       operationId: post-console-v0.2-workspace-projects
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
       tags:
         - projects_v0.2
       requestBody:
@@ -575,7 +566,6 @@ paths:
       operationId: get-console-v0.2-workspace-projects
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
       tags:
         - projects_v0.2
       parameters:
@@ -655,7 +645,6 @@ paths:
       operationId: get-console-v0.2-workspace-project
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
       tags:
         - projects_v0.2
       responses:
@@ -690,7 +679,6 @@ paths:
       operationId: patch-console-v0.2-workspace-project
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
       tags:
         - projects_v0.2
       requestBody:
@@ -769,7 +757,6 @@ paths:
       operationId: get-console-v0.2-workspace-project-credential
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
       tags:
         - projects_v0.2
       responses:
@@ -823,7 +810,6 @@ paths:
       operationId: delete-console-v0.2-workspace-project-credential
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
       tags:
         - projects_v0.2
       responses:
@@ -857,7 +843,6 @@ paths:
       operationId: get-console-v0.2-workspace-project-credentials
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
       tags:
         - projects_v0.2
       responses:
@@ -917,7 +902,6 @@ paths:
       operationId: post-console-v0.2-workspace-project-credential
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
       tags:
         - projects_v0.2
       responses:
@@ -1307,9 +1291,6 @@ components:
         e.g. `Authorization: Bearer {access_token}`
 
         The token should be a Workspace-level access token. These are created using your Workspace `client_id` and `client_secret`.
-      type: http
-      scheme: bearer
-    UserBearerAuth:
       type: http
       scheme: bearer
   schemas:

@@ -186,7 +186,6 @@ paths:
       operationId: get-console-v0.2-usage-hourly
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
       tags:
         - usage_v0.2
       parameters:
@@ -231,7 +230,6 @@ paths:
       operationId: get-console-v0.2-usage-daily
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
       tags:
         - usage_v0.2
       parameters:
@@ -276,7 +274,6 @@ paths:
       operationId: get-console-v0.2-usage-monthly
       security:
         - WorkspaceBearerAuth: []
-        - UserBearerAuth: []
       tags:
         - usage_v0.2
       parameters:
@@ -469,7 +466,6 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: get-console-v0.2-workspace-billing_account
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
     put:
       summary: Update a Billing Account
@@ -504,7 +500,6 @@ paths:
             schema:
               $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/schemas/BillingAccountPartial
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}/payment_methods":
     parameters:
@@ -536,7 +531,6 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: get-console-v0.2-workspace-payment_methods
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}/payment_methods/{payment_method_id}":
     parameters:
@@ -575,7 +569,6 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: get-console-v0.2-workspace-payment_method
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
     delete:
       summary: Delete a Payment Method
@@ -594,7 +587,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
       operationId: delete-console-v0.2-workspace-payment_method
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
   "/console/v0.2/workspaces/{workspace_id}/topups":
     parameters:
@@ -626,7 +618,6 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: get-console-v0.2-workspace-topups
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
     post:
       summary: Create a Topup
@@ -657,7 +648,6 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
       operationId: post-console-v0.2-workspace-topups
       security:
-        - UserBearerAuth: []
         - WorkspaceBearerAuth: []
 
 components:
@@ -676,8 +666,5 @@ components:
         e.g. `Authorization: Bearer {access_token}`. See [Create an Access Token](#operation/oauth2-token).
 
         The token should be associated with **tru.ID** Project. These are created using a Project `client_id` and `client_secret`. See [Create an Access Token](#operation/oauth2-token).
-      type: http
-      scheme: bearer
-    UserBearerAuth:
       type: http
       scheme: bearer
