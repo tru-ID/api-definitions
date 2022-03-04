@@ -46,7 +46,6 @@ components:
 
     CheckPartial:
       type: object
-      description: test
       allOf:
         - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckPartial"
 

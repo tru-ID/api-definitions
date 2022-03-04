@@ -68,7 +68,6 @@ components:
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: ACCEPTED
-        match: true
         charge_amount: 1
         charge_currency: API
         snapshot_balance: 99
