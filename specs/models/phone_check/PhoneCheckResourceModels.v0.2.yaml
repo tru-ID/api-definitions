@@ -28,6 +28,11 @@ components:
             error_code:
               $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckErrorCode"
 
+    PhoneCheckCallbackPartial:
+          description: A PhoneCheck resource
+          allOf:
+            - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckPartial"
+
     PhoneCheckCreateResponse:
       description: A PhoneCheck Created response
       allOf:
@@ -109,4 +114,15 @@ components:
     PhoneCheckCallbackPayload:
       description: The payload sent to a callback URL upon a PhoneCheck reaching an end state.
       allOf:
-        - $ref: "#/components/schemas/PhoneCheckPartial"
+        - $ref: "#/components/schemas/PhoneCheckCallbackPartial"
+        - type: object
+          properties:
+            match:
+              description: |
+                Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
+                `check_url` was accessed from.
+              type: boolean
+          required:
+            - match
+          example:
+            match: true
