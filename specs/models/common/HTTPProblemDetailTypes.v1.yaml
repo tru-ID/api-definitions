@@ -35,6 +35,8 @@ components:
         - $ref: '#/components/responses/ProblemDetailsBase'
       example:
         type: https://developer.tru.id/docs/reference/api-errors#mno_not_supported
+        title: Precondition Failed
+        detail: Mobile Network Operator Not Supported
 
     NotMobileIp:
       description: >
@@ -43,6 +45,8 @@ components:
         - $ref: '#/components/responses/ProblemDetailsBase'
       example:
         type: https://developer.tru.id/docs/reference/api-errors#not_mobile_ip
+        title: Precondition Failed
+        detail: Not a mobile IP
 
     InvalidPhoneNumberFormat:
       description: >
