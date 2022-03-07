@@ -23,6 +23,16 @@ components:
       description: Generic 404 Not Found
       allOf:
         - $ref: '#/components/responses/ProblemDetailsBase'
+
+    CheckNotFound:
+      description: Check Not Found
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://developer.tru.id/docs/reference/api-errors#check_not_found
+        title: Bad Request
+        detail: Check Not Found
+
     Forbidden:
       description: Generic 403 Forbidden
       allOf:

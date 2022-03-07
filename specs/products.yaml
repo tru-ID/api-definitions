@@ -558,7 +558,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
         "412":
           description: Not a mobile IP
           content:
