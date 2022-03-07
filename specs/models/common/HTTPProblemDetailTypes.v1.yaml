@@ -35,7 +35,7 @@ components:
         - $ref: '#/components/responses/ProblemDetailsBase'
       example:
         type: https://developer.tru.id/docs/reference/api-errors#mno_not_supported
-        title: Precondition Failed
+        title: Bad Request
         detail: Mobile Network Operator Not Supported
 
     NotMobileIp:
