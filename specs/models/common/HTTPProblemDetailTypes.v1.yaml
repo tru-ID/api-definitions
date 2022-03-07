@@ -64,3 +64,5 @@ components:
         - $ref: '#/components/responses/ProblemDetailsBase'
       example:
         type: https://developer.tru.id/docs/reference/api-errors#mno_redirect_unsupported
+        title: Not Implemented
+        detail: Mobile Network Operator Not Supporting Redirect
