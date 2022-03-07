@@ -33,6 +33,15 @@ components:
         title: Not Found
         detail: Check Not Found
 
+    TraceNotFound:
+      description: Trace Not Found
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://developer.tru.id/docs/reference/api-errors#trace_not_found
+        title: Not Found
+        detail: Trace Not Found
+
     Forbidden:
       description: Generic 403 Forbidden
       allOf:
@@ -78,3 +87,13 @@ components:
         type: https://developer.tru.id/docs/reference/api-errors#mno_redirect_unsupported
         title: Not Implemented
         detail: Mobile Network Operator Not Supporting Redirect
+
+    TraceGone:
+      description: >
+        After seven days, the traces for the check expires resulting in a Gone response.
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://developer.tru.id/docs/reference/api-errors#trace_gone
+        title: Gone
+        detail: Traces have expired

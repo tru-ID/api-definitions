@@ -293,11 +293,11 @@ paths:
                       self:
                         href: "https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces"
         "404":
-          description: Not Found
+          description: Check Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
   "/phone_check/v0.1/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
@@ -356,7 +356,15 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                oneOf:
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceNotFound
+        "410":
+          description: Trace Gone
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
 
   /phone_check/v0.2/checks:
     post:
@@ -633,11 +641,11 @@ paths:
                       self:
                         href: "https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces"
         "404":
-          description: Not Found
+          description: Check Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
   "/phone_check/v0.2/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
@@ -692,11 +700,19 @@ paths:
                       self:
                         href: "https://eu.api.tru.id/phone_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25"
         "404":
-          description: Not Found
+          description: Check Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                oneOf:
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceNotFound
+        "410":
+          description: Trace Gone
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
 
   /subscriber_check/v0.2/checks:
     post:
@@ -818,7 +834,7 @@ paths:
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
-          description: Not Found
+          description: Check Not Found
           content:
             application/problem+json:
               schema:
@@ -971,11 +987,11 @@ paths:
                       self:
                         href: "https://eu.api.tru.id/subscriber_check/v0.2/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces"
         "404":
-          description: Not Found
+          description: Check Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
   "/subscriber_check/v0.2/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
@@ -1028,11 +1044,20 @@ paths:
                           self:
                             href: "https://eu.api.tru.id/subscriber_check/v0.2/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25"
         "404":
-          description: Not Found
+          description: Check Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                oneOf:
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceNotFound
+
+        "410":
+          description: Trace Gone
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
 
   /subscriber_check/v0.1/checks:
     post:
@@ -1268,11 +1293,11 @@ paths:
                       self:
                         href: "https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces"
         "404":
-          description: Not Found
+          description: Check Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
   "/subscriber_check/v0.1/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
@@ -1325,11 +1350,19 @@ paths:
                           self:
                             href: "https://eu.api.tru.id/subscriber_check/v0.1/checks/857b1bab-c2e8-41ec-9f76-9695ec78b91b/traces/6f2a0e25fc0caa25"
         "404":
-          description: Not Found
+          description: Check Not Found
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                oneOf:
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceNotFound
+        "410":
+          description: Trace Gone
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
 
   /sim_check/v0.1/checks:
     post:
@@ -1576,7 +1609,9 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                oneOf:
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+                  - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceNotFound
 
 components:
   securitySchemes:
