@@ -225,6 +225,13 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+        "501":
+          description: Mobile Network Operator does not Support Redirects
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorRedirectNotSupported
+
   "/phone_check/v0.1/checks/{check_id}/traces":
     parameters:
       - name: check_id
@@ -558,6 +565,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+        "501":
+          description: Mobile Network Operator does not Support Redirects
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorRedirectNotSupported
 
   "/phone_check/v0.2/checks/{check_id}/traces":
     parameters:
@@ -891,6 +904,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+        "501":
+          description: Mobile Network Operator does not Support Redirects
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorRedirectNotSupported
   "/subscriber_check/v0.2/checks/{check_id}/traces":
     parameters:
       - name: check_id
@@ -1182,6 +1201,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+        "501":
+          description: Mobile Network Operator does not Support Redirects
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorRedirectNotSupported
   "/subscriber_check/v0.1/checks/{check_id}/traces":
     parameters:
       - name: check_id

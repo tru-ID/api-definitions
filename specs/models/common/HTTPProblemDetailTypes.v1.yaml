@@ -56,3 +56,11 @@ components:
         - $ref: '#/components/responses/ProblemDetailsBase'
       example:
         type: https://developer.tru.id/docs/reference/api-errors#invalid_phone_number_format
+
+    MobileNetworkOperatorRedirectNotSupported:
+      description: >
+        The Mobile Network Operator (MNO) associated with phone number does not support redirects.
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://developer.tru.id/docs/reference/api-errors#mno_redirect_unsupported
