@@ -182,7 +182,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
   "/phone_check/v0.1/checks/{check_id}/redirect":
     parameters:
       - name: check_id
@@ -483,7 +483,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
     patch:
       summary: Complete PhoneCheck
       description: "Complete a PhoneCheck identified by `check_id`. NB: the user needs to visit the `check_url` before this endpoint, otherwise a 404 will be returned."
@@ -822,7 +822,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
     patch:
       summary: Complete SubscriberCheck
       description: "Complete a SubscriberCheck identified by `check_id`. NB: the user needs to visit the `check_url` before this endpoint, otherwise a 404 will be returned."
@@ -1158,7 +1158,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
   "/subscriber_check/v0.1/checks/{check_id}/redirect":
     parameters:
       - name: check_id
@@ -1451,7 +1451,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
   "/sim_check/v0.1/checks/{check_id}/traces":
     parameters:
       - name: check_id
