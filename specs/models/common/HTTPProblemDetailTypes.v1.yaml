@@ -30,7 +30,7 @@ components:
         - $ref: '#/components/responses/ProblemDetailsBase'
       example:
         type: https://developer.tru.id/docs/reference/api-errors#check_not_found
-        title: Bad Request
+        title: Not Found
         detail: Check Not Found
 
     Forbidden:
