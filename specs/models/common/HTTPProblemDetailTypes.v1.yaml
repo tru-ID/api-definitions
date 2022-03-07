@@ -65,7 +65,9 @@ components:
       allOf:
         - $ref: '#/components/responses/ProblemDetailsBase'
       example:
-        type: https://developer.tru.id/docs/reference/api-errors#invalid_phone_number_format
+        type: https://developer.tru.id/docs/reference/api-errors#phone_format_invalid
+        title: Bad Request
+        detail: Phone Number Validation Error
 
     MobileNetworkOperatorRedirectNotSupported:
       description: >
