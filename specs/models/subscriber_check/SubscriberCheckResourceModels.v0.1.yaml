@@ -36,10 +36,15 @@ components:
                 no_sim_change:
                   $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange"
 
+    SubscriberCheckCreatePartial:
+      description: A SubscriberCheck resource
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckCreatePartial"
+
     SubscriberCheckCreateResponse:
       description: A Subscriber Created response
       allOf:
-        - $ref: "#/components/schemas/SubscriberCheckPartial"
+        - $ref: "#/components/schemas/SubscriberCheckCreatePartial"
         - type: object
           properties:
             status:

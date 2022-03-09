@@ -19,7 +19,6 @@ components:
 
     CheckCreatePartial:
       allOf:
-        - $ref: "#/components/schemas/CheckPartial"
         - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckCreatePartial"
 
     CheckGetPartial:

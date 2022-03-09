@@ -28,11 +28,15 @@ components:
           allOf:
             - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckPartial"
 
+    PhoneCheckCreatePartial:
+      description: A PhoneCheck resource
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckCreatePartial"
+
     PhoneCheckCreateResponse:
       description: A PhoneCheck Created response
       allOf:
-        - $ref: "#/components/schemas/PhoneCheckPartial"
-        - $ref: "./PhoneCheckDefaultResourceModels.yaml#/components/schemas/PhoneCheckCreateResponse"
+        - $ref: "#/components/schemas/PhoneCheckCreatePartial"
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: ACCEPTED

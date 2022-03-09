@@ -28,6 +28,11 @@ components:
             error_code:
               $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckErrorCode"
 
+    PhoneCheckCreatePartial:
+      description: A PhoneCheck resource
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckCreatePartial"
+
     PhoneCheckCallbackPartial:
           description: A PhoneCheck resource
           allOf:
@@ -36,8 +41,7 @@ components:
     PhoneCheckCreateResponse:
       description: A PhoneCheck Created response
       allOf:
-        - $ref: "#/components/schemas/PhoneCheckPartial"
-        - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckCreatePartial"
+        - $ref: "#/components/schemas/PhoneCheckCreatePartial"
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: ACCEPTED
