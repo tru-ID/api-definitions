@@ -40,9 +40,9 @@ components:
         - path
         - value
       example:
-        op: "add"
-        path: "/code"
-        value: "code"
+        - op: "add"
+          path: "/code"
+          value: "code"
 
     CheckPartial:
       type: object
