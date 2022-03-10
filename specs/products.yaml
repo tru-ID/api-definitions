@@ -165,7 +165,7 @@ paths:
         required: true
     get:
       summary: Get PhoneCheck
-      description: "Get a PhoneCheck identified by `check_id`. NB: if the user never visits the `check_url`, after 120 seconds the Check will be deleted and 404 returned."
+      description: "Get a PhoneCheck identified by `check_id`."
       operationId: get-phone-check-v0.1
       security:
         - ProjectBearerAuth: []
@@ -482,7 +482,7 @@ paths:
         required: true
     get:
       summary: Get PhoneCheck
-      description: "Get a PhoneCheck identified by `check_id`. NB: if the user never visits the `check_url`, after 120 seconds the Check will be deleted and 404 returned."
+      description: "Get a PhoneCheck identified by `check_id`."
       operationId: get-phone-check-v0.2
       security:
         - ProjectBearerAuth: []
@@ -510,7 +510,7 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
     patch:
       summary: Complete PhoneCheck
-      description: "Complete a PhoneCheck identified by `check_id`. NB: the user needs to visit the `check_url` before this endpoint, otherwise a 404 will be returned."
+      description: "Complete a PhoneCheck identified by `check_id`. NB: the device needs to visit the `check_url` to get the code which is redeemed against the PhoneCheck result before this endpoint, otherwise a 404 will be returned."
       operationId: patch-phone-check-v0.2
       security:
         - ProjectBearerAuth: []
@@ -553,7 +553,7 @@ paths:
         required: true
     get:
       summary: Perform the PhoneCheck
-      description: Perform the PhoneCheck identified by `check_id`.
+      description: Perform the PhoneCheck identified by `check_id`. The device needs to perform this action over a cellular data connection.
       operationId: get-phone-check-redirect-v0.2
       tags:
         - phone_check_v0.2
@@ -865,7 +865,7 @@ paths:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
     patch:
       summary: Complete SubscriberCheck
-      description: "Complete a SubscriberCheck identified by `check_id`. NB: the user needs to visit the `check_url` before this endpoint, otherwise a 404 will be returned."
+      description: "Complete a SubscriberCheck identified by `check_id`. NB: the device needs to visit the `check_url` before this endpoint, otherwise a 404 will be returned."
       operationId: patch-subscriber-check-v0.2
       security:
         - ProjectBearerAuth: []
@@ -908,7 +908,7 @@ paths:
         required: true
     get:
       summary: Perform the SubscriberCheck
-      description: Perform the SubscriberCheck identified by `check_id`.
+      description: Perform the SubscriberCheck identified by `check_id`. The device needs to perform this action over a cellular data connection.
       operationId: get-subscriber-check-redirect-v0.2
       tags:
         - subscriber_check_v0.2
