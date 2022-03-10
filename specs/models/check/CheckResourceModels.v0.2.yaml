@@ -20,7 +20,7 @@ components:
           example: https://example.com/redirect_url
 
     CheckPatchPayload:
-      type: object
+      type: array
       properties:
         op:
           description: The operation to be performed
@@ -37,8 +37,8 @@ components:
           example: code
       required:
         - op
-        - path
-        - value
+          path
+          value
       example:
         - op: "add"
           path: "/code"
