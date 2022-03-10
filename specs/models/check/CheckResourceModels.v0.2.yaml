@@ -62,6 +62,10 @@ components:
       allOf:
         - $ref: "#/components/schemas/CheckPartial"
         - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckFullPartial"
+
+    CheckPatchPartial:
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckPatchPartial"
     
     CheckErrorCode:
       description: An indicator of why the Check failed. Returned only when `status` is "ERROR".

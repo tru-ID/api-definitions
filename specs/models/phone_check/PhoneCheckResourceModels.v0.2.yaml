@@ -34,9 +34,14 @@ components:
         - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckCreatePartial"
 
     PhoneCheckCallbackPartial:
-          description: A PhoneCheck resource
-          allOf:
-            - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckPartial"
+      description: A PhoneCheck resource
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckPartial"
+
+    PhoneCheckPatchPartial:
+      description: A PhoneCheck Resource
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckPatchPartial"
 
     PhoneCheckCreateResponse:
       description: A PhoneCheck Created response
@@ -95,7 +100,9 @@ components:
         _links:
           self:
             href: https://eu.api.tru.id/phone_checks/v0.1/checks/{check_id}
-         
+
+    PhoneCheckPatch:
+
     PhoneCheckCollection:
       description: A PhoneCheck resource
       allOf:

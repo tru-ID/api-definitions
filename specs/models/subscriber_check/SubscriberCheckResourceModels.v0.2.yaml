@@ -46,6 +46,11 @@ components:
                 no_sim_change:
                   $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange"
 
+    SubscriberCheckPatchPartial:
+      description: A PhoneCheck Resource
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckPatchPartial"
+
     SubscriberCheckCreateResponse:
       description: A Subscriber Created response
       allOf:
