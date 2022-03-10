@@ -15,6 +15,15 @@ info:
     The [**tru.ID Projects API**](#tag/projects_v0.2) allows the management of the projects under your Workspace, to manage the projects credentials and logically group API calls.
 
     The [**tru.ID Members API**](#tag/members_v0.2) provides functionality to manage all of the members under the Workspace.
+
+    # Products APIs
+
+    To access the Products APIs, covering PhoneCheck, SubscriberCheck, and SIMCheck, please click [this link.](/docs/reference/products)
+
+    # Utilities APIs
+
+    To access the Utilities APIs, covering Coverage, Payment, and Usage, please click [this link.](/docs/reference/utils)
+
 servers:
   - url: "https://{data_residency}.api.tru.id"
     description: For accounts with data residency in the EU or IN
