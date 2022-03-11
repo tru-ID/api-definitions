@@ -425,8 +425,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
@@ -466,8 +464,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
@@ -500,8 +496,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
           description: Not Found
           content:
@@ -534,8 +528,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
           description: Not Found
           content:
@@ -569,8 +561,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "400":
           description: Mobile Network Operator Not Supported
           content:
@@ -618,8 +608,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
@@ -698,8 +686,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
@@ -781,8 +767,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
@@ -821,8 +805,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
@@ -855,8 +837,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
           description: Check Not Found
           content:
@@ -889,8 +869,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
           description: Not Found
           content:
@@ -924,8 +902,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "400":
           description: Mobile Network Operator Not Supported
           content:
@@ -972,8 +948,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
@@ -1052,8 +1026,6 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
