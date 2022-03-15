@@ -16,14 +16,6 @@ info:
 
     The [**tru.ID SIMCheck API**](#tag/sim_check_v0.1) provides information on when a SIM card associated with a mobile phone number last changed
 
-    # Basics APIs
-
-    To access the Basics APIs, covering oAuth2, Workspaces, Projects, and Members, please click [this link.](/docs/reference/basics)
-
-    # Utilities APIs
-
-    To access the Utilities APIs, covering Coverage, Payment, and Usage, please click [this link.](/docs/reference/utils)
-
 servers:
   - url: "https://{data_residency}.api.tru.id"
     description: For accounts with data residency in the EU or IN

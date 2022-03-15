@@ -16,14 +16,6 @@ info:
 
     The [**tru.ID Usage API**](#tag/usage_v0.2) provides functionality for businesses to implement their accounts usage on an hourly, daily, and monthly basis.
 
-    # Basics APIs
-
-    To access the Basics APIs, covering oAuth2, Workspaces, Projects, and Members, please click [this link.](/docs/reference/basics)
-
-    # Products APIs
-
-    To access the Products APIs, covering PhoneCheck, SubscriberCheck, and SIMCheck, please click [this link.](/docs/reference/products)
-
 servers:
   - url: "https://{data_residency}.api.tru.id"
     description: For accounts with data residency in the EU or IN
