@@ -27,7 +27,7 @@ components:
           type: string
           example: 127.0.0.1
         reference_id:
-          description: Optional. A field that you can use to track the check request against your own internal reference.
+          description: Optional. A field that you can use to track the check request against your own internal reference. Do not use any Personally identifiable information (PII).
           type: string
           example: my_internal_reference
       required:
@@ -43,7 +43,7 @@ components:
           description: The unique ID of the Check resource
           type: string
         reference_id:
-          description: A field that you can use to track the check request against your own internal reference.
+          description: A field that you can use to track the check request against your own internal reference. Do not use any Personally identifiable information (PII).
           type: string
           example: my_internal_reference
         status:

@@ -1,0 +1,38 @@
+title: CheckResourceModels
+type: object
+description: Definitions of abstract models
+components:
+  schemas:
+    CheckStatus:
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckStatus"
+
+    CheckCreatePayload:
+      type: object
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckCreatePayload"
+
+    CheckPartial:
+      type: object
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckPartial"
+
+    CheckCreatePartial:
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckCreatePartial"
+
+    CheckGetPartial:
+      allOf:
+        - $ref: "#/components/schemas/CheckPartial"
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckGetPartial"
+
+    CheckFullPartial:
+      allOf:
+        - $ref: "#/components/schemas/CheckPartial"
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckFullPartial"
+    
+    CheckErrorCode:
+      description: An indicator of why the Check failed. Returned only when `status` is "ERROR".
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckErrorCode"
+

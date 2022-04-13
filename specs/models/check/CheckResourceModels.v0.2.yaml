@@ -1,0 +1,74 @@
+title: CheckResourceModels
+type: object
+description: Definitions of abstract models
+components:
+  schemas:
+    CheckStatus:
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckStatus"
+
+    CheckCreatePayload:
+      type: object
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckCreatePayload"
+      properties:
+        redirect_url:
+          description: |
+            Optional. A public URL, that when defined, will force a redirect for the user.
+          type: string
+          format: uri
+          example: https://example.com/redirect_url
+
+    CheckPatchPayload:
+      type: array
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          example: "add"
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum: ["/code"]
+          example: /code
+        value:
+          description: The value to be used within the operations. The `code` is retrieved by making a POST request to the `check_url` and extracting it from the response body.
+          type: string
+          example: code
+      required:
+        - op
+          path
+          value
+      example:
+        - op: "add"
+          path: "/code"
+          value: "code"
+
+    CheckPartial:
+      type: object
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckPartial"
+
+    CheckCreatePartial:
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckCreatePartial"
+
+    CheckGetPartial:
+      allOf:
+        - $ref: "#/components/schemas/CheckPartial"
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckGetPartial"
+
+    CheckFullPartial:
+      allOf:
+        - $ref: "#/components/schemas/CheckPartial"
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckFullPartial"
+
+    CheckPatchPartial:
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckPatchPartial"
+    
+    CheckErrorCode:
+      description: An indicator of why the Check failed. Returned only when `status` is "ERROR".
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckErrorCode"
+

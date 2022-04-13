@@ -8,7 +8,7 @@ components:
         - `ACCEPTED`: The Check request has been accepted by the platform
         - `PENDING`: The Check request has been triggered but has not yet completed
         - `COMPLETED`: The Check request has completed
-        - `EXPIRED`: The `check_url` has been triggered but never completed in the default TTL (60s)
+        - `EXPIRED`: The `check_url` has been triggered but never completed in the default TTL (120s)
         - `ERROR`: An error occurred.
       type: string
       enum:
@@ -32,12 +32,12 @@ components:
           type: string
           example: 127.0.0.1
         reference_id:
-          description: Optional. A field that you can use to track the check request against your own internal reference.
+          description: Optional. A field that you can use to track the check request against your own internal reference. Do not use any Personally identifiable information (PII).
           type: string
           example: my_internal_reference
         callback_url:
           description: |
-            Optional. A public URL that will receive a POST request when the Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
+            Optional. A public URL that will receive an asynchronous POST request as a notification when the Check achieves an end `status` of `COMPLETED`, `EXPIRED` or `ERROR`.
 
             The `callback_url` used for an individual Check will override a `callback_url` set within Project configuration.
           type: string
@@ -56,7 +56,7 @@ components:
           description: The unique ID of the Check resource
           type: string
         reference_id:
-          description: A field that you can use to track the check request against your own internal reference.
+          description: A field that you can use to track the check request against your own internal reference. Do not use any Personally identifiable information (PII).
           type: string
           example: my_internal_reference
         status:
@@ -94,20 +94,52 @@ components:
         created_at: "2020-06-01T16:43:30+00:00"
 
     CheckCreatePartial:
-      allOf:
-        - $ref: "#/components/schemas/CheckPartial"
-        - type: object
-          properties:
-            ttl:
-              description: >
-                (Time to live) The number of seconds after which the Check will expire and the `status` will change to `EXPIRED`.
-              type: integer
-              default: 60
-              example: 60
-          example:
-            ttl: 60
-          required:
-            - ttl
+      type: object
+      properties:
+        check_id:
+          description: The unique ID of the Check resource
+          type: string
+        reference_id:
+          description: A field that you can use to track the check request against your own internal reference. Do not use any Personally identifiable information (PII).
+          type: string
+          example: my_internal_reference
+        status:
+          $ref: "#/components/schemas/CheckStatus"
+        charge_amount:
+          description: The amount that was charge for this Check
+          type: number
+        charge_currency:
+          description: The currency the `charge_amount` was made in.
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/Currency
+        created_at:
+          description: When the Check was created
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        updated_at:
+          description: When the Check was last updated
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        ttl:
+          description: >
+            (Time to live) The number of seconds after which the Check will expire and the `status` will change to `EXPIRED`.
+          type: integer
+          default: 120
+          example: 120
+      required:
+        - check_id
+        - status
+        - charge_amount
+        - charge_currency
+        - created_at
+        - ttl
+      example:
+        check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
+        status: COMPLETED
+        charge_amount: 1
+        charge_currency: API
+        created_at: "2020-06-01T16:43:30+00:00"
+        ttl: 120
 
     CheckGetPartial:
       allOf:
@@ -131,19 +163,69 @@ components:
               description: >
                 (Time to live) The number of seconds after which the Check will expire and the `status` will change to `EXPIRED`.
               type: integer
-              default: 60
-              example: 60
+              default: 120
+              example: 120
             match:
               description: |
                 Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
                 `check_url` was accessed from. Only visible if `status` is `COMPLETED`.
               type: boolean
           example:
-            ttl: 60
+            ttl: 120
             match: true
           required:
             - ttl
-    
+            - match
+
+    CheckPatchPartial:
+      type: object
+      properties:
+        check_id:
+          description: The unique ID of the Check resource
+          type: string
+        reference_id:
+          description: A field that you can use to track the check request against your own internal reference. Do not use any Personally identifiable information (PII).
+          type: string
+          example: my_internal_reference
+        status:
+          $ref: "#/components/schemas/CheckStatus"
+        match:
+          description: |
+            Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
+            `check_url` was accessed from.
+          type: boolean
+        charge_amount:
+          description: The amount that was charge for this Check
+          type: number
+        charge_currency:
+          description: The currency the `charge_amount` was made in.
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/Currency
+        created_at:
+          description: When the Check was created
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        updated_at:
+          description: When the Check was last updated
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+      required:
+        - check_id
+        - status
+        - match
+        - charge_amount
+        - charge_currency
+        - created_at
+        - updated_at
+      example:
+        check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
+        status: COMPLETED
+        match: true
+        charge_amount: 1
+        charge_currency: API
+        created_at: "2020-06-01T16:43:30+00:00"
+        updated_at: "2020-06-01T16:43:30+00:00"
+
     CheckErrorCode:
       description: An indicator of why the Check failed.
       type: string

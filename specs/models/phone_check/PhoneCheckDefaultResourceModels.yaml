@@ -1,0 +1,36 @@
+title: PhoneCheckDefaultResourceModels
+type: object
+description: Definitions of reused parts of models related to the PhoneCheck resources
+components:
+  schemas:
+    PhoneCheckCreateResponse:
+      description: A PhoneCheck Created response
+      type: object
+      properties:
+        status:
+          description: The current status of the PhoneCheck
+          type: string
+          enum:
+            - ACCEPTED
+          example: ACCEPTED
+        snapshot_balance:
+          description: |
+            The workspace balance in `charge_currency` taking into account the `charge_amount`.
+            This property is not persisted and is only returned when the PhoneCheck is initially created.
+          type: number
+          example: 100
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              description: The link to the current resource
+              allOf:
+              - $ref: ../common/Link.v1.yaml
+            check_url:
+              description: A URL that the mobile client must navigate as part of the PhoneCheck verification flow.
+              allOf:
+                - $ref: ../common/Link.v1.yaml
+          required:
+            - self
+            - check_url

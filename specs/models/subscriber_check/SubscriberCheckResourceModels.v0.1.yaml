@@ -7,30 +7,44 @@ components:
       description: |
         The status of a SubscriberCheck:
       allOf:
-        - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckStatus"
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckStatus"
 
     SubscriberCheckCreatePayload:
       description: Payload for creating a SubscriberCheck
       allOf:
-        - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckCreatePayload"
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckCreatePayload"
 
     SubscriberCheckPartial:
       description: A SubscriberCheck resource
       allOf:
-        - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckPartial"
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckPartial"
         - type: object
           properties:
             error_code:
-              $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckErrorCode" 
+              $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckErrorCode" 
         - type: object
           properties:
             no_sim_change:
               $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange"
 
+    SubscriberCheckCallbackPartial:
+          description: A SubscriberCheck resource
+          allOf:
+            - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckPartial"
+            - type: object
+              properties:
+                no_sim_change:
+                  $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange"
+
+    SubscriberCheckCreatePartial:
+      description: A SubscriberCheck resource
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckCreatePartial"
+
     SubscriberCheckCreateResponse:
       description: A Subscriber Created response
       allOf:
-        - $ref: "#/components/schemas/SubscriberCheckPartial"
+        - $ref: "#/components/schemas/SubscriberCheckCreatePartial"
         - type: object
           properties:
             status:
@@ -67,23 +81,13 @@ components:
         charge_currency: API
         snapshot_balance: 99
         created_at: "2020-06-01T16:43:30+00:00"
-        ttl: 60
+        ttl: 120
         _links:
           self:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
           check_url:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}/redirect
-
-    SubscriberCheckGetPartial:
-      description: A partial response for getting the SubscriberCheck
-      allOf:
-        - $ref: "../check/CheckResourceModels.v1.yaml#/components/schemas/CheckGetPartial"
-
-    SubscriberCheckGetResponse:
-      description: Phone Check Get Response
-      allOf:
-        - $ref: "#/components/schemas/SubscriberCheck"
-        - $ref: "#/components/schemas/SubscriberCheckGetPartial"
+               
 
     SubscriberCheck:
       description: A SubscriberCheck Resource
@@ -144,4 +148,15 @@ components:
     SubscriberCheckCallbackPayload:
       description: The payload sent to a callback URL upon a SubscriberCheck reaching an end state.
       allOf:
-        - $ref: "#/components/schemas/SubscriberCheckPartial"
+        - $ref: "#/components/schemas/SubscriberCheckCallbackPartial"
+        - type: object
+          properties:
+            match:
+              description: |
+                Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
+                `check_url` was accessed from.
+              type: boolean
+          required:
+            - match
+          example:
+            match: true
