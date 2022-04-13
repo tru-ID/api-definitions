@@ -192,6 +192,7 @@ paths:
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort
         - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchHourly
         - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
       responses:
@@ -236,6 +237,7 @@ paths:
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort
         - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchDaily
         - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
       responses:
@@ -280,6 +282,7 @@ paths:
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort
         - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchMonthly
         - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
       responses:
@@ -322,6 +325,7 @@ paths:
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort
         - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchHourly
         - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
       responses:
