@@ -56,6 +56,12 @@ components:
       allOf:
         - $ref: "../check/CheckGetPartial.v0.1.yaml#/components/schemas/CheckGetPartial"
 
+    PhoneCheckGetResponse:
+      description: Phone Check Get Response
+      allOf:
+        - $ref: "#/components/schemas/PhoneCheck"
+        - $ref: "#/components/schemas/PhoneCheckGetPartial"
+
     PhoneCheck:
       description: Phone Check Resource
       allOf:

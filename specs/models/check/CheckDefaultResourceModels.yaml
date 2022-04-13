@@ -149,10 +149,8 @@ components:
             match:
               description: |
                 Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-                `check_url` was accessed from.
+                `check_url` was accessed from. Only visible if `status` is `COMPLETED`.
               type: boolean
-          required:
-            - match
           example:
             match: true
 
@@ -170,13 +168,14 @@ components:
             match:
               description: |
                 Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-                `check_url` was accessed from.
+                `check_url` was accessed from. Only visible if `status` is `COMPLETED`.
               type: boolean
           example:
             ttl: 120
             match: true
           required:
             - ttl
+<<<<<<< HEAD:specs/models/check/CheckDefaultResourceModels.yaml
             - match
 
     CheckPatchPartial:
@@ -228,6 +227,9 @@ components:
         created_at: "2020-06-01T16:43:30+00:00"
         updated_at: "2020-06-01T16:43:30+00:00"
 
+=======
+    
+>>>>>>> main:specs/models/check/CheckResourceModels.v1.yaml
     CheckErrorCode:
       description: An indicator of why the Check failed.
       type: string
