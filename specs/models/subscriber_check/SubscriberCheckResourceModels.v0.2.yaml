@@ -50,6 +50,10 @@ components:
       description: A PhoneCheck Resource
       allOf:
         - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckPatchPartial"
+        - type: object
+          properties:
+            no_sim_change:
+              $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange"
 
     SubscriberCheckCreateResponse:
       description: A Subscriber Created response
