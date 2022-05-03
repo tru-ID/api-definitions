@@ -38,7 +38,7 @@ components:
         configuration:
           description: Configuration for the Products used within a Project
           allOf:
-          - $ref: ../common/ProjectCommon.v1.yaml#/components/schemas/ProjectConfiguration
+          - $ref: ../common/ProjectCommon.v1.yaml#/components/schemas/ProjectConfigurationv0.1
         credentials:
           description: The credentials for the created Project. The `client_secret` will not be returned upon this request as it is not stored by the platform.
           type: array
@@ -77,7 +77,7 @@ components:
         configuration:
           description: Configuration for the Products used within a Project
           allOf:
-          - $ref: ../common/ProjectCommon.v1.yaml#/components/schemas/ProjectConfiguration
+          - $ref: ../common/ProjectCommon.v1.yaml#/components/schemas/ProjectConfigurationv0.1
       required:
         - name
       x-tags:
