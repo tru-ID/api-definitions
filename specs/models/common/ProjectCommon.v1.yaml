@@ -16,7 +16,6 @@ components:
         A project can have the following modes:
         - `live`: relevant API interactions will incur a fee and our platform may interact with third party systems
         - `sandbox`: See **Sandbox Rules**. Additionally, no charges will be incurred and no interactions will be made with third party systems.
-        - `disabled`: the project is in a state that it cannot be interacted with other than to enable it
 
         **Sandbox Rules**
 
@@ -30,7 +29,6 @@ components:
       enum:
         - live
         - sandbox
-        - disabled
     PhoneCheckCallbackUrl:
       description: |
         A callback URl that is invoked when a PhoneCheck reaches an end status of `COMPLETED`, `EXPIRED` or `ERROR`.
