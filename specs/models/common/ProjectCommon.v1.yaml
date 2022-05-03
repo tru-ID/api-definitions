@@ -4,19 +4,28 @@ description: Definitions of common data types used in v0.1 and v0.2 of project r
 components:
   schemas:
 
+    ProjectConfigurationv0.1:
+      description: Configuration for the Products used within a Project
+      type: object
+      properties:
+        phone_check:
+          $ref: '#/components/schemas/PhoneCheckConfigurationv0.1'
+        subscriber_check:
+          $ref: '#/components/schemas/SubscriberCheckConfigurationv0.1'
+
     ProjectConfiguration:
       description: Configuration for the Products used within a Project
       type: object
       properties:
         phone_check:
           $ref: '#/components/schemas/PhoneCheckConfiguration'
-
+        subscriber_check:
+          $ref: '#/components/schemas/SubscriberCheckConfiguration'   
     ProjectMode:
       description: |
         A project can have the following modes:
         - `live`: relevant API interactions will incur a fee and our platform may interact with third party systems
         - `sandbox`: See **Sandbox Rules**. Additionally, no charges will be incurred and no interactions will be made with third party systems.
-        - `disabled`: the project is in a state that it cannot be interacted with other than to enable it
 
         **Sandbox Rules**
 
@@ -30,7 +39,7 @@ components:
       enum:
         - live
         - sandbox
-        - disabled
+
     PhoneCheckCallbackUrl:
       description: |
         A callback URl that is invoked when a PhoneCheck reaches an end status of `COMPLETED`, `EXPIRED` or `ERROR`.
@@ -39,12 +48,61 @@ components:
       type: string
       format: uri
 
+    PhoneCheckRedirectUrl:
+      description: |
+        A redirect URl that is invoked when a device reaches the last redirect of the `check_url`, and is redirected back to your backend webserver.
+
+        If a `redirect_url` parameter is passed when an individual PhoneCheck is created it will override the `redirect_url` set within Project configuration.
+      type: string
+      format: uri
+
+    SubscriberCheckCallbackUrl:
+      description: |
+        A callback URl that is invoked when a SubscriberCheck reaches an end status of `COMPLETED`, `EXPIRED` or `ERROR`.
+
+        If a `callback_url` parameter is passed when an individual SubscriberCheck is created it will override the `callback_url` set within Project configuration.
+      type: string
+      format: uri
+
+    SubscriberCheckRedirectUrl:
+      description: |
+        A redirect URl that is invoked when a device reaches the last redirect of the `check_url`, and is redirected back to your backend webserver.
+
+        If a `redirect_url` parameter is passed when an individual PhoneCheck is created it will override the `redirect_url` set within Project configuration.
+      type: string
+      format: uri
+
+    PhoneCheckConfigurationv0.1:
+      description: Configuration for PhoneCheck
+      type: object
+      properties:
+        callback_url:
+          $ref: '#/components/schemas/PhoneCheckCallbackUrl'
+
+    SubscriberCheckConfigurationv0.1:
+      description: Configuration for SubscriberCheck
+      type: object
+      properties:
+        callback_url:
+          $ref: '#/components/schemas/SubscriberCheckCallbackUrl'
+
     PhoneCheckConfiguration:
       description: Configuration for PhoneCheck
       type: object
       properties:
         callback_url:
           $ref: '#/components/schemas/PhoneCheckCallbackUrl'
+        redirect_url:
+          $ref: '#/components/schemas/PhoneCheckRedirectUrl'
+
+    SubscriberCheckConfiguration:
+      description: Configuration for SubscriberCheck
+      type: object
+      properties:
+        callback_url:
+          $ref: '#/components/schemas/SubscriberCheckCallbackUrl'
+        redirect_url:
+          $ref: '#/components/schemas/SubscriberCheckRedirectUrl'
 
     ProjectPatchPayload:
       description: |
