@@ -10,6 +10,8 @@ components:
       properties:
         phone_check:
           $ref: '#/components/schemas/PhoneCheckConfiguration'
+        subscriber_check:
+          $ref: '#/components/schemas/SubscriberCheckConfiguration'
 
     ProjectMode:
       description: |
@@ -37,12 +39,27 @@ components:
       type: string
       format: uri
 
+    SubscriberCheckCallbackUrl:
+      description: |
+        A callback URl that is invoked when a SubscriberCheck reaches an end status of `COMPLETED`, `EXPIRED` or `ERROR`.
+
+        If a `callback_url` parameter is passed when an individual SubscriberCheck is created it will override the `callback_url` set within Project configuration.
+      type: string
+      format: uri
+
     PhoneCheckConfiguration:
       description: Configuration for PhoneCheck
       type: object
       properties:
         callback_url:
           $ref: '#/components/schemas/PhoneCheckCallbackUrl'
+
+    SubscriberCheckConfiguration:
+      description: Configuration for SubscriberCheck
+      type: object
+      properties:
+        callback_url:
+          $ref: '#/components/schemas/SubscriberCheckCallbackUrl'
 
     ProjectPatchPayload:
       description: |
