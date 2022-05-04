@@ -12,9 +12,9 @@ info:
 
     The [**tru.ID PhoneCheck Workflow** and API](#tag/phone_check_v0.2) confirms the ownership of a mobile phone number by verifying the possession of an active SIM card with the same number. A mobile data session is created to a unique **PhoneCheck URL** for the purpose of this verification. **tru.ID** then resolves a **PhoneCheck Match** between the phone number that the mobile network operator identifies as the owner of the mobile data session and the phone number being verified.
 
-    The [**tru.ID SubscriberCheck Workflow** and API](#tag/subscriber_check_v0.2) combines the functionality offerd by PhoneCheck and SIMCheck into a single API. It confirms the ownership of a mobile phone number and provides information on when the SIM card associated with the mobile phone number last changed..
+    The [**tru.ID SubscriberCheck Workflow** and API](#tag/subscriber_check_v0.2) combines the functionality offerd by PhoneCheck and SIMCheck into a single API. It confirms the ownership of a mobile phone number and provides information on whether the SIM card associated with the mobile phone number has been changed within the last seven days.
 
-    The [**tru.ID SIMCheck API**](#tag/sim_check_v0.1) provides information on when a SIM card associated with a mobile phone number last changed
+    The [**tru.ID SIMCheck API**](#tag/sim_check_v0.1) information on whether the SIM card associated with the mobile phone number has been changed within the last seven days.
 
 servers:
   - url: "https://{data_residency}.api.tru.id"
