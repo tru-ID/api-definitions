@@ -10,7 +10,7 @@ info:
 
     The tru.ID API uses [OAuth2](#tag/oauth2) Access Tokens for authentication. Access Tokens are created using the [/token endpoint](#operation/oauth2-token) with a valid `client_id` and `client_secret`. `client_id` and `client_secret` credentials are obtained by [creating a Project](#operation/create-project).
 
-    The [**tru.ID Workspaces API**](#tag/workspaces_v0.2) provides access to manage Workspaces, which are containers for users accounts nad billing accounts.
+    The [**tru.ID Workspaces API**](#tag/workspaces_v0.2) provides access to manage Workspaces, which are containers for users accounts and billing accounts.
 
     The [**tru.ID Projects API**](#tag/projects_v0.2) allows the management of the projects under your Workspace, to manage the projects credentials and logically group API calls.
 
@@ -112,7 +112,7 @@ paths:
     post:
       summary: Create an Access Token
       description: |
-        Creates an Access Token. Access Tokens are credentails used to authenticate API interactions.
+        Creates an Access Token. Access Tokens are credentials used to authenticate API interactions.
         With the tru.ID platform, the usage is to create an Access Token from a `client_id` and `client_secret`.
 
         To obtain a `client_id` and `client_secret` you must first [create a Project](#operation/create-project).
@@ -123,18 +123,18 @@ paths:
         - oauth2_v1
       requestBody:
         description: |
-          The request body should match the [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4) flow.
+          The request body should match the [Client Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.4) flow.
         content:
           application/x-www-form-urlencoded:
             schema:
               type: object
               description: |
-                Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                Create an Access Token authenticated using a `client_id` and `client_secret` as part of a [Client Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
                 The resulting token is used to access any API endpoints.
               properties:
                 grant_type:
                   description: |
-                    The type of grant; in this case a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                    The type of grant; in this case a [Client Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
                     Value must be set to `client_credentials`.
                   type: string
                   enum:
@@ -150,7 +150,7 @@ paths:
               schema:
                 type: object
                 description: |
-                  The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                  The response to a [Client Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
                 properties:
                   access_token:
                     description: The Access Token to be used when authenticating with API endpoints
@@ -192,7 +192,7 @@ paths:
             schema:
               type: object
               description: |
-                The response to a [Client Credentails Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
+                The response to a [Client Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.4).
               properties:
                 token:
                   description: The token to be revoked
