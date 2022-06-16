@@ -134,7 +134,8 @@ components:
     SimChangeWithin:
       description: |
         Provides a range of time of when the SIM card has been changed based on
-        a predefined set of values.
+        a predefined set of values. Only returned if the mobile network operator
+        provides this information.
 
         | `sim_change_within` | What this means   |
         | ------------------- | ----------------- |
@@ -147,4 +148,5 @@ components:
         | 10080               | 3d01m - 7d        |
         | 43200               | > 7d              |
         | 43201               | > 30d             |
+
       type: integer
