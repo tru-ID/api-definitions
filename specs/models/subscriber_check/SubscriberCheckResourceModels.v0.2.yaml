@@ -31,6 +31,8 @@ components:
           properties:
             no_sim_change:
               $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange"
+            sim_change_within:
+              $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimChangeWithin"
 
     SubscriberCheckCreatePartial:
       description: A SubscriberCheck resource
@@ -45,6 +47,8 @@ components:
               properties:
                 no_sim_change:
                   $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange"
+                sim_change_within:
+                  $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimChangeWithin"
 
     SubscriberCheckPatchPartial:
       description: A PhoneCheck Resource
@@ -54,6 +58,8 @@ components:
           properties:
             no_sim_change:
               $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange"
+            sim_change_within:
+              $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimChangeWithin"
 
     SubscriberCheckCreateResponse:
       description: A Subscriber Created response
@@ -131,6 +137,7 @@ components:
         status: COMPLETED
         match: true
         no_sim_change: true
+        sim_change_within: 43201
         charge_amount: 1
         charge_currency: API
         created_at: "2020-06-01T16:43:30+00:00"
