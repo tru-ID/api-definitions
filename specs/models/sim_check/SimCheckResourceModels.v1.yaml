@@ -87,7 +87,7 @@ components:
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: COMPLETED
-        no_sim_change: true
+        no_sim_change: false
         sim_change_within: 43201
         charge_amount: 1
         charge_currency: API
@@ -133,9 +133,8 @@ components:
 
     SimChangeWithin:
       description: |
-        Provides a range of time of when the SIM card has been changed based on
-        a predefined set of values. Only returned if the mobile network operator
-        provides this information.
+        Indicates a window of time elapsed since SIM change was detected.
+        Only returned if `no_sim_change` is false, i.e. SIM Change **IS** detected.
 
         | `sim_change_within` | What this means   |
         | ------------------- | ----------------- |

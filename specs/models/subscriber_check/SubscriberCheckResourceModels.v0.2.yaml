@@ -136,7 +136,7 @@ components:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: COMPLETED
         match: true
-        no_sim_change: true
+        no_sim_change: false
         sim_change_within: 43201
         charge_amount: 1
         charge_currency: API
