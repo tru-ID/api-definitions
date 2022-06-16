@@ -148,5 +148,4 @@ components:
         | 10080               | 3d01m - 7d        |
         | 43200               | > 7d              |
         | 43201               | > 30d             |
-
       type: integer
