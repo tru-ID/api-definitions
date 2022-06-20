@@ -50,6 +50,8 @@ components:
           $ref: "#/components/schemas/SimCheckStatus"
         no_sim_change:
           $ref: "#/components/schemas/NoSimChange"
+        sim_change_within:
+          $ref: "#/components/schemas/SimChangeWithin"
         charge_amount:
           description: The amount that was charge for this Check
           type: number
@@ -85,7 +87,8 @@ components:
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: COMPLETED
-        no_sim_change: true
+        no_sim_change: false
+        sim_change_within: 43201
         charge_amount: 1
         charge_currency: API
         created_at: "2020-06-01T16:43:30+00:00"
@@ -127,3 +130,21 @@ components:
         The value is `true` if the SIM card **has not** been changed.
         The value is `false` if the SIM card **has** been changed.
       type: boolean
+
+    SimChangeWithin:
+      description: |
+        Indicates a window of time elapsed since SIM change was detected.
+        Only returned if `no_sim_change` is false, i.e. SIM Change **IS** detected.
+
+        | `sim_change_within` | What this means   |
+        | ------------------- | ----------------- |
+        | 60                  | 0 - 1h            |
+        | 360                 | 1h01m - 6h        |
+        | 720                 | 6h01m - 12h       |
+        | 1440                | 12h01m - 24h      |
+        | 2880                | 1d01m - 2d        |
+        | 4320                | 2d01m - 3d        |
+        | 10080               | 3d01m - 7d        |
+        | 43200               | > 7d              |
+        | 43201               | > 30d             |
+      type: integer
