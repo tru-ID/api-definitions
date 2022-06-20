@@ -134,7 +134,7 @@ components:
     SimChangeWithin:
       description: |
         Indicates a window of time elapsed since SIM change was detected.
-        Only returned if `no_sim_change` is false, i.e. SIM Change **IS** detected.
+        Only returned if the MNO provides this information.
 
         | `sim_change_within` | What this means   |
         | ------------------- | ----------------- |
