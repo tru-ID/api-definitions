@@ -33,6 +33,15 @@ components:
         title: Not Found
         detail: Check Not Found
 
+    FlowNotFound:
+      description: Flow Not Found
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://developer.tru.id/docs/reference/api-errors#check_not_found
+        title: Not Found
+        detail: Flow Not Found
+
     TraceNotFound:
       description: Trace Not Found
       allOf:
