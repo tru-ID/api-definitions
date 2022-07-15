@@ -10,12 +10,10 @@ components:
           op:
             description: The operation to be performed
             type: string
-            required: true
             example: "add"
           path:
             description: A JSON-Pointer
             type: string
-            required: true
             enum: ["/userinfo"]
             example: "/userinfo"
           value:
@@ -25,7 +23,6 @@ components:
               sub:
                 description: The unique identifer of the user attempting to authenticate.
                 type: string
-                required: true
                 example: user@example.com
               claim1:
                 description: (Optional) A string or object of name/value pair that contains information about a user, as well as a meta-information about the OIDC service.
@@ -54,16 +51,13 @@ components:
         flow_id:
           description: Unique identififer of the flow
           type: string
-          required: true
           example: "flow_id"
         user_id:
           description: Unique identifier for the user authenticating
           type: string
-          required: true
           example: "user@example.com"
         state:
           description: Authentication URL state
-          required: true
           example: "auth_url_state"
         userinfo:
           type: object
@@ -72,7 +66,6 @@ components:
             sub:
               description: The unique identifer of the user attempting to authenticate.
               type: string
-              required: true
               example: user@example.com
             claim1:
               description: (Optional) A string or object of name/value pair that contains information about a user, as well as a meta-information about the OIDC service.
@@ -82,17 +75,18 @@ components:
               description: (Optional) A string or object of name/value pair that contains information about a user, as well as a meta-information about the OIDC service.
               type: string
               example: Claim Value 2
+          required:
+            - sub
       required:
         - flow_id
-          user_id
-          state
-          user_info
+        - user_id
+        - state
+        - user_info
       example:
-        - flow_id: "flow_id"
-          user_id: "user@example.com"
-          state: "auth_url_state"
-          user_info: {
-            sub: user@example.com,
-            claim1: "Claim Value 1",
-            claim2: "Claim Value 2"
-          }
+        flow_id: "flow_id"
+        user_id: "user@example.com"
+        state: "auth_url_state"
+        user_info:
+          sub: user@example.com
+          claim1: "Claim Value 1"
+          claim2: "Claim Value 2"
