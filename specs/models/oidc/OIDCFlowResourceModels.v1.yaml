@@ -45,6 +45,32 @@ components:
             claim2: "Claim Value 2"
           }
 
+    OIDCPatchFailurePayload:
+      type: array
+      items:
+        properties:
+          op:
+            description: The operation to be performed
+            type: string
+            example: "add"
+          path:
+            description: A JSON-Pointer
+            type: string
+            enum: ["/userinfo"]
+            example: "/userinfo"
+          value:
+            type: object
+            description: Values relevant to the authentication request from the user identifying them uniquely to the system.
+            properties: {}
+      required:
+        - op
+          path
+          value
+      example:
+        - op: "add"
+          path: "/userinfo"
+          value: {}
+
     OIDCPatchResponse:
       type: object
       properties:
@@ -90,3 +116,26 @@ components:
           sub: user@example.com
           claim1: "Claim Value 1"
           claim2: "Claim Value 2"
+
+    OIDCPatchFailureResponse:
+      type: object
+      properties:
+        flow_id:
+          description: Unique identififer of the flow
+          type: string
+          example: "flow_id"
+        state:
+          description: Authentication URL state
+          example: "auth_url_state"
+        userinfo:
+          type: object
+          description: Values relevant to the authentication request from the user identifying them uniquely to the system.
+          properties: {}
+      required:
+        - flow_id
+        - state
+        - user_info
+      example:
+        flow_id: "flow_id"
+        state: "auth_url_state"
+        user_info: {}

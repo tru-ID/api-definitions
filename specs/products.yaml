@@ -1657,14 +1657,18 @@ paths:
         content:
           application/json-patch+json:
             schema:
-              $ref: ./models/oidc/OIDCFlowResourceModels.v1.yaml#/components/schemas/OIDCPatchPayload
+              oneOf:
+                - $ref: ./models/oidc/OIDCFlowResourceModels.v1.yaml#/components/schemas/OIDCPatchPayload
+                - $ref: ./models/oidc/OIDCFlowResourceModels.v1.yaml#/components/schemas/OIDCPatchFailurePayload
       responses:
         "200":
           description: OK
           content:
             application/hal+json:
               schema:
-                $ref: ./models/oidc/OIDCFlowResourceModels.v1.yaml#/components/schemas/OIDCPatchResponse
+                oneOf:
+                  - $ref: ./models/oidc/OIDCFlowResourceModels.v1.yaml#/components/schemas/OIDCPatchResponse
+                  - $ref: ./models/oidc/OIDCFlowResourceModels.v1.yaml#/components/schemas/OIDCPatchFailureResponse
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
