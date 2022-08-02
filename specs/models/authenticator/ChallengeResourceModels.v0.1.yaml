@@ -1,0 +1,154 @@
+title: ChallengeResourceModels
+type: object
+description: Definitions of an Authenticator API challenge
+components:
+  schemas:
+    ChallengeStatus:
+      description: |
+        - `PENDING`: The Challenge is pending verification
+        - `VERIFIED`: The Challenge has been successfully verified
+        - `FAILED`: The Challenge has been unsuccessfully verified
+        - `EXPIRED`: The Challenge has expired
+      type: string
+      enum:
+        - PENDING
+        - VERIFIED
+        - FAILED
+        - EXPIRED
+      example: PENDING
+
+    ChallengeCreatePayload:
+      oneOf:
+        - $ref: "#/components/schemas/ChallengeCreatePushPayload"
+        - $ref: "#/components/schemas/ChallengeCreateTOTPPayload"
+
+    ChallengeCreatePushPayload:
+      type: object
+      properties:
+        reference_id:
+          description: The client defined ID of the Challenge resource transaction
+          type: string
+        check_id:
+          description: The ID of the PhoneCheck to be used by this PUSH Challenge
+          type: string
+        check_url:
+          description: The redirect URL of the PhoneCheck to be used by this PUSH Challenge
+          type: string
+        message:
+          description: The message to be shown in the push notification
+          type: string
+      required:
+        - check_id
+        - check_url
+      example:
+        check_id: 5995afaf-f5d1-47ab-b586-50ad46904eec
+        check_url: https://eu.api.tru.id/phone_checks/v0.2/checks/5995afaf-f5d1-47ab-b586-50ad46904eec/redirect
+        message: Please confirm your login
+
+    ChallengeCreateTOTPPayload:
+      type: object
+      properties:
+        reference_id:
+          description: The client defined ID of the Challenge resource transaction
+          type: string
+      example:
+        reference_id: test_user_payment_1
+
+    ChallengePatchPayload:
+      description: |
+        Update a Challenge originating from a TOTP challenge.
+
+        An array of JSON-PATCH operations as defined in [RFC 6902](https://tools.ietf.org/html/rfc6902).
+      type: array
+      items:
+        type: object
+        properties:
+          op:
+            description: The operation to be performed
+            type: string
+            enum:
+              - add
+          path:
+            description: A JSON-Pointer
+            type: string
+            enum:
+              - /code
+          value:
+            description: The value to be used within the operations.
+            type: string
+            example: "123456"
+        required:
+          - op
+          - path
+          - value
+        example:
+          op: add
+          path: /code
+          value: "123456"
+
+    Challenge:
+      type: object
+      properties:
+        challenge_id:
+          description: The unique ID of the Challenge resource
+          type: string
+        status:
+          $ref: "#/components/schemas/ChallengeStatus"
+        reference_id:
+          description: The client defined ID of the Challenge resource transaction
+          type: string
+        created_at:
+          description: When the Challenge was created
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        updated_at:
+          description: When the Challenge was last updated
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        expired_at:
+          description: When the Challenge expired
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              description: The link to the current resource
+              allOf:
+              - $ref: ../common/Link.v1.yaml
+          required:
+              - self
+      required:
+        - challenge_id
+        - status
+        - created_at
+        - updated_at
+        - _links
+      example:
+        challenge_id: 5995afaf-f5d1-47ab-b586-50ad46904eec
+        status: PENDING
+        created_at: "2020-06-01T16:43:30+00:00"
+        updated_at: "2020-06-01T16:43:30+00:00"
+        _links:
+          self:
+            href: https://eu.api.tru.id/authenticator/v0.1/factors/{factor_id}
+
+    ChallengeCollection:
+      description: A collection of Challenge resources
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
+          properties:
+            _links:
+              description: Links related to the current resource
+              $ref: ../common/PaginationLinks.v1.yaml
+            _embedded:
+              description: Resources related to the resource request
+              type: object
+              properties:
+                factors:
+                  description: The Challenges within the collection
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Challenge"

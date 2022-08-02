@@ -1,0 +1,219 @@
+title: FactorResourceModels
+type: object
+description: Definitions of an Authenticator API factor
+components:
+  schemas:
+    FactorStatus:
+      description: |
+        - `PENDING`: The Factor needs to be validated by the user
+        - `ACTIVE`: The Factor is active and can be used to create Challenges
+        - `INACTIVE`: The Factor is inactive and cannot be used
+      type: string
+      enum:
+        - PENDING
+        - ACTIVE
+        - INACTIVE
+      example: ACTIVE
+
+    FactorType:
+      description: |
+        - `TOTP`: The Factor can be used to create TOTP challenges
+        - `PUSH`: The Factor can be used to create push notification challenges
+      type: string
+      enum:
+        - TOTP
+        - PUSH
+      example: TOTP
+
+    FactorCreatePayload:
+      type: object
+      properties:
+        phone_number:
+          description: The phone number to be checked in [E.164 format](https://www.itu.int/rec/T-REC-E.164-201011-I/en)
+          type: string
+          example: "447700900000"
+          format: E.164
+        external_user_id:
+          description: |
+            The ID that identifies the User associated with this Factor. It can be your platform's
+            internal user ID, a username, email, etc.
+
+            Must be unique.
+          type: string
+          example: test_user@example.com
+      required:
+        - phone_number
+        - external_user_id
+      example:
+        phone_number: "447700900000"
+        external_user_id: test_user@example.com
+
+    FactorPatchPayload:
+      description: |
+        Update a Project.
+
+        An array of JSON-PATCH operations as defined in [RFC 6902](https://tools.ietf.org/html/rfc6902).
+      type: array
+      items:
+        anyOf:
+          - $ref: '#/components/schemas/FactorActivateOperation'
+          - $ref: '#/components/schemas/FactorUpdateExternalUserIdOperation'
+          - $ref: '#/components/schemas/FactorUpdateStatus'
+
+    FactorActivateOperation:
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - add
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /code
+        value:
+          description: The value to be used within the operations.
+          type: string
+          example: "123456"
+      required:
+        - op
+        - path
+        - value
+
+    FactorUpdateExternalUserIdOperation:
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - replace
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /external_user_id
+        value:
+          description: The value to be used within the operations.
+          type: string
+          example: "new_user_id"
+      required:
+        - op
+        - path
+        - value
+
+    FactorUpdateStatus:
+      type: object
+      properties:
+        op:
+          description: The operation to be performed
+          type: string
+          enum:
+            - replace
+        path:
+          description: A JSON-Pointer
+          type: string
+          enum:
+            - /status
+        value:
+          description: The value to be used within the operations.
+          type: string
+          enum:
+            - INACTIVE
+      required:
+        - op
+        - path
+        - value
+
+    Factor:
+      type: object
+      properties:
+        factor_id:
+          description: The unique ID of the Factor resource
+          type: string
+        status:
+          $ref: "#/components/schemas/FactorStatus"
+        type:
+          $ref: "#/components/schemas/FactorType"
+        external_user_id:
+          description: |
+            The ID that identifies the User associated with this Factor. It can be your platform's
+            internal user ID, a username, email, etc.
+          type: string
+          example: test_user@example.com
+        url:
+          description: The TOTP url used to onboard this factor
+          type: string
+          example: "otpauth://totp/some-path-goes-here"
+        data_url:
+          description: The base64 QR code image representation of the `url` property
+          type: string
+        created_at:
+          description: When the Factor was created
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        updated_at:
+          description: When the Factor was last updated
+          allOf:
+            - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              description: The link to the current resource
+              allOf:
+              - $ref: ../common/Link.v1.yaml
+          required:
+              - self
+      required:
+        - factor_id
+        - status
+        - type
+        - external_user_id
+        - url
+        - data_url
+        - created_at
+        - updated_at
+        - _links
+      example:
+        factor_id: 5995afaf-f5d1-47ab-b586-50ad46904eec
+        status: PENDING
+        type: TOTP
+        external_user_id: test_user@example.com
+        url: otpauth://totp/some-path
+        data_url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAV4AAAFeAQAAAADlUEq3AAAEk0lEQVR4Xu2aQW7jMAxFGXjhZY7gmyQXC5AAvph9Ex8hSy8Ca/77SlulLQbdDDAsrIURV88BTFLkJ9MoP1+P+PyXv6wdbtcOt2uH27XD7drhdlU4tIa+3LtlPcUl+ikuutXmyk6ZdOlTw2wM/XRk9zgucSjjsh7uemzWF5S5IplhXj9ORz8xllVwifMdU2CN+Y6t0sN2d7/JJPh3WP3sdizLb4FlgwehLP8KVgBjjUP5HbA+DNqqp7YogB/cXQsHdvgczwnhys33y/eXKb6mr++4/xeuazve8PlNCAnKGfjw9LRXXpjsM6xn5VitbrFx9DccXw/xrTVdRvgUnRLt/crh1G7ByeSmlWdlnBEqMewTWqajzuUsd69n3A0c1FDMNCSHXU6KtYC44sKiPISny6Jq2makjLBubYNb6OKNsfSbFJ7LicrnyFclhoXIEKcqCGSXiRO6hU4tCs8hkBu2NezVsqEPyEjaBdEhVjxLKaSGcaguYtCsC56WFhAXhLdSVUcIJIaVjG7Ingv10utGTblSNDuq6dhYIyMcKifFItUmibP+7vPLBvGsLJUadpUsnNBijX7C3ROPnQKfv8RzRrhGcaEdJtva0yDEOJEtM+WGsUFY9igZiQtSrsvJQWbyqW0PbD7YTX8gygv1Q4aQpyV26hcE4g4sLwwSbj3kc2RAuIN0sVEwYKHk8IYyP9Xpm96cW7m7Iw4ommYyw8HSSweeFmyNPoXj+YpaHxtrZIR7K3OdUJSqqgt2KSSo2mrxWG4YAc4JxbWCKSdusEhLbpZfD2w+WNbAq3fkqqKYHEtvNVZBwG5yeEXS6aXjPeUyNJYNMA5x8KJyE8IknmoDp9daJet8Q8XGFkoOE8+0+pzVt9x0Ygzu8/uppmSEN8b5wI7sqoLOzADcQW6yVXKYs1rHGAggZ6S+1ksku26N5YVxqDNSeJfeyhd0nU4tc7jcsP4mawRjKkS5s21QSeggB6el3DARuyh2H5RK3pyBOGObleRbiPGPjJQR9lzK3TH+5VklKBKtvY/sidzwimsDQwTplVFxrB6sBk0I4x2wvDBTUzaCYT9qDp+jD5SGfXRHgiEz7JpCw1Fqy0iXNTPu4IKFoBLDwX8n+DcMj216N4/PmUdQbEpjjZQw74sNfGClVFGvvqWcrP4BIDXck2OZauBz1ZQJIbe5g/RvNi9FMyOszMrEhg4ydEKrzDOHrqvPpobpET27YYqjlKtncDcx/lTmbYVNCPt9lVllg1l2sa6TSW70VsXh3RTNjLBv33XdwKSDGA9Sri3Uvbo7Hfzm0AcdFUWT8PbG4atwzQj7g2B51YJgIp6DjDTTifCpiY2ccEH7jLhWSpXz+/YJxaPKWb8wK6z31e38/BWqvImdjk/qk8nFuWH58jFUscNcqjgDz26MMUlhDpcbloazpGO389xbAaxb4hm7tPGcFra7qzLnCes6ZaSRisOz6eGqABBAMgnSQPXST7j9ZyWGC/E8PXcZU3XvJrkuPsS5YW1QRKxzgqBm+M1QR49F9fmHuzPCP1w73K4dbtcOt2uH27XD7fqH8B8OUEqjs47gFQAAAABJRU5ErkJggg=="
+        created_at: "2020-06-01T16:43:30+00:00"
+        updated_at: "2020-06-01T16:43:30+00:00"
+        _links:
+          self:
+            href: https://eu.api.tru.id/authenticator/v0.1/factors/{factor_id}
+
+    FactorCollection:
+      description: A collection of Factor resources
+      allOf:
+        - $ref: ../common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+        - type: object
+          properties:
+            _links:
+              description: Links related to the current resource
+              $ref: ../common/PaginationLinks.v1.yaml
+            _embedded:
+              description: Resources related to the resource request
+              type: object
+              properties:
+                factors:
+                  description: The Factors within the collection
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Factor"
+
+  # responses:
+    # ExternalUserIdNotUniqueError:
+    #   allOf:
+    #     - $ref: ../common/HTTPProblemDetailTypes.v1.yaml#/components/responses/BadRequest
+    #     - description: the external_user_id must be unique
+    #     - example:
+    #         detail: external_user_id is not unique
