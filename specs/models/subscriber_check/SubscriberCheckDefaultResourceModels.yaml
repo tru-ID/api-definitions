@@ -8,6 +8,21 @@ components:
         The status of a SubscriberCheck:
       allOf:
         - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckStatus"
+    CheckErrorCode:
+      description: An indicator of why the Check failed.
+      type: string
+      enum:
+
+    SubscriberCheckErrorCode:
+      description: |
+        An optional attribute displayed when the `status` returned is `"ERROR"`
+        - `not_mobile_ip`: The IP address the request was made from is not a mobile IP address.
+        - `mno_not_supported`: The MNO is not supported.
+        - `mno_timeout`: The request timed out with the MNO.
+        - `mno_user_not_found`: The supplied phone number is not recognized by the MNO.
+        - `mno_response_error`: The MNO responded with an invalid response.
+        - `mno_server_error`: An error occured with the MNO.
+      type: string
 
     SubscriberCheckCreatePayload:
       description: Payload for creating a SubscriberCheck
@@ -21,7 +36,7 @@ components:
         - type: object
           properties:
             error_code:
-              $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckErrorCode" 
+              $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckErrorCode"
         - type: object
           properties:
             no_sim_change:
@@ -34,7 +49,7 @@ components:
         - type: object
           properties:
             status:
-              description: The current status of the PhoneCheck
+              description: The current status of the SubscriberCheck
               type: string
               enum:
                 - ACCEPTED
