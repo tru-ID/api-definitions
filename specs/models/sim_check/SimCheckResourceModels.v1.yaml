@@ -16,7 +16,7 @@ components:
     SimCheckErrorCode:
       description: |
         An optional attribute displayed when the `status` returned is `"ERROR"`
-        - `mno_user_not_found`: The supplied phone number is not recognized by the MNO.
+        - `mno_user_not_found`: The supplied phone number is not recognized by the MNO, it might be associated with an unsupported MVNO.
         - `mno_response_error`: The MNO responded with an invalid response.
         - `mno_server_error`: An error occured with the MNO.
       type: string
