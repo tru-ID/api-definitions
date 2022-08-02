@@ -13,6 +13,14 @@ components:
         - ERROR
       example: COMPLETED
 
+    SimCheckErrorCode:
+      description: |
+        An optional attribute displayed when the `status` returned is `"ERROR"`
+        - `mno_user_not_found`: The supplied phone number is not recognized by the MNO.
+        - `mno_response_error`: The MNO responded with an invalid response.
+        - `mno_server_error`: An error occured with the MNO.
+      type: string
+
     SimCheckCreatePayload:
       description: Payload for creating a SIMCheck
       type: object
@@ -62,6 +70,8 @@ components:
           description: The currency the `charge_amount` was made in.
           allOf:
             - $ref: ../common/DataTypes.v1.yaml#/components/schemas/Currency
+        error_code:
+          $ref: "#/components/schemas/SimCheckErrorCode"
         created_at:
           description: When the Check was created
           allOf:
@@ -83,7 +93,6 @@ components:
         - charge_currency
         - created_at
         - _links
-
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: COMPLETED

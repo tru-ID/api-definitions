@@ -21,7 +21,7 @@ components:
         - type: object
           properties:
             error_code:
-              $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckErrorCode" 
+              $ref: "./SubscriberCheckDefaultResourceModels.yaml#/components/schemas/SubscriberCheckErrorCode"
         - type: object
           properties:
             no_sim_change:
