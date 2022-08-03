@@ -11,7 +11,9 @@
     "specs:proxy": "prism proxy",
     "changelog": "standard-version",
     "prettier": "prettier specs/*.yaml --write",
-    "bundle": "redoc-cli bundle specs/*.yaml"
+    "bundle:products": "npx redoc-cli bundle specs/products.yaml --output specs/build/out/products.html",
+    "bundle:basics": "npx redoc-cli bundle specs/basics.yaml --output specs/build/out/basics.html",
+    "bundle:utils": "npx redoc-cli bundle specs/utils.yaml --output specs/build/out/utils.html"
   },
   "repository": {
     "type": "git",

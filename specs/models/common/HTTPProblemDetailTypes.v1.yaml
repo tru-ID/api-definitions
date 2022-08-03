@@ -19,6 +19,15 @@ components:
           description: A human-readable explanation specific to this occurrence of the problem.
           type: string
 
+    BadRequest:
+      description: Generic 400 Bad Request
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://developer.tru.id/docs/reference/api-errors#bad_request
+        title: Bad Request
+        detail: The request body is invalid
+
     NotFound:
       description: Generic 404 Not Found
       allOf:
