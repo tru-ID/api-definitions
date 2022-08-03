@@ -16,6 +16,8 @@ info:
 
     The [**tru.ID SIMCheck API**](#tag/sim_check_v0.1) information on whether the SIM card associated with the mobile phone number has been changed within the last seven days.
 
+    The [**tru.ID Authenticator API**](#tag/authenticator_v0.1) allows issuing mobile authenticator challenges for different verification factors.
+
 servers:
   - url: "https://{data_residency}.api.tru.id"
     description: For accounts with data residency in the EU or IN
@@ -44,7 +46,34 @@ tags:
     description: Relating to SIMCheck
   - name: authenticator_v0.1
     x-displayName: v0.1
-    description: Relating to Authenticator
+    description: |
+      The Authenticator API enables you to leverage mobile authenticator application such as [tru.ID Authenticator](#tru-id-authenticator),
+      Google Authenticator, etc. and issue verification challenges that can be satisfied by these applications.
+
+      > Before you can use this API, you should [configure your Project](#) accordingly.
+
+      This API exposes two resources: `Factor` and `Challenge`.
+
+      A `Factor` represents a verification factor associated with an end-user of your service/application.
+      When a Factor is created it needs to be [activated through a mobile authenticator](#).
+
+      A `Challenge` represent a verification challenge, issued for a given `Factor`. Once a `Challenge` is
+      issued, the end-user has to resolve it using the mobile authenticator associated with the `Factor`.
+
+      The choice of challenges depends on the mobile authenticator used to activate the `Factor`. For
+      end-users using the [tru.ID Authenticator](#tru-id-authenticator), the choice of challenges are:
+
+      * TOTP-based: TOTP PIN codes can be used to verify the challenge
+      * Push-based: Push notifications can be triggered and acknowledged to verify the challenge.
+        Users need to register the app with a valid and active SIM card for this choice to be available.
+
+      For other mobile authenticator applications, only TOTP is available.
+
+      <a name="tru-id-authenticator"></a>To download the tru.ID Authenticator Application:
+
+      * [iOS](https://apps.apple.com/app/id1605545704)
+      * [Android](https://play.google.com/store/apps/details?id=id.tru.mobile.authenticator)
+
 
 x-tagGroups:
   - name: PhoneCheck
@@ -1639,8 +1668,10 @@ paths:
     post:
       summary: Create a Factor
       description: |
-        Create a new Factor. This factor needs to be activated through an authenticator application
-        e.g. tru.ID Authenticator, Google Authenticator, etc.
+        Create a new Factor. This factor needs to be activated through an mobile authenticator application
+        e.g. [tru.ID Authenticator](#tru-id-authenticator), Google Authenticator, etc.
+
+        To activate the resulting factor use the [Update the Factor](#operation/update-authenticator-factor) endpoint.
       operationId: create-authenticator-factor
       security:
         - ProjectBearerAuth: []
@@ -1804,8 +1835,12 @@ paths:
 
         The type of challenge will depend on the parent Factor:
 
-        * if the Factor `type` is `TOTP` the challenge will be a TOTP challenge
-        * if the Factor `type` is `PUSH` the challenge will be a PUSH notification challenge
+        * if the Factor type is `TOTP` the challenge will be a TOTP challenge
+        * if the Factor type is `PUSH` the challenge will be a PUSH notification challenge
+
+        Push challenges can only be created by users of the [tru.ID Authenticator](#tru-id-authenticator), which
+        have successfully verified their SIM card.
+
       operationId: create-authenticator-challenge
       security:
         - ProjectBearerAuth: []
