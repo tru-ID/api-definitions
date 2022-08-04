@@ -96,6 +96,8 @@ components:
       type: string
       enum:
         - EU
+        - IN
+        - US
       example: EU
     
   
