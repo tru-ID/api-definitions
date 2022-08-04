@@ -38,6 +38,9 @@ tags:
   - name: payments_v0.2
     x-displayName: v0.2
     description: Relating to Payments.
+  - name: oidc_flow_v0.1
+    x-displayName: v0.1
+    description: Relating to OIDC.
 
 x-tagGroups:
   - name: Coverage
@@ -50,6 +53,9 @@ x-tagGroups:
     tags:
       - usage_v0.2
       - usage_deprecated
+  - name: OIDC
+    tags:
+      - oidc_flow_v0.1
 
 paths:
   "/coverage/v0.1/countries/{code}":
@@ -654,6 +660,50 @@ paths:
       operationId: post-console-v0.2-workspace-topups
       security:
         - WorkspaceBearerAuth: []
+  "/oidc/v0.1/flows/{flow_id}":
+    parameters:
+      - name: flow_id
+        description: The ID of the OIDC flow
+        schema:
+          $ref: ./models/common/DataTypes.v1.yaml#/components/schemas/UUID
+        in: path
+        required: true
+    patch:
+      summary: Terminate OIDC flow
+      description: "Lets the client terminate the OIDC flow."
+      operationId: patch-oidc-flow-v0.1
+      security:
+        - ProjectBearerAuth: []
+      tags:
+        - oidc_flow_v0.1
+      requestBody:
+        description: JSON payload to update a PhoneCheck
+        content:
+          application/json-patch+json:
+            schema:
+              oneOf:
+                - $ref: ./models/oidc/OIDCFlowResourceModels.v1.yaml#/components/schemas/OIDCPatchPayload
+                - $ref: ./models/oidc/OIDCFlowResourceModels.v1.yaml#/components/schemas/OIDCPatchFailurePayload
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                oneOf:
+                  - $ref: ./models/oidc/OIDCFlowResourceModels.v1.yaml#/components/schemas/OIDCPatchResponse
+                  - $ref: ./models/oidc/OIDCFlowResourceModels.v1.yaml#/components/schemas/OIDCPatchFailureResponse
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/FlowNotFound
 
 components:
   securitySchemes:
