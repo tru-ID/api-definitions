@@ -135,6 +135,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -176,6 +178,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -210,6 +214,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
@@ -242,6 +248,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "400":
           description: Mobile Network Operator Not Supported
           content:
@@ -289,6 +297,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -341,6 +351,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/phone_check/v0.1/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
@@ -369,6 +385,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -408,6 +426,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   /phone_check/v0.2/checks:
     post:
@@ -452,12 +476,13 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
           content:
             application/hal+json:
               schema:
                 allOf:
                   - $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheckCreateResponse
-
         "400":
           description: Bad Request
           content:
@@ -470,6 +495,12 @@ paths:
                       - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase
                       - type: object
                         description: The country for the supplied `phone_number` is not supported
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     get:
       summary: Get a collection of PhoneChecks
       operationId: get-phone-checks-v0.2
@@ -491,10 +522,18 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
           content:
             application/hal+json:
               schema:
                 $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheckCollection
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/phone_check/v0.2/checks/{check_id}":
     parameters:
       - name: check_id
@@ -523,12 +562,20 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     patch:
       summary: Complete PhoneCheck
       description: "Complete a PhoneCheck identified by `check_id`. NB: the device needs to visit the `check_url` to get the code which is redeemed against the PhoneCheck result before this endpoint, otherwise a 404 will be returned."
@@ -555,12 +602,20 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   "/phone_check/v0.2/checks/{check_id}/redirect":
     parameters:
@@ -588,6 +643,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "400":
           description: Mobile Network Operator Not Supported
           content:
@@ -612,6 +669,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorRedirectNotSupported
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   "/phone_check/v0.2/checks/{check_id}/traces":
     parameters:
@@ -635,6 +698,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
           content:
             application/hal+json:
               schema:
@@ -685,6 +750,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/phone_check/v0.2/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
@@ -713,6 +784,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
           content:
             application/hal+json:
               schema:
@@ -750,6 +823,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   /subscriber_check/v0.2/checks:
     post:
@@ -794,6 +873,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
           content:
             application/hal+json:
               schema:
@@ -811,6 +892,12 @@ paths:
                       - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase
                       - type: object
                         description: The country for the supplied `phone_number` is not supported
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     get:
       summary: Get a collection of SubscriberChecks
       operationId: get-subscriber-checks-v0.2
@@ -832,10 +919,18 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
           content:
             application/hal+json:
               schema:
                 $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheckCollection
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/subscriber_check/v0.2/checks/{check_id}":
     parameters:
       - name: check_id
@@ -864,12 +959,20 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "404":
           description: Check Not Found
           content:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     patch:
       summary: Complete SubscriberCheck
       description: "Complete a SubscriberCheck identified by `check_id`. NB: the device needs to visit the `check_url` before this endpoint, otherwise a 404 will be returned."
@@ -896,12 +999,20 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   "/subscriber_check/v0.2/checks/{check_id}/redirect":
     parameters:
@@ -929,6 +1040,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "400":
           description: Mobile Network Operator Not Supported
           content:
@@ -947,6 +1060,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
         "501":
           description: Mobile Network Operator does not Support Redirects
           content:
@@ -975,6 +1094,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
           content:
             application/hal+json:
               schema:
@@ -1025,6 +1146,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/subscriber_check/v0.2/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
@@ -1053,6 +1180,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
           content:
             application/hal+json:
               schema:
@@ -1088,6 +1217,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   /subscriber_check/v0.1/checks:
     post:
@@ -1132,6 +1267,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1151,6 +1288,12 @@ paths:
                       - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase
                       - type: object
                         description: The country for the supplied `phone_number` is not supported
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     get:
       summary: Get a collection of SubscriberChecks
       operationId: get-subscriber-checks
@@ -1172,12 +1315,20 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
                 $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.1.yaml#/components/schemas/SubscriberCheckCollection
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/subscriber_check/v0.1/checks/{check_id}":
     parameters:
       - name: check_id
@@ -1206,6 +1357,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
@@ -1214,6 +1367,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/subscriber_check/v0.1/checks/{check_id}/redirect":
     parameters:
       - name: check_id
@@ -1238,6 +1397,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "400":
           description: Mobile Network Operator Not Supported
           content:
@@ -1256,6 +1417,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
         "501":
           description: Mobile Network Operator does not Support Redirects
           content:
@@ -1284,6 +1451,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1336,6 +1505,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/subscriber_check/v0.1/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
@@ -1364,6 +1539,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1401,6 +1578,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   /sim_check/v0.1/checks:
     post:
@@ -1426,6 +1609,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1460,6 +1645,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     get:
       summary: Get a collection of SIMChecks
       operationId: get-sim-checks
@@ -1481,12 +1672,20 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
                 $ref: ./models/sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimCheckCollection
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/sim_check/v0.1/checks/{check_id}":
     parameters:
       - name: check_id
@@ -1515,6 +1714,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
@@ -1523,6 +1724,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/sim_check/v0.1/checks/{check_id}/traces":
     parameters:
       - name: check_id
@@ -1545,6 +1752,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1597,6 +1806,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/sim_check/v0.1/checks/{check_id}/traces/{trace_id}":
     parameters:
       - name: check_id
@@ -1625,6 +1840,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1664,6 +1881,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/TraceGone
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/authenticator/v0.1/factors":
     post:
       summary: Create a Factor
@@ -1691,6 +1914,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1703,6 +1928,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/BadRequest
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     get:
       summary: Get a collection of Factors
       description: Get a full list of Factors or filter by query parameters
@@ -1724,12 +1955,20 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
                 $ref: ./models/authenticator/FactorResourceModels.v0.1.yaml#/components/schemas/FactorCollection
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   "/authenticator/v0.1/factors/{factor_id}":
     parameters:
@@ -1755,6 +1994,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1770,6 +2011,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     patch:
       summary: Update a Factor
       description: Update the Factor identified by `project_id`
@@ -1808,6 +2055,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1820,6 +2069,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   "/authenticator/v0.1/factors/{factor_id}/challenges":
     parameters:
       - name: factor_id
@@ -1860,6 +2115,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1872,6 +2129,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/BadRequest
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     get:
       summary: Get a collection of Challenges
       description: Get a full list of Challenges, for the given Factor, or filter by query parameters
@@ -1893,12 +2156,20 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
             application/hal+json:
               schema:
                 $ref: ./models/authenticator/ChallengeResourceModels.v0.1.yaml#/components/schemas/ChallengeCollection
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   "/authenticator/v0.1/factors/{factor_id}/challenges/{challenge_id}":
     parameters:
@@ -1930,6 +2201,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1942,6 +2215,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     patch:
       summary: Resolve a TOTP Challenge
       description: Resolve the TOTP challenge identified by `challenge_id`
@@ -1964,6 +2243,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1976,6 +2257,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 components:
   securitySchemes:
     ProjectBearerAuth:

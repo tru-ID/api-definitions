@@ -115,3 +115,13 @@ components:
         type: https://developer.tru.id/docs/reference/api-errors#trace_gone
         title: Gone
         detail: Traces have expired
+
+    RateLimitReached:
+      description: >
+        The API rate limit for the workspace has been exceeded. The response Retry-After HTTP header will contain a value indicating the number of seconds after which API interactions can be retried.
+      allOf:
+          - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://developer.tru.id/docs/reference/api-errors#too_many_requests
+        title: Rate Limit exceeded
+        detail: Rate Limit has exceeded, check response Retry-After HTTP header for when request can be retried.
