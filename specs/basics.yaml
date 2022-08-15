@@ -108,6 +108,14 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   /oauth2/v1/token:
     post:
       summary: Create an Access Token
@@ -177,6 +185,12 @@ paths:
                     token_type: bearer
                     expires_in: 3600
                     scope: phone_check coverage
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   /oauth2/v1/revoke:
     post:
       summary: Revoke an token
@@ -208,6 +222,12 @@ paths:
       responses:
         "200":
           description: Response whether the Access Token was valid or invalid.
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
   /oauth2/v1/sessions/logout:
     get:
       summary: Logout of the current user session (Restricted Usage)
@@ -248,6 +268,14 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   /console/v0.2/workspaces:
     get:
@@ -267,8 +295,16 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
       operationId: get-console-v0.2-workspaces
       security:
         - WorkspaceBearerAuth: []
@@ -292,6 +328,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
@@ -306,6 +344,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
       operationId: get-console-v0.2-workspace
       security:
         - WorkspaceBearerAuth: []
@@ -330,8 +374,16 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
       operationId: get-console-v0.2-workspace-members
       security:
         - WorkspaceBearerAuth: []
@@ -356,8 +408,16 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
       operationId: get-console-v0.2-workspace-member
       security:
         - WorkspaceBearerAuth: []
@@ -383,8 +443,16 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
       operationId: get-console-v0.2-workspace-member-credentials
       security:
         - WorkspaceBearerAuth: []
@@ -405,6 +473,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "403":
@@ -413,6 +483,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
       operationId: post-console-v0.2-workspace-member-credential-create
       security:
         - WorkspaceBearerAuth: []
@@ -439,6 +515,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "403":
@@ -447,6 +525,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
       operationId: get-console-v0.2-workspace-member-credential
       security:
         - WorkspaceBearerAuth: []
@@ -463,6 +547,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "403":
@@ -471,6 +557,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
       operationId: delete-console-v0.2-workspace-member-credential
       security:
         - WorkspaceBearerAuth: []
@@ -504,6 +596,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -542,6 +636,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
       callbacks:
         projectLevelPhoneCheckEndStatus:
           "{$request.body#/configuration.phone_check.callback_url}":
@@ -588,6 +688,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -635,6 +737,12 @@ paths:
                         href: /projects/page=1&size=10
                       self:
                         href: /projects/page=2&size=10
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   "/console/v0.2/workspaces/{workspace_id}/projects/{project_id}":
     parameters:
@@ -660,6 +768,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
@@ -674,6 +784,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     patch:
       summary: Update a Project
       description: Update the project identified by the `project_id`.
@@ -732,6 +848,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
@@ -746,6 +864,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   "/console/v0.2/workspaces/{workspace_id}/projects/{project_id}/credentials/{client_id}":
     parameters:
@@ -793,6 +917,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "404":
           description: Not Found
           content:
@@ -805,6 +931,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     delete:
       summary: Delete Project Credential
       description: "Delete the Project Credential identified by `client_id`"
@@ -821,6 +953,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "404":
           description: Not Found
           content:
@@ -833,6 +967,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   "/console/v0.2/workspaces/{workspace_id}/projects/{project_id}/credentials":
     parameters:
@@ -885,6 +1025,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "404":
           description: Not Found
           content:
@@ -897,6 +1039,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     post:
       summary: Create Project Credential
       description: "Create Project Credential for the project identified by `project_id`"
@@ -932,6 +1080,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "404":
           description: Not Found
           content:
@@ -944,6 +1094,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/Forbidden
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   # DEPRECATED STUFF
   /console/v0.1/projects:
@@ -973,6 +1129,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -995,6 +1153,12 @@ paths:
                         scopes:
                           - phone_check
                         created_at: "2020-06-01T16:43:30+00:00"
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
       callbacks:
         projectLevelPhoneCheckEndStatus:
           "{$request.body#/configuration.phone_check.callback_url}":
@@ -1041,6 +1205,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1092,6 +1258,13 @@ paths:
                         href: /projects/page=1&size=10
                       self:
                         href: /projects/page=2&size=10
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
+
   "/console/v0.1/projects/{project_id}":
     parameters:
       - $ref: ./models/common/ProjectCommon.v1.yaml#/components/parameters/projectId
@@ -1113,6 +1286,8 @@ paths:
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
             Access-Control-Allow-Origin:
@@ -1123,6 +1298,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
     patch:
       summary: Update a Project
       description: '🚨 [DEPRECATED] use <a href="#operation/patch-console-v0.2-workspace-project">v0.2 endpoint</a>'
@@ -1181,6 +1362,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
         "404":
@@ -1189,6 +1372,13 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
+
   "/console/v0.1/projects/{project_id}/credentials/{client_id}/reset":
     parameters:
       - $ref: ./models/common/ProjectCommon.v1.yaml#/components/parameters/projectId
@@ -1226,12 +1416,21 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
         "404":
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
+
   /console/v0.1/workspaces/default:
     get:
       summary: Get the default workspace resource for the current user
@@ -1249,6 +1448,8 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
             X-RateLimit-Remaining:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
           content:
@@ -1280,6 +1481,12 @@ paths:
                             type: integer
                   credentials:
                     $ref: ./models/common/CredentialTypes.v1.yaml#/components/schemas/ClientPartial
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
 components:
   securitySchemes:

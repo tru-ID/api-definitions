@@ -18,6 +18,13 @@ components:
       example: 94
       required: true
 
+    X-RateLimit-Reset:
+      description: Time left for X-RateLimit-Remaining to be reset
+      schema:
+        type: integer
+      example: 1659425356
+      required: true
+
     Access-Control-Allow-Origin-All:
       description: Allow CORS
       schema:
