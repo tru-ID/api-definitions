@@ -67,6 +67,36 @@ components:
       allOf:
         - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckPatchPartial"
     
+    CheckRedirectSuccessPartial:
+      type: object
+      properties:
+        check_id:
+          description: The unique ID of the Check resource
+          type: string
+          example: c69bc0e6-a429-11ea-bb37-0242ac130002
+        code:
+          description: |
+            A code returned at the end of the redirect process to verify the recipient of that redirect is the valid owner of that SIM card and phone number.
+          type: string
+          example: 94dae426fg
+
+    CheckRedirectErrorPartial:
+      type: object
+      properties:
+        check_id:
+          description: The unique ID of the Check resource
+          type: string
+          example: c69bc0e6-a429-11ea-bb37-0242ac130002
+        error:
+          description: |
+            A code returned at the end of the redirect process to verify the recipient of that redirect is the valid owner of that SIM card and phone number.
+          type: string
+          example: mno_redirect_unsupported
+        error_description:
+          description: |
+            A description of the error caused during the redirect flow of verifying the phone number.
+          type: string
+          example: MNO redirect unsupported
     CheckErrorCode:
       description: An indicator of why the Check failed. Returned only when `status` is "ERROR".
       allOf:

@@ -140,7 +140,6 @@ components:
                 - self
       required:
         - _links
-
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: COMPLETED
@@ -155,6 +154,13 @@ components:
           self:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
           
+    SubscriberCheckRedirectSuccess:
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckRedirectSuccessPartial"
+        
+    SubscriberCheckRedirectError:
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckRedirectErrorPartial"
 
     SubscriberCheckCollection:
       description: A Collection of SubscriberCheck resources

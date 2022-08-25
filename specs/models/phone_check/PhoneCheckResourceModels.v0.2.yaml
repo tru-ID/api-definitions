@@ -130,6 +130,14 @@ components:
                   type: array
                   items:
                     $ref: "#/components/schemas/PhoneCheck"
+          
+    PhoneCheckRedirectSuccess:
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckRedirectSuccessPartial"
+        
+    PhoneCheckRedirectError:
+      allOf:
+        - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckRedirectErrorPartial"
 
     PhoneCheckCallbackPayload:
       description: The payload sent to a callback URL upon a PhoneCheck reaching an end state.

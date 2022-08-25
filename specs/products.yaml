@@ -632,12 +632,14 @@ paths:
       tags:
         - phone_check_v0.2
       responses:
-        "200":
+        "302":
           description: OK
           content:
             application/hal+json:
               schema:
-                $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheck
+                oneOf:
+                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheckRedirectSuccess
+                  - $ref: ./models/phone_check/PhoneCheckResourceModels.v0.2.yaml#/components/schemas/PhoneCheckRedirectError
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
@@ -1029,12 +1031,14 @@ paths:
       tags:
         - subscriber_check_v0.2
       responses:
-        "200":
+        "302":
           description: OK
           content:
             application/hal+json:
               schema:
-                $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheck
+                oneOf:
+                  - $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheckRedirectSuccess
+                  - $ref: ./models/subscriber_check/SubscriberCheckResourceModels.v0.2.yaml#/components/schemas/SubscriberCheckRedirectError
           headers:
             X-RateLimit-Limit:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
