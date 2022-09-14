@@ -43,7 +43,7 @@ components:
           type: string
           description: The Log Entry message
         timestamp:
-          description: When the Log Entry occured
+          description: When the Log Entry occurred
           allOf:
             - $ref: ../common/DataTypes.v1.yaml#/components/schemas/ISODateTime
         attributes:

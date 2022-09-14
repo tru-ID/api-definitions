@@ -18,7 +18,7 @@ components:
         An optional attribute displayed when the `status` returned is `"ERROR"`
         - `mno_user_not_found`: The supplied phone number is not recognized by the MNO, it might be associated with an unsupported MVNO.
         - `mno_response_error`: The MNO responded with an invalid response.
-        - `mno_server_error`: An error occured with the MNO.
+        - `mno_server_error`: An error occurred with the MNO.
       type: string
 
     SimCheckCreatePayload:
@@ -40,7 +40,7 @@ components:
           example: my_internal_reference
         period:
           description: |
-            Optional. A field that you can use to control the time window for when the SIM card had occured. 
+            Optional. A field that you can use to control the time window checking for when the SIM card change had occurred.
             This integer can be anywhere between 60 minutes and 540000 minutes. Default value `10080` minutes (7 days).
           type: integer
           example: 10080
@@ -172,7 +172,7 @@ components:
 
     NoSimChangePeriod:
       description: |
-        A field you use to control the time window checking when the SIM card change had occured.
+        A field you use to control the time window checking when the SIM card change had occurred.
         If you defined this field, the check will impact `no_sim_change` response value.
         Integer can be anywhere between 60 minutes and 540000 minutes. Default value `10080` minutes (7 days).
       type: integer

@@ -17,7 +17,7 @@ components:
           properties:
             period:
               description: |
-                Optional. A field that you can use to control the time window for when the SIM card had occured. 
+                Optional. A field that you can use to control the time window checking for when the SIM card change had occurred.
                 This integer can be anywhere between 60 minutes and 540000 minutes. Default value `10080` minutes (7 days).
               type: integer
               example: 10080
