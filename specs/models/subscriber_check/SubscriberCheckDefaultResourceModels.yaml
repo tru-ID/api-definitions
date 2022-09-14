@@ -21,7 +21,7 @@ components:
         - `mno_timeout`: The request timed out with the MNO.
         - `mno_user_not_found`: The supplied phone number is not recognized by the MNO, it might be associated with an unsupported MVNO.
         - `mno_response_error`: The MNO responded with an invalid response.
-        - `mno_server_error`: An error occured with the MNO.
+        - `mno_server_error`: An error occurred with the MNO.
       type: string
 
     SubscriberCheckCreatePayload:
@@ -122,7 +122,6 @@ components:
                 - self
       required:
         - _links
-
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: COMPLETED
@@ -135,7 +134,6 @@ components:
         _links:
           self:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
-          
 
     SubscriberCheckCollection:
       description: A Collection of SubscriberCheck resources

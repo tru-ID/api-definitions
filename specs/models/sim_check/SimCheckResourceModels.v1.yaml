@@ -18,7 +18,7 @@ components:
         An optional attribute displayed when the `status` returned is `"ERROR"`
         - `mno_user_not_found`: The supplied phone number is not recognized by the MNO, it might be associated with an unsupported MVNO.
         - `mno_response_error`: The MNO responded with an invalid response.
-        - `mno_server_error`: An error occured with the MNO.
+        - `mno_server_error`: An error occurred with the MNO.
       type: string
 
     SimCheckCreatePayload:
@@ -38,11 +38,18 @@ components:
           description: Optional. A field that you can use to track the check request against your own internal reference. Do not use any Personally identifiable information (PII).
           type: string
           example: my_internal_reference
+        period:
+          description: |
+            Optional. A field that you can use to control the time window checking for when the SIM card change had occurred.
+            This integer can be anywhere between 60 minutes and 540000 minutes. Default value `10080` minutes (7 days).
+          type: integer
+          example: 10080
       required:
         - phone_number
       example:
         phone_number: "447700900000"
         reference_id: "my_internal_reference"
+        period: 10080
 
     SimCheck:
       description: The payload sent to a callback URL upon a SimCheck reaching an end state.
@@ -58,6 +65,8 @@ components:
           $ref: "#/components/schemas/SimCheckStatus"
         no_sim_change:
           $ref: "#/components/schemas/NoSimChange"
+        no_sim_change_period:
+          $ref: "#/components/schemas/NoSimChangePeriod"
         sim_change_within:
           $ref: "#/components/schemas/SimChangeWithin"
         charge_amount:
@@ -85,7 +94,6 @@ components:
               $ref: ../common/Link.v1.yaml
           required:
             - self
-
       required:
         - check_id
         - status
@@ -98,6 +106,7 @@ components:
         status: COMPLETED
         no_sim_change: false
         sim_change_within: 43201
+        no_sim_change_period: 10080
         charge_amount: 1
         charge_currency: API
         created_at: "2020-06-01T16:43:30+00:00"
@@ -159,4 +168,11 @@ components:
         | 259200              | 90d01m - 180d     |
         | 525600              | 180d01m - 365d    |
         | 525601              | > 365d            |
+      type: integer
+
+    NoSimChangePeriod:
+      description: |
+        A field you use to control the time window checking when the SIM card change had occurred.
+        If you defined this field, the check will impact `no_sim_change` response value.
+        Integer can be anywhere between 60 minutes and 540000 minutes. Default value `10080` minutes (7 days).
       type: integer

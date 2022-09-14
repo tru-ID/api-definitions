@@ -18,13 +18,14 @@ info:
 
 servers:
   - url: "https://{data_residency}.api.tru.id"
-    description: For accounts with data residency in the EU or IN
+    description: For accounts with data residency in the EU, IN, or US
     variables:
       data_residency:
         default: eu
         enum:
           - eu
           - in
+          - us
 tags:
   - name: coverage
     x-displayName: v0.1
