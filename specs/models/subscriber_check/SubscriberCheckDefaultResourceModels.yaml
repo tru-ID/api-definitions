@@ -122,7 +122,6 @@ components:
                 - self
       required:
         - _links
-
       example:
         check_id: c69bc0e6-a429-11ea-bb37-0242ac130002
         status: COMPLETED
@@ -135,7 +134,6 @@ components:
         _links:
           self:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
-          
 
     SubscriberCheckCollection:
       description: A Collection of SubscriberCheck resources
