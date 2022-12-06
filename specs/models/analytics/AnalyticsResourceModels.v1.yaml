@@ -1,0 +1,129 @@
+title: AnalyticsResourcesModels
+type: object
+description: Definitions of models related to Analytics resources
+components:
+  schemas:
+    AnalyticsResourceBase:
+      description: An Analytics Resource
+      type: object
+      x-tags:
+        - analytics
+      required:
+        - workspace_id
+        - product_id
+        - status
+        - match
+        - date
+        - counter
+      properties:
+        workspace_id: 
+          type: string
+          description: ID of the Workspace that the Analytics is related to.
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
+          example: ab13b46b-4306-44c5-7831-9b649354b498
+        product_id:
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/ProductID'
+        status: 
+          type: string
+          description: Status of the check.
+          example: COMPLETED
+        match: 
+          description: |
+            Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
+            `check_url` was accessed from. Only visible if `status` is `COMPLETED`.
+          type: boolean
+          example: true
+        date:
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODate'
+        counter:
+          description: The number of billed requests
+          type: number
+          example: 10
+
+    AnalyticsResourceDaily:
+      required:
+        - date
+      allOf:
+        - $ref: '#/components/schemas/AnalyticsResourceBase'
+        - type: object
+          properties:
+            date:
+              $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODate'
+
+    AnalyticsResourceMonthly:
+      required:
+        - date
+      allOf:
+        - $ref: '#/components/schemas/AnalyticsResourceBase'
+        - type: object
+          properties:
+            date:
+              $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISOYearMonth'
+
+    AnalyticsResourceHourly:
+      required:
+        - date
+      allOf:
+        - $ref: '#/components/schemas/AnalyticsResourceBase'
+        - type: object
+          properties:
+            date:
+              $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODateHour'
+
+  parameters:
+    groupBy:
+      name: group_by
+      description: groups results by one or more fields.
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - product_id
+            - project_id
+      examples: 
+        product:
+          value: [product_id]
+        both:
+          value: [product_id,project_id]
+        project:
+          value: [project_id]
+
+    searchDaily:
+      name: search
+      description: |
+        An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples](https://github.com/jirutka/rsql-parser#examples).
+        ### Params
+        * date (required YYYY-MM-DD)
+      in: query
+      required: true
+      schema:
+        type: string
+      example: date>=2020-01-10
+
+    searchMonthly:
+      name: search
+      description: |
+        An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples](https://github.com/jirutka/rsql-parser#examples).
+        ### Params
+        * date (required YYYY-MM)
+      in: query
+      required: true
+      schema:
+        type: string
+      example: date>=2020-01
+
+    searchHourly:
+      name: search
+      description: |
+        An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples](https://github.com/jirutka/rsql-parser#examples).
+        ### Params
+        * date (required YYYY-MM-DDThh)
+      in: query
+      required: true
+      schema:
+        type: string
+      example: date>=2020-01-10T00
+
+

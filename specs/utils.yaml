@@ -33,6 +33,9 @@ tags:
   - name: usage_v0.2
     x-displayName: v0.2
     description: Relating to Usage.
+  - name: analytics
+    x-displayName: v0.1
+    description: Relating to Analytics.
   - name: usage_deprecated
     x-displayName: v0.1 (deprecated)
     description: Relating to Usage.
@@ -54,6 +57,9 @@ x-tagGroups:
     tags:
       - usage_v0.2
       - usage_deprecated
+  - name: Analytics
+    tags:
+      - analytics
   - name: OIDC
     tags:
       - oidc_flow_v0.1
@@ -524,6 +530,175 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
+
+  /console/v0.1/workspaces/{workspace_id}/analytics/{product_id}/hourly:
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/productId
+    get:
+      summary: Hourly API Analytics
+      description: Get the workspace's Analytics with hourly breakdown
+      operationId: get-console-v0.1-analytics-hourly
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - analytics
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort_analytics
+        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/searchHourly
+        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          product_id:
+                            description: |
+                              The Analytics resources within the collection, the key for this will be the product_id specified in the URL of the request `pck`, `suk`, or `sck`.
+                            type: array
+                            items:
+                              $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/schemas/AnalyticsResourceHourly
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
+
+  /console/v0.1/workspaces/{workspace_id}/analytics/{product_id}/daily:
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/productId
+    get:
+      summary: Daily API Analytics
+      description: Get the workspace's analytics with daily breakdown
+      operationId: get-console-v0.1-analytics-daily
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - analytics
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort_analytics
+        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/searchDaily
+        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          product_id:
+                            description: |
+                              The Analytics resources within the collection, the key for this will be the product_id specified in the URL of the request `pck`, `suk`, or `sck`.
+                            type: array
+                            items:
+                              $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/schemas/AnalyticsResourceDaily
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
+
+  /console/v0.1/workspaces/{workspace_id}/analytics/{product_id}/monthly:
+    parameters:
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
+      - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/productId
+    get:
+      summary: Monthly API Analytics
+      description: Get the workspace's analytics with monthly breakdown
+      operationId: get-console-v0.1-analytics-monthly
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - analytics
+      parameters:
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
+        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort_usage
+        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/searchMonthly
+        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/groupBy
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+            application/hal+json:
+              schema:
+                allOf:
+                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
+                  - type: object
+                    properties:
+                      _links:
+                        $ref: ./models/common/PaginationLinks.v1.yaml
+                      _embedded:
+                        description: Resources related to the resource request
+                        type: object
+                        properties:
+                          product_id:
+                            description: |
+                              The Analytics resources within the collection, the key for this will be the product_id specified in the URL of the request `pck`, `suk`, or `sck`.
+                            type: array
+                            items:
+                              $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/schemas/AnalyticsResourceMonthly
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
+
 
   "/console/v0.2/workspaces/{workspace_id}/billing_account":
     parameters:
