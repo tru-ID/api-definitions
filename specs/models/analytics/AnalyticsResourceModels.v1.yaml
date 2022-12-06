@@ -126,4 +126,53 @@ components:
         type: string
       example: date>=2020-01-10T00
 
+    analyticsSearchHourly:
+      name: search
+      description: |
+        An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples](https://github.com/jirutka/rsql-parser#examples).
+        ### Params
+        * date (optional YYYY-MM-DDThh)
+        * project_id (optional)
+        * network_id (optional)
+        * status (optional)
+        * match (optional) - {true|false} - only applies to PCK and SUK requests
+        * no_changes (optional) - {true|false} - only applies to SCK and SUK requests
+      in: query
+      required: true
+      schema:
+        type: string
+      example: date>=2020-01-10T00
 
+    analyticsSearchDaily:
+      name: search
+      description: |
+        An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples](https://github.com/jirutka/rsql-parser#examples).
+        ### Params
+        * date (optional YYYY-MM-DDThh)
+        * project_id (optional)
+        * network_id (optional)
+        * status (optional)
+        * match (optional) - {true|false} - only applies to PCK and SUK requests
+        * no_changes (optional) - {true|false} - only applies to SCK and SUK requests
+      in: query
+      required: true
+      schema:
+        type: string
+      example: date>=2020-01-10
+
+    analyticsSearchMonthly:
+      name: search
+      description: |
+        An RSQL query. For more information see the [grammar and semantics](https://github.com/jirutka/rsql-parser#grammar-and-semantic) and related [examples](https://github.com/jirutka/rsql-parser#examples).
+        ### Params
+        * date (optional YYYY-MM-DDThh)
+        * project_id (optional)
+        * network_id (optional)
+        * status (optional)
+        * match (optional) - {true|false} - only applies to PCK and SUK requests
+        * no_changes (optional) - {true|false} - only applies to SCK and SUK requests
+      in: query
+      required: true
+      schema:
+        type: string
+      example: date>=2020-01

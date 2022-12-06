@@ -547,7 +547,7 @@ paths:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort_analytics
-        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/searchHourly
+        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/analyticsSearchHourly
         - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/groupBy
       responses:
         "200":
@@ -603,7 +603,7 @@ paths:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort_analytics
-        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/searchDaily
+        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/analyticsSearchDaily
         - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/groupBy
       responses:
         "200":
@@ -659,7 +659,7 @@ paths:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort_usage
-        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/searchMonthly
+        - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/analyticsSearchMonthly
         - $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/parameters/groupBy
       responses:
         "200":
