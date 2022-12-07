@@ -82,11 +82,30 @@ components:
           enum:
             - product_id
             - project_id
-      examples: 
+      examples:
         product:
           value: [product_id]
         both:
           value: [product_id,project_id]
+        project:
+          value: [project_id]
+
+    analyticsGroupBy:
+      name: group_by
+      description: groups results by one or more fields.
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - project_id
+            - network_id
+      examples:
+        network:
+          value: [network_id]
+        both:
+          value: [network_id,project_id]
         project:
           value: [project_id]
 
