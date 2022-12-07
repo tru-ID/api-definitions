@@ -574,9 +574,9 @@ paths:
                         description: Resources related to the resource request
                         type: object
                         properties:
-                          product_id:
+                          analytics:
                             description: |
-                              The Analytics resources within the collection, the key for this will be the product_id specified in the URL of the request `pck`, `suk`, or `sck`.
+                              The Analytics resources within the collection.
                             type: array
                             items:
                               $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/schemas/AnalyticsResourceHourly
@@ -630,9 +630,9 @@ paths:
                         description: Resources related to the resource request
                         type: object
                         properties:
-                          product_id:
+                          analytics:
                             description: |
-                              The Analytics resources within the collection, the key for this will be the product_id specified in the URL of the request `pck`, `suk`, or `sck`.
+                              The Analytics resources within the collection.
                             type: array
                             items:
                               $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/schemas/AnalyticsResourceDaily
@@ -686,9 +686,9 @@ paths:
                         description: Resources related to the resource request
                         type: object
                         properties:
-                          product_id:
+                          analytics:
                             description: |
-                              The Analytics resources within the collection, the key for this will be the product_id specified in the URL of the request `pck`, `suk`, or `sck`.
+                              The Analytics resources within the collection.
                             type: array
                             items:
                               $ref: ./models/analytics/AnalyticsResourceModels.v1.yaml#/components/schemas/AnalyticsResourceMonthly
