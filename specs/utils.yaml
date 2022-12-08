@@ -33,8 +33,8 @@ tags:
   - name: usage_v0.2
     x-displayName: v0.2
     description: Relating to Usage.
-  - name: analytics
-    x-displayName: v0.1
+  - name: analytics_v0.2
+    x-displayName: v0.2
     description: Relating to Analytics.
   - name: usage_deprecated
     x-displayName: v0.1 (deprecated)
@@ -59,7 +59,7 @@ x-tagGroups:
       - usage_deprecated
   - name: Analytics
     tags:
-      - analytics
+      - analytics_v0.2
   - name: OIDC
     tags:
       - oidc_flow_v0.1
@@ -531,18 +531,18 @@ paths:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
-  /console/v0.1/workspaces/{workspace_id}/analytics/{product_id}/hourly:
+  /console/v0.2/workspaces/{workspace_id}/analytics/{product_id}/hourly:
     parameters:
       - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
       - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/productId
     get:
       summary: Hourly API Analytics
       description: Get the workspace's Analytics with hourly breakdown
-      operationId: get-console-v0.1-analytics-hourly
+      operationId: get-console-v0.2-analytics-hourly
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - analytics
+        - analytics_v0.2
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
@@ -587,18 +587,18 @@ paths:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
-  /console/v0.1/workspaces/{workspace_id}/analytics/{product_id}/daily:
+  /console/v0.2/workspaces/{workspace_id}/analytics/{product_id}/daily:
     parameters:
       - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
       - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/productId
     get:
       summary: Daily API Analytics
       description: Get the workspace's analytics with daily breakdown
-      operationId: get-console-v0.1-analytics-daily
+      operationId: get-console-v0.2-analytics-daily
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - analytics
+        - analytics_v0.2
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
@@ -643,18 +643,18 @@ paths:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
-  /console/v0.1/workspaces/{workspace_id}/analytics/{product_id}/monthly:
+  /console/v0.2/workspaces/{workspace_id}/analytics/{product_id}/monthly:
     parameters:
       - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/workspaceId
       - $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/parameters/productId
     get:
       summary: Monthly API Analytics
       description: Get the workspace's analytics with monthly breakdown
-      operationId: get-console-v0.1-analytics-monthly
+      operationId: get-console-v0.2-analytics-monthly
       security:
         - WorkspaceBearerAuth: []
       tags:
-        - analytics
+        - analytics_v0.2
       parameters:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
