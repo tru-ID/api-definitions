@@ -50,13 +50,13 @@ components:
       example: API
 
     ProductID:
-      description: Product indicator for PhoneCheck(PCK), SubscriberCheck(SUK), SIMCheck(SCK)
+      description: Product indicator for PhoneCheck(pck), SubscriberCheck(suk), SIMCheck(sck)
       type: string
       enum:
-        - PCK
-        - SCK
-        - SUK
-      example: PCK
+        - pck
+        - sck
+        - suk
+      example: pck
 
     WorkspaceRole:
       description: Workspace member role
