@@ -22,7 +22,7 @@ components:
           $ref: '../common/DataTypes.v1.yaml#/components/schemas/UUID'
           example: ab13b46b-4306-44c5-7831-9b649354b498
         product_id:
-          $ref: '../common/DataTypes.v1.yaml#/components/schemas/ProductID'
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/ProductIDResponse'
         status: 
           type: string
           description: Status of the check.
@@ -36,7 +36,7 @@ components:
         date:
           $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODate'
         counter:
-          description: The number of billed requests
+          description: The number of all requests for this status.
           type: number
           example: 10
 

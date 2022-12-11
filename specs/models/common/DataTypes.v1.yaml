@@ -58,6 +58,15 @@ components:
         - suk
       example: pck
 
+    ProductIDResponse:
+      description: Product indicator for PhoneCheck(pck), SubscriberCheck(suk), SIMCheck(sck)
+      type: string
+      enum:
+        - PCK
+        - SCK
+        - SUK
+      example: PCK
+
     WorkspaceRole:
       description: Workspace member role
       type: string
