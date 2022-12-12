@@ -59,13 +59,27 @@ components:
       example: pck
 
     ProductIDResponse:
-      description: Product indicator for PhoneCheck(pck), SubscriberCheck(suk), SIMCheck(sck)
+      description: Product indicator for PhoneCheck(PCK), SubscriberCheck(SUK), SIMCheck(SCK)
       type: string
       enum:
         - PCK
         - SCK
         - SUK
       example: PCK
+
+    ProjectIDResponse:
+      description: The ID of the Project. Will only be displayed if original query groups by `project_id`.
+      type: string
+      schema:
+        $ref: ../common/DataTypes.v1.yaml#/components/schemas/UUID
+      required: false
+
+    NetworkIDResponse:
+      description: The ID of the Network. Will only be displayed if original query groups by `network_id`.
+      type: integer
+      schema:
+        $ref: ../common/DataTypes.v1.yaml#/components/schemas/UUID
+      required: false
 
     WorkspaceRole:
       description: Workspace member role

@@ -39,6 +39,12 @@ components:
           description: The number of all requests for this status.
           type: number
           example: 10
+        project_id:
+          description: The ID of the Project. Will only be displayed if original query groups by `project_id`.
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/ProjectIDResponse'
+        network_id:
+          description: The ID of the Network. Will only be displayed if original query groups by `network_id`.
+          $ref: '../common/DataTypes.v1.yaml#/components/schemas/NetworkIDResponse'
 
     AnalyticsResourceDaily:
       required:
