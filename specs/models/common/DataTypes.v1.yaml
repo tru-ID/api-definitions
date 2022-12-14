@@ -50,6 +50,15 @@ components:
       example: API
 
     ProductID:
+      description: Product indicator for PhoneCheck(pck), SubscriberCheck(suk), SIMCheck(sck)
+      type: string
+      enum:
+        - pck
+        - sck
+        - suk
+      example: pck
+
+    ProductIDResponse:
       description: Product indicator for PhoneCheck(PCK), SubscriberCheck(SUK), SIMCheck(SCK)
       type: string
       enum:
@@ -57,6 +66,14 @@ components:
         - SCK
         - SUK
       example: PCK
+
+    ProjectIDResponse:
+      description: The ID of the Project. Will only be displayed if original query groups by `project_id`.
+      type: string
+
+    NetworkIDResponse:
+      description: The ID of the Network. Will only be displayed if original query groups by `network_id`.
+      type: string
 
     WorkspaceRole:
       description: Workspace member role

@@ -143,3 +143,10 @@ components:
         $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
       in: path
       required: true
+    productId:
+      name: product_id
+      description: The ID of the Product
+      schema:
+        $ref: "../common/DataTypes.v1.yaml#/components/schemas/ProductID"
+      in: path
+      required: true
