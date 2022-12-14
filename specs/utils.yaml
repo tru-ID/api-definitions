@@ -14,6 +14,8 @@ info:
 
     The [**tru.ID Payment API**](#tag/payments_v0.2) provides functionality for businesses to manage the billing of their accounts themselves, with functionality for CRUD on payment methods, as well as creating a Topup.
 
+    The [**tru.ID Analytics API**](#tag/analytics) provides functionality for businesses to monitor the status of requests within their projects through a product basis either hourly, daily, or monthly.
+
     The [**tru.ID Usage API**](#tag/usage_v0.2) provides functionality for businesses to implement their accounts usage on an hourly, daily, and monthly basis.
 
 servers:
