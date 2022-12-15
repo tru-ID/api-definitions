@@ -1497,9 +1497,9 @@ components:
     WorkspaceBearerAuth:
       description: |
         The tru.ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
-        e.g. `Authorization: Bearer {access_token}`
+        e.g. `Authorization: Bearer {access_token}`.
 
-        The token should be a Workspace-level access token. These are created using your Workspace `client_id` and `client_secret`.
+        The token should be a Workspace-level access token. These are created using your Workspace `client_id` and `client_secret`. See [Create an Access Token](#operation/oauth2-token).
       type: http
       scheme: bearer
   schemas:
