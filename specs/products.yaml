@@ -2273,8 +2273,8 @@ components:
     ProjectBearerAuth:
       description: |
         The tru.ID APIs expect the bearer token to be a [OAuth2 Access Token](https://tools.ietf.org/html/rfc6749#section-1.4). The access token should be within the `Authorization` HTTP header.
-        e.g. `Authorization: Bearer {access_token}`. See [Create an Access Token](#operation/oauth2-token).
+        e.g. `Authorization: Bearer {access_token}`. See [Create an Access Token](/docs/reference/basics#operation/oauth2-token).
 
-        The token should be associated with **tru.ID** Project. These are created using a Project `client_id` and `client_secret`. See [Create an Access Token](#operation/oauth2-token).
+        The token should be associated with **tru.ID** Project. These are created using a Project `client_id` and `client_secret`. See [Create an Access Token](/docs/reference/basics#operation/oauth2-token).
       type: http
       scheme: bearer
