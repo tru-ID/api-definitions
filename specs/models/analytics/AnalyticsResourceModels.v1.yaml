@@ -159,7 +159,7 @@ components:
         * network_id (optional)
         * status (optional)
         * match (optional) - {true|false} - only applies to PCK and SUK requests
-        * no_changes (optional) - {true|false} - only applies to SCK and SUK requests
+        * no_sim_change (optional) - {true|false} - only applies to SCK and SUK requests
       in: query
       required: true
       schema:
@@ -176,7 +176,7 @@ components:
         * network_id (optional)
         * status (optional)
         * match (optional) - {true|false} - only applies to PCK and SUK requests
-        * no_changes (optional) - {true|false} - only applies to SCK and SUK requests
+        * no_sim_change (optional) - {true|false} - only applies to SCK and SUK requests
       in: query
       required: true
       schema:
@@ -193,7 +193,7 @@ components:
         * network_id (optional)
         * status (optional)
         * match (optional) - {true|false} - only applies to PCK and SUK requests
-        * no_changes (optional) - {true|false} - only applies to SCK and SUK requests
+        * no_sim_change (optional) - {true|false} - only applies to SCK and SUK requests
       in: query
       required: true
       schema:
