@@ -117,7 +117,7 @@ specs
 │   │   ├── PageBasedPagination.v1.yaml
 │   │   └── PaginationLinks.v1.yaml
 │   ├── console
-│   │   └── ProjectResourceModels.v1.yaml
+│   │   └── ProjectResourceModels.v2.yaml
 │   └── phone_check
 │       └── PhoneCheckResourceModels.v0.1.yaml
 └── openapi.v1.yaml
@@ -137,7 +137,7 @@ Parameters that are shared across paths should be kept within the API specificat
 
 #### Model Definitions
 
-Models should be within a file named in the format `{resource_name}ResourceModels.v1.yaml` e.g. `ProjectResourceModels.v1.yaml`. and reside in a directory `models/{product_group}` e.g. `ProjectResourceModels.v1.yaml` will be within the `models/console` directory.
+Models should be within a file named in the format `{resource_name}ResourceModels.v1.yaml` e.g. `ProjectResourceModels.v2.yaml`. and reside in a directory `models/{product_group}` e.g. `ProjectResourceModels.v2.yaml` will be within the `models/console` directory.
 
 All model definitions for a given resource should be within a single model file.
 
@@ -145,7 +145,7 @@ Models that are relevant for two or more APIs should be within the `models/commo
 
 ### File Versioning
 
-A new file should be created for a major version of an API or Model and the version should be indicated within the file name in the format `{resource_name}ResourceModels.{version}.yaml` e.g. `ProjectResourceModels.v1.yaml`
+A new file should be created for a major version of an API or Model and the version should be indicated within the file name in the format `{resource_name}ResourceModels.{version}.yaml` e.g. `ProjectResourceModels.v2.yaml`
 
 ### Using Model Inheritance & Composition
 
