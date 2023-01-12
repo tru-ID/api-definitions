@@ -38,9 +38,6 @@ tags:
   - name: analytics_v0.2
     x-displayName: v0.2
     description: Relating to Analytics.
-  - name: usage_deprecated
-    x-displayName: v0.1 (deprecated)
-    description: Relating to Usage.
   - name: payments_v0.2
     x-displayName: v0.2
     description: Relating to Payments.
@@ -58,7 +55,6 @@ x-tagGroups:
   - name: Usage
     tags:
       - usage_v0.2
-      - usage_deprecated
   - name: Analytics
     tags:
       - analytics_v0.2
@@ -232,8 +228,8 @@ paths:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort_usage
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchHourly
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+        - $ref: ./models/usage/UsageResourceModels.v2.yaml#/components/parameters/searchHourly
+        - $ref: ./models/usage/UsageResourceModels.v2.yaml#/components/parameters/groupBy
       responses:
         "200":
           description: OK
@@ -263,7 +259,7 @@ paths:
                             description: The Usage resources within the collection
                             type: array
                             items:
-                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceHourly
+                              $ref: ./models/usage/UsageResourceModels.v2.yaml#/components/schemas/UsageResourceHourly
         "429":
           description: Rate Limit Reached
           content:
@@ -286,8 +282,8 @@ paths:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort_usage
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchDaily
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+        - $ref: ./models/usage/UsageResourceModels.v2.yaml#/components/parameters/searchDaily
+        - $ref: ./models/usage/UsageResourceModels.v2.yaml#/components/parameters/groupBy
       responses:
         "200":
           description: OK
@@ -317,7 +313,7 @@ paths:
                             description: The Usage Resources within the collection
                             type: array
                             items:
-                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceDaily
+                              $ref: ./models/usage/UsageResourceModels.v2.yaml#/components/schemas/UsageResourceDaily
         "429":
           description: Rate Limit Reached
           content:
@@ -340,8 +336,8 @@ paths:
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
         - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort_usage
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchMonthly
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
+        - $ref: ./models/usage/UsageResourceModels.v2.yaml#/components/parameters/searchMonthly
+        - $ref: ./models/usage/UsageResourceModels.v2.yaml#/components/parameters/groupBy
       responses:
         "200":
           description: OK
@@ -371,161 +367,7 @@ paths:
                             description: The Usage Resources within the collection
                             type: array
                             items:
-                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceMonthly
-        "429":
-          description: Rate Limit Reached
-          content:
-            application/problem+json:
-              schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
-
-  /console/v0.1/workspaces/default/usage/hourly:
-    get:
-      summary: Hourly API usage
-      description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-usage-hourly">v0.2 endpoint</a>'
-      operationId: get-usage-hourly
-      security:
-        - WorkspaceBearerAuth: []
-      tags:
-        - usage_deprecated
-      parameters:
-        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
-        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
-        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/sort_usage
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchHourly
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
-      responses:
-        "200":
-          description: OK
-          headers:
-            X-RateLimit-Limit:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
-            X-RateLimit-Remaining:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            X-RateLimit-Reset:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
-          content:
-            application/hal+json:
-              schema:
-                allOf:
-                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
-                  - type: object
-                    properties:
-                      _links:
-                        $ref: ./models/common/PaginationLinks.v1.yaml
-                      _embedded:
-                        description: Resources related to the resource request
-                        type: object
-                        properties:
-                          usage:
-                            description: The Usage resources within the collection
-                            type: array
-                            items:
-                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceHourly
-        "429":
-          description: Rate Limit Reached
-          content:
-            application/problem+json:
-              schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
-
-  /console/v0.1/workspaces/default/usage/daily:
-    get:
-      summary: Daily API usage
-      description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-usage-daily">v0.2 endpoint</a>'
-      operationId: get-usage-daily
-      security:
-        - WorkspaceBearerAuth: []
-      tags:
-        - usage_deprecated
-      parameters:
-        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
-        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchDaily
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
-      responses:
-        "200":
-          description: OK
-          headers:
-            X-RateLimit-Limit:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
-            X-RateLimit-Remaining:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            X-RateLimit-Reset:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
-          content:
-            application/hal+json:
-              schema:
-                allOf:
-                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
-                  - type: object
-                    properties:
-                      _links:
-                        $ref: ./models/common/PaginationLinks.v1.yaml
-                      _embedded:
-                        description: Resources related to the resource request
-                        type: object
-                        properties:
-                          usage:
-                            description: The Usage Resources within the collection
-                            type: array
-                            items:
-                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceDaily
-        "429":
-          description: Rate Limit Reached
-          content:
-            application/problem+json:
-              schema:
-                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
-
-  /console/v0.1/workspaces/default/usage/monthly:
-    get:
-      summary: Monthly API usage
-      description: '🚨 [DEPRECATED] use <a href="#operation/get-console-v0.2-usage-monthly">v0.2 endpoint</a>'
-      operationId: get-usage-monthly
-      security:
-        - WorkspaceBearerAuth: []
-      tags:
-        - usage_deprecated
-      parameters:
-        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageSize
-        - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/parameters/pageNumber
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/searchMonthly
-        - $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/parameters/groupBy
-      responses:
-        "200":
-          description: OK
-          headers:
-            X-RateLimit-Limit:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
-            X-RateLimit-Remaining:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
-            X-RateLimit-Reset:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
-            Access-Control-Allow-Origin:
-              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
-          content:
-            application/hal+json:
-              schema:
-                allOf:
-                  - $ref: ./models/common/PageBasedPagination.v1.yaml#/components/schemas/PageBasedPaginationBody
-                  - type: object
-                    properties:
-                      _links:
-                        $ref: ./models/common/PaginationLinks.v1.yaml
-                      _embedded:
-                        description: Resources related to the resource request
-                        type: object
-                        properties:
-                          usage:
-                            description: The Usage Resources within the collection
-                            type: array
-                            items:
-                              $ref: ./models/usage/UsageResourceModels.v1.yaml#/components/schemas/UsageResourceMonthly
+                              $ref: ./models/usage/UsageResourceModels.v2.yaml#/components/schemas/UsageResourceMonthly
         "429":
           description: Rate Limit Reached
           content:
