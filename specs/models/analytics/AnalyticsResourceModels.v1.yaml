@@ -12,7 +12,6 @@ components:
         - workspace_id
         - product_id
         - status
-        - match
         - date
         - counter
       properties:
@@ -30,9 +29,14 @@ components:
         match: 
           description: |
             Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-            `check_url` was accessed from. Only visible if `status` is `COMPLETED`.
+            `check_url` was accessed from. Only visible if check is PhoneCheck or SubscriberCheck, and only visible if `status` is `COMPLETED`.
           type: boolean
           example: true
+        no_sim_change:
+          description: |
+            Identifies if the Check request resulted in a match on whether the SIM card has been changed recently. Only visible if check
+            is SubscriberCheck or SIMCheck, and only visible if `status` is `COMPLETED`.
+          type: boolean
         date:
           $ref: '../common/DataTypes.v1.yaml#/components/schemas/ISODate'
         counter:
@@ -159,7 +163,7 @@ components:
         * network_id (optional)
         * status (optional)
         * match (optional) - {true|false} - only applies to PCK and SUK requests
-        * no_changes (optional) - {true|false} - only applies to SCK and SUK requests
+        * no_sim_change (optional) - {true|false} - only applies to SCK and SUK requests
       in: query
       required: true
       schema:
@@ -176,7 +180,7 @@ components:
         * network_id (optional)
         * status (optional)
         * match (optional) - {true|false} - only applies to PCK and SUK requests
-        * no_changes (optional) - {true|false} - only applies to SCK and SUK requests
+        * no_sim_change (optional) - {true|false} - only applies to SCK and SUK requests
       in: query
       required: true
       schema:
@@ -193,7 +197,7 @@ components:
         * network_id (optional)
         * status (optional)
         * match (optional) - {true|false} - only applies to PCK and SUK requests
-        * no_changes (optional) - {true|false} - only applies to SCK and SUK requests
+        * no_sim_change (optional) - {true|false} - only applies to SCK and SUK requests
       in: query
       required: true
       schema:
