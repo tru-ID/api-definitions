@@ -75,6 +75,12 @@ components:
           description: The network name
           type: string
           example: "O2 UK"
+        network_aliases:
+          description: Aliases associated with the current network
+          type: array
+          items:
+            type: string
+          example: ["23411", "23412", "23413"]
         prices:
           description: the prices per currency
           type: array
@@ -110,6 +116,13 @@ components:
           example: "O2 UK"
         country_code:
           $ref: '#/components/schemas/CountryCode'
+        network_aliases:
+          description: Aliases associated with the current network
+          type: array
+          items:
+            type: string
+          example: ["23411", "23412", "23413"]
+
         products:
           description: List of supported products
           type: array
