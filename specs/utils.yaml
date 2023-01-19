@@ -129,8 +129,51 @@ paths:
         in: path
         required: true
     get:
-      summary: Get Device Reachability
+      summary: Get Device Reachability with IP
       description: Get the mobile network that a device is on along with products that are supported based on device IP address.
+      operationId: get-coverage-by-device-ips
+      security:
+        - ProjectBearerAuth: []
+      tags:
+        - coverage
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/coverage/CoverageResourceModels.v1.yaml#/components/schemas/DeviceReachability
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
+            Access-Control-Allow-Origin:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+        "400":
+          description: MNO Not Supported
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/MobileNetworkOperatorNotSupported
+        "412":
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
+  /coverage/v0.1/device_ip:
+    get:
+      summary: Get Device Reachability
+      description: Get the mobile network that a device is on along with products that are supported based on the sender device IP address. No Authentication is required for this endpoint.
       operationId: get-coverage-by-device-ip
       security:
         - ProjectBearerAuth: []
@@ -170,9 +213,10 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
+
   /public/coverage/v0.1/device_ip:
     get:
-      summary: Get Device Reachability
+      summary: Get Device Reachability (Deprecated)
       description: Get the mobile network that a device is on along with products that are supported based on the sender device IP address. No Authentication is required for this endpoint.
       operationId: get-public-coverage-by-device-ip
       security: []
