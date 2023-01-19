@@ -76,7 +76,7 @@ components:
           type: string
           example: "O2 UK"
         network_aliases:
-          description: Aliases associated with the current network
+          description: 'Optional: Aliases associated with the current network'
           type: array
           items:
             type: string
@@ -117,7 +117,7 @@ components:
         country_code:
           $ref: '#/components/schemas/CountryCode'
         network_aliases:
-          description: Aliases associated with the current network
+          description: 'Optional: Aliases associated with the current network'
           type: array
           items:
             type: string
