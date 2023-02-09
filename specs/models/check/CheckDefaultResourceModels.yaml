@@ -212,7 +212,6 @@ components:
       required:
         - check_id
         - status
-        - match
         - charge_amount
         - charge_currency
         - created_at
