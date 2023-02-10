@@ -5,6 +5,7 @@ components:
   schemas:
     CheckStatus:
       description: |
+        > Only billable when the Check `status` is `COMPLETED`.
         - `ACCEPTED`: The Check request has been accepted by the platform
         - `PENDING`: The Check request has been triggered but has not yet completed
         - `COMPLETED`: The Check request has completed
@@ -212,7 +213,6 @@ components:
       required:
         - check_id
         - status
-        - match
         - charge_amount
         - charge_currency
         - created_at
