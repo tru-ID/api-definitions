@@ -75,7 +75,7 @@ components:
             match:
               description: |
                 Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-                `check_url` was accessed from.
+                `check_url` was accessed from. Only returned if `status` is `COMPLETED`.
               type: boolean
           example:
             match: true
@@ -148,7 +148,7 @@ components:
             match:
               description: |
                 Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-                `check_url` was accessed from.
+                `check_url` was accessed from. Only returned if `status` is `COMPLETED`.
               type: boolean
           required:
             - match
