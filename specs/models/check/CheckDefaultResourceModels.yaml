@@ -176,7 +176,6 @@ components:
             match: true
           required:
             - ttl
-            - match
 
     CheckPatchPartial:
       type: object
