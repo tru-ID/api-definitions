@@ -27,6 +27,10 @@ components:
           description: A PhoneCheck resource
           allOf:
             - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckPartial"
+            - type: object
+              properties:
+                error_code:
+                  $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckErrorCode"
 
     PhoneCheckCreatePartial:
       description: A PhoneCheck resource

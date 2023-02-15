@@ -59,6 +59,8 @@ components:
                   $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimChangeWithin"
                 no_sim_change_period:
                   $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChangePeriod"
+                error_code:
+                  $ref: "./SubscriberCheckDefaultResourceModels.yaml#/components/schemas/SubscriberCheckErrorCode"
 
     SubscriberCheckPatchPartial:
       description: A PhoneCheck Resource
