@@ -57,6 +57,10 @@ components:
                   $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChange"
                 sim_change_within:
                   $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/SimChangeWithin"
+                no_sim_change_period:
+                  $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChangePeriod"
+                error_code:
+                  $ref: "./SubscriberCheckDefaultResourceModels.yaml#/components/schemas/SubscriberCheckErrorCode"
 
     SubscriberCheckPatchPartial:
       description: A PhoneCheck Resource
@@ -126,7 +130,7 @@ components:
             match:
               description: |
                 Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-                `check_url` was accessed from.
+                `check_url` was accessed from. Only returned if `status` is `COMPLETED`.
               type: boolean
             no_sim_change_period:
               $ref: "../sim_check/SimCheckResourceModels.v1.yaml#/components/schemas/NoSimChangePeriod"
@@ -201,9 +205,7 @@ components:
             match:
               description: |
                 Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-                `check_url` was accessed from.
+                `check_url` was accessed from. Only returned if `status` is `COMPLETED`.
               type: boolean
-          required:
-            - match
           example:
             match: true

@@ -147,12 +147,14 @@ components:
         Indicates if the SIM card **has not** been changed in the last 7 days.
         The value is `true` if the SIM card **has not** been changed.
         The value is `false` if the SIM card **has** been changed.
+        Returned only if check is `SubscriberCheck` or `SIMCheck`, and only when `status` is `COMPLETED`.
       type: boolean
 
     SimChangeWithin:
       description: |
         Indicates a window of time elapsed since SIM change was detected.
-        Only returned if the MNO provides this information.
+        Only returned if the MNO provides this information, if check is `SubscriberCheck` or `SIMCheck`, 
+        and only when `status` is `COMPLETED`.
 
         | `sim_change_within` | What this means   |
         | ------------------- | ----------------- |
@@ -175,4 +177,5 @@ components:
         A field you use to control the time window checking when the SIM card change had occurred.
         If you defined this field, the check will impact `no_sim_change` response value.
         Integer can be anywhere between 60 minutes and 540000 minutes. Default value `10080` minutes (7 days).
+        Returned only if check is `SubscriberCheck` or `SIMCheck`, and only when `status` is `COMPLETED`.
       type: integer

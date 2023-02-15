@@ -27,6 +27,10 @@ components:
           description: A PhoneCheck resource
           allOf:
             - $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckPartial"
+            - type: object
+              properties:
+                error_code:
+                  $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckErrorCode"
 
     PhoneCheckCreatePartial:
       description: A PhoneCheck resource
@@ -71,7 +75,7 @@ components:
             match:
               description: |
                 Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-                `check_url` was accessed from.
+                `check_url` was accessed from. Only returned if `status` is `COMPLETED`.
               type: boolean
           example:
             match: true
@@ -134,9 +138,7 @@ components:
             match:
               description: |
                 Identifies if the Check request resulted in a successful match between the phone number and the mobile connection that the
-                `check_url` was accessed from.
+                `check_url` was accessed from. Only returned if `status` is `COMPLETED`.
               type: boolean
-          required:
-            - match
           example:
             match: true
