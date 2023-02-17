@@ -119,7 +119,7 @@ components:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
           check_url:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}/redirect
-               
+
 
     SubscriberCheck:
       description: A SubscriberCheck Resource
@@ -168,11 +168,11 @@ components:
         _links:
           self:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
-          
+
     SubscriberCheckRedirectSuccess:
       allOf:
         - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckRedirectSuccessPartial"
-        
+
     SubscriberCheckRedirectError:
       allOf:
         - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckRedirectErrorPartial"

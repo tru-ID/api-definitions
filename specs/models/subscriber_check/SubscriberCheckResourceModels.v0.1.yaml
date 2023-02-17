@@ -103,7 +103,7 @@ components:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
           check_url:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}/redirect
-               
+
 
     SubscriberCheck:
       description: A SubscriberCheck Resource
@@ -153,7 +153,7 @@ components:
         _links:
           self:
             href: https://eu.api.tru.id/subscriber_checks/v0.1/checks/{check_id}
-          
+
 
     SubscriberCheckCollection:
       description: A Collection of SubscriberCheck resources
@@ -187,3 +187,13 @@ components:
               type: boolean
           example:
             match: true
+
+    CheckErrorCode:
+      description: An indicator of why the Check failed. Returned only when `status` is "ERROR".
+      allOf:
+        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckErrorCode"
+        - type: string
+          enum:
+            - not_mobile_ip
+            - ip_mismatch
+            - ip_msisdn_mismatch
