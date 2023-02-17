@@ -66,7 +66,7 @@ components:
     CheckPatchPartial:
       allOf:
         - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckPatchPartial"
-    
+
     CheckRedirectSuccessPartial:
       type: object
       properties:
@@ -97,8 +97,5 @@ components:
             A description of the error caused during the redirect flow of verifying the phone number.
           type: string
           example: MNO redirect unsupported
-    CheckErrorCode:
-      description: An indicator of why the Check failed. Returned only when `status` is "ERROR".
-      allOf:
-        - $ref: "CheckDefaultResourceModels.yaml#/components/schemas/CheckErrorCode"
+
 

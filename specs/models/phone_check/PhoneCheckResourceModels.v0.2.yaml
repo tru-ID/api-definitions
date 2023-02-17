@@ -26,7 +26,8 @@ components:
         - type: object
           properties:
             error_code:
-              $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckErrorCode"
+              $ref: "./PhoneCheckDefaultResourceModels.yaml#/components/schemas/PhoneCheckErrorCode"
+
 
     PhoneCheckCreatePartial:
       description: A PhoneCheck resource
@@ -40,7 +41,7 @@ components:
         - type: object
           properties:
             error_code:
-              $ref: "../check/CheckResourceModels.v0.1.yaml#/components/schemas/CheckErrorCode"
+              $ref: "./PhoneCheckDefaultResourceModels.yaml#/components/schemas/PhoneCheckErrorCode"
 
     PhoneCheckPatchPartial:
       description: A PhoneCheck Resource
@@ -134,11 +135,11 @@ components:
                   type: array
                   items:
                     $ref: "#/components/schemas/PhoneCheck"
-          
+
     PhoneCheckRedirectSuccess:
       allOf:
         - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckRedirectSuccessPartial"
-        
+
     PhoneCheckRedirectError:
       allOf:
         - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckRedirectErrorPartial"
@@ -156,3 +157,4 @@ components:
               type: boolean
           example:
             match: true
+

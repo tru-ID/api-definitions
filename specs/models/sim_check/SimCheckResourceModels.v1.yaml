@@ -16,9 +16,12 @@ components:
     SimCheckErrorCode:
       description: |
         An optional attribute displayed when the `status` returned is `"ERROR"`
+        - `mno_not_supported`: The MNO is not supported.
+        - `mno_timeout`: The request timed out with the MNO.
         - `mno_user_not_found`: The supplied phone number is not recognized by the MNO, it might be associated with an unsupported MVNO.
         - `mno_response_error`: The MNO responded with an invalid response.
         - `mno_server_error`: An error occurred with the MNO.
+        - `mno_no_data_available`: The MNO cannot provide info why the request failed.
       type: string
 
     SimCheckCreatePayload:
@@ -153,7 +156,7 @@ components:
     SimChangeWithin:
       description: |
         Indicates a window of time elapsed since SIM change was detected.
-        Only returned if the MNO provides this information, if check is `SubscriberCheck` or `SIMCheck`, 
+        Only returned if the MNO provides this information, if check is `SubscriberCheck` or `SIMCheck`,
         and only when `status` is `COMPLETED`.
 
         | `sim_change_within` | What this means   |
