@@ -21,7 +21,7 @@ components:
         - `mno_user_not_found`: The supplied phone number is not recognized by the MNO, it might be associated with an unsupported MVNO.
         - `mno_response_error`: The MNO responded with an invalid response.
         - `mno_server_error`: An error occurred with the MNO.
-        - `mno_no_data_available`: The MNO cannot provide info why the request failed.
+        - `mno_no_data_available`: The MNO is not allowed to share this information.
       type: string
 
     SimCheckCreatePayload:
