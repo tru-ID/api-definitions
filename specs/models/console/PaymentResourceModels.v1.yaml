@@ -137,7 +137,6 @@ components:
         - payment_method_id
         - currency
         - amount
-        - close_free_trial
       properties:
         payment_method_id:
           description: Billing Account ID
@@ -147,9 +146,6 @@ components:
         amount:
           description: Topup amount
           type: number
-        close_free_trial:
-          description: Required to be true in order to close the free trial and lose all the remaining free API credits
-          type: boolean
     TopupCollection:
       description: A collection of topups.
       type: object
@@ -219,6 +215,47 @@ components:
         - _links
         - page
 
+    TopupCreated:
+      description: Resource of Topup when created.
+      type: object
+      x-tags:
+        - payments
+      properties:
+        top_up_id:
+          description: Topup ID
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+        type:
+          description: Topup type
+          type: string
+          minLength: 1
+        billing_id:
+          description: Billing Account ID
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/UUID"
+        currency:
+          $ref: "../common/DataTypes.v1.yaml#/components/schemas/Currency"
+        amount:
+          description: Topup Amount
+          type: number
+        created_at:
+          description: Creation date
+          type: string
+          minLength: 1
+        _links:
+          description: Links related to the current resource
+          type: object
+          properties:
+            self:
+              $ref: ../common/Link.v1.yaml
+          required:
+            - self
+      required:
+        - top_up_id
+        - type
+        - billing_id
+        - currency
+        - amount
+        - created_at
+        - _links
   parameters:
     billingAccountId:
       name: billing_id
