@@ -842,6 +842,22 @@ paths:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
             Access-Control-Allow-Origin:
               $ref: ./models/common/Headers.v1.yaml#/components/headers/Access-Control-Allow-Origin-All
+          content:
+              application/hal+json:
+                schema:
+                  $ref: ./models/console/PaymentResourceModels.v1.yaml#/components/schemas/TopupCreated
+                examples:
+                  basic:
+                    value:
+                      top_up_id: c65bc7e3-c143-11e4-bb37-0242ac139903
+                      type: 'topup'
+                      billing_id: 'd36d1356-abdf-4ff5-f2d5-8c536e0e4f54'
+                      currency: 'GBP'
+                      amount: 20
+                      created_at: "2023-04-26T16:43:30+00:00"
+                      _links:
+                        self:
+                          href: 'https://eu-dev.api.tru.qa/console/v0.2/workspaces/e45d8467-abtg-4cc5-b3g5-8c536e0e4a75/topups/c65bc7e3-c143-11e4-bb37-0242ac139903'
         "403":
           description: Forbidden
           content:
