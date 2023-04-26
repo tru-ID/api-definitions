@@ -64,6 +64,10 @@ components:
       description: Generic 403 Forbidden
       allOf:
         - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://developer.tru.id/docs/reference/api-errors#forbidden
+        title: Forbidden
+        detail: Forbidden
 
     MobileNetworkOperatorNotSupported:
       description: >
