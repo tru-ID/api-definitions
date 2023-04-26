@@ -137,7 +137,6 @@ components:
         - payment_method_id
         - currency
         - amount
-        - close_free_trial
       properties:
         payment_method_id:
           description: Billing Account ID
@@ -147,9 +146,6 @@ components:
         amount:
           description: Topup amount
           type: number
-        close_free_trial:
-          description: Required to be true in order to close the free trial and lose all the remaining free API credits
-          type: boolean
     TopupCollection:
       description: A collection of topups.
       type: object
