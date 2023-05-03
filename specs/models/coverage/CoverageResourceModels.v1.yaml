@@ -116,6 +116,10 @@ components:
           example: "O2 UK"
         country_code:
           $ref: '#/components/schemas/CountryCode'
+        mobile_network_ip:
+          description: The IP address (IPv4 or IPv6 format) of the mobile device
+          type: string
+          example: 127.0.0.1
         network_aliases:
           description: 'Optional: Aliases associated with the current network'
           type: array
