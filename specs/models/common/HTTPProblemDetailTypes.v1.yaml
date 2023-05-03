@@ -89,6 +89,16 @@ components:
         title: Precondition Failed
         detail: Not a mobile IP
 
+    IPMSISDNMismatch:
+      description: >
+        Conflict: IP MSISDN Mismatch
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://developer.tru.id/docs/reference/api-errors#ip_msisdn_mismatch
+        title: Conflict
+        detail: ip_msisdn_mismatch
+
     InvalidPhoneNumberFormat:
       description: >
         The provided phone number did not adhere to the [E.164 phone number format](https://www.itu.int/rec/T-REC-E.164-201011-I/en).

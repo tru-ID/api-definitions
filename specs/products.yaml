@@ -170,6 +170,18 @@ paths:
                       - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase
                       - type: object
                         description: The country for the supplied `phone_number` is not supported
+        "409":
+          description: IP MSISDN mismatch.
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/IPMSISDNMismatch
+        "412":
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
     get:
       summary: Get a collection of PhoneChecks
       operationId: get-phone-checks-v0.1
@@ -275,6 +287,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+        "409":
+          description: IP MSISDN mismatch.
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/IPMSISDNMismatch
         "412":
           description: Not a mobile IP
           content:
@@ -508,6 +526,18 @@ paths:
                       - $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/ProblemDetailsBase
                       - type: object
                         description: The country for the supplied `phone_number` is not supported
+        "409":
+          description: IP MSISDN mismatch.
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/IPMSISDNMismatch
+        "412":
+          description: Not a mobile IP
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/NotMobileIp
         "429":
           description: Rate Limit Reached
           content:
@@ -672,6 +702,12 @@ paths:
             application/problem+json:
               schema:
                 $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/CheckNotFound
+        "409":
+          description: IP MSISDN mismatch.
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/IPMSISDNMismatch
         "412":
           description: Not a mobile IP
           content:
