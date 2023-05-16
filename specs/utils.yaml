@@ -173,7 +173,7 @@ paths:
   /coverage/v0.1/device_ip:
     get:
       summary: Get Device Reachability
-      description: Get the mobile network that a device is on along with products that are supported based on the sender device IP address. No Authentication is required for this endpoint.
+      description: Get the mobile network that a device is on along with products that are supported based on the sender device IP address.
       operationId: get-coverage-by-device-ip
       security:
         - ProjectBearerAuth: []
