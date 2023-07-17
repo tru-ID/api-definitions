@@ -346,6 +346,46 @@ paths:
       operationId: get-console-v0.2-workspace
       security:
         - WorkspaceBearerAuth: []
+    patch:
+      summary: Update Workspace Name
+      description: "Update the record of the Workspace name. Only possible if you're the Workspace Owner."
+      operationId: patch-console-name-v0.2-workspace
+      security:
+        - WorkspaceBearerAuth: []
+      tags:
+        - workspaces_v0.2
+      requestBody:
+        description: JSON payload to update the Workspace
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/schemas/WorkspacePatchPayload
+      responses:
+        "200":
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: ./models/console/WorkspaceResourceModels.v2.yaml#/components/schemas/WorkspaceFull
+          headers:
+            X-RateLimit-Limit:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Limit
+            X-RateLimit-Remaining:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Remaining
+            X-RateLimit-Reset:
+              $ref: ./models/common/Headers.v1.yaml#/components/headers/X-RateLimit-Reset
+        "404":
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/WorkspaceNotFound
+        "429":
+          description: Rate Limit Reached
+          content:
+            application/problem+json:
+              schema:
+                $ref: ./models/common/HTTPProblemDetailTypes.v1.yaml#/components/responses/RateLimitReached
 
   "/console/v0.2/workspaces/{workspace_id}/members":
     parameters:

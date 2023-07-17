@@ -60,6 +60,15 @@ components:
         title: Not Found
         detail: Trace Not Found
 
+    WorkspaceNotFound:
+      description: Workspace Not Found
+      allOf:
+        - $ref: '#/components/responses/ProblemDetailsBase'
+      example:
+        type: https://developer.tru.id/docs/reference/api-errors#workspace_not_found
+        title: Not Found
+        detail: Workspace Not Found
+
     Forbidden:
       description: Generic 403 Forbidden
       allOf:
