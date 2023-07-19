@@ -15,7 +15,7 @@ components:
         - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckCreatePayload"
 
     PhoneCheckPatchPayload:
-      description: Payload for creating a PhoneCheck
+      description: Payload for completing a PhoneCheck
       allOf:
         - $ref: "../check/CheckResourceModels.v0.2.yaml#/components/schemas/CheckPatchPayload"
 

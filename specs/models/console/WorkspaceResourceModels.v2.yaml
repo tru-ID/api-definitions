@@ -128,6 +128,33 @@ components:
                   items:
                     $ref: "#/components/schemas/WorkspaceFull"
 
+    WorkspacePatchPayload:
+      description: Payload for updating a Workspace name
+      allOf:
+        - type: array
+          properties:
+            op:
+              description: The operation to be performed
+              type: string
+              example: "add"
+            path:
+              description: A JSON-Pointer
+              type: string
+              enum: ["/name"]
+              example: /name
+            value:
+              description: The value to be used within the operations. The desired `name` for your Workspace, only visible to yourself and members within your Workspace.
+              type: string
+              example: tru.ID Workspace
+          required:
+            - op
+              path
+              value
+          example:
+            - op: "add"
+              path: "/name"
+              value: "tru.ID Workspace"
+
   parameters:
     workspaceId:
       name: workspace_id
